@@ -431,119 +431,223 @@ function initPreferences(){
 window.addEventListener('DOMContentLoaded',initPreferences);
 
 /* ==========================================================
-   SAH V10 — Sidebar and editable indicator maximum limits
+   SAH V15 — unified roles, calculators, activities and evidence
    ========================================================== */
-(function(){
-  const LIMITS_KEY = 'sah-indicator-max-limits-v1';
-  const INDICATOR_LIMITS_PREVIOUS_KEY = 'sah-indicator-max-limits-previous-v1';
-  const ROLE_KEY = 'sah-active-role-v2';
-  let originalIndicatorLimits = [];
+(function () {
+  'use strict';
 
-  function initSidebarV10(){
+  const KEYS = {
+    role: 'sah-v15-role',
+    sidebar: 'sah-v15-sidebar-collapsed',
+    limits: 'sah-v15-indicator-limits',
+    limitsPrevious: 'sah-v15-indicator-limits-previous',
+    calculator: 'sah-v15-field-calculator',
+    calculatorPrevious: 'sah-v15-field-calculator-previous',
+    activities: 'sah-v15-local-activities',
+    overrides: 'sah-v15-evidence-overrides',
+    deleted: 'sah-v15-evidence-deleted'
+  };
+
+  const ROLE_META = {
+    system: {
+      name: 'حسام الحسين',
+      description: 'مسؤول النظام — صلاحية كاملة دون تعديل حاسبات النقاط',
+      avatar: 'ح'
+    },
+    indicator: {
+      name: 'مسؤول مؤشر الأداء الرياضي',
+      description: 'صلاحية كاملة وتعديل حاسبات النقاط',
+      avatar: 'م'
+    },
+    sports_manager: {
+      name: 'مدير النشاط الرياضي',
+      description: 'صلاحيات القسم الرياضي المحددة',
+      avatar: 'ن'
+    },
+    dean: {
+      name: 'العميد',
+      description: 'صلاحية كاملة دون تعديل حاسبات النقاط',
+      avatar: 'ع'
+    }
+  };
+
+  const SPORTS_MANAGER_PAGES = new Set([
+    'sports', 'scholarships', 'championships',
+    'athletes', 'reports', 'calendar'
+  ]);
+
+  const FILE_URLS = new Map();
+  let baselineIndicator = [];
+  let currentEvidenceRows = [];
+  let originalLimits = [];
+
+  function readJson(key, fallback) {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(key) || 'null');
+      return parsed ?? fallback;
+    } catch (error) {
+      console.warn(`تعذر قراءة ${key}`, error);
+      return fallback;
+    }
+  }
+
+  function writeJson(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  function activeRole() {
+    return document.getElementById('activeRole')?.value || 'system';
+  }
+
+  function isIndicatorOfficer() {
+    return activeRole() === 'indicator';
+  }
+
+  function openModal(id) {
+    const modal = document.getElementById(id);
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(id) {
+    const modal = document.getElementById(id);
+    if (!modal) return;
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+
+  function closeAllFeatureModals() {
+    ['indicatorSettingsModal', 'fieldPointsCalculatorModal', 'addActivityModal']
+      .forEach(closeModal);
+  }
+
+  function initializeIndicatorBaseline() {
+    const fields = window.SAH_DATA?.indicatorFields || [];
+    baselineIndicator = fields.map(field => ({
+      male: Number(field.male) || 0,
+      female: Number(field.female) || 0,
+      max: Number(field.max) || 0
+    }));
+    originalLimits = baselineIndicator.map(field => field.max);
+  }
+
+  function applyRolePermissions() {
+    const role = activeRole();
+    localStorage.setItem(KEYS.role, role);
+
+    const meta = ROLE_META[role] || ROLE_META.system;
+    setText('#activeUserName', meta.name);
+    setText('#activeUserRole', meta.description);
+    setText('#activeUserAvatar', meta.avatar);
+
+    document.querySelectorAll('.nav button[data-page]').forEach(button => {
+      const allowed = role !== 'sports_manager' ||
+        SPORTS_MANAGER_PAGES.has(button.dataset.page);
+      button.classList.toggle('role-hidden', !allowed);
+    });
+
+    document.querySelectorAll('.nav-group').forEach(group => {
+      const hasVisible = [...group.querySelectorAll('.nav-items button[data-page]')]
+        .some(button => !button.classList.contains('role-hidden'));
+      group.classList.toggle('empty-role-group', !hasVisible);
+    });
+
+    const indicatorOnly = isIndicatorOfficer();
+    document.getElementById('indicatorPermissionSettings')
+      ?.classList.toggle('hidden', !indicatorOnly);
+    document.getElementById('openFieldPointsCalculator')
+      ?.classList.toggle('hidden', !indicatorOnly);
+
+    if (!indicatorOnly) {
+      closeModal('indicatorSettingsModal');
+      closeModal('fieldPointsCalculatorModal');
+    }
+
+    const activePage = document.querySelector('.page.active')
+      ?.id.replace('page-', '');
+    if (role === 'sports_manager' &&
+        activePage &&
+        !SPORTS_MANAGER_PAGES.has(activePage)) {
+      originalRoute('sports');
+    }
+  }
+
+  const originalRoute = window.route;
+  window.route = function (pageId) {
+    if (activeRole() === 'sports_manager' &&
+        !SPORTS_MANAGER_PAGES.has(pageId)) {
+      showToast('هذه الصفحة غير متاحة لمدير النشاط الرياضي.');
+      pageId = 'sports';
+    }
+    originalRoute(pageId);
+  };
+
+  function initSidebar() {
+    document.querySelectorAll('.nav-group-title').forEach(title => {
+      title.addEventListener('click', () => {
+        const selected = title.closest('.nav-group');
+        if (!selected) return;
+        const open = !selected.classList.contains('open');
+
+        document.querySelectorAll('.nav-group').forEach(group => {
+          const state = group === selected && open;
+          group.classList.toggle('open', state);
+          group.querySelector('.nav-group-title')
+            ?.setAttribute('aria-expanded', String(state));
+        });
+      });
+    });
+
     const sidebar = document.querySelector('.sidebar');
     const layout = document.querySelector('.layout');
     const toggle = document.getElementById('toggleSidebar');
+    if (!sidebar || !layout || !toggle) return;
 
-    document.querySelectorAll('.nav-group-title').forEach(title=>{
-      title.addEventListener('click',()=>{
-        const group = title.closest('.nav-group');
-        if(!group) return;
+    const apply = collapsed => {
+      sidebar.classList.toggle('collapsed', collapsed);
+      layout.classList.toggle('sidebar-mini', collapsed);
+      toggle.title = collapsed ? 'توسيع القائمة' : 'تصغير القائمة';
+      localStorage.setItem(KEYS.sidebar, collapsed ? '1' : '0');
+    };
 
-        const willOpen = !group.classList.contains('open');
-        document.querySelectorAll('.nav-group').forEach(other=>{
-          if(other !== group){
-            other.classList.remove('open');
-            other.querySelector('.nav-group-title')?.setAttribute('aria-expanded','false');
-          }
-        });
+    apply(
+      localStorage.getItem(KEYS.sidebar) === '1' &&
+      window.matchMedia('(min-width:1101px)').matches
+    );
 
-        group.classList.toggle('open', willOpen);
-        title.setAttribute('aria-expanded', String(willOpen));
-      });
-    });
-
-    if(toggle && sidebar && layout){
-      const applyCollapsed = collapsed=>{
-        sidebar.classList.toggle('collapsed',collapsed);
-        layout.classList.toggle('sidebar-mini',collapsed);
-        toggle.setAttribute('aria-expanded',String(!collapsed));
-        toggle.title = collapsed ? 'توسيع القائمة' : 'تصغير القائمة';
-        localStorage.setItem('sah-sidebar-collapsed',collapsed?'1':'0');
-      };
-
-      applyCollapsed(
-        localStorage.getItem('sah-sidebar-collapsed') === '1' &&
-        window.matchMedia('(min-width:1101px)').matches
-      );
-
-      toggle.addEventListener('click',()=>{
-        if(window.matchMedia('(max-width:1100px)').matches){
-          sidebar.classList.toggle('open');
-          return;
-        }
-        applyCollapsed(!sidebar.classList.contains('collapsed'));
-      });
-    }
-
-    document.querySelectorAll('.nav-items button[data-page]').forEach(button=>{
-      button.addEventListener('click',()=>{
-        const group = button.closest('.nav-group');
-        if(!group) return;
-        document.querySelectorAll('.nav-group').forEach(other=>{
-          other.classList.toggle('open',other===group);
-          other.querySelector('.nav-group-title')
-            ?.setAttribute('aria-expanded',String(other===group));
-        });
-      });
-    });
-  }
-
-  function currentIndicatorRole(){
-    return document.getElementById('activeRole')?.value ||
-      localStorage.getItem(ROLE_KEY) ||
-      'system';
-  }
-
-  function canEditIndicatorLimits(){
-    return currentIndicatorRole() === 'indicator';
-  }
-
-  function refreshIndicatorPermissionButton(){
-    const button = document.getElementById('indicatorPermissionSettings');
-    if(!button) return;
-    button.classList.toggle('hidden',!canEditIndicatorLimits());
-  }
-
-  function captureOriginalLimits(){
-    if(!window.SAH_DATA || !Array.isArray(SAH_DATA.indicatorFields)) return;
-    if(!originalIndicatorLimits.length){
-      originalIndicatorLimits = SAH_DATA.indicatorFields.map(field=>Number(field.max)||0);
-    }
-  }
-
-  function applyStoredIndicatorLimits(){
-    captureOriginalLimits();
-    if(!window.SAH_DATA || !Array.isArray(SAH_DATA.indicatorFields)) return;
-
-    try{
-      const stored = JSON.parse(localStorage.getItem(LIMITS_KEY) || 'null');
-      if(Array.isArray(stored) && stored.length === SAH_DATA.indicatorFields.length){
-        SAH_DATA.indicatorFields.forEach((field,index)=>{
-          const value = Number(stored[index]);
-          if(Number.isFinite(value) && value >= 0) field.max = value;
-        });
+    toggle.addEventListener('click', () => {
+      if (window.matchMedia('(max-width:1100px)').matches) {
+        sidebar.classList.toggle('open');
+      } else {
+        apply(!sidebar.classList.contains('collapsed'));
       }
-    }catch(error){
-      console.warn('تعذر قراءة إعدادات الحدود العليا:',error);
-    }
+    });
   }
 
-  function renderIndicatorLimitFields(){
+  /* ---------- Main indicator limits calculator ---------- */
+
+  function savedLimits() {
+    const values = readJson(KEYS.limits, null);
+    return Array.isArray(values) &&
+      values.length === (SAH_DATA.indicatorFields || []).length
+      ? values.map(value => Math.max(0, Number(value) || 0))
+      : originalLimits.slice();
+  }
+
+  function applySavedLimits() {
+    const values = savedLimits();
+    (SAH_DATA.indicatorFields || []).forEach((field, index) => {
+      field.max = values[index] ?? originalLimits[index] ?? 0;
+    });
+  }
+
+  function renderIndicatorLimitForm() {
     const form = document.getElementById('indicatorSettingsForm');
-    if(!form || !window.SAH_DATA) return;
+    if (!form) return;
     form.innerHTML = '';
 
-    (SAH_DATA.indicatorFields || []).forEach((field,index)=>{
+    (SAH_DATA.indicatorFields || []).forEach((field, index) => {
       const row = document.createElement('div');
       row.className = 'indicator-limit-row';
       row.innerHTML = `
@@ -551,547 +655,217 @@ window.addEventListener('DOMContentLoaded',initPreferences);
         <div class="limit-field">${field.field || '—'}</div>
         <label>
           <span class="hidden">الحد الأعلى</span>
-          <input class="indicator-limit-input" type="number" min="0" step="1"
-                 inputmode="numeric" data-index="${index}"
-                 value="${Number(field.max)||0}"
-                 aria-label="الحد الأعلى لـ ${field.field || 'المجال'}">
+          <input class="indicator-limit-input"
+                 type="number" min="0" step="1"
+                 data-index="${index}"
+                 value="${Number(field.max) || 0}">
         </label>`;
       form.appendChild(row);
     });
   }
 
-  function setModalOpen(modalId, open){
-    const modal = document.getElementById(modalId);
-    if(!modal) return;
-    if(open){
-      modal.classList.remove('hidden');
-      document.body.style.overflow='hidden';
-    }else{
-      modal.classList.add('hidden');
-      document.body.style.overflow='';
-    }
-  }
-
-  function openIndicatorSettings(){
-    if(currentIndicatorRole() !== 'indicator' || !canEditIndicatorLimits()){
-      if(typeof showToast === 'function') showToast('لا تملك صلاحية تعديل الحدود العليا.');
+  function openIndicatorCalculator() {
+    if (!isIndicatorOfficer()) {
+      showToast('هذه الصلاحية متاحة لمسؤول مؤشر الأداء الرياضي فقط.');
       return;
     }
-    renderIndicatorLimitFields();
-    setModalOpen('indicatorSettingsModal', true);
+    renderIndicatorLimitForm();
+    openModal('indicatorSettingsModal');
   }
 
-  function closeIndicatorSettings(){
-    setModalOpen('indicatorSettingsModal', false);
-  }
-
-  function saveIndicatorLimits(){
-    if(currentIndicatorRole() !== 'indicator' || !canEditIndicatorLimits()){
-      if(typeof showToast === 'function') showToast('هذه الصلاحية متاحة لمسؤول مؤشر الأداء الرياضي فقط.');
-      return;
-    }
-    const inputs = [...document.querySelectorAll('.indicator-limit-input')];
-    const values = inputs.map(input=>Number(input.value));
-
-    if(values.some(value=>!Number.isFinite(value) || value < 0)){
-      if(typeof showToast === 'function') showToast('أدخل أرقامًا صحيحة غير سالبة.');
+  function saveIndicatorLimits() {
+    if (!isIndicatorOfficer()) {
+      showToast('لا تملك صلاحية تعديل حاسبة النقاط.');
       return;
     }
 
-    values.forEach((value,index)=>{
-      if(SAH_DATA.indicatorFields[index]) SAH_DATA.indicatorFields[index].max = value;
+    const values = [...document.querySelectorAll('.indicator-limit-input')]
+      .map(input => Number(input.value));
+
+    if (values.length !== (SAH_DATA.indicatorFields || []).length ||
+        values.some(value => !Number.isFinite(value) || value < 0)) {
+      showToast('أدخل قيمًا صحيحة غير سالبة لجميع المجالات.');
+      return;
+    }
+
+    const current = localStorage.getItem(KEYS.limits);
+    if (current) localStorage.setItem(KEYS.limitsPrevious, current);
+    writeJson(KEYS.limits, values);
+
+    values.forEach((value, index) => {
+      SAH_DATA.indicatorFields[index].max = value;
     });
 
-    const existingLimits = localStorage.getItem(LIMITS_KEY);
-    if(existingLimits) localStorage.setItem(INDICATOR_LIMITS_PREVIOUS_KEY, existingLimits);
-    localStorage.setItem(LIMITS_KEY,JSON.stringify(values));
-    if(typeof calcIndicators === 'function') calcIndicators();
-    closeIndicatorSettings();
-    if(typeof showToast === 'function') showToast('تم حفظ الحدود العليا وتحديث المؤشر.');
+    calcIndicators();
+    closeModal('indicatorSettingsModal');
+    showToast('تم حفظ حاسبة النقاط وتحديث المؤشر.');
   }
 
-  
-  function restorePreviousIndicatorLimits(){
-    const previous = localStorage.getItem(INDICATOR_LIMITS_PREVIOUS_KEY);
-    if(!previous){
-      if(typeof showToast === 'function') showToast('لا توجد إعدادات سابقة محفوظة.');
+  function restorePreviousLimits() {
+    if (!isIndicatorOfficer()) return;
+    const previous = readJson(KEYS.limitsPrevious, null);
+    if (!Array.isArray(previous)) {
+      showToast('لا توجد إعدادات سابقة محفوظة.');
       return;
     }
-    try{
-      const values = JSON.parse(previous);
-      if(!Array.isArray(values) || values.length !== SAH_DATA.indicatorFields.length){
-        throw new Error('Invalid previous limits');
+    writeJson(KEYS.limits, previous);
+    previous.forEach((value, index) => {
+      if (SAH_DATA.indicatorFields[index]) {
+        SAH_DATA.indicatorFields[index].max = Math.max(0, Number(value) || 0);
       }
-      values.forEach((value,index)=>{
-        if(SAH_DATA.indicatorFields[index]) SAH_DATA.indicatorFields[index].max = Number(value)||0;
-      });
-      localStorage.setItem(LIMITS_KEY, previous);
-      renderIndicatorLimitFields();
-      if(typeof calcIndicators === 'function') calcIndicators();
-      if(typeof showToast === 'function') showToast('تمت استعادة الإعدادات السابقة.');
-    }catch(error){
-      console.warn(error);
-      if(typeof showToast === 'function') showToast('تعذر استعادة الإعدادات السابقة.');
-    }
+    });
+    renderIndicatorLimitForm();
+    calcIndicators();
+    showToast('تمت استعادة الإعدادات السابقة.');
   }
 
-  function resetIndicatorLimits(){
-    captureOriginalLimits();
-    if(!originalIndicatorLimits.length) return;
-
-    originalIndicatorLimits.forEach((value,index)=>{
-      if(SAH_DATA.indicatorFields[index]) SAH_DATA.indicatorFields[index].max = value;
+  function resetOriginalLimits() {
+    if (!isIndicatorOfficer()) return;
+    writeJson(KEYS.limits, originalLimits);
+    originalLimits.forEach((value, index) => {
+      if (SAH_DATA.indicatorFields[index]) {
+        SAH_DATA.indicatorFields[index].max = value;
+      }
     });
-
-    localStorage.removeItem(LIMITS_KEY);
-    renderIndicatorLimitFields();
-    if(typeof calcIndicators === 'function') calcIndicators();
-    if(typeof showToast === 'function') showToast('تمت استعادة الحدود العليا الأصلية.');
+    renderIndicatorLimitForm();
+    calcIndicators();
+    showToast('تمت استعادة القيم الأصلية.');
   }
 
-  function initIndicatorLimitSettings(){
-    applyStoredIndicatorLimits();
-    if(typeof calcIndicators === 'function') calcIndicators();
-    refreshIndicatorPermissionButton();
+  /* ---------- Per-field activity points calculator ---------- */
 
-    document.getElementById('indicatorPermissionSettings')
-      ?.addEventListener('click',openIndicatorSettings);
-
-    document.querySelectorAll('[data-close-indicator-settings]').forEach(element=>{
-      element.addEventListener('click',closeIndicatorSettings);
-    });
-
-    document.getElementById('indicatorSaveLimits')
-      ?.addEventListener('click',saveIndicatorLimits);
-
-    document.getElementById('restorePreviousIndicatorLimits')
-      ?.addEventListener('click',restorePreviousIndicatorLimits);
-
-    document.getElementById('indicatorResetLimits')
-      ?.addEventListener('click',resetIndicatorLimits);
-
-    document.getElementById('activeRole')?.addEventListener('change',()=>{
-      setTimeout(refreshIndicatorPermissionButton,0);
-      if(!canEditIndicatorLimits()) closeIndicatorSettings();
-    });
-
-    document.addEventListener('keydown',event=>{
-      if(event.key === 'Escape') closeIndicatorSettings();
-    });
-  }
-
-  window.addEventListener('DOMContentLoaded',()=>{
-    initSidebarV10();
-    initIndicatorLimitSettings();
-  });
-})();
-
-/* ==========================================================
-   SAH V11 — role permissions, activities, and linked scoring
-   ========================================================== */
-(function(){
-  const ROLE_KEY = 'sah-active-role-v2';
-  const ACTIVITIES_KEY = 'sah-added-sports-activities-v1';
-  const FIELD_CALCULATOR_KEY = 'sah-field-points-calculator-v1';
-  const FIELD_CALCULATOR_PREVIOUS_KEY = 'sah-field-points-calculator-previous-v1';
-  const SESSION_FILES = new Map();
-
-  const ROLE_META = {
-    system: {name:'حسام الحسين', role:'مسؤول النظام — صلاحية كاملة', avatar:'ح'},
-    indicator: {name:'مسؤول مؤشر الأداء الرياضي', role:'صلاحية كاملة على المنصة وحاسبات النقاط', avatar:'م'},
-    sports_manager: {name:'مدير النشاط الرياضي', role:'صلاحيات القسم الرياضي المحددة', avatar:'ن'},
-    dean: {name:'العميد', role:'صلاحية مشاهدة وإدارة كاملة دون حاسبات النقاط', avatar:'ع'}
-  };
-
-  const SPORTS_MANAGER_PAGES = new Set([
-    'sports','scholarships','championships','athletes','reports','calendar'
-  ]);
-
-  function roleValue(){
-    return document.getElementById('activeRole')?.value || 'system';
-  }
-
-  function applyRolePermissions(){
-    const role = roleValue();
-    localStorage.setItem(ROLE_KEY, role);
-
-    const meta = ROLE_META[role] || ROLE_META.system;
-    setText('#activeUserName', meta.name);
-    setText('#activeUserRole', meta.role);
-    setText('#activeUserAvatar', meta.avatar);
-
-    document.querySelectorAll('.nav button[data-page]').forEach(button=>{
-      const allowed = role !== 'sports_manager' || SPORTS_MANAGER_PAGES.has(button.dataset.page);
-      button.classList.toggle('role-hidden', !allowed);
-    });
-
-    document.querySelectorAll('.nav-group').forEach(group=>{
-      const visibleButtons = [...group.querySelectorAll('.nav-items button[data-page]')]
-        .some(button=>!button.classList.contains('role-hidden'));
-      group.classList.toggle('empty-role-group', !visibleButtons);
-    });
-
-    const indicatorOnly = role === 'indicator';
-    document.getElementById('indicatorPermissionSettings')
-      ?.classList.toggle('hidden', !indicatorOnly);
-    document.getElementById('openFieldPointsCalculator')
-      ?.classList.toggle('hidden', !indicatorOnly);
-
-    const activePage = document.querySelector('.page.active')?.id?.replace('page-','');
-    if(role === 'sports_manager' && !SPORTS_MANAGER_PAGES.has(activePage)){
-      route('sports');
-    }
-  }
-
-  const originalRouteV11 = route;
-  route = function(id){
-    if(roleValue()==='sports_manager' && !SPORTS_MANAGER_PAGES.has(id)){
-      showToast('هذه الصفحة غير متاحة لمدير النشاط الرياضي.');
-      id='sports';
-    }
-    originalRouteV11(id);
-  };
-
-  function defaultFieldCalculator(){
-    const fields = (SAH_DATA.indicatorFields || []);
+  function defaultFieldCalculator() {
     return {
       guestParticipation: 0,
       hostParticipation: 0,
       university: 0,
       player: 0,
-      fields: Object.fromEntries(fields.map(field=>[
-        field.field,
-        {guest:0, host:0}
-      ]))
+      fields: Object.fromEntries(
+        (SAH_DATA.indicatorFields || []).map(field => [
+          field.field,
+          { guest: 0, host: 0 }
+        ])
+      )
     };
   }
 
-  function loadFieldCalculator(){
+  function loadFieldCalculator() {
     const defaults = defaultFieldCalculator();
-    try{
-      const saved = JSON.parse(localStorage.getItem(FIELD_CALCULATOR_KEY) || 'null');
-      if(!saved) return defaults;
-      return {
-        ...defaults,
-        ...saved,
-        fields:{...defaults.fields,...(saved.fields||{})}
-      };
-    }catch{
-      return defaults;
-    }
-  }
-
-  function activityPoints(activity){
-    const calculator = loadFieldCalculator();
-    const fieldPoints = calculator.fields?.[activity.indicatorField] || {guest:0,host:0};
-    const participationPoints = activity.participationType === 'host'
-      ? Number(calculator.hostParticipation||0)
-      : Number(calculator.guestParticipation||0);
-    const specificFieldPoints = activity.participationType === 'host'
-      ? Number(fieldPoints.host||0)
-      : Number(fieldPoints.guest||0);
-
-    return Math.max(0, Math.round(
-      participationPoints +
-      (Number(activity.universities)||0) * Number(calculator.university||0) +
-      (Number(activity.players)||0) * Number(calculator.player||0) +
-      specificFieldPoints
-    ));
-  }
-
-  function storedActivities(){
-    try{
-      const rows = JSON.parse(localStorage.getItem(ACTIVITIES_KEY) || '[]');
-      return Array.isArray(rows) ? rows : [];
-    }catch{
-      return [];
-    }
-  }
-
-  function applyStoredActivities(){
-    if(window.__sahStoredActivitiesApplied) return;
-    window.__sahStoredActivitiesApplied = true;
-
-    const activities = storedActivities();
-    SAH_DATA.evidenceRecords = SAH_DATA.evidenceRecords || [];
-
-    activities.forEach(activity=>{
-      if(!SAH_DATA.evidenceRecords.some(row=>row.localActivityId===activity.localActivityId)){
-        SAH_DATA.evidenceRecords.push(activity);
-      }
-      const field = (SAH_DATA.indicatorFields||[]).find(item=>item.field===activity.indicatorField);
-      if(field){
-        if(activity.gender==='طالبات') field.female = Number(field.female||0) + Number(activity.points||0);
-        else field.male = Number(field.male||0) + Number(activity.points||0);
-      }
-    });
-  }
-
-  function populateActivityFields(){
-    const select = document.getElementById('activityIndicatorField');
-    if(!select) return;
-    select.innerHTML = (SAH_DATA.indicatorFields||[])
-      .map(field=>`<option value="${field.field}">${field.track} — ${field.field}</option>`)
-      .join('');
-  }
-
-  function updateActivityPreview(){
-    const activity = {
-      indicatorField: document.getElementById('activityIndicatorField')?.value,
-      participationType: document.getElementById('activityParticipationType')?.value,
-      universities: Number(document.getElementById('activityUniversities')?.value||0),
-      players: Number(document.getElementById('activityPlayers')?.value||0)
+    const saved = readJson(KEYS.calculator, {});
+    return {
+      ...defaults,
+      ...saved,
+      fields: { ...defaults.fields, ...(saved.fields || {}) }
     };
-    setText('#activityCalculatedPoints', fmt(activityPoints(activity)));
   }
 
-  function setV11ModalOpen(modalId, open){
-    const modal=document.getElementById(modalId);
-    if(!modal) return;
-    modal.classList.toggle('hidden', !open);
-    document.body.style.overflow=open?'hidden':'';
-  }
-
-  function openAddActivity(){
-    populateActivityFields();
-    setV11ModalOpen('addActivityModal', true);
-    updateActivityPreview();
-  }
-
-  function closeAddActivity(){
-    setV11ModalOpen('addActivityModal', false);
-  }
-
-  function fileStatus(reportName, scheduleName){
-    if(reportName && scheduleName) return 'مكتمل';
-    if(reportName || scheduleName) return 'جزئي';
-    return 'ناقص';
-  }
-
-  function saveActivity(){
-    const name = document.getElementById('activityName')?.value.trim();
-    const date = document.getElementById('activityDate')?.value;
-    const fieldName = document.getElementById('activityIndicatorField')?.value;
-    if(!name || !date || !fieldName){
-      showToast('أكمل اسم النشاط والتاريخ والمجال المرتبط.');
-      return;
-    }
-
-    const reportFile = document.getElementById('activityFederationReport')?.files?.[0];
-    const scheduleFile = document.getElementById('activityScheduleFile')?.files?.[0];
-    const localActivityId = `local-${Date.now()}`;
-
-    if(reportFile) SESSION_FILES.set(`${localActivityId}:report`, URL.createObjectURL(reportFile));
-    if(scheduleFile) SESSION_FILES.set(`${localActivityId}:schedule`, URL.createObjectURL(scheduleFile));
-
-    const activity = {
-      localActivityId,
-      id: (SAH_DATA.evidenceRecords?.length||0)+1,
-      activity:name,
-      date,
-      days:Number(document.getElementById('activityDays')?.value||1),
-      beneficiaries:Number(document.getElementById('activityBeneficiaries')?.value||0),
-      players:Number(document.getElementById('activityPlayers')?.value||0),
-      gender:document.getElementById('activityGender')?.value||'طلاب',
-      indicatorField:fieldName,
-      field:fieldName,
-      participationType:document.getElementById('activityParticipationType')?.value||'guest',
-      universities:Number(document.getElementById('activityUniversities')?.value||0),
-      gameType:document.getElementById('activityGameType')?.value||'—',
-      documentationUrl:document.getElementById('activityDocumentationUrl')?.value.trim()||'',
-      activityType:'رياضي',
-      subCategory:fieldName,
-      federationReportName:reportFile?.name||'',
-      scheduleFileName:scheduleFile?.name||'',
-      status:fileStatus(reportFile?.name,scheduleFile?.name)
-    };
-    activity.points = activityPoints(activity);
-
-    const activities = storedActivities();
-    activities.push(activity);
-    localStorage.setItem(ACTIVITIES_KEY,JSON.stringify(activities));
-
-    SAH_DATA.evidenceRecords = SAH_DATA.evidenceRecords || [];
-    SAH_DATA.evidenceRecords.push(activity);
-    const field = (SAH_DATA.indicatorFields||[]).find(item=>item.field===fieldName);
-    if(field){
-      if(activity.gender==='طالبات') field.female = Number(field.female||0)+activity.points;
-      else field.male = Number(field.male||0)+activity.points;
-    }
-
-    calcIndicators();
-    renderEvidenceStats();
-    renderEvidence();
-    closeAddActivity();
-    document.getElementById('addActivityForm')?.reset();
-    showToast('تمت إضافة النشاط واحتساب نقاطه في مؤشر الأداء الرياضي.');
-  }
-
-  function fileCell(row,type){
-    const isReport = type==='report';
-    const name = isReport
-      ? (row.federationReportName || row.newsDocumentation || '')
-      : (row.scheduleFileName || '');
-    const sessionUrl = row.localActivityId
-      ? SESSION_FILES.get(`${row.localActivityId}:${type}`)
-      : '';
-
-    if(sessionUrl) return `<a class="file-link" href="${sessionUrl}" target="_blank" download="${name}">${name}</a>`;
-    if(/^https?:\/\//i.test(String(name))) return `<a class="file-link" href="${name}" target="_blank" rel="noopener">فتح الملف</a>`;
-    if(name && name!=='-' && name!=='—') return `<span class="file-name">${name}</span>`;
-    return `<span class="file-name missing">غير مرفوع</span>`;
-  }
-
-  renderEvidence = function(){
-    const tbody=$('#evidenceRows'); if(!tbody) return;
-    const rows=getFilteredEvidence(); tbody.innerHTML='';
-    rows.forEach((r,i)=>{
-      const participation = r.participationType==='host'?'مستضيف':r.participationType==='guest'?'ضيف':'—';
-      const tr=document.createElement('tr');
-      tr.innerHTML=`
-        <td>${r.id||i+1}</td>
-        <td><b>${r.activity||'—'}</b></td>
-        <td class="ltr-cell">${r.date||'—'}</td>
-        <td>${r.days||'—'}</td>
-        <td>${fmt(r.beneficiaries||0)}</td>
-        <td>${fmt(r.players||0)}</td>
-        <td>${r.gender||'—'}</td>
-        <td>${r.indicatorField||r.field||r.subCategory||'—'}</td>
-        <td>${participation}</td>
-        <td>${fmt(r.universities||0)}</td>
-        <td>${fmt(r.points||0)}</td>
-        <td><span class="pill evidence-status ${evidenceStatusClass(r.status)}">${r.status||'ناقص'}</span></td>
-        <td>${fileCell(r,'report')}</td>
-        <td>${fileCell(r,'schedule')}</td>
-        <td>${r.documentationUrl || r.publishLink || r.newsLink ? `<a class="file-link" href="${r.documentationUrl || r.publishLink || r.newsLink}" target="_blank" rel="noopener">فتح التوثيق</a>` : '<span class="file-name missing">غير متوفر</span>'}</td>`;
-      tbody.appendChild(tr);
-    });
-    relocalizeSoon();
-  };
-
-  function renderFieldCalculator(){
+  function renderFieldCalculator() {
     const calculator = loadFieldCalculator();
-    const setValue=(id,value)=>{const el=document.getElementById(id);if(el)el.value=Number(value||0)};
-    setValue('guestParticipationPoints',calculator.guestParticipation);
-    setValue('hostParticipationPoints',calculator.hostParticipation);
-    setValue('universityParticipationPoints',calculator.university);
-    setValue('playerParticipationPoints',calculator.player);
+    const setValue = (id, value) => {
+      const element = document.getElementById(id);
+      if (element) element.value = Number(value) || 0;
+    };
 
-    const tbody=document.getElementById('fieldPointsRows');
-    if(!tbody) return;
-    tbody.innerHTML=(SAH_DATA.indicatorFields||[]).map((field,index)=>{
-      const values=calculator.fields?.[field.field]||{guest:0,host:0};
-      return `<tr>
-        <td>${field.track}</td>
-        <td>${field.field}</td>
-        <td><input class="field-guest-points" data-index="${index}" value="${Number(values.guest||0)}" type="number" min="0"></td>
-        <td><input class="field-host-points" data-index="${index}" value="${Number(values.host||0)}" type="number" min="0"></td>
-      </tr>`;
+    setValue('guestParticipationPoints', calculator.guestParticipation);
+    setValue('hostParticipationPoints', calculator.hostParticipation);
+    setValue('universityParticipationPoints', calculator.university);
+    setValue('playerParticipationPoints', calculator.player);
+
+    const tbody = document.getElementById('fieldPointsRows');
+    if (!tbody) return;
+
+    tbody.innerHTML = (SAH_DATA.indicatorFields || []).map((field, index) => {
+      const values = calculator.fields[field.field] || { guest: 0, host: 0 };
+      return `
+        <tr>
+          <td>${field.track}</td>
+          <td>${field.field}</td>
+          <td><input class="field-guest-points" data-index="${index}"
+                     type="number" min="0" value="${Number(values.guest) || 0}"></td>
+          <td><input class="field-host-points" data-index="${index}"
+                     type="number" min="0" value="${Number(values.host) || 0}"></td>
+        </tr>`;
     }).join('');
   }
 
-  function openFieldCalculator(){
-    if(roleValue()!=='indicator') return;
+  function openFieldCalculator() {
+    if (!isIndicatorOfficer()) {
+      showToast('هذه الصلاحية متاحة لمسؤول مؤشر الأداء الرياضي فقط.');
+      return;
+    }
     renderFieldCalculator();
-    setV11ModalOpen('fieldPointsCalculatorModal', true);
+    openModal('fieldPointsCalculatorModal');
   }
 
-  function closeFieldCalculator(){
-    setV11ModalOpen('fieldPointsCalculatorModal', false);
-  }
-
-  function saveFieldCalculator(){
-    if(roleValue()!=='indicator') return;
-    const calculator={
-      guestParticipation:Number(document.getElementById('guestParticipationPoints')?.value||0),
-      hostParticipation:Number(document.getElementById('hostParticipationPoints')?.value||0),
-      university:Number(document.getElementById('universityParticipationPoints')?.value||0),
-      player:Number(document.getElementById('playerParticipationPoints')?.value||0),
-      fields:{}
+  function collectFieldCalculator() {
+    const calculator = {
+      guestParticipation: Number(document.getElementById('guestParticipationPoints')?.value || 0),
+      hostParticipation: Number(document.getElementById('hostParticipationPoints')?.value || 0),
+      university: Number(document.getElementById('universityParticipationPoints')?.value || 0),
+      player: Number(document.getElementById('playerParticipationPoints')?.value || 0),
+      fields: {}
     };
-    (SAH_DATA.indicatorFields||[]).forEach((field,index)=>{
-      calculator.fields[field.field]={
-        guest:Number(document.querySelector(`.field-guest-points[data-index="${index}"]`)?.value||0),
-        host:Number(document.querySelector(`.field-host-points[data-index="${index}"]`)?.value||0)
+
+    (SAH_DATA.indicatorFields || []).forEach((field, index) => {
+      calculator.fields[field.field] = {
+        guest: Number(document.querySelector(
+          `.field-guest-points[data-index="${index}"]`)?.value || 0),
+        host: Number(document.querySelector(
+          `.field-host-points[data-index="${index}"]`)?.value || 0)
       };
     });
-    const existingCalculator = localStorage.getItem(FIELD_CALCULATOR_KEY);
-    if(existingCalculator) localStorage.setItem(FIELD_CALCULATOR_PREVIOUS_KEY, existingCalculator);
-    localStorage.setItem(FIELD_CALCULATOR_KEY,JSON.stringify(calculator));
-    closeFieldCalculator();
-    updateActivityPreview();
+
+    return calculator;
+  }
+
+  function saveFieldCalculator() {
+    if (!isIndicatorOfficer()) return;
+    const current = localStorage.getItem(KEYS.calculator);
+    if (current) localStorage.setItem(KEYS.calculatorPrevious, current);
+    writeJson(KEYS.calculator, collectFieldCalculator());
+    closeModal('fieldPointsCalculatorModal');
+    updateActivityPointsPreview();
     showToast('تم حفظ حاسبة النقاط للمجالات.');
   }
 
-  function resetFieldCalculator(){
-    localStorage.removeItem(FIELD_CALCULATOR_KEY);
-    renderFieldCalculator();
-    showToast('تمت استعادة إعدادات الحاسبة الافتراضية.');
-  }
-
-  function restorePreviousFieldCalculator(){
-    const previous = localStorage.getItem(FIELD_CALCULATOR_PREVIOUS_KEY);
-    if(!previous){
+  function restorePreviousFieldCalculator() {
+    if (!isIndicatorOfficer()) return;
+    const previous = readJson(KEYS.calculatorPrevious, null);
+    if (!previous) {
       showToast('لا توجد إعدادات سابقة محفوظة.');
       return;
     }
-    const current = localStorage.getItem(FIELD_CALCULATOR_KEY);
-    if(current) localStorage.setItem(FIELD_CALCULATOR_PREVIOUS_KEY + '-swap', current);
-    localStorage.setItem(FIELD_CALCULATOR_KEY, previous);
+    writeJson(KEYS.calculator, previous);
     renderFieldCalculator();
-    updateActivityPreview();
+    updateActivityPointsPreview();
     showToast('تمت استعادة الإعدادات السابقة.');
   }
 
-  function initV11(){
-    applyStoredActivities();
-    calcIndicators();
-    renderEvidenceStats();
-    renderEvidence();
-
-    const roleSelect=document.getElementById('activeRole');
-    const savedRole=localStorage.getItem(ROLE_KEY);
-    if(savedRole && roleSelect?.querySelector(`option[value="${savedRole}"]`)) roleSelect.value=savedRole;
-    applyRolePermissions();
-    roleSelect?.addEventListener('change',()=>{
-      applyRolePermissions();
-      document.getElementById('indicatorPermissionSettings')
-        ?.classList.toggle('hidden', roleValue() !== 'indicator');
-      document.getElementById('openFieldPointsCalculator')
-        ?.classList.toggle('hidden', roleValue() !== 'indicator');
-    });
-
-    document.getElementById('openAddActivity')?.addEventListener('click',openAddActivity);
-    document.querySelectorAll('[data-close-add-activity]').forEach(el=>el.addEventListener('click',closeAddActivity));
-    document.getElementById('saveNewActivity')?.addEventListener('click',saveActivity);
-    ['activityIndicatorField','activityParticipationType','activityUniversities','activityPlayers']
-      .forEach(id=>document.getElementById(id)?.addEventListener('input',updateActivityPreview));
-
-    document.getElementById('openFieldPointsCalculator')?.addEventListener('click',openFieldCalculator);
-    document.querySelectorAll('[data-close-field-calculator]').forEach(el=>el.addEventListener('click',closeFieldCalculator));
-    document.getElementById('saveFieldPointsCalculator')?.addEventListener('click',saveFieldCalculator);
-    document.getElementById('restorePreviousFieldPointsCalculator')?.addEventListener('click',restorePreviousFieldCalculator);
-    document.getElementById('resetFieldPointsCalculator')?.addEventListener('click',resetFieldCalculator);
+  function resetFieldCalculator() {
+    if (!isIndicatorOfficer()) return;
+    localStorage.removeItem(KEYS.calculator);
+    renderFieldCalculator();
+    updateActivityPointsPreview();
+    showToast('تمت استعادة إعدادات الحاسبة الافتراضية.');
   }
 
-  window.addEventListener('DOMContentLoaded',initV11);
-})();
+  function calculateActivityPoints(activity) {
+    const calculator = loadFieldCalculator();
+    const fieldPoints = calculator.fields[activity.indicatorField] ||
+      { guest: 0, host: 0 };
+    const host = activity.participationType === 'host';
 
-/* ==========================================================
-   SAH V14 — indicator permission repair and evidence CRUD
-   ========================================================== */
-(function(){
-  const ACTIVITIES_KEY_V14='sah-added-sports-activities-v1';
-  const OVERRIDES_KEY='sah-evidence-overrides-v1';
-  const DELETED_KEY='sah-evidence-deleted-v1';
-  const FILE_URLS=new Map();
-
-  function safeJson(key,fallback){
-    try{return JSON.parse(localStorage.getItem(key)||'null') ?? fallback}
-    catch{return fallback}
+    return Math.max(0, Math.round(
+      Number(host ? calculator.hostParticipation : calculator.guestParticipation) +
+      Number(activity.universities || 0) * Number(calculator.university || 0) +
+      Number(activity.players || 0) * Number(calculator.player || 0) +
+      Number(host ? fieldPoints.host : fieldPoints.guest)
+    ));
   }
 
-  function recordKey(row,index=0){
+  /* ---------- Evidence data ---------- */
+
+  function recordKey(row, index = 0) {
     return String(
       row.localActivityId ||
       row.recordKey ||
@@ -1099,440 +873,573 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     );
   }
 
-  function deletedKeys(){
-    return new Set(safeJson(DELETED_KEY,[]));
+  function sourceRows() {
+    return (SAH_DATA.evidenceRecords || []).map((row, index) => ({
+      ...row,
+      recordKey: recordKey(row, index),
+      isLocal: Boolean(row.localActivityId)
+    }));
   }
 
-  function overrideMap(){
-    return safeJson(OVERRIDES_KEY,{});
+  function allEvidenceRows() {
+    const overrides = readJson(KEYS.overrides, {});
+    const deleted = new Set(readJson(KEYS.deleted, []));
+    const localRows = readJson(KEYS.activities, []);
+
+    const source = sourceRows()
+      .filter(row => !row.isLocal)
+      .map(row => ({ ...row, ...(overrides[row.recordKey] || {}) }));
+
+    const locals = localRows.map((row, index) => ({
+      ...row,
+      recordKey: recordKey(row, index),
+      isLocal: true
+    }));
+
+    return [...source, ...locals]
+      .filter(row => !deleted.has(row.recordKey));
   }
 
-  function persistOverrides(map){
-    localStorage.setItem(OVERRIDES_KEY,JSON.stringify(map));
+  function hasValue(value, allowZero = false) {
+    if (allowZero && value === 0) return true;
+    const text = String(value ?? '').trim();
+    return text !== '' && text !== '—' && text !== '-';
   }
 
-  function persistDeleted(set){
-    localStorage.setItem(DELETED_KEY,JSON.stringify([...set]));
-  }
-
-  function allEvidenceRows(){
-    const deleted=deletedKeys();
-    const overrides=overrideMap();
-    return (SAH_DATA.evidenceRecords||[])
-      .map((row,index)=>{
-        const key=recordKey(row,index);
-        return {...row,...(overrides[key]||{}),recordKey:key};
-      })
-      .filter(row=>!deleted.has(row.recordKey));
-  }
-
-  function hasValue(value,allowZero=false){
-    if(value===0 && allowZero) return true;
-    return value!==undefined && value!==null && String(value).trim()!=='' &&
-      String(value).trim()!=='—' && String(value).trim()!=='-';
-  }
-
-  function rowCompleteness(row){
-    const checks=[
+  function completionPercent(row) {
+    const checks = [
       hasValue(row.activity),
       hasValue(row.date),
-      hasValue(row.days,true),
-      hasValue(row.beneficiaries,true),
-      hasValue(row.players,true),
+      hasValue(row.days, true),
+      hasValue(row.beneficiaries, true),
+      hasValue(row.players, true),
       hasValue(row.gender),
-      hasValue(row.indicatorField||row.field||row.subCategory),
+      hasValue(row.indicatorField || row.field || row.subCategory),
       hasValue(row.participationType),
-      hasValue(row.universities,true),
+      hasValue(row.universities, true),
       hasValue(row.gameType),
-      hasValue(row.federationReportName||row.newsDocumentation),
+      hasValue(row.federationReportName),
       hasValue(row.scheduleFileName),
-      hasValue(row.documentationUrl||row.publishLink||row.newsLink)
+      hasValue(row.documentationUrl || row.publishLink || row.newsLink)
     ];
-    const filled=checks.filter(Boolean).length;
-    return Math.round((filled/checks.length)*100);
+    return Math.round(checks.filter(Boolean).length / checks.length * 100);
   }
 
-  function completionCategory(percent){
-    if(percent===100) return 'complete';
-    if(percent===0) return 'missing';
-    return 'incomplete';
+  function evidenceStatus(row) {
+    const percent = completionPercent(row);
+    return percent === 100 ? 'مكتمل' : percent === 0 ? 'ناقص' : 'جزئي';
   }
 
-  function selectedGender(){
-    return document.querySelector('#evidenceGender button.active')?.dataset.gender||'all';
-  }
+  function filteredEvidenceRows() {
+    const query = (document.getElementById('evidenceSearch')?.value || '')
+      .trim().toLowerCase();
+    const column = document.getElementById('evidenceColumnFilter')?.value || 'all';
+    const completion = document.getElementById('evidenceCompletionFilter')?.value || 'all';
+    const status = document.getElementById('evidenceStatus')?.value || 'all';
+    const gender = document.querySelector('#evidenceGender button.active')
+      ?.dataset.gender || 'all';
 
-  function filteredRows(){
-    const q=(document.getElementById('evidenceSearch')?.value||'').trim().toLowerCase();
-    const column=document.getElementById('evidenceColumnFilter')?.value||'all';
-    const completion=document.getElementById('evidenceCompletionFilter')?.value||'all';
-    const gender=selectedGender();
-    const status=document.getElementById('evidenceStatus')?.value||'all';
+    return allEvidenceRows().filter(row => {
+      const percent = completionPercent(row);
+      const rowStatus = evidenceStatus(row);
 
-    return allEvidenceRows().filter(row=>{
-      if(gender!=='all' && row.gender!==gender) return false;
-      if(status!=='all' && row.status!==status) return false;
+      if (gender !== 'all' && row.gender !== gender) return false;
+      if (status !== 'all' && rowStatus !== status) return false;
+      if (completion === 'complete' && percent !== 100) return false;
+      if (completion === 'incomplete' && (percent === 100 || percent === 0)) return false;
+      if (completion === 'missing' && percent !== 0) return false;
 
-      const percent=rowCompleteness(row);
-      const category=completionCategory(percent);
-      if(completion==='complete' && category!=='complete') return false;
-      if(completion==='incomplete' && category==='complete') return false;
-      if(completion==='missing' && category!=='missing') return false;
+      if (!query) return true;
 
-      if(!q) return true;
-      const values={
-        activity:row.activity,
-        date:row.date,
-        gender:row.gender,
-        indicatorField:row.indicatorField||row.field||row.subCategory,
-        participationType:row.participationType==='host'?'مستضيف':row.participationType==='guest'?'ضيف':row.participationType,
-        status:row.status,
-        documentation:row.documentationUrl||row.publishLink||row.newsLink
+      const mapped = {
+        activity: row.activity,
+        date: row.date,
+        gender: row.gender,
+        indicatorField: row.indicatorField || row.field || row.subCategory,
+        participationType: row.participationType === 'host' ? 'مستضيف' : 'ضيف',
+        status: rowStatus,
+        documentation: row.documentationUrl || row.publishLink || row.newsLink
       };
-      if(column!=='all') return String(values[column]||'').toLowerCase().includes(q);
-      return Object.values({...row,...values}).some(value=>String(value??'').toLowerCase().includes(q));
+
+      if (column !== 'all') {
+        return String(mapped[column] || '').toLowerCase().includes(query);
+      }
+
+      return Object.values({ ...row, ...mapped })
+        .some(value => String(value ?? '').toLowerCase().includes(query));
     });
   }
 
-  function fileCellV14(row,type){
-    const name=type==='report'
-      ? (row.federationReportName||row.newsDocumentation||'')
-      : (row.scheduleFileName||'');
-    const sessionUrl=FILE_URLS.get(`${row.recordKey}:${type}`);
-    if(sessionUrl) return `<a class="file-link" href="${sessionUrl}" target="_blank" download="${name}">${name}</a>`;
-    if(/^https?:\/\//i.test(String(name))) return `<a class="file-link" href="${name}" target="_blank" rel="noopener">فتح الملف</a>`;
-    if(hasValue(name)) return `<span class="file-name">${name}</span>`;
-    return `<span class="file-name missing">غير مرفوع</span>`;
+  window.getFilteredEvidence = filteredEvidenceRows;
+
+  function fileCell(row, type) {
+    const name = type === 'report'
+      ? row.federationReportName || ''
+      : row.scheduleFileName || '';
+    const url = FILE_URLS.get(`${row.recordKey}:${type}`);
+
+    if (url) {
+      return `<a class="file-link" href="${url}" target="_blank"
+                 download="${name}">${name}</a>`;
+    }
+    if (hasValue(name)) return `<span class="file-name">${name}</span>`;
+    return '<span class="file-name missing">غير مرفوع</span>';
   }
 
-  function documentationCell(row){
-    const url=row.documentationUrl||row.publishLink||row.newsLink||'';
-    return /^https?:\/\//i.test(String(url))
-      ? `<a class="file-link" href="${url}" target="_blank" rel="noopener">فتح التوثيق</a>`
-      : `<span class="file-name missing">غير متوفر</span>`;
+  function documentationCell(row) {
+    const url = row.documentationUrl || row.publishLink || row.newsLink || '';
+    return /^https?:\/\//i.test(url)
+      ? `<a class="file-link" href="${url}" target="_blank"
+             rel="noopener">فتح التوثيق</a>`
+      : '<span class="file-name missing">غير متوفر</span>';
   }
 
-  window.getFilteredEvidence=filteredRows;
-
-  window.renderEvidenceStats=function(){
-    const rows=allEvidenceRows();
-    const complete=rows.filter(row=>rowCompleteness(row)===100).length;
-    const missing=rows.filter(row=>rowCompleteness(row)===0).length;
-    const partial=rows.length-complete-missing;
-    const average=rows.length
-      ? Math.round(rows.reduce((sum,row)=>sum+rowCompleteness(row),0)/rows.length)
+  window.renderEvidenceStats = function () {
+    const rows = allEvidenceRows();
+    const percentages = rows.map(completionPercent);
+    const complete = percentages.filter(value => value === 100).length;
+    const missing = percentages.filter(value => value === 0).length;
+    const partial = rows.length - complete - missing;
+    const average = rows.length
+      ? Math.round(percentages.reduce((sum, value) => sum + value, 0) / rows.length)
       : 0;
 
-    setText('#evidenceTotal',fmt(rows.length));
-    setText('#evidenceComplete',fmt(complete));
-    setText('#evidencePartial',fmt(partial));
-    setText('#evidenceMissing',fmt(missing));
-    setText('#documentationCompletionPercent',`${average}%`);
-    setText('#documentationCompletionText',`${complete} نشاط مكتمل من أصل ${rows.length}`);
-    const bar=document.getElementById('documentationCompletionBar');
-    if(bar) bar.style.width=`${average}%`;
+    setText('#evidenceTotal', fmt(rows.length));
+    setText('#evidenceComplete', fmt(complete));
+    setText('#evidencePartial', fmt(partial));
+    setText('#evidenceMissing', fmt(missing));
+    setText('#documentationCompletionPercent', `${average}%`);
+    setText('#documentationCompletionText',
+      `${complete} نشاط مكتمل من أصل ${rows.length}`);
+
+    const bar = document.getElementById('documentationCompletionBar');
+    if (bar) bar.style.width = `${average}%`;
   };
 
-  window.renderEvidence=function(){
-    const tbody=document.getElementById('evidenceRows');
-    if(!tbody) return;
-    const rows=filteredRows();
-    tbody.innerHTML='';
+  window.renderEvidence = function () {
+    const tbody = document.getElementById('evidenceRows');
+    if (!tbody) return;
 
-    rows.forEach((row,index)=>{
-      const percent=rowCompleteness(row);
-      const category=completionCategory(percent);
-      const participation=row.participationType==='host'?'مستضيف':
-        row.participationType==='guest'?'ضيف':'—';
-      const tr=document.createElement('tr');
-      tr.dataset.recordKey=row.recordKey;
-      tr.innerHTML=`
-        <td class="select-column"><input class="evidence-row-select" type="checkbox" value="${row.recordKey}" aria-label="تحديد ${row.activity||'النشاط'}"></td>
-        <td>${row.id||index+1}</td>
-        <td><b>${row.activity||'—'}</b></td>
-        <td class="ltr-cell">${row.date||'—'}</td>
-        <td>${row.days??'—'}</td>
-        <td>${fmt(row.beneficiaries||0)}</td>
-        <td>${fmt(row.players||0)}</td>
-        <td>${row.gender||'—'}</td>
-        <td>${row.indicatorField||row.field||row.subCategory||'—'}</td>
+    currentEvidenceRows = filteredEvidenceRows();
+    tbody.innerHTML = '';
+
+    currentEvidenceRows.forEach((row, index) => {
+      const percent = completionPercent(row);
+      const participation = row.participationType === 'host'
+        ? 'مستضيف'
+        : row.participationType === 'guest' ? 'ضيف' : '—';
+
+      const tr = document.createElement('tr');
+      tr.dataset.recordKey = row.recordKey;
+      tr.innerHTML = `
+        <td class="select-column">
+          <input class="evidence-row-select" type="checkbox"
+                 value="${row.recordKey}">
+        </td>
+        <td>${row.id || index + 1}</td>
+        <td><b>${row.activity || '—'}</b></td>
+        <td class="ltr-cell">${row.date || '—'}</td>
+        <td>${row.days ?? '—'}</td>
+        <td>${fmt(row.beneficiaries || 0)}</td>
+        <td>${fmt(row.players || 0)}</td>
+        <td>${row.gender || '—'}</td>
+        <td>${row.indicatorField || row.field || row.subCategory || '—'}</td>
         <td>${participation}</td>
-        <td>${fmt(row.universities||0)}</td>
-        <td>${fmt(row.points||0)}</td>
-        <td><span class="pill evidence-status ${evidenceStatusClass(row.status)}">${row.status||'ناقص'}</span></td>
-        <td>${fileCellV14(row,'report')}</td>
-        <td>${fileCellV14(row,'schedule')}</td>
+        <td>${fmt(row.universities || 0)}</td>
+        <td>${fmt(row.points || 0)}</td>
+        <td>
+          <span class="pill evidence-status ${evidenceStatusClass(evidenceStatus(row))}">
+            ${evidenceStatus(row)}
+          </span>
+        </td>
+        <td>${fileCell(row, 'report')}</td>
+        <td>${fileCell(row, 'schedule')}</td>
         <td>${documentationCell(row)}</td>
         <td>
-          <div class="event-completion ${category==='missing'?'missing':''}">
-            <div class="event-completion-value"><span>الاكتمال</span><b>${percent}%</b></div>
-            <div class="event-completion-track"><span style="width:${percent}%"></span></div>
+          <div class="event-completion ${percent < 100 ? 'missing' : ''}">
+            <div class="event-completion-value">
+              <span>الاكتمال</span><b>${percent}%</b>
+            </div>
+            <div class="event-completion-track">
+              <span style="width:${percent}%"></span>
+            </div>
           </div>
         </td>
         <td>
           <div class="evidence-row-actions">
-            <button class="evidence-action-icon edit" type="button" data-edit-key="${row.recordKey}" title="تعديل النشاط">✎</button>
-            <button class="evidence-action-icon delete" type="button" data-delete-key="${row.recordKey}" title="حذف النشاط">🗑</button>
+            <button class="evidence-action-icon edit"
+                    type="button" data-edit-key="${row.recordKey}"
+                    title="تعديل النشاط">✎</button>
+            <button class="evidence-action-icon delete"
+                    type="button" data-delete-key="${row.recordKey}"
+                    title="حذف النشاط">🗑</button>
           </div>
         </td>`;
       tbody.appendChild(tr);
     });
 
-    tbody.querySelectorAll('.evidence-row-select').forEach(box=>{
-      box.addEventListener('change',updateBulkState);
-    });
-    tbody.querySelectorAll('[data-edit-key]').forEach(button=>{
-      button.addEventListener('click',()=>openEditActivity(button.dataset.editKey));
-    });
-    tbody.querySelectorAll('[data-delete-key]').forEach(button=>{
-      button.addEventListener('click',()=>deleteActivities([button.dataset.deleteKey]));
-    });
+    tbody.querySelectorAll('.evidence-row-select')
+      .forEach(box => box.addEventListener('change', updateBulkSelection));
 
-    updateBulkState();
-    if(typeof relocalizeSoon==='function') relocalizeSoon();
+    tbody.querySelectorAll('[data-edit-key]')
+      .forEach(button => button.addEventListener(
+        'click', () => openEditActivity(button.dataset.editKey)));
+
+    tbody.querySelectorAll('[data-delete-key]')
+      .forEach(button => button.addEventListener(
+        'click', () => deleteEvidenceRows([button.dataset.deleteKey])));
+
+    updateBulkSelection();
   };
 
-  function updateBulkState(){
-    const boxes=[...document.querySelectorAll('.evidence-row-select')];
-    const checked=boxes.filter(box=>box.checked);
-    const deleteButton=document.getElementById('deleteSelectedEvidence');
-    if(deleteButton){
-      deleteButton.disabled=checked.length===0;
-      deleteButton.textContent=checked.length ? `حذف المحدد (${checked.length})` : 'حذف المحدد';
+  function updateBulkSelection() {
+    const boxes = [...document.querySelectorAll('.evidence-row-select')];
+    const selected = boxes.filter(box => box.checked);
+    const deleteButton = document.getElementById('deleteSelectedEvidence');
+
+    if (deleteButton) {
+      deleteButton.disabled = selected.length === 0;
+      deleteButton.textContent = selected.length
+        ? `حذف المحدد (${selected.length})`
+        : 'حذف المحدد';
     }
-    const allChecked=boxes.length>0 && checked.length===boxes.length;
-    ['selectAllEvidence','selectAllEvidenceHead'].forEach(id=>{
-      const box=document.getElementById(id);
-      if(box) box.checked=allChecked;
+
+    const all = boxes.length > 0 && selected.length === boxes.length;
+    ['selectAllEvidence', 'selectAllEvidenceHead'].forEach(id => {
+      const box = document.getElementById(id);
+      if (box) box.checked = all;
     });
   }
 
-  function selectAllVisible(checked){
-    document.querySelectorAll('.evidence-row-select').forEach(box=>box.checked=checked);
-    updateBulkState();
+  function selectAllVisible(checked) {
+    document.querySelectorAll('.evidence-row-select')
+      .forEach(box => { box.checked = checked; });
+    updateBulkSelection();
   }
 
-  function adjustIndicatorForRow(row,multiplier){
-    if(!row || !row.points) return;
-    const field=(SAH_DATA.indicatorFields||[]).find(item=>
-      item.field===(row.indicatorField||row.field||row.subCategory)
-    );
-    if(!field) return;
-    const key=row.gender==='طالبات'?'female':'male';
-    field[key]=Math.max(0,Number(field[key]||0)+(Number(row.points)||0)*multiplier);
-  }
+  function deleteEvidenceRows(keys) {
+    if (!keys.length || !confirm(`هل تريد حذف ${keys.length} نشاط؟`)) return;
 
-  function deleteActivities(keys){
-    if(!keys.length) return;
-    if(!confirm(`هل تريد حذف ${keys.length} نشاط؟`)) return;
+    const deleted = new Set(readJson(KEYS.deleted, []));
+    const locals = readJson(KEYS.activities, [])
+      .filter(row => !keys.includes(recordKey(row)));
 
-    const rows=allEvidenceRows();
-    const deleted=deletedKeys();
-    const overrides=overrideMap();
-    const localActivities=safeJson(ACTIVITIES_KEY_V14,[]);
+    keys.forEach(key => deleted.add(key));
+    writeJson(KEYS.deleted, [...deleted]);
+    writeJson(KEYS.activities, locals);
 
-    keys.forEach(key=>{
-      const row=rows.find(item=>item.recordKey===key);
-      if(row) adjustIndicatorForRow(row,-1);
-      deleted.add(key);
-      delete overrides[key];
-    });
-
-    const remainingLocal=localActivities.filter(row=>!keys.includes(recordKey(row)));
-    localStorage.setItem(ACTIVITIES_KEY_V14,JSON.stringify(remainingLocal));
-    persistDeleted(deleted);
-    persistOverrides(overrides);
-
-    if(typeof calcIndicators==='function') calcIndicators();
+    recalculateIndicator();
     renderEvidenceStats();
     renderEvidence();
-    if(typeof showToast==='function') showToast('تم حذف الأنشطة المحددة.');
+    showToast('تم حذف الأنشطة المحددة.');
   }
 
-  function setInput(id,value){
-    const el=document.getElementById(id);
-    if(el) el.value=value??'';
+  function populateActivityFields() {
+    const select = document.getElementById('activityIndicatorField');
+    if (!select) return;
+
+    select.innerHTML = (SAH_DATA.indicatorFields || [])
+      .map(field => `<option value="${field.field}">
+        ${field.track} — ${field.field}
+      </option>`).join('');
   }
 
-  function openEditActivity(key){
-    const row=allEvidenceRows().find(item=>item.recordKey===key);
-    if(!row) return;
-
-    if(typeof populateActivityFields==='function') populateActivityFields();
-    setInput('activityEditKey',key);
-    setInput('activityName',row.activity);
-    setInput('activityDate',row.date);
-    setInput('activityDays',row.days);
-    setInput('activityBeneficiaries',row.beneficiaries);
-    setInput('activityPlayers',row.players);
-    setInput('activityGender',row.gender);
-    setInput('activityIndicatorField',row.indicatorField||row.field||row.subCategory);
-    setInput('activityParticipationType',row.participationType||'guest');
-    setInput('activityUniversities',row.universities);
-    setInput('activityGameType',row.gameType);
-    setInput('activityDocumentationUrl',row.documentationUrl||row.publishLink||row.newsLink);
-
-    setText('#addActivityTitle','تعديل النشاط');
-    const save=document.getElementById('saveNewActivity');
-    if(save) save.textContent='حفظ تعديلات النشاط';
-    const modal=document.getElementById('addActivityModal');
-    modal?.classList.remove('hidden');
-    document.body.style.overflow='hidden';
+  function setInput(id, value) {
+    const input = document.getElementById(id);
+    if (input) input.value = value ?? '';
   }
 
-  function resetActivityModal(){
+  function resetActivityForm() {
     document.getElementById('addActivityForm')?.reset();
-    setInput('activityEditKey','');
-    setText('#addActivityTitle','إضافة نشاط جديد');
-    const save=document.getElementById('saveNewActivity');
-    if(save) save.textContent='حفظ النشاط وإضافة النقاط';
+    setInput('activityEditKey', '');
+    setText('#addActivityTitle', 'إضافة نشاط جديد');
+    const save = document.getElementById('saveNewActivity');
+    if (save) save.textContent = 'حفظ النشاط وإضافة النقاط';
+    updateActivityPointsPreview();
   }
 
-  function collectActivity(existing={}){
-    const reportFile=document.getElementById('activityFederationReport')?.files?.[0];
-    const scheduleFile=document.getElementById('activityScheduleFile')?.files?.[0];
-    const row={
+  function openAddActivity() {
+    populateActivityFields();
+    resetActivityForm();
+    openModal('addActivityModal');
+  }
+
+  function openEditActivity(key) {
+    const row = allEvidenceRows().find(item => item.recordKey === key);
+    if (!row) return;
+
+    populateActivityFields();
+    setInput('activityEditKey', key);
+    setInput('activityName', row.activity);
+    setInput('activityDate', row.date);
+    setInput('activityDays', row.days);
+    setInput('activityBeneficiaries', row.beneficiaries);
+    setInput('activityPlayers', row.players);
+    setInput('activityGender', row.gender);
+    setInput('activityIndicatorField',
+      row.indicatorField || row.field || row.subCategory);
+    setInput('activityParticipationType', row.participationType || 'guest');
+    setInput('activityUniversities', row.universities);
+    setInput('activityGameType', row.gameType);
+    setInput('activityDocumentationUrl',
+      row.documentationUrl || row.publishLink || row.newsLink);
+
+    setText('#addActivityTitle', 'تعديل النشاط');
+    const save = document.getElementById('saveNewActivity');
+    if (save) save.textContent = 'حفظ تعديلات النشاط';
+    updateActivityPointsPreview();
+    openModal('addActivityModal');
+  }
+
+  function activityFromForm(existing = {}) {
+    const report = document.getElementById('activityFederationReport')?.files?.[0];
+    const schedule = document.getElementById('activityScheduleFile')?.files?.[0];
+
+    const row = {
       ...existing,
-      activity:document.getElementById('activityName')?.value.trim(),
-      date:document.getElementById('activityDate')?.value,
-      days:Number(document.getElementById('activityDays')?.value||0),
-      beneficiaries:Number(document.getElementById('activityBeneficiaries')?.value||0),
-      players:Number(document.getElementById('activityPlayers')?.value||0),
-      gender:document.getElementById('activityGender')?.value||'طلاب',
-      indicatorField:document.getElementById('activityIndicatorField')?.value,
-      field:document.getElementById('activityIndicatorField')?.value,
-      subCategory:document.getElementById('activityIndicatorField')?.value,
-      participationType:document.getElementById('activityParticipationType')?.value||'guest',
-      universities:Number(document.getElementById('activityUniversities')?.value||0),
-      gameType:document.getElementById('activityGameType')?.value||'',
-      documentationUrl:document.getElementById('activityDocumentationUrl')?.value.trim()||'',
-      activityType:'رياضي',
-      federationReportName:reportFile?.name||existing.federationReportName||existing.newsDocumentation||'',
-      scheduleFileName:scheduleFile?.name||existing.scheduleFileName||''
+      activity: document.getElementById('activityName')?.value.trim() || '',
+      date: document.getElementById('activityDate')?.value || '',
+      days: Number(document.getElementById('activityDays')?.value || 0),
+      beneficiaries: Number(document.getElementById('activityBeneficiaries')?.value || 0),
+      players: Number(document.getElementById('activityPlayers')?.value || 0),
+      gender: document.getElementById('activityGender')?.value || 'طلاب',
+      indicatorField: document.getElementById('activityIndicatorField')?.value || '',
+      participationType: document.getElementById('activityParticipationType')?.value || 'guest',
+      universities: Number(document.getElementById('activityUniversities')?.value || 0),
+      gameType: document.getElementById('activityGameType')?.value.trim() || '',
+      documentationUrl: document.getElementById('activityDocumentationUrl')
+        ?.value.trim() || '',
+      federationReportName: report?.name || existing.federationReportName || '',
+      scheduleFileName: schedule?.name || existing.scheduleFileName || '',
+      activityType: 'رياضي'
     };
 
-    if(typeof activityPoints==='function') row.points=activityPoints(row);
-    else row.points=Number(existing.points||0);
+    row.field = row.indicatorField;
+    row.subCategory = row.indicatorField;
+    row.points = calculateActivityPoints(row);
+    row.status = evidenceStatus(row);
 
-    const evidenceFields=[
-      row.activity,row.date,row.days,row.gender,row.indicatorField,row.participationType,
-      row.gameType,row.federationReportName,row.scheduleFileName,row.documentationUrl
-    ];
-    const completed=evidenceFields.filter(value=>hasValue(value,true)).length;
-    row.status=completed===evidenceFields.length?'مكتمل':completed===0?'ناقص':'جزئي';
-
-    return {row,reportFile,scheduleFile};
+    return { row, report, schedule };
   }
 
-  function installSaveOverride(){
-    const oldButton=document.getElementById('saveNewActivity');
-    if(!oldButton) return;
-    const button=oldButton.cloneNode(true);
-    oldButton.replaceWith(button);
+  function saveActivity() {
+    const editKey = document.getElementById('activityEditKey')?.value || '';
+    const existing = editKey
+      ? allEvidenceRows().find(row => row.recordKey === editKey)
+      : null;
+    const { row, report, schedule } = activityFromForm(existing || {});
 
-    button.addEventListener('click',()=>{
-      const editKey=document.getElementById('activityEditKey')?.value||'';
-      const existing=editKey ? allEvidenceRows().find(row=>row.recordKey===editKey) : null;
-      const {row,reportFile,scheduleFile}=collectActivity(existing||{});
+    if (!row.activity || !row.date || !row.indicatorField) {
+      showToast('أكمل اسم النشاط والتاريخ والمجال المرتبط.');
+      return;
+    }
 
-      if(!row.activity || !row.date || !row.indicatorField){
-        showToast('أكمل اسم النشاط والتاريخ والمجال المرتبط.');
-        return;
+    if (existing?.isLocal) {
+      const locals = readJson(KEYS.activities, []);
+      const index = locals.findIndex(item => recordKey(item) === editKey);
+      if (index >= 0) {
+        row.localActivityId = existing.localActivityId;
+        row.recordKey = editKey;
+        locals[index] = row;
+        writeJson(KEYS.activities, locals);
       }
+    } else if (existing) {
+      row.recordKey = editKey;
+      const overrides = readJson(KEYS.overrides, {});
+      overrides[editKey] = row;
+      writeJson(KEYS.overrides, overrides);
+    } else {
+      row.localActivityId = `local-${Date.now()}`;
+      row.recordKey = row.localActivityId;
+      row.id = allEvidenceRows().length + 1;
+      const locals = readJson(KEYS.activities, []);
+      locals.push(row);
+      writeJson(KEYS.activities, locals);
+    }
 
-      if(existing){
-        adjustIndicatorForRow(existing,-1);
-        row.recordKey=editKey;
-        const overrides=overrideMap();
-        overrides[editKey]=row;
-        persistOverrides(overrides);
+    if (report) {
+      FILE_URLS.set(`${row.recordKey}:report`, URL.createObjectURL(report));
+    }
+    if (schedule) {
+      FILE_URLS.set(`${row.recordKey}:schedule`, URL.createObjectURL(schedule));
+    }
 
-        const local=safeJson(ACTIVITIES_KEY_V14,[]);
-        const localIndex=local.findIndex(item=>recordKey(item)===editKey);
-        if(localIndex>=0){
-          local[localIndex]={...local[localIndex],...row};
-          localStorage.setItem(ACTIVITIES_KEY_V14,JSON.stringify(local));
-        }
-      }else{
-        row.localActivityId=`local-${Date.now()}`;
-        row.recordKey=row.localActivityId;
-        row.id=(SAH_DATA.evidenceRecords?.length||0)+1;
-        SAH_DATA.evidenceRecords=SAH_DATA.evidenceRecords||[];
-        SAH_DATA.evidenceRecords.push(row);
-        const local=safeJson(ACTIVITIES_KEY_V14,[]);
-        local.push(row);
-        localStorage.setItem(ACTIVITIES_KEY_V14,JSON.stringify(local));
-      }
+    recalculateIndicator();
+    renderEvidenceStats();
+    renderEvidence();
+    closeModal('addActivityModal');
+    resetActivityForm();
+    showToast(existing ? 'تم تعديل النشاط.' : 'تمت إضافة النشاط واحتساب نقاطه.');
+  }
 
-      if(reportFile) FILE_URLS.set(`${row.recordKey}:report`,URL.createObjectURL(reportFile));
-      if(scheduleFile) FILE_URLS.set(`${row.recordKey}:schedule`,URL.createObjectURL(scheduleFile));
+  function updateActivityPointsPreview() {
+    const activity = {
+      indicatorField: document.getElementById('activityIndicatorField')?.value || '',
+      participationType: document.getElementById('activityParticipationType')?.value || 'guest',
+      universities: Number(document.getElementById('activityUniversities')?.value || 0),
+      players: Number(document.getElementById('activityPlayers')?.value || 0)
+    };
+    setText('#activityCalculatedPoints', fmt(calculateActivityPoints(activity)));
+  }
 
-      adjustIndicatorForRow(row,1);
-      if(typeof calcIndicators==='function') calcIndicators();
-      renderEvidenceStats();
-      renderEvidence();
+  function recalculateIndicator() {
+    const fields = SAH_DATA.indicatorFields || [];
 
-      document.getElementById('addActivityModal')?.classList.add('hidden');
-      document.body.style.overflow='';
-      resetActivityModal();
-      showToast(existing?'تم تعديل النشاط وتحديث نقاطه.':'تمت إضافة النشاط واحتساب نقاطه.');
+    fields.forEach((field, index) => {
+      field.male = baselineIndicator[index]?.male || 0;
+      field.female = baselineIndicator[index]?.female || 0;
     });
-  }
 
-  function repairIndicatorCalculator(){
-    const button=document.getElementById('indicatorPermissionSettings');
-    if(!button) return;
+    allEvidenceRows()
+      .filter(row => row.isLocal)
+      .forEach(row => {
+        const field = fields.find(item =>
+          item.field === (row.indicatorField || row.field || row.subCategory));
+        if (!field) return;
 
-    button.addEventListener('click',()=>{
-      if(document.getElementById('activeRole')?.value!=='indicator') return;
-      const form=document.getElementById('indicatorSettingsForm');
-      if(!form || typeof SAH_DATA==='undefined') return;
-      form.innerHTML='';
-      (SAH_DATA.indicatorFields||[]).forEach((field,index)=>{
-        const row=document.createElement('div');
-        row.className='indicator-limit-row';
-        row.innerHTML=`
-          <div class="limit-track">${field.track||'—'}</div>
-          <div class="limit-field">${field.field||'—'}</div>
-          <label>
-            <span class="hidden">الحد الأعلى</span>
-            <input class="indicator-limit-input" type="number" min="0" step="1"
-                   data-index="${index}" value="${Number(field.max)||0}">
-          </label>`;
-        form.appendChild(row);
+        const genderKey = row.gender === 'طالبات' ? 'female' : 'male';
+        field[genderKey] += Number(row.points) || 0;
       });
-    },true);
+
+    applySavedLimits();
+    calcIndicators();
   }
 
-  function initV14(){
-    repairIndicatorCalculator();
-    installSaveOverride();
+  /* ---------- Export ---------- */
 
-    ['evidenceSearch','evidenceColumnFilter','evidenceCompletionFilter','evidenceStatus']
-      .forEach(id=>document.getElementById(id)?.addEventListener(
-        id==='evidenceSearch'?'input':'change',
-        ()=>renderEvidence()
-      ));
+  window.exportEvidenceCsv = function () {
+    const headers = [
+      'رقم', 'اسم النشاط', 'التاريخ', 'الأيام', 'المستفيدون',
+      'اللاعبون', 'الفئة', 'المجال', 'نوع المشاركة',
+      'الجامعات المشاركة', 'النقاط', 'الحالة',
+      'تقرير الاتحاد', 'الجدول الزمني', 'التوثيق', 'نسبة الاكتمال'
+    ];
 
-    document.querySelectorAll('#evidenceGender button').forEach(button=>{
-      button.addEventListener('click',()=>setTimeout(renderEvidence,0));
+    const rows = filteredEvidenceRows().map((row, index) => [
+      row.id || index + 1,
+      row.activity, row.date, row.days, row.beneficiaries,
+      row.players, row.gender,
+      row.indicatorField || row.field || row.subCategory,
+      row.participationType === 'host' ? 'مستضيف' : 'ضيف',
+      row.universities, row.points, evidenceStatus(row),
+      row.federationReportName, row.scheduleFileName,
+      row.documentationUrl || row.publishLink || row.newsLink,
+      `${completionPercent(row)}%`
+    ]);
+
+    const csv = '\ufeff' + [headers, ...rows]
+      .map(row => row.map(csvEscape).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'SAH-Evidence-Report.csv';
+    link.click();
+    URL.revokeObjectURL(link.href);
+  };
+
+  /* ---------- Initialization ---------- */
+
+  function bindEvents() {
+    document.getElementById('activeRole')
+      ?.addEventListener('change', applyRolePermissions);
+
+    document.getElementById('indicatorPermissionSettings')
+      ?.addEventListener('click', openIndicatorCalculator);
+    document.getElementById('indicatorSaveLimits')
+      ?.addEventListener('click', saveIndicatorLimits);
+    document.getElementById('restorePreviousIndicatorLimits')
+      ?.addEventListener('click', restorePreviousLimits);
+    document.getElementById('indicatorResetLimits')
+      ?.addEventListener('click', resetOriginalLimits);
+    document.querySelectorAll('[data-close-indicator-settings]')
+      .forEach(element => element.addEventListener(
+        'click', () => closeModal('indicatorSettingsModal')));
+
+    document.getElementById('openFieldPointsCalculator')
+      ?.addEventListener('click', openFieldCalculator);
+    document.getElementById('saveFieldPointsCalculator')
+      ?.addEventListener('click', saveFieldCalculator);
+    document.getElementById('restorePreviousFieldPointsCalculator')
+      ?.addEventListener('click', restorePreviousFieldCalculator);
+    document.getElementById('resetFieldPointsCalculator')
+      ?.addEventListener('click', resetFieldCalculator);
+    document.querySelectorAll('[data-close-field-calculator]')
+      .forEach(element => element.addEventListener(
+        'click', () => closeModal('fieldPointsCalculatorModal')));
+
+    document.getElementById('openAddActivity')
+      ?.addEventListener('click', openAddActivity);
+    document.getElementById('saveNewActivity')
+      ?.addEventListener('click', saveActivity);
+    document.querySelectorAll('[data-close-add-activity]')
+      .forEach(element => element.addEventListener('click', () => {
+        closeModal('addActivityModal');
+        setTimeout(resetActivityForm, 280);
+      }));
+
+    ['activityIndicatorField', 'activityParticipationType',
+     'activityUniversities', 'activityPlayers']
+      .forEach(id => document.getElementById(id)
+        ?.addEventListener('input', updateActivityPointsPreview));
+
+    ['evidenceSearch', 'evidenceColumnFilter',
+     'evidenceCompletionFilter', 'evidenceStatus']
+      .forEach(id => {
+        const element = document.getElementById(id);
+        if (!element) return;
+        element.addEventListener(
+          id === 'evidenceSearch' ? 'input' : 'change',
+          renderEvidence
+        );
+      });
+
+    document.querySelectorAll('#evidenceGender button')
+      .forEach(button => button.addEventListener('click', () => {
+        document.querySelectorAll('#evidenceGender button')
+          .forEach(item => item.classList.remove('active'));
+        button.classList.add('active');
+        renderEvidence();
+      }));
+
+    document.getElementById('selectAllEvidence')
+      ?.addEventListener('change',
+        event => selectAllVisible(event.target.checked));
+    document.getElementById('selectAllEvidenceHead')
+      ?.addEventListener('change',
+        event => selectAllVisible(event.target.checked));
+    document.getElementById('deleteSelectedEvidence')
+      ?.addEventListener('click', () => {
+        const keys = [...document.querySelectorAll(
+          '.evidence-row-select:checked')].map(box => box.value);
+        deleteEvidenceRows(keys);
+      });
+
+    document.getElementById('exportEvidenceCsv')
+      ?.addEventListener('click', exportEvidenceCsv);
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeAllFeatureModals();
     });
+  }
 
-    document.getElementById('selectAllEvidence')?.addEventListener('change',event=>selectAllVisible(event.target.checked));
-    document.getElementById('selectAllEvidenceHead')?.addEventListener('change',event=>selectAllVisible(event.target.checked));
-    document.getElementById('deleteSelectedEvidence')?.addEventListener('click',()=>{
-      const keys=[...document.querySelectorAll('.evidence-row-select:checked')].map(box=>box.value);
-      deleteActivities(keys);
-    });
+  function initializeV15() {
+    initializeIndicatorBaseline();
+    applySavedLimits();
 
-    document.querySelectorAll('[data-close-add-activity]').forEach(button=>{
-      button.addEventListener('click',()=>setTimeout(resetActivityModal,300));
-    });
+    const select = document.getElementById('activeRole');
+    const savedRole = localStorage.getItem(KEYS.role);
+    if (select && savedRole &&
+        select.querySelector(`option[value="${savedRole}"]`)) {
+      select.value = savedRole;
+    }
 
+    initSidebar();
+    bindEvents();
+    applyRolePermissions();
+    recalculateIndicator();
     renderEvidenceStats();
     renderEvidence();
   }
 
-  window.addEventListener('DOMContentLoaded',initV14);
+  window.addEventListener('DOMContentLoaded', initializeV15);
 })();
-
