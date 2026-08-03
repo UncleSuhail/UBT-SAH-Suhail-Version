@@ -445,6 +445,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     calculatorPrevious: 'sah-v15-field-calculator-previous',
     activities: 'sah-v15-local-activities',
     fields: 'sah-v18-indicator-fields',
+    fieldMigration: 'sah-v19-field-migration',
     overrides: 'sah-v15-evidence-overrides',
     deleted: 'sah-v15-evidence-deleted'
   };
@@ -452,23 +453,23 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   const ROLE_META = {
     system: {
       name: 'حسام الحسين',
-      description: 'مسؤول النظام — صلاحية كاملة دون تعديل حاسبات النقاط',
+      description: 'مسؤول النظام',
       avatar: 'ح'
     },
     indicator: {
-      name: 'مسؤول مؤشر الأداء الرياضي',
-      description: 'صلاحية كاملة وتعديل حاسبات النقاط',
-      avatar: 'م'
+      name: 'سهيل الكعكي',
+      description: 'مسؤول المؤشر',
+      avatar: 'س'
     },
     sports_manager: {
-      name: 'مدير النشاط الرياضي',
-      description: 'صلاحيات القسم الرياضي المحددة',
-      avatar: 'ن'
+      name: 'مجدي البلوشي',
+      description: 'مدير النادي الرياضي',
+      avatar: 'م'
     },
     dean: {
-      name: 'العميد',
-      description: 'صلاحية كاملة دون تعديل حاسبات النقاط',
-      avatar: 'ع'
+      name: 'د. محمد المقدم',
+      description: 'عميد شؤون الطلاب',
+      avatar: 'د'
     }
   };
 
@@ -760,9 +761,9 @@ window.addEventListener('DOMContentLoaded',initPreferences);
       SAH_DATA.indicatorFields[index].max = value;
     });
 
-    calcIndicators();
+    recalculateAllExistingActivities();
     closeModal('indicatorSettingsModal');
-    showToast('تم حفظ حاسبة النقاط وتحديث المؤشر.');
+    showToast('تم حفظ الحدود وإعادة جدولة جميع البيانات السابقة.');
   }
 
   function restorePreviousLimits() {
@@ -779,8 +780,8 @@ window.addEventListener('DOMContentLoaded',initPreferences);
       }
     });
     renderIndicatorLimitForm();
-    calcIndicators();
-    showToast('تمت استعادة الإعدادات السابقة.');
+    recalculateAllExistingActivities();
+    showToast('تمت استعادة الإعدادات السابقة وإعادة جدولة البيانات.');
   }
 
   function resetOriginalLimits() {
@@ -792,8 +793,8 @@ window.addEventListener('DOMContentLoaded',initPreferences);
       }
     });
     renderIndicatorLimitForm();
-    calcIndicators();
-    showToast('تمت استعادة القيم الأصلية.');
+    recalculateAllExistingActivities();
+    showToast('تمت استعادة القيم الأصلية وإعادة جدولة البيانات.');
   }
 
   /* ---------- Per-field activity points calculator ---------- */
@@ -887,9 +888,10 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     const current = localStorage.getItem(KEYS.calculator);
     if (current) localStorage.setItem(KEYS.calculatorPrevious, current);
     writeJson(KEYS.calculator, collectFieldCalculator());
+    recalculateAllExistingActivities();
     closeModal('fieldPointsCalculatorModal');
     updateActivityPointsPreview();
-    showToast('تم حفظ حاسبة النقاط للمجالات.');
+    showToast('تم حفظ الحاسبة وإعادة جدولة نقاط جميع الأنشطة السابقة.');
   }
 
   function restorePreviousFieldCalculator() {
@@ -901,16 +903,18 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     }
     writeJson(KEYS.calculator, previous);
     renderFieldCalculator();
+    recalculateAllExistingActivities();
     updateActivityPointsPreview();
-    showToast('تمت استعادة الإعدادات السابقة.');
+    showToast('تمت استعادة الإعدادات السابقة وإعادة حساب جميع الأنشطة.');
   }
 
   function resetFieldCalculator() {
     if (!isIndicatorOfficer()) return;
     localStorage.removeItem(KEYS.calculator);
     renderFieldCalculator();
+    recalculateAllExistingActivities();
     updateActivityPointsPreview();
-    showToast('تمت استعادة إعدادات الحاسبة الافتراضية.');
+    showToast('تمت استعادة الإعدادات الافتراضية وإعادة حساب جميع الأنشطة.');
   }
 
   function calculateActivityPoints(activity) {
@@ -927,6 +931,86 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     ));
   }
 
+
+  function validFieldNames(){
+    return new Set((SAH_DATA.indicatorFields || []).map(field => field.field));
+  }
+
+  function fieldForIndex(index){
+    const fields = SAH_DATA.indicatorFields || [];
+    return fields.length ? fields[index % fields.length] : null;
+  }
+
+  function normalizeRowField(row,index,force=false){
+    const valid = validFieldNames();
+    const current = row.mainField ||
+      row.indicatorField || row.field || row.subCategory;
+    const assigned = fieldForIndex(index);
+
+    if(force || !valid.has(current)){
+      const next = assigned?.field || '';
+      row.mainField = next;
+      row.indicatorField = next;
+      row.field = next;
+      row.subCategory = next;
+    }else{
+      row.mainField = current;
+      row.indicatorField = current;
+      row.field = current;
+      row.subCategory = current;
+    }
+    return row;
+  }
+
+  function migrateExistingEvidenceFields(){
+    if(localStorage.getItem(KEYS.fieldMigration)==='done') return;
+
+    const locals = readJson(KEYS.activities,[]);
+    locals.forEach((row,index)=>normalizeRowField(row,index,true));
+    writeJson(KEYS.activities,locals);
+
+    const overrides = readJson(KEYS.overrides,{});
+    const source = SAH_DATA.evidenceRecords || [];
+    source.forEach((row,index)=>{
+      const key = recordKey(row,index);
+      const merged = {...row,...(overrides[key]||{})};
+      overrides[key] = normalizeRowField(merged,index,true);
+    });
+    writeJson(KEYS.overrides,overrides);
+
+    localStorage.setItem(KEYS.fieldMigration,'done');
+  }
+
+  function refreshStoredActivityPoints(){
+    const locals = readJson(KEYS.activities,[]);
+    locals.forEach((row,index)=>{
+      normalizeRowField(row,index,false);
+      row.points = calculateActivityPoints(row);
+    });
+    writeJson(KEYS.activities,locals);
+
+    const overrides = readJson(KEYS.overrides,{});
+    const source = SAH_DATA.evidenceRecords || [];
+    source.forEach((row,index)=>{
+      const key = recordKey(row,index);
+      const merged = normalizeRowField(
+        {...row,...(overrides[key]||{})},
+        index,
+        false
+      );
+      merged.points = calculateActivityPoints(merged);
+      overrides[key] = merged;
+    });
+    writeJson(KEYS.overrides,overrides);
+  }
+
+  function recalculateAllExistingActivities(){
+    refreshStoredActivityPoints();
+    recalculateIndicator();
+    renderEvidenceStats();
+    renderEvidence();
+  }
+
   /* ---------- Evidence data ---------- */
 
   function recordKey(row, index = 0) {
@@ -938,15 +1022,10 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   }
 
   function sourceRows() {
-    const fields = SAH_DATA.indicatorFields || [];
     return (SAH_DATA.evidenceRecords || []).map((row, index) => {
-      const assigned = fields.length ? fields[index % fields.length] : null;
+      const normalized = normalizeRowField({...row},index,false);
       return {
-        ...row,
-        mainField: row.mainField || assigned?.field || '',
-        indicatorField: row.mainField || assigned?.field || '',
-        field: row.mainField || assigned?.field || '',
-        subCategory: row.mainField || assigned?.field || '',
+        ...normalized,
         recordKey: recordKey(row, index),
         isLocal: Boolean(row.localActivityId)
       };
@@ -960,10 +1039,14 @@ window.addEventListener('DOMContentLoaded',initPreferences);
 
     const source = sourceRows()
       .filter(row => !row.isLocal)
-      .map(row => ({ ...row, ...(overrides[row.recordKey] || {}) }));
+      .map((row,index) => normalizeRowField(
+        {...row, ...(overrides[row.recordKey] || {})},
+        index,
+        false
+      ));
 
     const locals = localRows.map((row, index) => ({
-      ...row,
+      ...normalizeRowField({...row},index,false),
       recordKey: recordKey(row, index),
       isLocal: true
     }));
@@ -1027,7 +1110,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
         activity: row.activity,
         date: row.date,
         gender: row.gender,
-        indicatorField: row.mainField || row.mainField || row.indicatorField || row.field || row.subCategory,
+        indicatorField: row.mainField || row.mainField || row.mainField || row.indicatorField || row.field || row.subCategory,
         participationType: row.participationType === 'host' ? 'مستضيف' : 'ضيف',
         status: rowStatus,
         documentation: row.documentationUrl || row.publishLink || row.newsLink
@@ -1579,6 +1662,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     updateStoredActivitiesForFieldChanges(renameMap,new Set(names));
 
     writeJson(KEYS.fields,fields.map(({track,field,max})=>({track,field,max})));
+    localStorage.removeItem(KEYS.fieldMigration);
     applyIndicatorFieldConfig();
     baselineIndicator=SAH_DATA.indicatorFields.map(field=>({
       male:0,female:0,max:Number(field.max)||0
@@ -1587,6 +1671,8 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     writeJson(KEYS.limits,originalLimits);
 
     populateActivityFields();
+    migrateExistingEvidenceFields();
+    refreshStoredActivityPoints();
     recalculateIndicator();
     renderEvidenceStats();
     renderEvidence();
@@ -1692,6 +1778,8 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   function initializeV15() {
     initializeIndicatorBaseline();
     applySavedLimits();
+    migrateExistingEvidenceFields();
+    refreshStoredActivityPoints();
 
     const select = document.getElementById('activeRole');
     const savedRole = localStorage.getItem(KEYS.role);

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>SAH | منصة الأنشطة الطلابية</title>
-<link rel="stylesheet" href="css/style.css?v=18.0">
+<link rel="stylesheet" href="css/style.css?v=19.0">
 </head>
 <body class="login-mode">
 <section id="login" class="login-page">
@@ -15,7 +15,7 @@
     <h1 data-i18n="brand.en">Student Activities Hub</h1>
     <h2 data-i18n="brand.ar">منصة الأنشطة الطلابية</h2>
     <p>منصة موحدة لإدارة خدمات وأنشطة عمادة شؤون الطلاب.</p>
-    <input value="h.alhussain@ubt.edu.sa" aria-label="University email">
+    <input value="s.kaaki@ubt.edu.sa" aria-label="University email">
     <button id="enterApp" class="btn primary wide">تسجيل الدخول عبر Microsoft</button>
     <img src="assets/logos/ubt-slogan.png" class="slogan" alt="UBT Slogan">
   </div>
@@ -74,23 +74,10 @@
             </label>
 
             <select id="activeRole">
-
-                <option value="system">
-                    حسام الحسين — مسؤول النظام
-                </option>
-
-                <option value="indicator">
-                    مسؤول مؤشر الأداء الرياضي
-                </option>
-
-                <option value="sports_manager">
-                    مدير النشاط الرياضي
-                </option>
-
-                <option value="dean">
-                    العميد
-                </option>
-
+                <option value="system">حسام الحسين / مسؤول النظام</option>
+                <option value="indicator">سهيل الكعكي / مسؤول المؤشر</option>
+                <option value="sports_manager">مجدي البلوشي / مدير النادي الرياضي</option>
+                <option value="dean">د. محمد المقدم / عميد شؤون الطلاب</option>
             </select>
 
         </div>
@@ -99,13 +86,9 @@
 
             <div>
 
-                <strong id="activeUserName">
-                    حسام الحسين
-                </strong>
-
-                <span id="activeUserRole">
-                    مسؤول النظام — صلاحية كاملة
-                </span>
+                <strong id="activeUserName">حسام الحسين</strong>
+                <span class="user-role-divider">/</span>
+                <span id="activeUserRole">مسؤول النظام</span>
 
             </div>
 
@@ -759,6 +742,6 @@
 </div>
 <script src="js/data.js?v=15.0"></script>
 <script src="js/admin.js?v=15.0"></script>
-<script src="js/app.js?v=18.0"></script>
+<script src="js/app.js?v=19.0"></script>
 </body>
 </html>

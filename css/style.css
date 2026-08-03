@@ -1899,3 +1899,36 @@ body.theme-dark .indicator-field-row td:first-child{
   }
 }
 
+/* ==========================================================
+   SAH V19 — user identity and dynamic point recalculation
+   ========================================================== */
+
+/* Name and role appear on one line, name on the right in RTL */
+.topbar .user-chip>div:first-child{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:7px!important;
+  flex-wrap:wrap!important;
+  direction:rtl!important;
+}
+.topbar .user-chip strong,
+.topbar .user-chip span{
+  display:inline!important;
+  margin:0!important;
+  white-space:nowrap!important;
+}
+.topbar .user-chip .user-role-divider{
+  color:var(--muted)!important;
+  font-weight:700!important;
+}
+
+/* Keep the main field column readable and correctly ordered */
+.evidence-table th:nth-child(9),
+.evidence-table td:nth-child(9){
+  min-width:220px!important;
+  max-width:260px!important;
+  white-space:normal!important;
+  line-height:1.45!important;
+}
+
