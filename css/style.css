@@ -3504,47 +3504,15 @@ body{
 @media(max-width:1100px){.activity-category-menu{grid-template-columns:repeat(2,minmax(0,1fr))}.subfield-calculator-row{grid-template-columns:1fr!important}}
 @media(max-width:650px){.activity-category-menu{grid-template-columns:1fr}.workflow-form{grid-template-columns:1fr}.form-submit-row{grid-column:auto}}
 
-/* ==========================================================
-   SAH V22.1 — authoritative permissions visibility
-   ========================================================== */
 
+/* SAH V22.2 */
 .role-hidden,
-.nav button.role-hidden,
-.nav-group.empty-role-group{
+.nav button.role-hidden{
   display:none!important;
 }
 
-body:not([data-active-role="indicator"]) .indicator-only,
-body:not([data-active-role="indicator"]) .permission-settings-btn,
-body:not([data-active-role="indicator"]) [data-point-permission],
 body:not([data-active-role="indicator"]) #indicatorPermissionSettings,
-body:not([data-active-role="indicator"]) #openFieldPointsCalculator,
-body:not([data-active-role="indicator"]) #indicatorFieldsManagerButton{
+body:not([data-active-role="indicator"]) #indicatorFieldsManagerButton,
+body:not([data-active-role="indicator"]) #openFieldPointsCalculator{
   display:none!important;
 }
-
-.user-chip>div:first-child{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  flex-wrap:wrap;
-}
-
-.user-chip #activeUserName{
-  color:var(--blue);
-  font-weight:900;
-}
-
-.user-chip #activeUserRole{
-  color:var(--muted);
-}
-
-.mobile-user-identity strong,
-.mobile-user-identity span{
-  display:block;
-}
-
-body.theme-dark .user-chip #activeUserName{
-  color:#fff;
-}
-

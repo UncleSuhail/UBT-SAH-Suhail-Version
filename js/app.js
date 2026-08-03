@@ -1839,6 +1839,61 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   }
 
 
+
+  /*
+    V22.2 repair:
+    These functions were referenced by the calculators but were missing,
+    which stopped initializeV15 with ReferenceError and prevented data,
+    buttons and evidence tables from loading.
+  */
+  function refreshStoredActivityPoints(){
+    const locals = readJson(KEYS.activities,[]);
+    locals.forEach((row,index)=>{
+      normalizeRowField(row,index,false);
+      row.points = calculateActivityPoints(row);
+    });
+    writeJson(KEYS.activities,locals);
+
+    /*
+      Only recalculate records that already have explicit user overrides.
+      Never generate an override for every imported data.js record.
+    */
+    const overrides = readJson(KEYS.overrides,{});
+    Object.entries(overrides).forEach(([key,row],index)=>{
+      if(!row || typeof row !== 'object') return;
+      normalizeRowField(row,index,false);
+      row.points = calculateActivityPoints(row);
+      overrides[key] = row;
+    });
+    writeJson(KEYS.overrides,overrides);
+  }
+
+  function recalculateAllExistingActivities(){
+    refreshStoredActivityPoints();
+    recalculateIndicator();
+    renderEvidenceStats();
+    renderEvidence();
+  }
+
+  window.SAH_POINT_API = {
+    openIndicatorCalculator,
+    saveIndicatorLimits,
+    restorePreviousLimits,
+    resetOriginalLimits,
+    openFieldCalculator,
+    saveFieldCalculator,
+    restorePreviousFieldCalculator,
+    resetFieldCalculator,
+    openFieldsManager,
+    saveFieldsManager,
+    addFieldManagerRow,
+    addFieldToExistingTrack,
+    recalculateAllExistingActivities,
+    recalculateIndicator,
+    renderEvidence,
+    renderEvidenceStats
+  };
+
   /* ---------- Initialization ---------- */
 
   function bindEvents() {
@@ -1979,8 +2034,11 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     initializeIndicatorBaseline();
     applySavedLimits();
     migrateExistingEvidenceFields();
-    refreshStoredActivityPoints();
 
+    /*
+      Preserve imported and previously saved points on startup.
+      Recalculation runs only after the indicator officer saves a calculator.
+    */
     const select = document.getElementById('activeRole');
     const savedRole = localStorage.getItem(KEYS.role);
     if (select && savedRole &&
@@ -2705,341 +2763,228 @@ window.addEventListener('DOMContentLoaded',()=>{
 })();
 
 /* ==========================================================
-   SAH V22.1 — authoritative role permissions
-   This final layer overrides legacy role handlers.
+   SAH V22.2 — calculators, permissions and data recovery
    ========================================================== */
 (function(){
   'use strict';
 
-  const ROLE_STORAGE_KEY = 'sah-v15-role';
+  const ROLE_KEY='sah-v15-role';
+  const ACTIVITIES_KEY='sah-v15-local-activities';
+  const OVERRIDES_KEY='sah-v15-evidence-overrides';
 
-  const ROLE_META_FINAL = {
-    system: {
-      name: 'حسام الحسين',
-      role: 'مسؤول النظام',
-      avatar: 'ح'
-    },
-    indicator: {
-      name: 'سهيل الكعكي',
-      role: 'مسؤول مؤشر الأداء الرياضي',
-      avatar: 'س'
-    },
-    sports_manager: {
-      name: 'مجدي البلوشي',
-      role: 'مدير النادي الرياضي',
-      avatar: 'م'
-    },
-    dean: {
-      name: 'د. محمد المقدم',
-      role: 'عميد شؤون الطلاب',
-      avatar: 'د'
-    },
-    coach: {
-      name: 'كابتن محمد نفار',
-      role: 'مدرب رياضي',
-      avatar: 'ن'
-    },
-    activities_manager: {
-      name: 'الأستاذ فهد',
-      role: 'مدير الأنشطة الطلابية',
-      avatar: 'ف'
-    },
-    student_account: {
-      name: 'فلان الفلاني',
-      role: 'حساب طالب',
-      avatar: 'ط'
-    },
-    faculty: {
-      name: 'د. كريم سليمان',
-      role: 'عضو هيئة التدريس',
-      avatar: 'ك'
-    }
+  const META={
+    system:{name:'حسام الحسين',role:'مسؤول النظام',avatar:'ح'},
+    indicator:{name:'سهيل الكعكي',role:'مسؤول مؤشر الأداء الرياضي',avatar:'س'},
+    sports_manager:{name:'مجدي البلوشي',role:'مدير النادي الرياضي',avatar:'م'},
+    dean:{name:'د. محمد المقدم',role:'عميد شؤون الطلاب',avatar:'د'},
+    coach:{name:'كابتن محمد نفار',role:'مدرب رياضي',avatar:'ن'},
+    activities_manager:{name:'الأستاذ فهد',role:'مدير الأنشطة الطلابية',avatar:'ف'},
+    student_account:{name:'فلان الفلاني',role:'حساب طالب',avatar:'ط'},
+    faculty:{name:'د. كريم سليمان',role:'عضو هيئة التدريس',avatar:'ك'}
   };
 
-  const ALL_PAGES = new Set([
-    'home',
-    'sports',
-    'sports-request',
-    'indicator',
-    'scholarships',
-    'championships',
-    'athletes',
-    'reports',
-    'calendar',
-    'agreement',
-    'student',
-    'activities',
-    'volunteer',
-    'clubs',
-    'approvals',
-    'admin',
-    'audit'
+  const ALL=new Set([
+    'home','sports','sports-request','indicator','scholarships',
+    'championships','athletes','reports','calendar','agreement',
+    'student','activities','volunteer','clubs','approvals','admin','audit'
   ]);
 
-  const ROLE_PAGES = {
-    system: new Set(ALL_PAGES),
-    indicator: new Set(ALL_PAGES),
-    dean: new Set(ALL_PAGES),
-
-    sports_manager: new Set([
-      'home',
-      'sports',
-      'sports-request',
-      'scholarships',
-      'championships',
-      'athletes',
-      'reports',
-      'calendar'
+  const ROLE_PAGES={
+    system:new Set(ALL),
+    indicator:new Set(ALL),
+    dean:new Set(ALL),
+    sports_manager:new Set([
+      'home','sports','sports-request','scholarships','championships',
+      'athletes','reports','calendar'
     ]),
-
-    coach: new Set([
-      'home',
-      'sports-request',
-      'championships',
-      'athletes',
-      'reports'
+    coach:new Set(['home','sports-request','championships','athletes','reports']),
+    activities_manager:new Set([
+      'home','athletes','reports','activities','volunteer','approvals'
     ]),
-
-    activities_manager: new Set([
-      'home',
-      'athletes',
-      'reports',
-      'activities',
-      'volunteer',
-      'approvals'
-    ]),
-
-    student_account: new Set([
-      'home',
-      'agreement',
-      'student'
-    ]),
-
-    faculty: new Set([
-      'home',
-      'clubs'
-    ])
+    student_account:new Set(['home','agreement','student']),
+    faculty:new Set(['home','clubs'])
   };
 
-  const POINT_CONTROL_IDS = [
-    'indicatorPermissionSettings',
-    'openFieldPointsCalculator',
-    'indicatorFieldsManagerButton',
-    'saveIndicatorFieldsManager',
-    'indicatorSaveLimits',
-    'saveFieldPointsCalculator'
-  ];
+  function read(key,fallback){
+    try{return JSON.parse(localStorage.getItem(key)||'null') ?? fallback;}
+    catch{return fallback;}
+  }
 
-  const POINT_MODAL_IDS = [
-    'indicatorSettingsModal',
-    'fieldPointsCalculatorModal',
-    'indicatorFieldsManagerModal'
-  ];
+  function write(key,value){
+    localStorage.setItem(key,JSON.stringify(value));
+  }
 
-  function roleValue(){
+  function keyFor(row,index=0){
+    return String(
+      row?.localActivityId ||
+      row?.recordKey ||
+      `source-${row?.id ?? index}-${row?.activity || 'activity'}-${row?.date || 'date'}`
+    );
+  }
+
+  function restoreLegacyData(){
+    const activities=new Map();
+
+    ['sah-added-sports-activities-v1',ACTIVITIES_KEY].forEach(storageKey=>{
+      const rows=read(storageKey,[]);
+      if(!Array.isArray(rows)) return;
+      rows.forEach((row,index)=>{
+        if(row && typeof row==='object'){
+          activities.set(keyFor(row,index),row);
+        }
+      });
+    });
+
+    write(ACTIVITIES_KEY,[...activities.values()]);
+
+    const overrides={
+      ...read('sah-evidence-overrides-v1',{}),
+      ...read(OVERRIDES_KEY,{})
+    };
+
+    const sourceRows=window.SAH_DATA?.evidenceRecords||[];
+    const sourceMap=new Map(
+      sourceRows.map((row,index)=>[keyFor(row,index),row])
+    );
+
+    /*
+      Restore original imported points when a previous broken build
+      wrote an automatic zero override.
+    */
+    Object.entries(overrides).forEach(([key,override])=>{
+      const source=sourceMap.get(key);
+      if(!source || !override || typeof override!=='object') return;
+
+      if(Number(override.points)===0 && Number(source.points)>0){
+        delete override.points;
+      }
+    });
+
+    write(OVERRIDES_KEY,overrides);
+  }
+
+  function role(){
     return document.getElementById('activeRole')?.value ||
       document.getElementById('mobileActiveRole')?.value ||
-      localStorage.getItem(ROLE_STORAGE_KEY) ||
+      localStorage.getItem(ROLE_KEY) ||
       'system';
   }
 
-  function canAccessPage(role,page){
-    return (ROLE_PAGES[role] || ROLE_PAGES.system).has(page);
+  function isIndicator(){
+    return role()==='indicator';
   }
 
-  function canEditPoints(role){
-    return role === 'indicator';
+  function setText(id,value){
+    const element=document.getElementById(id);
+    if(element) element.textContent=value;
   }
 
-  function updateIdentity(role){
-    const meta = ROLE_META_FINAL[role] || ROLE_META_FINAL.system;
+  function applyPermissions(){
+    const current=role();
+    const allowed=ROLE_PAGES[current]||ROLE_PAGES.system;
+    const meta=META[current]||META.system;
 
-    const set = (id,value)=>{
-      const element = document.getElementById(id);
-      if(element) element.textContent = value;
-    };
-
-    set('activeUserName', meta.name);
-    set('activeUserRole', meta.role);
-    set('activeUserAvatar', meta.avatar);
-
-    set('mobileUserName', meta.name);
-    set('mobileUserRole', meta.role);
-    set('mobileUserAvatar', meta.avatar);
-  }
-
-  function closePointModals(){
-    POINT_MODAL_IDS.forEach(id=>{
-      document.getElementById(id)?.classList.add('hidden');
-    });
-  }
-
-  function applyPointPermissions(role){
-    const allowed = canEditPoints(role);
-
-    POINT_CONTROL_IDS.forEach(id=>{
-      const element = document.getElementById(id);
-      if(!element) return;
-
-      element.classList.toggle('hidden', !allowed);
-      element.setAttribute('aria-hidden', String(!allowed));
-      element.toggleAttribute('disabled', !allowed);
-    });
-
-    document.querySelectorAll(
-      '.indicator-only, [data-point-permission], .permission-settings-btn'
-    ).forEach(element=>{
-      element.classList.toggle('hidden', !allowed);
-      element.setAttribute('aria-hidden', String(!allowed));
-      if('disabled' in element) element.disabled = !allowed;
-    });
-
-    if(!allowed) closePointModals();
-  }
-
-  function applyNavigationPermissions(role){
-    const allowedPages = ROLE_PAGES[role] || ROLE_PAGES.system;
+    localStorage.setItem(ROLE_KEY,current);
 
     document.querySelectorAll('.nav button[data-page]').forEach(button=>{
-      const page = button.dataset.page;
-      const allowed = allowedPages.has(page);
-
-      button.classList.toggle('role-hidden', !allowed);
-      button.hidden = !allowed;
-      button.setAttribute('aria-hidden', String(!allowed));
-      button.tabIndex = allowed ? 0 : -1;
+      const visible=allowed.has(button.dataset.page);
+      button.hidden=!visible;
+      button.classList.toggle('role-hidden',!visible);
     });
 
     document.querySelectorAll('.nav-group').forEach(group=>{
-      const hasVisiblePage = [...group.querySelectorAll('.nav-items button[data-page]')]
+      const visible=[...group.querySelectorAll('.nav-items button[data-page]')]
         .some(button=>!button.hidden);
-      group.classList.toggle('empty-role-group', !hasVisiblePage);
-      group.hidden = !hasVisiblePage;
+      group.hidden=!visible;
+    });
+
+    [
+      'indicatorPermissionSettings',
+      'indicatorFieldsManagerButton',
+      'openFieldPointsCalculator'
+    ].forEach(id=>{
+      const element=document.getElementById(id);
+      if(!element) return;
+      element.hidden=!isIndicator();
+      element.disabled=!isIndicator();
+      element.classList.toggle('hidden',!isIndicator());
+    });
+
+    setText('activeUserName',meta.name);
+    setText('activeUserRole',meta.role);
+    setText('activeUserAvatar',meta.avatar);
+    setText('mobileUserName',meta.name);
+    setText('mobileUserRole',meta.role);
+    setText('mobileUserAvatar',meta.avatar);
+
+    document.body.dataset.activeRole=current;
+  }
+
+  function bindFresh(id,callback){
+    const old=document.getElementById(id);
+    if(!old) return;
+
+    const button=old.cloneNode(true);
+    old.replaceWith(button);
+
+    button.addEventListener('click',event=>{
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+      if(!isIndicator()){
+        window.showToast?.('تعديل النقاط متاح لمسؤول مؤشر الأداء الرياضي فقط.');
+        return;
+      }
+
+      callback();
     });
   }
 
-  function nearestAllowedPage(role){
-    const preferred = {
-      sports_manager: 'sports',
-      coach: 'sports-request',
-      activities_manager: 'activities',
-      student_account: 'student',
-      faculty: 'clubs'
-    };
-    return preferred[role] || 'home';
+  function bindPointButtons(){
+    const api=window.SAH_POINT_API;
+    if(!api) return;
+
+    bindFresh('indicatorPermissionSettings',api.openIndicatorCalculator);
+    bindFresh('indicatorSaveLimits',api.saveIndicatorLimits);
+    bindFresh('restorePreviousIndicatorLimits',api.restorePreviousLimits);
+    bindFresh('indicatorResetLimits',api.resetOriginalLimits);
+
+    bindFresh('openFieldPointsCalculator',api.openFieldCalculator);
+    bindFresh('saveFieldPointsCalculator',api.saveFieldCalculator);
+    bindFresh('restorePreviousFieldPointsCalculator',api.restorePreviousFieldCalculator);
+    bindFresh('resetFieldPointsCalculator',api.resetFieldCalculator);
+
+    bindFresh('indicatorFieldsManagerButton',api.openFieldsManager);
+    bindFresh('saveIndicatorFieldsManager',api.saveFieldsManager);
+    bindFresh('addIndicatorFieldRow',api.addFieldManagerRow);
+    bindFresh('addIndicatorFieldToExistingTrack',api.addFieldToExistingTrack);
   }
 
-  function ensureCurrentPageAllowed(role){
-    const current = document.querySelector('.page.active')
-      ?.id?.replace('page-','');
+  function syncRole(event){
+    const value=event.target.value;
+    const desktop=document.getElementById('activeRole');
+    const mobile=document.getElementById('mobileActiveRole');
 
-    if(current && !canAccessPage(role,current)){
-      const target = nearestAllowedPage(role);
-      if(typeof window.route === 'function') {
-        window.route(target);
-      }
-    }
+    if(desktop && desktop.value!==value) desktop.value=value;
+    if(mobile && mobile.value!==value) mobile.value=value;
+
+    applyPermissions();
   }
-
-  function applyFinalPermissions(){
-    const role = roleValue();
-    localStorage.setItem(ROLE_STORAGE_KEY, role);
-
-    const desktop = document.getElementById('activeRole');
-    const mobile = document.getElementById('mobileActiveRole');
-
-    if(desktop && desktop.value !== role) desktop.value = role;
-    if(mobile && mobile.value !== role) mobile.value = role;
-
-    updateIdentity(role);
-    applyNavigationPermissions(role);
-    applyPointPermissions(role);
-    ensureCurrentPageAllowed(role);
-
-    document.body.dataset.activeRole = role;
-    document.body.dataset.canEditPoints = String(canEditPoints(role));
-  }
-
-  /*
-    Guard routing after all older wrappers have loaded.
-  */
-  const installRouteGuard = ()=>{
-    const previousRoute = window.route;
-    if(typeof previousRoute !== 'function' || previousRoute.__sahFinalGuard) return;
-
-    const guardedRoute = function(pageId){
-      const role = roleValue();
-
-      if(!canAccessPage(role,pageId)){
-        if(typeof window.showToast === 'function'){
-          window.showToast('هذه الصفحة غير متاحة لهذه الصلاحية.');
-        }
-        pageId = nearestAllowedPage(role);
-      }
-
-      previousRoute(pageId);
-      window.setTimeout(applyFinalPermissions,0);
-    };
-
-    guardedRoute.__sahFinalGuard = true;
-    window.route = guardedRoute;
-  };
-
-  /*
-    Prevent non-indicator roles from opening/saving point settings,
-    including through legacy event handlers.
-  */
-  document.addEventListener('click',event=>{
-    const target = event.target.closest(
-      '#indicatorPermissionSettings,' +
-      '#openFieldPointsCalculator,' +
-      '#indicatorFieldsManagerButton,' +
-      '#saveIndicatorFieldsManager,' +
-      '#indicatorSaveLimits,' +
-      '#saveFieldPointsCalculator,' +
-      '.indicator-only,' +
-      '[data-point-permission]'
-    );
-
-    if(target && !canEditPoints(roleValue())){
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      closePointModals();
-
-      if(typeof window.showToast === 'function'){
-        window.showToast('تعديل النقاط متاح لمسؤول مؤشر الأداء الرياضي فقط.');
-      }
-    }
-  }, true);
 
   window.addEventListener('DOMContentLoaded',()=>{
-    installRouteGuard();
+    console.info('SAH build 22.2 loaded');
+    restoreLegacyData();
 
-    const desktop = document.getElementById('activeRole');
-    const mobile = document.getElementById('mobileActiveRole');
+    document.getElementById('activeRole')?.addEventListener('change',syncRole);
+    document.getElementById('mobileActiveRole')?.addEventListener('change',syncRole);
 
-    const onRoleChange = event=>{
-      const role = event.target.value;
-      localStorage.setItem(ROLE_STORAGE_KEY,role);
+    setTimeout(()=>{
+      bindPointButtons();
+      applyPermissions();
 
-      if(desktop && desktop.value !== role) desktop.value = role;
-      if(mobile && mobile.value !== role) mobile.value = role;
-
-      window.setTimeout(applyFinalPermissions,0);
-    };
-
-    desktop?.addEventListener('change',onRoleChange);
-    mobile?.addEventListener('change',onRoleChange);
-
-    applyFinalPermissions();
-    window.setTimeout(applyFinalPermissions,100);
-    window.setTimeout(applyFinalPermissions,500);
+      window.SAH_POINT_API?.recalculateIndicator?.();
+      window.SAH_POINT_API?.renderEvidenceStats?.();
+      window.SAH_POINT_API?.renderEvidence?.();
+    },100);
   });
-
-  window.SAH_PERMISSIONS = {
-    canAccessPage,
-    canEditPoints,
-    apply: applyFinalPermissions,
-    roles: ROLE_PAGES
-  };
 })();
