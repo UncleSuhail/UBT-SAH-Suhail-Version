@@ -445,6 +445,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     calculatorPrevious: 'sah-v15-field-calculator-previous',
     activities: 'sah-v15-local-activities',
     fields: 'sah-v18-indicator-fields',
+    subfields: 'sah-v20-9-indicator-subfields',
     fieldMigration: 'sah-v19-field-migration',
     overrides: 'sah-v15-evidence-overrides',
     deleted: 'sah-v15-evidence-deleted'
@@ -797,6 +798,132 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     showToast('تمت استعادة القيم الأصلية وإعادة جدولة البيانات.');
   }
 
+
+  const DEFAULT_SUBFIELD_MAP = [
+    {
+      mainField:'البطولات الوطنية',
+      subFields:['بطولة وطنية']
+    },
+    {
+      mainField:'استضافة البطولات الوطنية',
+      subFields:['استضافة بطولة وطنية']
+    },
+    {
+      mainField:'البطولات التنشيطية',
+      subFields:['تنفيذ بطولة تنشيطية']
+    },
+    {
+      mainField:'البرامج التدريبية المركزية',
+      subFields:[
+        'دورة مركزية ( حضورية )',
+        'ورشة عمل مركزية ( حضورية )',
+        'دورة مركزية ( عن بعد )',
+        'ورشة عمل مركزية ( عن بعد )'
+      ]
+    },
+    {
+      mainField:'الشراكة المجتمعية',
+      subFields:['شراكة مجتمعية']
+    },
+    {
+      mainField:'اللقاءات والفعاليات الرياضية التبادلية',
+      subFields:['لقاء تبادلي']
+    },
+    {
+      mainField:'تشغيل المرافق',
+      subFields:['تشغيل مرافق']
+    },
+    {
+      mainField:'النشاط الرياضي التنافسي الداخلي',
+      subFields:['جماعية','فردية','ذوي الإعاقة','خطة تشغيلية']
+    },
+    {
+      mainField:'النشاط البدني والترويحي الداخلي',
+      subFields:['نشاط ترويحي','نشاط بدني']
+    },
+    {
+      mainField:'الأيام العالمية',
+      subFields:['يوم عالمي','يوم وطني']
+    },
+    {
+      mainField:'البرامج التدريبية الداخلية',
+      subFields:['ورشة عمل','دورة تدريبية','محاضرة']
+    },
+    {
+      mainField:'البرامج التوعوية',
+      subFields:['نشرة توعوية','فيديو توعوي']
+    },
+    {
+      mainField:'الكوادر العاملة في النشاط الرياضي',
+      subFields:['الكوادر']
+    },
+    {
+      mainField:'التطوع',
+      subFields:['متطوع','فرق متطوعين']
+    },
+    {
+      mainField:'مشاركة الجامعات في المنتخبات الجامعية في المناسبات الدولية',
+      subFields:['مشاركة اللاعبين في منتخبات المملكة دوليًا']
+    },
+    {
+      mainField:'استضافة المشاركات الدولية للجامعات',
+      subFields:['لقاء ودي بين الجامعات الدولية','استضافة بطولة دولية']
+    }
+  ];
+
+  function defaultSubFields(){
+    let counter=0;
+    return DEFAULT_SUBFIELD_MAP.flatMap(group =>
+      group.subFields.map(name => ({
+        id:`sub-default-${counter++}`,
+        name,
+        mainField:group.mainField,
+        guest:0,
+        host:0
+      }))
+    );
+  }
+
+  function loadSubFields(){
+    const defaults=defaultSubFields();
+    const saved=readJson(KEYS.subfields,null);
+    const validMain=new Set((SAH_DATA.indicatorFields||[]).map(field=>field.field));
+
+    if(!Array.isArray(saved) || !saved.length){
+      return defaults.filter(item=>validMain.has(item.mainField));
+    }
+
+    const normalizedSaved=saved
+      .filter(item=>item && item.name)
+      .map((item,index)=>({
+        id:item.id||`sub-${Date.now()}-${index}`,
+        name:String(item.name).trim(),
+        mainField:validMain.has(item.mainField) ? item.mainField : '',
+        guest:Math.max(0,Number(item.guest)||0),
+        host:Math.max(0,Number(item.host)||0)
+      }));
+
+    const keyOf=item=>`${item.mainField}|||${item.name}`;
+    const savedMap=new Map(normalizedSaved.map(item=>[keyOf(item),item]));
+
+    const mergedDefaults=defaults
+      .filter(item=>validMain.has(item.mainField))
+      .map(item=>savedMap.get(keyOf(item)) || item);
+
+    const defaultKeys=new Set(defaults.map(keyOf));
+    const customRows=normalizedSaved.filter(item=>!defaultKeys.has(keyOf(item)));
+
+    return [...mergedDefaults,...customRows];
+  }
+
+  function saveSubFields(items){
+    writeJson(KEYS.subfields,items);
+  }
+
+  function subFieldsForMain(mainField){
+    return loadSubFields().filter(item=>item.mainField===mainField);
+  }
+
   /* ---------- Per-field activity points calculator ---------- */
 
   function defaultFieldCalculator() {
@@ -810,6 +937,12 @@ window.addEventListener('DOMContentLoaded',initPreferences);
           field.field,
           { guest: 0, host: 0 }
         ])
+      ),
+      subfields: Object.fromEntries(
+        loadSubFields().map(item => [
+          item.name,
+          { guest: Number(item.guest)||0, host: Number(item.host)||0 }
+        ])
       )
     };
   }
@@ -820,7 +953,8 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     return {
       ...defaults,
       ...saved,
-      fields: { ...defaults.fields, ...(saved.fields || {}) }
+      fields: { ...defaults.fields, ...(saved.fields || {}) },
+      subfields: { ...defaults.subfields, ...(saved.subfields || {}) }
     };
   }
 
@@ -837,20 +971,56 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     setValue('playerParticipationPoints', calculator.player);
 
     const tbody = document.getElementById('fieldPointsRows');
-    if (!tbody) return;
+    if (tbody) {
+      tbody.innerHTML = (SAH_DATA.indicatorFields || []).map((field, index) => {
+        const values = calculator.fields[field.field] || { guest: 0, host: 0 };
+        return `
+          <tr>
+            <td>${field.track}</td>
+            <td>${field.field}</td>
+            <td><input class="field-guest-points" data-index="${index}"
+                       type="number" min="0" value="${Number(values.guest) || 0}"></td>
+            <td><input class="field-host-points" data-index="${index}"
+                       type="number" min="0" value="${Number(values.host) || 0}"></td>
+          </tr>`;
+      }).join('');
+    }
 
-    tbody.innerHTML = (SAH_DATA.indicatorFields || []).map((field, index) => {
-      const values = calculator.fields[field.field] || { guest: 0, host: 0 };
-      return `
-        <tr>
-          <td>${field.track}</td>
-          <td>${field.field}</td>
-          <td><input class="field-guest-points" data-index="${index}"
-                     type="number" min="0" value="${Number(values.guest) || 0}"></td>
-          <td><input class="field-host-points" data-index="${index}"
-                     type="number" min="0" value="${Number(values.host) || 0}"></td>
-        </tr>`;
-    }).join('');
+    renderSubFieldCalculatorRows(calculator);
+  }
+
+  function subFieldRow(item,index,calculator){
+    const mains=(SAH_DATA.indicatorFields||[]).map(field=>
+      `<option value="${field.field}" ${field.field===item.mainField?'selected':''}>${field.field}</option>`
+    ).join('');
+    const points=calculator.subfields?.[item.name] || item;
+    return `<div class="subfield-calculator-row" data-id="${item.id}">
+      <label><span>اسم المجال الفرعي</span>
+        <input class="subfield-name" value="${item.name||''}" required>
+      </label>
+      <label><span>المجال الرئيسي المرتبط</span>
+        <select class="subfield-main">
+          <option value="">غير مرتبط حاليًا</option>
+          ${mains}
+        </select>
+      </label>
+      <label><span>نقاط الضيف</span>
+        <input class="subfield-guest" type="number" min="0" value="${Number(points.guest)||0}">
+      </label>
+      <label><span>نقاط المستضيف</span>
+        <input class="subfield-host" type="number" min="0" value="${Number(points.host)||0}">
+      </label>
+      <button class="subfield-delete" type="button" title="حذف المجال الفرعي">🗑</button>
+    </div>`;
+  }
+
+  function renderSubFieldCalculatorRows(calculator=loadFieldCalculator()){
+    const box=document.getElementById('subFieldPointsRows');
+    if(!box) return;
+    box.innerHTML=loadSubFields().map((item,index)=>subFieldRow(item,index,calculator)).join('');
+    box.querySelectorAll('.subfield-delete').forEach(button=>{
+      button.addEventListener('click',()=>button.closest('.subfield-calculator-row')?.remove());
+    });
   }
 
   function openFieldCalculator() {
@@ -879,6 +1049,22 @@ window.addEventListener('DOMContentLoaded',initPreferences);
           `.field-host-points[data-index="${index}"]`)?.value || 0)
       };
     });
+
+    calculator.subfields={};
+    const subfields=[...document.querySelectorAll('#subFieldPointsRows .subfield-calculator-row')]
+      .map((row,index)=>({
+        id:row.dataset.id||`sub-${Date.now()}-${index}`,
+        name:row.querySelector('.subfield-name')?.value.trim()||'',
+        mainField:row.querySelector('.subfield-main')?.value||'',
+        guest:Math.max(0,Number(row.querySelector('.subfield-guest')?.value)||0),
+        host:Math.max(0,Number(row.querySelector('.subfield-host')?.value)||0)
+      }))
+      .filter(item=>item.name);
+
+    subfields.forEach(item=>{
+      calculator.subfields[item.name]={guest:item.guest,host:item.host};
+    });
+    saveSubFields(subfields);
 
     return calculator;
   }
@@ -921,13 +1107,16 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     const calculator = loadFieldCalculator();
     const fieldPoints = calculator.fields[activity.indicatorField] ||
       { guest: 0, host: 0 };
+    const subPoints = calculator.subfields?.[activity.subField] ||
+      { guest: 0, host: 0 };
     const host = activity.participationType === 'host';
 
     return Math.max(0, Math.round(
       Number(host ? calculator.hostParticipation : calculator.guestParticipation) +
       Number(activity.universities || 0) * Number(calculator.university || 0) +
       Number(activity.players || 0) * Number(calculator.player || 0) +
-      Number(host ? fieldPoints.host : fieldPoints.guest)
+      Number(host ? fieldPoints.host : fieldPoints.guest) +
+      Number(host ? subPoints.host : subPoints.guest)
     ));
   }
 
@@ -1070,6 +1259,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
       hasValue(row.players, true),
       hasValue(row.gender),
       hasValue(row.indicatorField || row.field || row.subCategory),
+      hasValue(row.subField),
       hasValue(row.participationType),
       hasValue(row.universities, true),
       hasValue(row.gameType),
@@ -1199,6 +1389,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
         <td>${fmt(row.players || 0)}</td>
         <td>${row.gender || '—'}</td>
         <td>${row.mainField || row.indicatorField || row.field || row.subCategory || '—'}</td>
+        <td>${row.subField || '—'}</td>
         <td>${participation}</td>
         <td>${fmt(row.universities || 0)}</td>
         <td>${fmt(row.points || 0)}</td>
@@ -1290,13 +1481,27 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   }
 
   function populateActivityFields() {
-    const select = document.getElementById('activityIndicatorField');
-    if (!select) return;
+    const mainSelect = document.getElementById('activityIndicatorField');
+    if (!mainSelect) return;
 
-    select.innerHTML = (SAH_DATA.indicatorFields || [])
-      .map(field => `<option value="${field.field}">
-        ${field.field}
-      </option>`).join('');
+    mainSelect.innerHTML = (SAH_DATA.indicatorFields || [])
+      .map(field => `<option value="${field.field}">${field.field}</option>`)
+      .join('');
+
+    populateActivitySubFields();
+  }
+
+  function populateActivitySubFields(selectedValue=''){
+    const main=document.getElementById('activityIndicatorField')?.value||'';
+    const subSelect=document.getElementById('activitySubField');
+    if(!subSelect) return;
+    const rows=subFieldsForMain(main);
+    subSelect.innerHTML=rows.length
+      ? rows.map(item=>`<option value="${item.name}">${item.name}</option>`).join('')
+      : '<option value="">لا توجد مجالات فرعية مرتبطة</option>';
+    if(selectedValue && rows.some(item=>item.name===selectedValue)){
+      subSelect.value=selectedValue;
+    }
   }
 
   function setInput(id, value) {
@@ -1333,6 +1538,8 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     setInput('activityGender', row.gender);
     setInput('activityIndicatorField',
       row.mainField || row.indicatorField || row.field || row.subCategory);
+    populateActivitySubFields(row.subField||'');
+    setInput('activitySubField',row.subField||'');
     setInput('activityParticipationType', row.participationType || 'guest');
     setInput('activityUniversities', row.universities);
     setInput('activityGameType', row.gameType);
@@ -1360,6 +1567,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
       gender: document.getElementById('activityGender')?.value || 'طلاب',
       mainField: document.getElementById('activityIndicatorField')?.value || '',
       indicatorField: document.getElementById('activityIndicatorField')?.value || '',
+      subField: document.getElementById('activitySubField')?.value || '',
       participationType: document.getElementById('activityParticipationType')?.value || 'guest',
       universities: Number(document.getElementById('activityUniversities')?.value || 0),
       gameType: document.getElementById('activityGameType')?.value.trim() || '',
@@ -1385,8 +1593,8 @@ window.addEventListener('DOMContentLoaded',initPreferences);
       : null;
     const { row, report, schedule } = activityFromForm(existing || {});
 
-    if (!row.activity || !row.date || !row.indicatorField) {
-      showToast('أكمل اسم النشاط والتاريخ والمجال المرتبط.');
+    if (!row.activity || !row.date || !row.indicatorField || !row.subField) {
+      showToast('أكمل اسم النشاط والتاريخ والمجال الرئيسي والمجال الفرعي.');
       return;
     }
 
@@ -1487,7 +1695,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   window.exportEvidenceCsv = function () {
     const headers = [
       'رقم', 'اسم النشاط', 'التاريخ', 'الأيام', 'المستفيدون',
-      'اللاعبون', 'الفئة', 'المجال', 'نوع المشاركة',
+      'اللاعبون', 'الفئة', 'المجال الرئيسي', 'المجال الفرعي', 'نوع المشاركة',
       'الجامعات المشاركة', 'النقاط', 'الحالة',
       'تقرير الاتحاد', 'الجدول الزمني', 'التوثيق', 'نسبة الاكتمال'
     ];
@@ -1561,11 +1769,21 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   };
 
   function managerRow(field,index){
+    const tracks=[...new Set((SAH_DATA.indicatorFields||[]).map(item=>item.track).filter(Boolean))];
+    const options=tracks.map(track=>
+      `<option value="${track}" ${track===field.track?'selected':''}>${track}</option>`
+    ).join('');
+    const isNew=field.track && !tracks.includes(field.track);
     return `<div class="field-manager-row" data-original-name="${field.field||''}">
-      <label><span>اسم المسار</span>
-        <input class="manager-track" value="${field.track||''}" required>
+      <label class="field-manager-track-wrap"><span>المسار</span>
+        <select class="manager-track">
+          ${options}
+          <option value="__new__" ${isNew?'selected':''}>＋ مسار جديد</option>
+        </select>
+        <input class="manager-track-custom ${isNew?'':'hidden'}"
+               placeholder="اسم المسار الجديد" value="${isNew?field.track:''}">
       </label>
-      <label><span>اسم المجال</span>
+      <label><span>اسم المجال الرئيسي</span>
         <input class="manager-field" value="${field.field||''}" required>
       </label>
       <label><span>الحد الأعلى</span>
@@ -1575,14 +1793,35 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     </div>`;
   }
 
+  function bindManagerRow(row){
+    row.querySelector('.field-manager-delete')
+      ?.addEventListener('click',()=>row.remove());
+    row.querySelector('.manager-track')
+      ?.addEventListener('change',event=>{
+        row.querySelector('.manager-track-custom')
+          ?.classList.toggle('hidden',event.target.value!=='__new__');
+      });
+  }
+
+  function refreshTrackChoices(){
+    const tracks=[...new Set((SAH_DATA.indicatorFields||[]).map(item=>item.track).filter(Boolean))];
+    const select=document.getElementById('existingTrackForNewField');
+    if(select){
+      select.innerHTML=tracks.map(track=>`<option value="${track}">${track}</option>`).join('');
+    }
+    const list=document.getElementById('indicatorTracksList');
+    if(list){
+      list.innerHTML=tracks.map(track=>`<option value="${track}"></option>`).join('');
+    }
+  }
+
   function renderFieldsManager(){
     const box=document.getElementById('indicatorFieldsManagerRows');
     if(!box) return;
+    refreshTrackChoices();
     box.innerHTML=(SAH_DATA.indicatorFields||[])
       .map(managerRow).join('');
-    box.querySelectorAll('.field-manager-delete').forEach(button=>{
-      button.addEventListener('click',()=>button.closest('.field-manager-row')?.remove());
-    });
+    box.querySelectorAll('.field-manager-row').forEach(bindManagerRow);
   }
 
   function openFieldsManager(){
@@ -1594,16 +1833,25 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     openModal('indicatorFieldsManagerModal');
   }
 
-  function addFieldManagerRow(){
+  function appendManagerRow(field){
     const box=document.getElementById('indicatorFieldsManagerRows');
     if(!box) return;
-    box.insertAdjacentHTML('beforeend',managerRow({
-      track:'مسار جديد',
-      field:'مجال جديد',
-      max:0
-    },box.children.length));
-    box.lastElementChild.querySelector('.field-manager-delete')
-      ?.addEventListener('click',event=>event.currentTarget.closest('.field-manager-row')?.remove());
+    box.insertAdjacentHTML('beforeend',managerRow(field,box.children.length));
+    bindManagerRow(box.lastElementChild);
+    box.lastElementChild?.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+
+  function addFieldManagerRow(){
+    appendManagerRow({track:'مسار جديد',field:'مجال جديد',max:0});
+  }
+
+  function addFieldToExistingTrack(){
+    const track=document.getElementById('existingTrackForNewField')?.value;
+    if(!track){
+      showToast('اختر مسارًا موجودًا أولًا.');
+      return;
+    }
+    appendManagerRow({track,field:'مجال جديد',max:0});
   }
 
   function updateStoredActivitiesForFieldChanges(renameMap,validNames){
@@ -1640,7 +1888,12 @@ window.addEventListener('DOMContentLoaded',initPreferences);
 
     const fields=rows.map(row=>({
       original:row.dataset.originalName||'',
-      track:row.querySelector('.manager-track')?.value.trim()||'',
+      track:(()=>{
+        const selected=row.querySelector('.manager-track')?.value||'';
+        return selected==='__new__'
+          ? row.querySelector('.manager-track-custom')?.value.trim()||''
+          : selected.trim();
+      })(),
       field:row.querySelector('.manager-field')?.value.trim()||'',
       max:Math.max(0,Number(row.querySelector('.manager-max')?.value)||0)
     }));
@@ -1662,6 +1915,14 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     updateStoredActivitiesForFieldChanges(renameMap,new Set(names));
 
     writeJson(KEYS.fields,fields.map(({track,field,max})=>({track,field,max})));
+    const validMainNames=new Set(fields.map(item=>item.field));
+    const updatedSubs=loadSubFields().map(item=>({
+      ...item,
+      mainField:validMainNames.has(renameMap[item.mainField])
+        ? renameMap[item.mainField]
+        : (validMainNames.has(item.mainField)?item.mainField:'')
+    }));
+    saveSubFields(updatedSubs);
     localStorage.removeItem(KEYS.fieldMigration);
     applyIndicatorFieldConfig();
     baselineIndicator=SAH_DATA.indicatorFields.map(field=>({
@@ -1691,6 +1952,8 @@ window.addEventListener('DOMContentLoaded',initPreferences);
       ?.addEventListener('click', openFieldsManager);
     document.getElementById('addIndicatorFieldRow')
       ?.addEventListener('click', addFieldManagerRow);
+    document.getElementById('addIndicatorFieldToExistingTrack')
+      ?.addEventListener('click', addFieldToExistingTrack);
     document.getElementById('saveIndicatorFieldsManager')
       ?.addEventListener('click', saveFieldsManager);
     document.querySelectorAll('[data-close-fields-manager]')
@@ -1707,6 +1970,46 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     document.querySelectorAll('[data-close-indicator-settings]')
       .forEach(element => element.addEventListener(
         'click', () => closeModal('indicatorSettingsModal')));
+
+    
+    document.getElementById('showMainFieldCalculator')
+      ?.addEventListener('click',()=>{
+        document.getElementById('mainFieldCalculatorPanel')?.classList.remove('hidden');
+        document.getElementById('subFieldCalculatorPanel')?.classList.add('hidden');
+        document.getElementById('showMainFieldCalculator')?.classList.add('primary','active');
+        document.getElementById('showMainFieldCalculator')?.classList.remove('outline');
+        document.getElementById('showSubFieldCalculator')?.classList.remove('primary','active');
+        document.getElementById('showSubFieldCalculator')?.classList.add('outline');
+      });
+
+    document.getElementById('showSubFieldCalculator')
+      ?.addEventListener('click',()=>{
+        document.getElementById('subFieldCalculatorPanel')?.classList.remove('hidden');
+        document.getElementById('mainFieldCalculatorPanel')?.classList.add('hidden');
+        document.getElementById('showSubFieldCalculator')?.classList.add('primary','active');
+        document.getElementById('showSubFieldCalculator')?.classList.remove('outline');
+        document.getElementById('showMainFieldCalculator')?.classList.remove('primary','active');
+        document.getElementById('showMainFieldCalculator')?.classList.add('outline');
+      });
+
+    document.getElementById('addSubFieldCalculatorRow')
+      ?.addEventListener('click',()=>{
+        const box=document.getElementById('subFieldPointsRows');
+        if(!box) return;
+        const item={
+          id:`sub-${Date.now()}`,
+          name:'مجال فرعي جديد',
+          mainField:'',
+          guest:0,
+          host:0
+        };
+        box.insertAdjacentHTML('beforeend',subFieldRow(item,box.children.length,loadFieldCalculator()));
+        box.lastElementChild.querySelector('.subfield-delete')
+          ?.addEventListener('click',event=>event.currentTarget.closest('.subfield-calculator-row')?.remove());
+      });
+
+    document.getElementById('activityIndicatorField')
+      ?.addEventListener('change',()=>populateActivitySubFields());
 
     document.getElementById('openFieldPointsCalculator')
       ?.addEventListener('click', openFieldCalculator);
@@ -1730,7 +2033,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
         setTimeout(resetActivityForm, 280);
       }));
 
-    ['activityIndicatorField', 'activityParticipationType',
+    ['activityIndicatorField', 'activitySubField', 'activityParticipationType',
      'activityUniversities', 'activityPlayers']
       .forEach(id => document.getElementById(id)
         ?.addEventListener('input', updateActivityPointsPreview));
@@ -2303,4 +2606,134 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   if(document.fonts?.ready){
     document.fonts.ready.then(measureFixedStack);
   }
+})();
+
+/* ==========================================================
+   SAH V21.0 — exact sub-field map and migration
+   ========================================================== */
+(function(){
+  'use strict';
+
+  const SUBFIELD_VERSION_KEY='sah-v21-subfields-seeded';
+
+  const REQUIRED_SUBFIELDS = [
+    ['البطولات الوطنية',['بطولة وطنية']],
+    ['استضافة البطولات الوطنية',['استضافة بطولة وطنية']],
+    ['البطولات التنشيطية',['تنفيذ بطولة تنشيطية']],
+    ['البرامج التدريبية المركزية',[
+      'دورة مركزية ( حضورية )',
+      'ورشة عمل مركزية ( حضورية )',
+      'دورة مركزية ( عن بعد )',
+      'ورشة عمل مركزية ( عن بعد )'
+    ]],
+    ['الشراكة المجتمعية',['شراكة مجتمعية']],
+    ['اللقاءات والفعاليات الرياضية التبادلية',['لقاء تبادلي']],
+    ['تشغيل المرافق',['تشغيل مرافق']],
+    ['النشاط الرياضي التنافسي الداخلي',[
+      'جماعية','فردية','ذوي الإعاقة','خطة تشغيلية'
+    ]],
+    ['النشاط البدني والترويحي الداخلي',['نشاط ترويحي','نشاط بدني']],
+    ['الأيام العالمية',['يوم عالمي','يوم وطني']],
+    ['البرامج التدريبية الداخلية',['ورشة عمل','دورة تدريبية','محاضرة']],
+    ['البرامج التوعوية',['نشرة توعوية','فيديو توعوي']],
+    ['الكوادر العاملة في النشاط الرياضي',['الكوادر']],
+    ['التطوع',['متطوع','فرق متطوعين']],
+    ['مشاركة الجامعات في المنتخبات الجامعية في المناسبات الدولية',[
+      'مشاركة اللاعبين في منتخبات المملكة دوليًا'
+    ]],
+    ['استضافة المشاركات الدولية للجامعات',[
+      'لقاء ودي بين الجامعات الدولية',
+      'استضافة بطولة دولية'
+    ]]
+  ];
+
+  function requiredRows(){
+    let index=0;
+    return REQUIRED_SUBFIELDS.flatMap(([mainField,names])=>
+      names.map(name=>({
+        id:`sub-required-${index++}`,
+        name,
+        mainField,
+        guest:0,
+        host:0
+      }))
+    );
+  }
+
+  function read(key,fallback){
+    try{return JSON.parse(localStorage.getItem(key)||'null') ?? fallback;}
+    catch{return fallback;}
+  }
+
+  function mergeRequiredSubFields(){
+    const subKey='sah-v20-9-indicator-subfields';
+    const saved=read(subKey,[]);
+    const required=requiredRows();
+    const keyOf=item=>`${item.mainField}|||${item.name}`;
+    const savedMap=new Map(saved.map(item=>[keyOf(item),item]));
+
+    const mergedRequired=required.map(item=>{
+      const old=savedMap.get(keyOf(item));
+      return old ? {
+        ...item,
+        id:old.id||item.id,
+        guest:Math.max(0,Number(old.guest)||0),
+        host:Math.max(0,Number(old.host)||0)
+      } : item;
+    });
+
+    const requiredKeys=new Set(required.map(keyOf));
+    const custom=saved.filter(item=>
+      item && item.name && !requiredKeys.has(keyOf(item)) && item.name!=='عام'
+    );
+
+    const merged=[...mergedRequired,...custom];
+    localStorage.setItem(subKey,JSON.stringify(merged));
+    return merged;
+  }
+
+  function migrateRows(subfields){
+    const byMain=new Map();
+    subfields.forEach(item=>{
+      if(!byMain.has(item.mainField)) byMain.set(item.mainField,[]);
+      byMain.get(item.mainField).push(item.name);
+    });
+
+    const ensure=row=>{
+      const main=row.mainField||row.indicatorField||row.field||row.subCategory||'';
+      const valid=byMain.get(main)||[];
+      if(!valid.length) return row;
+
+      if(!row.subField || row.subField==='عام' || !valid.includes(row.subField)){
+        row.subField=valid[0];
+      }
+      return row;
+    };
+
+    const activityKey='sah-v15-local-activities';
+    const overrideKey='sah-v15-evidence-overrides';
+
+    const locals=read(activityKey,[]);
+    locals.forEach(ensure);
+    localStorage.setItem(activityKey,JSON.stringify(locals));
+
+    const overrides=read(overrideKey,{});
+    Object.values(overrides).forEach(ensure);
+    localStorage.setItem(overrideKey,JSON.stringify(overrides));
+  }
+
+  window.addEventListener('DOMContentLoaded',()=>{
+    console.info('SAH build 21.0 loaded');
+    document.documentElement.dataset.sahBuild='21.0';
+
+    const merged=mergeRequiredSubFields();
+    migrateRows(merged);
+    localStorage.setItem(SUBFIELD_VERSION_KEY,'done');
+
+    setTimeout(()=>{
+      if(typeof window.renderEvidenceStats==='function') window.renderEvidenceStats();
+      if(typeof window.renderEvidence==='function') window.renderEvidence();
+      if(typeof window.calcIndicators==='function') window.calcIndicators();
+    },80);
+  });
 })();

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>SAH | منصة الأنشطة الطلابية</title>
-<link rel="stylesheet" href="css/style.css?v=20.8">
+<link rel="stylesheet" href="css/style.css?v=21.0">
 
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
@@ -71,7 +71,7 @@
 </style>
 
 </head>
-<body data-sah-version="20.8" class="login-mode">
+<body data-sah-version="21.0" class="login-mode">
 <section id="login" class="login-page">
   <div class="login-bg"></div>
   <div class="login-card">
@@ -655,6 +655,7 @@
                 <th>اللاعبون</th>
                 <th>الفئة</th>
                 <th>المجال الرئيسي</th>
+                <th>المجال الفرعي</th>
                 <th>نوع المشاركة</th>
                 <th>الجامعات المشاركة</th>
                 <th>النقاط</th>
@@ -739,8 +740,16 @@
     </div>
 
     <div class="fields-manager-toolbar">
-      <button id="addIndicatorFieldRow" class="btn outline" type="button">＋ إضافة مجال جديد</button>
+      <select id="existingTrackForNewField" class="fields-manager-track-select"
+              aria-label="اختر مسارًا موجودًا"></select>
+      <button id="addIndicatorFieldToExistingTrack" class="btn outline" type="button">
+        ＋ إضافة مجال إلى المسار المحدد
+      </button>
+      <button id="addIndicatorFieldRow" class="btn outline" type="button">
+        ＋ إضافة مجال ومسار جديد
+      </button>
     </div>
+    <datalist id="indicatorTracksList"></datalist>
 
     <div class="fields-manager-list" id="indicatorFieldsManagerRows"></div>
 
@@ -770,6 +779,7 @@
       <label><span>عدد اللاعبين المشاركين</span><input id="activityPlayers" type="number" min="0" value="0"></label>
       <label><span>الفئة</span><select id="activityGender"><option value="طلاب">طلاب</option><option value="طالبات">طالبات</option></select></label>
       <label><span>المجال الرئيسي</span><select id="activityIndicatorField" required></select></label>
+      <label><span>المجال الفرعي</span><select id="activitySubField" required></select></label>
       <label><span>نوع المشاركة</span><select id="activityParticipationType"><option value="guest">ضيف</option><option value="host">مستضيف</option></select></label>
       <label><span>عدد الجامعات المشاركة</span><input id="activityUniversities" type="number" min="0" value="0"></label>
       <label><span>نوع اللعبة / النشاط</span><input id="activityGameType"></label>
@@ -806,11 +816,31 @@
       <label><span>نقاط كل لاعب مشارك</span><input id="playerParticipationPoints" type="number" min="0"></label>
     </div>
 
-    <div class="field-calculator-table-wrap">
-      <table class="field-calculator-table">
-        <thead><tr><th>المسار</th><th>المجال</th><th>نقاط الضيف</th><th>نقاط المستضيف</th></tr></thead>
-        <tbody id="fieldPointsRows"></tbody>
-      </table>
+    <div class="calculator-scope-tabs">
+      <button class="btn primary active" id="showMainFieldCalculator" type="button">
+        حاسبة المجالات الرئيسية
+      </button>
+      <button class="btn outline" id="showSubFieldCalculator" type="button">
+        حاسبة المجالات الفرعية
+      </button>
+    </div>
+
+    <div id="mainFieldCalculatorPanel" class="calculator-scope-panel active">
+      <div class="field-calculator-table-wrap">
+        <table class="field-calculator-table">
+          <thead><tr><th>المسار</th><th>المجال الرئيسي</th><th>نقاط الضيف</th><th>نقاط المستضيف</th></tr></thead>
+          <tbody id="fieldPointsRows"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="subFieldCalculatorPanel" class="calculator-scope-panel hidden">
+      <div class="subfield-calculator-toolbar">
+        <button id="addSubFieldCalculatorRow" class="btn outline" type="button">
+          ＋ إضافة مجال فرعي
+        </button>
+      </div>
+      <div id="subFieldPointsRows" class="subfield-calculator-list"></div>
     </div>
 
     <div class="modal-actions">
@@ -825,8 +855,8 @@
 <div id="adminModal" class="modal hidden" role="dialog" aria-modal="true"><div class="modal-backdrop" data-close-admin></div><div class="modal-card"><div class="section-title compact-title"><div><h3 id="adminModalTitle">إضافة سجل</h3><p>عدّل الحقول ثم اضغط حفظ.</p></div><button class="btn outline" data-close-admin>إغلاق</button></div><form id="adminForm" class="dynamic-form"></form><div class="modal-actions"><button class="btn outline" type="button" data-close-admin>إلغاء</button><button class="btn primary" id="adminSave" type="button">حفظ التعديلات</button></div></div></div>
 <div id="toast" class="toast"></div>
 </div>
-<script src="js/data.js?v=20.8"></script>
-<script src="js/admin.js?v=20.8"></script>
-<script src="js/app.js?v=20.8"></script>
+<script src="js/data.js?v=21.0"></script>
+<script src="js/admin.js?v=21.0"></script>
+<script src="js/app.js?v=21.0"></script>
 </body>
 </html>
