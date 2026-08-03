@@ -2703,3 +2703,343 @@ window.addEventListener('DOMContentLoaded',()=>{
  renderAll();
 });
 })();
+
+/* ==========================================================
+   SAH V22.1 — authoritative role permissions
+   This final layer overrides legacy role handlers.
+   ========================================================== */
+(function(){
+  'use strict';
+
+  const ROLE_STORAGE_KEY = 'sah-v15-role';
+
+  const ROLE_META_FINAL = {
+    system: {
+      name: 'حسام الحسين',
+      role: 'مسؤول النظام',
+      avatar: 'ح'
+    },
+    indicator: {
+      name: 'سهيل الكعكي',
+      role: 'مسؤول مؤشر الأداء الرياضي',
+      avatar: 'س'
+    },
+    sports_manager: {
+      name: 'مجدي البلوشي',
+      role: 'مدير النادي الرياضي',
+      avatar: 'م'
+    },
+    dean: {
+      name: 'د. محمد المقدم',
+      role: 'عميد شؤون الطلاب',
+      avatar: 'د'
+    },
+    coach: {
+      name: 'كابتن محمد نفار',
+      role: 'مدرب رياضي',
+      avatar: 'ن'
+    },
+    activities_manager: {
+      name: 'الأستاذ فهد',
+      role: 'مدير الأنشطة الطلابية',
+      avatar: 'ف'
+    },
+    student_account: {
+      name: 'فلان الفلاني',
+      role: 'حساب طالب',
+      avatar: 'ط'
+    },
+    faculty: {
+      name: 'د. كريم سليمان',
+      role: 'عضو هيئة التدريس',
+      avatar: 'ك'
+    }
+  };
+
+  const ALL_PAGES = new Set([
+    'home',
+    'sports',
+    'sports-request',
+    'indicator',
+    'scholarships',
+    'championships',
+    'athletes',
+    'reports',
+    'calendar',
+    'agreement',
+    'student',
+    'activities',
+    'volunteer',
+    'clubs',
+    'approvals',
+    'admin',
+    'audit'
+  ]);
+
+  const ROLE_PAGES = {
+    system: new Set(ALL_PAGES),
+    indicator: new Set(ALL_PAGES),
+    dean: new Set(ALL_PAGES),
+
+    sports_manager: new Set([
+      'home',
+      'sports',
+      'sports-request',
+      'scholarships',
+      'championships',
+      'athletes',
+      'reports',
+      'calendar'
+    ]),
+
+    coach: new Set([
+      'home',
+      'sports-request',
+      'championships',
+      'athletes',
+      'reports'
+    ]),
+
+    activities_manager: new Set([
+      'home',
+      'athletes',
+      'reports',
+      'activities',
+      'volunteer',
+      'approvals'
+    ]),
+
+    student_account: new Set([
+      'home',
+      'agreement',
+      'student'
+    ]),
+
+    faculty: new Set([
+      'home',
+      'clubs'
+    ])
+  };
+
+  const POINT_CONTROL_IDS = [
+    'indicatorPermissionSettings',
+    'openFieldPointsCalculator',
+    'indicatorFieldsManagerButton',
+    'saveIndicatorFieldsManager',
+    'indicatorSaveLimits',
+    'saveFieldPointsCalculator'
+  ];
+
+  const POINT_MODAL_IDS = [
+    'indicatorSettingsModal',
+    'fieldPointsCalculatorModal',
+    'indicatorFieldsManagerModal'
+  ];
+
+  function roleValue(){
+    return document.getElementById('activeRole')?.value ||
+      document.getElementById('mobileActiveRole')?.value ||
+      localStorage.getItem(ROLE_STORAGE_KEY) ||
+      'system';
+  }
+
+  function canAccessPage(role,page){
+    return (ROLE_PAGES[role] || ROLE_PAGES.system).has(page);
+  }
+
+  function canEditPoints(role){
+    return role === 'indicator';
+  }
+
+  function updateIdentity(role){
+    const meta = ROLE_META_FINAL[role] || ROLE_META_FINAL.system;
+
+    const set = (id,value)=>{
+      const element = document.getElementById(id);
+      if(element) element.textContent = value;
+    };
+
+    set('activeUserName', meta.name);
+    set('activeUserRole', meta.role);
+    set('activeUserAvatar', meta.avatar);
+
+    set('mobileUserName', meta.name);
+    set('mobileUserRole', meta.role);
+    set('mobileUserAvatar', meta.avatar);
+  }
+
+  function closePointModals(){
+    POINT_MODAL_IDS.forEach(id=>{
+      document.getElementById(id)?.classList.add('hidden');
+    });
+  }
+
+  function applyPointPermissions(role){
+    const allowed = canEditPoints(role);
+
+    POINT_CONTROL_IDS.forEach(id=>{
+      const element = document.getElementById(id);
+      if(!element) return;
+
+      element.classList.toggle('hidden', !allowed);
+      element.setAttribute('aria-hidden', String(!allowed));
+      element.toggleAttribute('disabled', !allowed);
+    });
+
+    document.querySelectorAll(
+      '.indicator-only, [data-point-permission], .permission-settings-btn'
+    ).forEach(element=>{
+      element.classList.toggle('hidden', !allowed);
+      element.setAttribute('aria-hidden', String(!allowed));
+      if('disabled' in element) element.disabled = !allowed;
+    });
+
+    if(!allowed) closePointModals();
+  }
+
+  function applyNavigationPermissions(role){
+    const allowedPages = ROLE_PAGES[role] || ROLE_PAGES.system;
+
+    document.querySelectorAll('.nav button[data-page]').forEach(button=>{
+      const page = button.dataset.page;
+      const allowed = allowedPages.has(page);
+
+      button.classList.toggle('role-hidden', !allowed);
+      button.hidden = !allowed;
+      button.setAttribute('aria-hidden', String(!allowed));
+      button.tabIndex = allowed ? 0 : -1;
+    });
+
+    document.querySelectorAll('.nav-group').forEach(group=>{
+      const hasVisiblePage = [...group.querySelectorAll('.nav-items button[data-page]')]
+        .some(button=>!button.hidden);
+      group.classList.toggle('empty-role-group', !hasVisiblePage);
+      group.hidden = !hasVisiblePage;
+    });
+  }
+
+  function nearestAllowedPage(role){
+    const preferred = {
+      sports_manager: 'sports',
+      coach: 'sports-request',
+      activities_manager: 'activities',
+      student_account: 'student',
+      faculty: 'clubs'
+    };
+    return preferred[role] || 'home';
+  }
+
+  function ensureCurrentPageAllowed(role){
+    const current = document.querySelector('.page.active')
+      ?.id?.replace('page-','');
+
+    if(current && !canAccessPage(role,current)){
+      const target = nearestAllowedPage(role);
+      if(typeof window.route === 'function') {
+        window.route(target);
+      }
+    }
+  }
+
+  function applyFinalPermissions(){
+    const role = roleValue();
+    localStorage.setItem(ROLE_STORAGE_KEY, role);
+
+    const desktop = document.getElementById('activeRole');
+    const mobile = document.getElementById('mobileActiveRole');
+
+    if(desktop && desktop.value !== role) desktop.value = role;
+    if(mobile && mobile.value !== role) mobile.value = role;
+
+    updateIdentity(role);
+    applyNavigationPermissions(role);
+    applyPointPermissions(role);
+    ensureCurrentPageAllowed(role);
+
+    document.body.dataset.activeRole = role;
+    document.body.dataset.canEditPoints = String(canEditPoints(role));
+  }
+
+  /*
+    Guard routing after all older wrappers have loaded.
+  */
+  const installRouteGuard = ()=>{
+    const previousRoute = window.route;
+    if(typeof previousRoute !== 'function' || previousRoute.__sahFinalGuard) return;
+
+    const guardedRoute = function(pageId){
+      const role = roleValue();
+
+      if(!canAccessPage(role,pageId)){
+        if(typeof window.showToast === 'function'){
+          window.showToast('هذه الصفحة غير متاحة لهذه الصلاحية.');
+        }
+        pageId = nearestAllowedPage(role);
+      }
+
+      previousRoute(pageId);
+      window.setTimeout(applyFinalPermissions,0);
+    };
+
+    guardedRoute.__sahFinalGuard = true;
+    window.route = guardedRoute;
+  };
+
+  /*
+    Prevent non-indicator roles from opening/saving point settings,
+    including through legacy event handlers.
+  */
+  document.addEventListener('click',event=>{
+    const target = event.target.closest(
+      '#indicatorPermissionSettings,' +
+      '#openFieldPointsCalculator,' +
+      '#indicatorFieldsManagerButton,' +
+      '#saveIndicatorFieldsManager,' +
+      '#indicatorSaveLimits,' +
+      '#saveFieldPointsCalculator,' +
+      '.indicator-only,' +
+      '[data-point-permission]'
+    );
+
+    if(target && !canEditPoints(roleValue())){
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      closePointModals();
+
+      if(typeof window.showToast === 'function'){
+        window.showToast('تعديل النقاط متاح لمسؤول مؤشر الأداء الرياضي فقط.');
+      }
+    }
+  }, true);
+
+  window.addEventListener('DOMContentLoaded',()=>{
+    installRouteGuard();
+
+    const desktop = document.getElementById('activeRole');
+    const mobile = document.getElementById('mobileActiveRole');
+
+    const onRoleChange = event=>{
+      const role = event.target.value;
+      localStorage.setItem(ROLE_STORAGE_KEY,role);
+
+      if(desktop && desktop.value !== role) desktop.value = role;
+      if(mobile && mobile.value !== role) mobile.value = role;
+
+      window.setTimeout(applyFinalPermissions,0);
+    };
+
+    desktop?.addEventListener('change',onRoleChange);
+    mobile?.addEventListener('change',onRoleChange);
+
+    applyFinalPermissions();
+    window.setTimeout(applyFinalPermissions,100);
+    window.setTimeout(applyFinalPermissions,500);
+  });
+
+  window.SAH_PERMISSIONS = {
+    canAccessPage,
+    canEditPoints,
+    apply: applyFinalPermissions,
+    roles: ROLE_PAGES
+  };
+})();
