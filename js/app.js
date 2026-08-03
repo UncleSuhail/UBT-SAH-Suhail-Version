@@ -1103,6 +1103,76 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     );
   }
 
+
+  /*
+    SAH V22.5:
+    Required field normalization helpers. Earlier builds called these
+    functions without defining them, which stopped rendering and saving.
+  */
+  function validFieldNames(){
+    return new Set(
+      (SAH_DATA.indicatorFields || [])
+        .map(field => String(field.field || '').trim())
+        .filter(Boolean)
+    );
+  }
+
+  function fieldForIndex(index){
+    const fields = SAH_DATA.indicatorFields || [];
+    if(!fields.length) return null;
+    return fields[Math.abs(Number(index) || 0) % fields.length] || null;
+  }
+
+  function normalizeRowField(row,index=0,force=false){
+    if(!row || typeof row !== 'object') return row;
+
+    const valid = validFieldNames();
+    const current = String(
+      row.mainField ||
+      row.indicatorField ||
+      row.field ||
+      row.subCategory ||
+      ''
+    ).trim();
+
+    let next = current;
+
+    if(force || !valid.has(current)){
+      next = fieldForIndex(index)?.field || '';
+    }
+
+    row.mainField = next;
+    row.indicatorField = next;
+    row.field = next;
+    row.subCategory = next;
+
+    return row;
+  }
+
+  function migrateExistingEvidenceFields(){
+    /*
+      Run once per field configuration. Preserve valid existing fields and
+      only repair missing/invalid values. This avoids overwriting user data.
+    */
+    if(localStorage.getItem(KEYS.fieldMigration) === 'done') return;
+
+    const locals = readJson(KEYS.activities,[]);
+    locals.forEach((row,index)=>{
+      normalizeRowField(row,index,false);
+    });
+    writeJson(KEYS.activities,locals);
+
+    const overrides = readJson(KEYS.overrides,{});
+    Object.entries(overrides).forEach(([key,row],index)=>{
+      if(!row || typeof row !== 'object') return;
+      normalizeRowField(row,index,false);
+      overrides[key] = row;
+    });
+    writeJson(KEYS.overrides,overrides);
+
+    localStorage.setItem(KEYS.fieldMigration,'done');
+  }
+
   function sourceRows() {
     return (SAH_DATA.evidenceRecords || []).map((row, index) => {
       const normalized = normalizeRowField({...row},index,false);
@@ -3153,5 +3223,52 @@ window.addEventListener('DOMContentLoaded',()=>{
         if(element) element.disabled=false;
       });
     }
+  });
+})();
+
+/* ==========================================================
+   SAH V22.5 — repair broken zero-point overrides safely
+   ========================================================== */
+(function(){
+  'use strict';
+
+  const DONE_KEY='sah-v22-5-zero-override-repair';
+
+  function read(key,fallback){
+    try{return JSON.parse(localStorage.getItem(key)||'null') ?? fallback;}
+    catch{return fallback;}
+  }
+
+  window.addEventListener('DOMContentLoaded',()=>{
+    console.info('SAH build 22.5 loaded');
+    document.documentElement.dataset.sahBuild='22.5';
+
+    if(localStorage.getItem(DONE_KEY)==='done') return;
+
+    const overridesKey='sah-v15-evidence-overrides';
+    const overrides=read(overridesKey,{});
+    const source=window.SAH_DATA?.evidenceRecords||[];
+
+    const sourceKey=(row,index)=>String(
+      row?.localActivityId ||
+      row?.recordKey ||
+      `source-${row?.id ?? index}-${row?.activity || 'activity'}-${row?.date || 'date'}`
+    );
+
+    const sourceMap=new Map(
+      source.map((row,index)=>[sourceKey(row,index),row])
+    );
+
+    Object.entries(overrides).forEach(([key,row])=>{
+      const original=sourceMap.get(key);
+      if(!original || !row || typeof row!=='object') return;
+
+      if(Number(row.points)===0 && Number(original.points)>0){
+        delete row.points;
+      }
+    });
+
+    localStorage.setItem(overridesKey,JSON.stringify(overrides));
+    localStorage.setItem(DONE_KEY,'done');
   });
 })();
