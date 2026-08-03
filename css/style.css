@@ -3516,3 +3516,61 @@ body:not([data-active-role="indicator"]) #indicatorFieldsManagerButton,
 body:not([data-active-role="indicator"]) #openFieldPointsCalculator{
   display:none!important;
 }
+
+
+/* ==========================================================
+   SAH V22.3 — interactive calculator modals
+   ========================================================== */
+
+.modal{
+  isolation:isolate!important;
+}
+
+.modal .modal-backdrop{
+  z-index:0!important;
+  pointer-events:auto!important;
+}
+
+.modal .modal-card{
+  position:relative!important;
+  z-index:5!important;
+  pointer-events:auto!important;
+  touch-action:auto!important;
+}
+
+.modal .modal-card *,
+.modal .modal-card input,
+.modal .modal-card select,
+.modal .modal-card textarea,
+.modal .modal-card button{
+  pointer-events:auto!important;
+}
+
+.modal .modal-card input,
+.modal .modal-card select,
+.modal .modal-card textarea{
+  position:relative!important;
+  z-index:6!important;
+  user-select:text!important;
+  -webkit-user-select:text!important;
+  touch-action:manipulation!important;
+}
+
+.modal .modal-actions{
+  position:sticky!important;
+  bottom:-22px!important;
+  z-index:20!important;
+  padding:14px 0 4px!important;
+  background:#fff!important;
+  border-top:1px solid #dbe5f2!important;
+}
+
+.modal .modal-actions button{
+  position:relative!important;
+  z-index:21!important;
+  cursor:pointer!important;
+}
+
+body.theme-dark .modal .modal-actions{
+  background:#061c3d!important;
+}

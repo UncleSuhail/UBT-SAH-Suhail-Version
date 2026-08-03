@@ -1891,7 +1891,9 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     recalculateAllExistingActivities,
     recalculateIndicator,
     renderEvidence,
-    renderEvidenceStats
+    renderEvidenceStats,
+    openModal,
+    closeModal
   };
 
   /* ---------- Initialization ---------- */
@@ -2986,5 +2988,116 @@ window.addEventListener('DOMContentLoaded',()=>{
       window.SAH_POINT_API?.renderEvidenceStats?.();
       window.SAH_POINT_API?.renderEvidence?.();
     },100);
+  });
+})();
+
+/* ==========================================================
+   SAH V22.3 — definitive modal interaction repair
+   ========================================================== */
+(function(){
+  'use strict';
+
+  function isIndicator(){
+    return (document.getElementById('activeRole')?.value ||
+      document.getElementById('mobileActiveRole')?.value) === 'indicator';
+  }
+
+  function closeModalDirect(id){
+    const modal=document.getElementById(id);
+    if(!modal) return;
+    modal.classList.add('hidden');
+    modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+  }
+
+  function saveThroughApi(action){
+    if(!isIndicator()){
+      window.showToast?.('تعديل النقاط متاح لمسؤول مؤشر الأداء الرياضي فقط.');
+      return;
+    }
+
+    const api=window.SAH_POINT_API;
+    if(!api || typeof api[action] !== 'function'){
+      console.error('SAH_POINT_API action unavailable:',action);
+      window.showToast?.('تعذر تنفيذ العملية. أعد تحميل الصفحة.');
+      return;
+    }
+
+    try{
+      api[action]();
+    }catch(error){
+      console.error('Point calculator action failed:',error);
+      window.showToast?.('حدث خطأ أثناء الحفظ. راجع Console للتفاصيل.');
+    }
+  }
+
+  /*
+    Capture-phase delegation runs before accumulated legacy listeners.
+    It makes close/save/reset/restore deterministic without cloning nodes.
+  */
+  document.addEventListener('click',event=>{
+    const target=event.target.closest(
+      '[data-close-indicator-settings],' +
+      '[data-close-field-calculator],' +
+      '[data-close-fields-manager],' +
+      '#indicatorSaveLimits,' +
+      '#saveFieldPointsCalculator,' +
+      '#saveIndicatorFieldsManager,' +
+      '#restorePreviousIndicatorLimits,' +
+      '#indicatorResetLimits,' +
+      '#restorePreviousFieldPointsCalculator,' +
+      '#resetFieldPointsCalculator'
+    );
+
+    if(!target) return;
+
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    if(target.matches('[data-close-indicator-settings]')){
+      closeModalDirect('indicatorSettingsModal');
+      return;
+    }
+    if(target.matches('[data-close-field-calculator]')){
+      closeModalDirect('fieldPointsCalculatorModal');
+      return;
+    }
+    if(target.matches('[data-close-fields-manager]')){
+      closeModalDirect('indicatorFieldsManagerModal');
+      return;
+    }
+
+    const actions={
+      indicatorSaveLimits:'saveIndicatorLimits',
+      saveFieldPointsCalculator:'saveFieldCalculator',
+      saveIndicatorFieldsManager:'saveFieldsManager',
+      restorePreviousIndicatorLimits:'restorePreviousLimits',
+      indicatorResetLimits:'resetOriginalLimits',
+      restorePreviousFieldPointsCalculator:'restorePreviousFieldCalculator',
+      resetFieldPointsCalculator:'resetFieldCalculator'
+    };
+
+    saveThroughApi(actions[target.id]);
+  },true);
+
+  /*
+    Prevent backdrop/document handlers from swallowing input interaction.
+  */
+  document.addEventListener('pointerdown',event=>{
+    if(event.target.closest('.modal-card')){
+      event.stopPropagation();
+    }
+  },true);
+
+  window.addEventListener('DOMContentLoaded',()=>{
+    console.info('SAH build 22.3 loaded');
+    document.documentElement.dataset.sahBuild='22.3';
+
+    document.querySelectorAll('.modal').forEach(modal=>{
+      modal.setAttribute(
+        'aria-hidden',
+        String(modal.classList.contains('hidden'))
+      );
+    });
   });
 })();
