@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>SAH | منصة الأنشطة الطلابية</title>
-<link rel="stylesheet" href="css/style.css?v=15.0">
+<link rel="stylesheet" href="css/style.css?v=16.0">
 </head>
 <body class="login-mode">
 <section id="login" class="login-page">
@@ -513,49 +513,62 @@
 
       <div class="card table-card evidence-card">
         <div class="table-toolbar evidence-toolbar evidence-management-toolbar">
-          <div class="evidence-search-group">
-            <input id="evidenceSearch" placeholder="ابحث داخل بيانات الأنشطة">
-            <select id="evidenceColumnFilter" aria-label="عمود البحث">
-              <option value="all">جميع الأعمدة</option>
-              <option value="activity">اسم النشاط</option>
-              <option value="date">التاريخ</option>
-              <option value="gender">الفئة</option>
-              <option value="indicatorField">المجال المرتبط</option>
-              <option value="participationType">نوع المشاركة</option>
-              <option value="status">الحالة</option>
-              <option value="documentation">التوثيق</option>
-            </select>
-            <select id="evidenceCompletionFilter" aria-label="تصفية اكتمال النشاط">
-              <option value="all">كل مستويات الاكتمال</option>
-              <option value="complete">المعبأة بالكامل فقط</option>
-              <option value="incomplete">البيانات غير المكتملة</option>
-              <option value="missing">ما لم تتم إضافته</option>
-            </select>
-          </div>
 
-          <div class="evidence-bulk-actions">
-            <label class="select-all-evidence">
-              <input id="selectAllEvidence" type="checkbox">
-              تحديد الكل
-            </label>
-            <button id="deleteSelectedEvidence" class="btn danger" type="button" disabled>
+          <!-- الصف الأول: البحث + عمود البحث + فلتر الاكتمال + حذف المحدد -->
+          <div class="evidence-toolbar-row evidence-toolbar-primary">
+            <div class="evidence-search-main">
+              <input id="evidenceSearch" placeholder="ابحث داخل بيانات الأنشطة">
+
+              <select id="evidenceColumnFilter" aria-label="عمود البحث">
+                <option value="all">جميع الأعمدة</option>
+                <option value="activity">اسم النشاط</option>
+                <option value="date">التاريخ</option>
+                <option value="gender">الفئة</option>
+                <option value="indicatorField">المجال المرتبط</option>
+                <option value="participationType">نوع المشاركة</option>
+                <option value="status">الحالة</option>
+                <option value="documentation">التوثيق</option>
+              </select>
+
+              <select id="evidenceCompletionFilter" aria-label="تصفية اكتمال النشاط">
+                <option value="all">كل مستويات الاكتمال</option>
+                <option value="complete">المعبأة بالكامل فقط</option>
+                <option value="incomplete">البيانات غير المكتملة</option>
+                <option value="missing">ما لم تتم إضافته</option>
+              </select>
+            </div>
+
+            <button id="deleteSelectedEvidence"
+                    class="btn danger evidence-delete-selected"
+                    type="button"
+                    disabled>
               حذف المحدد
             </button>
           </div>
 
-          <div class="filterbar" id="evidenceGender">
-            <button class="active" data-gender="all">الكل</button>
-            <button data-gender="طلاب">طلاب</button>
-            <button data-gender="طالبات">طالبات</button>
+          <!-- الصف الثاني: تحديد الكل + الفئة + الحالة -->
+          <div class="evidence-toolbar-row evidence-toolbar-secondary">
+            <label class="select-all-evidence">
+              <input id="selectAllEvidence" type="checkbox">
+              تحديد الكل
+            </label>
+
+            <div class="filterbar evidence-gender-filter" id="evidenceGender">
+              <button class="active" data-gender="all">الكل</button>
+              <button data-gender="طلاب">طلاب</button>
+              <button data-gender="طالبات">طالبات</button>
+            </div>
+
+            <select id="evidenceStatus" class="evidence-status-filter">
+              <option value="all">كل الحالات</option>
+              <option value="مكتمل">مكتمل</option>
+              <option value="جزئي">جزئي</option>
+              <option value="ناقص">ناقص</option>
+            </select>
           </div>
 
-          <select id="evidenceStatus">
-            <option value="all">كل الحالات</option>
-            <option value="مكتمل">مكتمل</option>
-            <option value="جزئي">جزئي</option>
-            <option value="ناقص">ناقص</option>
-          </select>
         </div>
+
         <div class="table-wrap">
           <table class="evidence-table">
             <thead>
@@ -715,6 +728,6 @@
 </div>
 <script src="js/data.js?v=15.0"></script>
 <script src="js/admin.js?v=15.0"></script>
-<script src="js/app.js?v=15.0"></script>
+<script src="js/app.js?v=16.0"></script>
 </body>
 </html>
