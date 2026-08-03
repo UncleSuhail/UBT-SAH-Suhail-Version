@@ -384,11 +384,11 @@ function observeDynamicTranslations(){
 // === SAH V5: theme + bilingual UI ===
 const SAH_I18N = {
   ar: {
-    'nav.home':'الرئيسية','nav.sports':'الإدارة الرياضية','nav.indicator':'مؤشر الأداء الرياضي','nav.scholarships':'المنح الرياضية','nav.agreement':'الإقرار الإلكتروني للمنح','nav.championships':'البطولات الرياضية','nav.athletes':'ملف الطالب الرياضي','nav.activities':'الأنشطة الطلابية العامة','nav.volunteer':'العمل التطوعي','nav.student':'بوابة الطالب','nav.calendar':'التقويم الموحد','nav.requests':'طلبات التسجيل','nav.reports':'التقارير والتحليلات','nav.audit':'سجل العمليات',
+    'nav.home':'الرئيسية','nav.sports':'الإدارة الرياضية','nav.indicator':'مؤشر الأداء الرياضي','nav.scholarships':'المنح الرياضية','nav.agreement':'الإقرار الإلكتروني للمنح','nav.championships':'البطولات الرياضية','nav.athletes':'ملف الطالب الرياضي','nav.activities':'الأنشطة الطلابية العامة','nav.volunteer':'العمل التطوعي','nav.student':'بوابة الطالب','nav.calendar':'التقويم الموحد','nav.requests':'طلبات التسجيل','nav.reports':'التقارير والتحليلات',
     'brand.en':'Student Activities Platform','brand.ar':'منصة الأنشطة الطلابية','user.hello':'مرحباً، حسام الحسين','user.role':'مسؤول تطوير منصة الأنشطة الطلابية','home.eyebrow':'عمادة شؤون الطلاب','home.title':'منصة واحدة لإدارة الأنشطة والخدمات الطلابية','btn.sports':'الدخول للإدارة الرياضية','btn.student':'عرض بوابة الطالب','home.modules':'وحدات المنصة','home.dataSummary':'ملخص البيانات المستوردة','indicator.title':'مؤشر الأداء الرياضي','indicator.referenceTitle':'مرجعية احتساب المؤشر','indicator.referenceText':'يعتمد احتساب المؤشر على دليل مؤشر الأداء الرياضي الصادر من الاتحاد السعودي للرياضة الجامعية.','indicator.male':'مؤشر الأداء الرياضي - الطلاب','indicator.female':'مؤشر الأداء الرياضي - الطالبات','sports.title':'الإدارة الرياضية','sports.eyebrow':'وحدة الإدارة الرياضية','sports.heroTitle':'كل ما يخص الرياضة في صفحة واحدة'
   },
   en: {
-    'nav.home':'Home','nav.sports':'Sports Administration','nav.indicator':'Sports Performance Indicator','nav.scholarships':'Sports Scholarships','nav.agreement':'Scholarship E-Agreement','nav.championships':'Sports Championships','nav.athletes':'Athlete Profile','nav.activities':'General Student Activities','nav.volunteer':'Volunteering','nav.student':'Student Portal','nav.calendar':'Unified Calendar','nav.requests':'Registration Requests','nav.reports':'Reports & Analytics','nav.audit':'Audit Log',
+    'nav.home':'Home','nav.sports':'Sports Administration','nav.indicator':'Sports Performance Indicator','nav.scholarships':'Sports Scholarships','nav.agreement':'Scholarship E-Agreement','nav.championships':'Sports Championships','nav.athletes':'Athlete Profile','nav.activities':'General Student Activities','nav.volunteer':'Volunteering','nav.student':'Student Portal','nav.calendar':'Unified Calendar','nav.requests':'Registration Requests','nav.reports':'Reports & Analytics',
     'brand.en':'Student Activities Platform','brand.ar':'Student Activities Platform','user.hello':'Welcome, Hussam Alhussain','user.role':'Student Activities Platform Development Officer','home.eyebrow':'Deanship of Student Affairs','home.title':'One platform for student activities and services','btn.sports':'Open Sports Administration','btn.student':'View Student Portal','home.modules':'Platform modules','home.dataSummary':'Imported data summary','indicator.title':'Sports Performance Indicator','indicator.referenceTitle':'Indicator calculation reference','indicator.referenceText':'The indicator is calculated based on the Sports Performance Indicator Guide issued by the Saudi Universities Sports Federation.','indicator.male':'Sports Performance Indicator - Male students','indicator.female':'Sports Performance Indicator - Female students','sports.title':'Sports Administration','sports.eyebrow':'Sports Administration Module','sports.heroTitle':'Everything related to sports in one place'
   }
 };
@@ -4293,7 +4293,212 @@ function exportApprovalsPdf(){
  window.showToast?.('تم فتح التقرير الشامل؛ اختر حفظ بصيغة PDF.');
 }
 
-function renderAll(){tables();student();applicants();approvals();populateClubEventSelect();renderRegisteredClubs();const b=document.querySelector('[data-event-category].active');if(b)renderCategory(b.dataset.eventCategory)}
+
+function renderGeneralIndicator(){
+  const set=(id,value)=>{
+    const element=document.getElementById(id);
+    if(element)element.textContent=value;
+  };
+
+  const rows=typeof evidence==='function' ? evidence() : [];
+  const maleRows=rows.filter(row=>row.gender==='طلاب');
+  const femaleRows=rows.filter(row=>row.gender==='طالبات');
+  const beneficiaries=rows.reduce(
+    (sum,row)=>sum+(Number(row.beneficiaries)||0),0
+  );
+
+  const completeRows=rows.filter(row=>{
+    if(typeof completionPercent==='function'){
+      return completionPercent(row)===100;
+    }
+    return Boolean(row.reportFile&&row.scheduleFile);
+  });
+
+  const incompleteRows=Math.max(0,rows.length-completeRows.length);
+  const documentationPercent=rows.length
+    ? Math.round(completeRows.length/rows.length*100)
+    : 0;
+
+  const indicatorFields=window.SAH_DATA?.indicatorFields||[];
+  const indicatorMax=indicatorFields.reduce(
+    (sum,item)=>sum+(Number(item.max)||0),0
+  );
+  const indicatorMale=indicatorFields.reduce(
+    (sum,item)=>sum+(Number(item.male)||0),0
+  );
+  const indicatorFemale=indicatorFields.reduce(
+    (sum,item)=>sum+(Number(item.female)||0),0
+  );
+  const indicatorCombined=indicatorMax
+    ? Math.round((indicatorMale+indicatorFemale)/(indicatorMax*2)*100)
+    : 0;
+  const maleIndicatorPercent=indicatorMax
+    ? Math.round(indicatorMale/indicatorMax*100)
+    : 0;
+  const femaleIndicatorPercent=indicatorMax
+    ? Math.round(indicatorFemale/indicatorMax*100)
+    : 0;
+
+  const requests=typeof allReq==='function' ? allReq() : [];
+  const accepted=requests.filter(row=>row.status==='مقبول').length;
+  const rejected=requests.filter(row=>row.status==='مرفوض').length;
+  const pending=requests.filter(row=>
+    !row.status||row.status==='تحت المراجعة'
+  ).length;
+  const approvalRate=requests.length
+    ? Math.round(accepted/requests.length*100)
+    : 0;
+
+  const clubs=typeof clubRegistry==='function' ? clubRegistry() : [];
+  const clubActivities=clubs.reduce((sum,club)=>{
+    if(typeof allClubActivities==='function'){
+      return sum+allClubActivities(club).length;
+    }
+    return sum;
+  },0);
+
+  const volunteerRows=typeof R==='function'&&typeof K!=='undefined'
+    ? R(K.vol)
+    : [];
+  const volunteerApproved=volunteerRows.filter(
+    row=>row.status==='مقبول'
+  ).length;
+
+  const stats=window.SAH_DATA?.stats||{};
+  const championships=(window.SAH_DATA?.championships||[]).length;
+
+  const malePercent=rows.length
+    ? Math.round(maleRows.length/rows.length*100)
+    : 0;
+  const femalePercent=rows.length
+    ? Math.round(femaleRows.length/rows.length*100)
+    : 0;
+
+  set('generalIndicatorUpdatedAt',
+      new Date().toLocaleString('ar-SA',{
+        dateStyle:'medium',
+        timeStyle:'short'
+      })
+  );
+
+  set('generalActivitiesTotal',rows.length);
+  set('generalMaleActivities',maleRows.length);
+  set('generalFemaleActivities',femaleRows.length);
+  set('generalMaleActivitiesPercent',`${malePercent}% من الأنشطة`);
+  set('generalFemaleActivitiesPercent',`${femalePercent}% من الأنشطة`);
+  set('generalBeneficiaries',beneficiaries.toLocaleString('en-US'));
+
+  set('generalSportsIndicatorPercent',`${indicatorCombined}%`);
+  set('generalSportsIndicatorPoints',
+      `${(indicatorMale+indicatorFemale).toLocaleString('en-US')} / ${(indicatorMax*2).toLocaleString('en-US')} نقطة`
+  );
+
+  set('generalClubsCount',clubs.length);
+  set('generalClubActivitiesCount',`${clubActivities} نشاط نادي`);
+
+  set('generalVolunteerCount',volunteerRows.length);
+  set('generalVolunteerApproved',`${volunteerApproved} معتمدة`);
+
+  set('generalPendingRequests',pending);
+  set('generalApprovalRate',`${approvalRate}% نسبة الموافقة`);
+
+  set('generalGenderTotal',rows.length);
+  set('generalGenderMale',maleRows.length);
+  set('generalGenderFemale',femaleRows.length);
+
+  const genderDonut=document.getElementById('generalGenderDonut');
+  if(genderDonut){
+    genderDonut.style.setProperty(
+      '--male',
+      `${rows.length?maleRows.length/rows.length*360:0}deg`
+    );
+  }
+
+  set('generalDocumentationPercent',`${documentationPercent}%`);
+  set('generalDocumentationComplete',completeRows.length);
+  set('generalDocumentationIncomplete',incompleteRows);
+  document.getElementById('generalDocumentationRing')
+    ?.style.setProperty('--p',documentationPercent);
+
+  set('generalAcceptedRequests',accepted);
+  set('generalRejectedRequests',rejected);
+  set('generalReviewRequests',pending);
+
+  const requestTotal=Math.max(1,requests.length);
+  const acceptedPercent=accepted/requestTotal*100;
+  const rejectedPercent=rejected/requestTotal*100;
+  const pendingPercent=pending/requestTotal*100;
+
+  const acceptedBar=document.getElementById('generalAcceptedBar');
+  const rejectedBar=document.getElementById('generalRejectedBar');
+  const pendingBar=document.getElementById('generalPendingBar');
+  if(acceptedBar)acceptedBar.style.width=`${acceptedPercent}%`;
+  if(rejectedBar)rejectedBar.style.width=`${rejectedPercent}%`;
+  if(pendingBar)pendingBar.style.width=`${pendingPercent}%`;
+
+  set('generalMaleIndicator',`${maleIndicatorPercent}%`);
+  set('generalFemaleIndicator',`${femaleIndicatorPercent}%`);
+  set('generalMaleIndicatorPoints',
+      `${indicatorMale.toLocaleString('en-US')} نقطة`
+  );
+  set('generalFemaleIndicatorPoints',
+      `${indicatorFemale.toLocaleString('en-US')} نقطة`
+  );
+
+  const maleBar=document.getElementById('generalMaleIndicatorBar');
+  const femaleBar=document.getElementById('generalFemaleIndicatorBar');
+  if(maleBar)maleBar.style.width=`${maleIndicatorPercent}%`;
+  if(femaleBar)femaleBar.style.width=`${femaleIndicatorPercent}%`;
+
+  set('generalScholarships',
+      Number(stats.totalScholarships||0).toLocaleString('en-US')
+  );
+  set('generalChampionships',championships);
+  set('generalAthletes',
+      Number(stats.totalProfiles||0).toLocaleString('en-US')
+  );
+
+  const counts=new Map();
+  rows.forEach(row=>{
+    const field=String(
+      row.mainField||
+      row.indicatorField||
+      row.field||
+      'غير محدد'
+    ).trim()||'غير محدد';
+    counts.set(field,(counts.get(field)||0)+1);
+  });
+
+  (window.SAH_DATA?.indicatorFields||[]).forEach(item=>{
+    const name=String(item.field||'').trim();
+    if(name&&!counts.has(name))counts.set(name,0);
+  });
+
+  const entries=[...counts.entries()]
+    .sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],'ar'))
+    .slice(0,12);
+  const max=Math.max(1,...entries.map(([,count])=>count));
+
+  const fieldsChart=document.getElementById('generalFieldsChart');
+  if(fieldsChart){
+    fieldsChart.innerHTML=entries.length
+      ? entries.map(([field,count],index)=>{
+          const width=count?Math.max(5,Math.round(count/max*100)):0;
+          return `<button type="button"
+                          class="general-field-row"
+                          data-route="reports"
+                          title="فتح تقارير ${field}">
+            <span>${index+1}</span>
+            <strong>${field}</strong>
+            <i><b style="width:${width}%"></b></i>
+            <em>${count}</em>
+          </button>`;
+        }).join('')
+      : '<div class="general-empty-chart">لا توجد بيانات متاحة.</div>';
+  }
+}
+
+function renderAll(){tables();student();applicants();approvals();populateClubEventSelect();renderRegisteredClubs();renderGeneralIndicator();const b=document.querySelector('[data-event-category].active');if(b)renderCategory(b.dataset.eventCategory)}
 function bind(id,fn){const o=document.getElementById(id);if(!o)return;const n=o.cloneNode(true);o.replaceWith(n);n.onclick=fn}
 window.addEventListener('DOMContentLoaded',()=>{
  document.getElementById('exportApprovalsExcel')
@@ -4411,9 +4616,9 @@ window.addEventListener('DOMContentLoaded',()=>{
   };
 
   const ALL=new Set([
-    'home','sports','sports-request','indicator','scholarships',
+    'home','general-indicator','sports','sports-request','indicator','scholarships',
     'championships','athletes','reports','calendar','agreement',
-    'student','activities','volunteer','clubs','approvals','admin','audit'
+    'student','activities','volunteer','clubs','approvals','admin','general-indicator'
   ]);
 
   const ROLE_PAGES={
@@ -5183,4 +5388,12 @@ window.addEventListener('DOMContentLoaded',()=>{
       window.__reportsExcludeComplete=false;
     });
   });
+});
+
+
+/* SAH V24.7 — General Indicator executive dashboard */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 24.7 loaded');
+  document.documentElement.dataset.sahBuild='24.7';
+  setTimeout(()=>renderGeneralIndicator?.(),0);
 });

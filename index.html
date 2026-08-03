@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>Student Activities Platform | UBT</title>
-<link rel="stylesheet" href="css/style.css?v=24.6">
+<link rel="stylesheet" href="css/style.css?v=24.7">
 
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
@@ -71,7 +71,7 @@
 </style>
 
 </head>
-<body data-sah-version="24.6" class="login-mode">
+<body data-sah-version="24.7" class="login-mode">
 <section id="login" class="login-page">
   <div class="login-bg"></div>
   <div class="login-card">
@@ -204,6 +204,22 @@
     </div>
 
     <nav class="nav" aria-label="التنقل الرئيسي">
+      <div class="nav-group general-indicator-nav open">
+        <button class="nav-group-title" type="button" aria-expanded="true">
+          <span class="group-left">
+            <span class="nav-group-symbol" aria-hidden="true">📊</span>
+            <span class="nav-group-name">المؤشر العام</span>
+          </span>
+        </button>
+
+        <div class="nav-items">
+          <button data-page="general-indicator" type="button">
+            <span>لوحة المؤشر العام</span>
+            <small data-icon="chart"></small>
+          </button>
+        </div>
+      </div>
+
       <div class="nav-group open">
         <button class="nav-group-title" type="button" aria-expanded="true">
           <span class="group-left">
@@ -297,15 +313,216 @@
             <span>إدارة البيانات</span>
             <small data-icon="pen"></small>
           </button>
-          <button data-page="audit" type="button">
-            <span>سجل العمليات</span>
-            <small data-icon="log"></small>
-          </button>
         </div>
       </div>
     </nav>
   </aside>
   <main class="main">
+
+    <section id="page-general-indicator" class="page">
+      <div class="general-indicator-heading">
+        <div>
+          <span class="general-indicator-kicker">الخلاصة التنفيذية للمنصة</span>
+          <h2>المؤشر العام</h2>
+          <p>لوحة موحدة تجمع أهم نتائج الشؤون الرياضية، الأنشطة الطلابية، الأندية، التطوع، الطلبات والتوثيق.</p>
+        </div>
+        <div class="general-indicator-update">
+          <span>آخر تحديث</span>
+          <strong id="generalIndicatorUpdatedAt">—</strong>
+        </div>
+      </div>
+
+      <div class="general-kpi-grid">
+        <button class="card general-kpi-card primary" type="button" data-route="reports">
+          <span>إجمالي الأنشطة المسجلة</span>
+          <strong id="generalActivitiesTotal">0</strong>
+          <small>جميع الأنشطة والشواهد</small>
+          <i class="general-kpi-arrow">←</i>
+        </button>
+
+        <button class="card general-kpi-card male" type="button" data-route="activities">
+          <span>أنشطة الطلاب</span>
+          <strong id="generalMaleActivities">0</strong>
+          <small id="generalMaleActivitiesPercent">0% من الأنشطة</small>
+          <i class="general-kpi-arrow">←</i>
+        </button>
+
+        <button class="card general-kpi-card female" type="button" data-route="activities">
+          <span>أنشطة الطالبات</span>
+          <strong id="generalFemaleActivities">0</strong>
+          <small id="generalFemaleActivitiesPercent">0% من الأنشطة</small>
+          <i class="general-kpi-arrow">←</i>
+        </button>
+
+        <button class="card general-kpi-card beneficiaries" type="button" data-route="activities">
+          <span>إجمالي المستفيدين</span>
+          <strong id="generalBeneficiaries">0</strong>
+          <small>الطلاب والطالبات</small>
+          <i class="general-kpi-arrow">←</i>
+        </button>
+
+        <button class="card general-kpi-card sports" type="button" data-route="indicator">
+          <span>مؤشر الأداء الرياضي</span>
+          <strong id="generalSportsIndicatorPercent">0%</strong>
+          <small id="generalSportsIndicatorPoints">0 / 0 نقطة</small>
+          <i class="general-kpi-arrow">←</i>
+        </button>
+
+        <button class="card general-kpi-card clubs" type="button" data-route="clubs">
+          <span>الأندية الطلابية</span>
+          <strong id="generalClubsCount">0</strong>
+          <small id="generalClubActivitiesCount">0 نشاط نادي</small>
+          <i class="general-kpi-arrow">←</i>
+        </button>
+
+        <button class="card general-kpi-card volunteer" type="button" data-route="volunteer">
+          <span>الفرص التطوعية</span>
+          <strong id="generalVolunteerCount">0</strong>
+          <small id="generalVolunteerApproved">0 معتمدة</small>
+          <i class="general-kpi-arrow">←</i>
+        </button>
+
+        <button class="card general-kpi-card requests" type="button" data-route="approvals">
+          <span>الطلبات قيد المراجعة</span>
+          <strong id="generalPendingRequests">0</strong>
+          <small id="generalApprovalRate">0% نسبة الموافقة</small>
+          <i class="general-kpi-arrow">←</i>
+        </button>
+      </div>
+
+      <div class="general-charts-grid">
+        <article class="card general-chart-card">
+          <div class="general-chart-head">
+            <div>
+              <span>توزيع الأنشطة</span>
+              <h3>الطلاب والطالبات</h3>
+            </div>
+            <button class="general-chart-link" type="button" data-route="activities">عرض التفاصيل ←</button>
+          </div>
+
+          <div class="general-gender-layout">
+            <div class="general-multi-donut" id="generalGenderDonut" style="--male:0deg">
+              <div>
+                <b id="generalGenderTotal">0</b>
+                <small>نشاط</small>
+              </div>
+            </div>
+            <div class="general-chart-legend">
+              <span><i class="male"></i>الطلاب <b id="generalGenderMale">0</b></span>
+              <span><i class="female"></i>الطالبات <b id="generalGenderFemale">0</b></span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card general-chart-card">
+          <div class="general-chart-head">
+            <div>
+              <span>التوثيق العام</span>
+              <h3>اكتمال الشواهد</h3>
+            </div>
+            <button class="general-chart-link" type="button" data-route="reports">مركز الشواهد ←</button>
+          </div>
+
+          <div class="general-documentation-layout">
+            <div class="general-progress-ring" id="generalDocumentationRing" style="--p:0">
+              <div>
+                <b id="generalDocumentationPercent">0%</b>
+                <small>مكتمل</small>
+              </div>
+            </div>
+            <div class="general-chart-legend">
+              <span><i class="complete"></i>مكتمل <b id="generalDocumentationComplete">0</b></span>
+              <span><i class="incomplete"></i>غير مكتمل <b id="generalDocumentationIncomplete">0</b></span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card general-chart-card general-requests-card">
+          <div class="general-chart-head">
+            <div>
+              <span>حالة الطلبات</span>
+              <h3>الموافقات والقرارات</h3>
+            </div>
+            <button class="general-chart-link" type="button" data-route="approvals">مراجعة الطلبات ←</button>
+          </div>
+
+          <div class="general-requests-summary">
+            <button type="button" data-route="approvals">
+              <span>مقبولة</span>
+              <strong id="generalAcceptedRequests">0</strong>
+            </button>
+            <button type="button" data-route="approvals">
+              <span>مرفوضة</span>
+              <strong id="generalRejectedRequests">0</strong>
+            </button>
+            <button type="button" data-route="approvals">
+              <span>قيد المراجعة</span>
+              <strong id="generalReviewRequests">0</strong>
+            </button>
+          </div>
+
+          <div class="general-requests-bar">
+            <span id="generalAcceptedBar" style="width:0%"></span>
+            <i id="generalRejectedBar" style="width:0%"></i>
+            <b id="generalPendingBar" style="width:0%"></b>
+          </div>
+        </article>
+      </div>
+
+      <div class="general-sections-grid">
+        <article class="card general-section-card">
+          <div class="general-section-head">
+            <div>
+              <span>المجالات الرئيسية</span>
+              <h3>توزيع الأنشطة حسب المجال</h3>
+            </div>
+            <button type="button" data-route="reports">التقارير والتحليلات ←</button>
+          </div>
+          <div class="general-fields-chart" id="generalFieldsChart"></div>
+        </article>
+
+        <article class="card general-section-card">
+          <div class="general-section-head">
+            <div>
+              <span>المؤشرات الرياضية</span>
+              <h3>الطلاب مقابل الطالبات</h3>
+            </div>
+            <button type="button" data-route="indicator">مؤشر الأداء ←</button>
+          </div>
+
+          <div class="general-sports-comparison">
+            <button type="button" data-route="indicator" class="male">
+              <span>الطلاب</span>
+              <strong id="generalMaleIndicator">0%</strong>
+              <div><i id="generalMaleIndicatorBar" style="width:0%"></i></div>
+              <small id="generalMaleIndicatorPoints">0 نقطة</small>
+            </button>
+
+            <button type="button" data-route="indicator" class="female">
+              <span>الطالبات</span>
+              <strong id="generalFemaleIndicator">0%</strong>
+              <div><i id="generalFemaleIndicatorBar" style="width:0%"></i></div>
+              <small id="generalFemaleIndicatorPoints">0 نقطة</small>
+            </button>
+          </div>
+
+          <div class="general-mini-kpis">
+            <button type="button" data-route="scholarships">
+              <span>المنح الرياضية</span>
+              <b id="generalScholarships">0</b>
+            </button>
+            <button type="button" data-route="championships">
+              <span>البطولات</span>
+              <b id="generalChampionships">0</b>
+            </button>
+            <button type="button" data-route="athletes">
+              <span>ملفات الرياضيين</span>
+              <b id="generalAthletes">0</b>
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
 
     <section id="page-home" class="page active">
       <div class="hero home-hero">
@@ -335,7 +552,7 @@
     <section id="page-sports" class="page">
       <div class="hero">
         <div class="hero-img" style="background-image:url('assets/images/basketball-match.jpg')"></div>
-        <div class="hero-content"><span class="eyebrow" data-i18n="sports.eyebrow">وحدة الإدارة الرياضية</span><h2 data-i18n="sports.heroTitle">كل ما يخص الرياضة في صفحة واحدة</h2><p>المؤشر، المنح، الإقرار الإلكتروني، البطولات، ملفات الطلاب الرياضيين، التحليل، وسجل العمليات داخل وحدة الإدارة الرياضية.</p><div class="btns"><button class="btn primary" data-route="indicator">مؤشر الأداء الرياضي</button><button class="btn secondary" data-route="athletes">ملف الطالب الرياضي</button></div></div>
+        <div class="hero-content"><span class="eyebrow" data-i18n="sports.eyebrow">وحدة الإدارة الرياضية</span><h2 data-i18n="sports.heroTitle">كل ما يخص الرياضة في صفحة واحدة</h2><p>المؤشر، المنح، الإقرار الإلكتروني، البطولات، ملفات الطلاب الرياضيين، والتقارير والتحليلات داخل وحدة الإدارة الرياضية.</p><div class="btns"><button class="btn primary" data-route="indicator">مؤشر الأداء الرياضي</button><button class="btn secondary" data-route="athletes">ملف الطالب الرياضي</button></div></div>
       </div>
       <div class="grid cols-4">
         <div class="card stat"><div class="label">طلاب المنح</div><div class="value" id="sportsMale">0</div><div class="sub">من ملف الطلاب</div></div>
@@ -350,7 +567,6 @@
         <div class="card service" data-route="agreement"><span data-icon="pen"></span><h4>الإقرار الإلكتروني للمنح</h4><p>متابعة التوقيع والاعتماد.</p></div>
         <div class="card service" data-route="championships"><span data-icon="calendar"></span><h4>البطولات الرياضية</h4><p>روزنامة الاتحاد والبطولات المستضافة.</p></div>
         <div class="card service" data-route="athletes"><span data-icon="users"></span><h4>ملف الطالب الرياضي</h4><p>بيانات الطالب ومشاركاته وسجل بطولاته.</p></div>
-        <div class="card service" data-route="audit"><span data-icon="log"></span><h4>سجل العمليات</h4><p>تتبع الاستيراد والتحديثات والاعتمادات.</p></div>
       </div>
       <div class="section-title"><div><h3>مركز القرار التنفيذي</h3><p>تحليل ومقارنة بدون دمج مؤشر الطلاب مع الطالبات.</p></div><div id="decisionBtns" class="filterbar"><button class="active" data-mode="general">نظرة عامة</button><button data-mode="male">تحليل الطلاب</button><button data-mode="female">تحليل الطالبات</button></div></div>
       <div class="grid cols-2">
@@ -1192,7 +1408,7 @@
 
 
 <section id="page-admin" class="page">
-      <div class="section-title"><div><h3>إدارة البيانات والتعديل اليدوي</h3><p>إضافة وتعديل وحذف بيانات المنصة من الواجهة دون فتح الكود. تحفظ التعديلات محليًا في هذه النسخة وتُسجل في سجل العمليات.</p></div><div class="btns"><button class="btn primary" id="adminAddRecord">إضافة سجل</button><button class="btn outline" id="adminExportData">تصدير نسخة احتياطية</button><label class="btn outline filebtn">استيراد نسخة احتياطية<input id="adminImportData" type="file" accept="application/json,.json" hidden></label><button class="btn danger" id="adminResetData">إلغاء التعديلات المحلية</button></div></div>
+      <div class="section-title"><div><h3>إدارة البيانات والتعديل اليدوي</h3><p>إضافة وتعديل وحذف بيانات المنصة من الواجهة دون فتح الكود، مع حفظ التعديلات محليًا في هذه النسخة.</p></div><div class="btns"><button class="btn primary" id="adminAddRecord">إضافة سجل</button><button class="btn outline" id="adminExportData">تصدير نسخة احتياطية</button><label class="btn outline filebtn">استيراد نسخة احتياطية<input id="adminImportData" type="file" accept="application/json,.json" hidden></label><button class="btn danger" id="adminResetData">إلغاء التعديلات المحلية</button></div></div>
       <div class="grid cols-4 admin-summary">
         <div class="card stat"><div class="label">صلاحية المستخدم</div><div class="value small-value">كاملة</div><div class="sub">إضافة، تعديل، حذف، اعتماد</div></div>
         <div class="card stat"><div class="label">المستخدمون الرئيسيون</div><div class="value">3</div><div class="sub">مسؤول النظام، مسؤول المؤشر، العميد</div></div>
@@ -1204,11 +1420,6 @@
         <div class="admin-help">كل تعديل في هذه النسخة يُحفظ داخل المتصفح عبر Local Storage. عند التنفيذ الرسمي تُستبدل هذه الطبقة بقاعدة بيانات وصلاحيات دخول Microsoft.</div>
         <div class="table-wrap"><table><thead id="adminHead"></thead><tbody id="adminRows"></tbody></table></div>
       </div>
-    </section>
-
-    <section id="page-audit" class="page">
-      <div class="section-title"><div><h3>سجل العمليات</h3><p>تتبع عمليات الاستيراد والتعديل والاعتماد داخل المنصة.</p></div></div>
-      <div class="card table-card"><div class="table-toolbar"><input id="auditSearch" placeholder="بحث بالوقت أو المستخدم أو الوحدة أو العملية"></div><div class="table-wrap"><table><thead><tr><th>الوقت</th><th>المستخدم</th><th>الوحدة</th><th>العملية</th></tr></thead><tbody id="auditRows"></tbody></table></div></div>
     </section>
 
   </main>
@@ -1356,6 +1567,6 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=24.6"></script>
+<script src="js/app.js?v=24.7"></script>
 </body>
 </html>
