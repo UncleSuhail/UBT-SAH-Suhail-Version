@@ -2197,3 +2197,33 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     window.addEventListener('orientationchange',syncViewport,{passive:true});
   });
 })();
+
+/* ==========================================================
+   SAH V20.7 — fixed stack verification
+   ========================================================== */
+(function(){
+  'use strict';
+
+  function syncFixedStack(){
+    const root=document.documentElement;
+    const header=document.querySelector('.topbar');
+    const role=document.querySelector('.mobile-user-strip');
+
+    if(window.innerWidth<=1100){
+      const headerHeight=header?.getBoundingClientRect().height || 72;
+      const roleHeight=role?.getBoundingClientRect().height || 58;
+      root.style.setProperty('--sah-mobile-header-height',`${headerHeight}px`);
+      root.style.setProperty('--sah-mobile-role-height',`${roleHeight}px`);
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded',()=>{
+    console.info('SAH build 20.7 loaded');
+    document.documentElement.dataset.sahBuild='20.7';
+    syncFixedStack();
+    setTimeout(syncFixedStack,150);
+  });
+
+  window.addEventListener('resize',syncFixedStack,{passive:true});
+  window.addEventListener('orientationchange',()=>setTimeout(syncFixedStack,150),{passive:true});
+})();
