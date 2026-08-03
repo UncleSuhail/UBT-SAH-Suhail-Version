@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>SAH | منصة الأنشطة الطلابية</title>
-<link rel="stylesheet" href="css/style.css?v=23.3">
+<link rel="stylesheet" href="css/style.css?v=23.4">
 
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
@@ -71,7 +71,7 @@
 </style>
 
 </head>
-<body data-sah-version="23.3" class="login-mode">
+<body data-sah-version="23.4" class="login-mode">
 <section id="login" class="login-page">
   <div class="login-bg"></div>
   <div class="login-card">
@@ -582,38 +582,83 @@
     </button>
   </div>
 
-  <div class="approval-secondary-grid">
-    <div class="card approval-rate-card">
-      <div>
-        <span class="approval-rate-label">نسبة الموافقات</span>
+  <div class="approval-charts-grid">
+    <div class="card approval-chart-card">
+      <div class="approval-chart-copy">
+        <span>قرارات الطلبات</span>
         <strong id="approvalPercentText">0%</strong>
+        <small>نسبة الموافقات من إجمالي الطلبات</small>
+        <div class="approval-chart-legend">
+          <span><i class="legend-dot approved"></i>الموافقات <b id="approvalChartAccepted">0</b></span>
+          <span><i class="legend-dot rejected"></i>الرفض <b id="approvalChartRejected">0</b></span>
+          <span><i class="legend-dot pending"></i>قيد المراجعة <b id="approvalChartPending">0</b></span>
+        </div>
       </div>
-      <div class="donut compact-donut" id="approvalDonut" style="--p:0">
-        <b id="approvalPercent">0%</b>
+      <div class="multi-donut approval-decision-donut" id="approvalDecisionDonut"
+           style="--approved:0deg;--rejected:0deg">
+        <div><b id="approvalDecisionTotal">0</b><small>طلب</small></div>
       </div>
     </div>
 
-    <div class="card registered-clubs-panel hidden" id="registeredClubsPanel">
-      <div class="registered-clubs-header">
-        <div>
-          <h4>النوادي المسجلة والمفعلة</h4>
-          <p>تتحدث القائمة تلقائيًا عند اعتماد نادي جديد.</p>
+    <div class="card approval-chart-card">
+      <div class="approval-chart-copy">
+        <span>أنشطة الطالبات مقارنة بالطلاب</span>
+        <strong id="approvalFemaleRatioText">0%</strong>
+        <small>نسبة أنشطة الطالبات من الأنشطة المعتمدة</small>
+        <div class="approval-chart-legend">
+          <span><i class="legend-dot male"></i>الطلاب <b id="approvalMaleActivityCount">0</b></span>
+          <span><i class="legend-dot female"></i>الطالبات <b id="approvalFemaleActivityCount">0</b></span>
         </div>
-        <button class="btn outline" id="closeRegisteredClubsPanel" type="button">إغلاق</button>
       </div>
-      <div class="table-wrap">
-        <table class="registered-clubs-table">
-          <thead>
-            <tr>
-              <th>اسم النادي</th>
-              <th>الحالة</th>
-              <th>عدد الأنشطة</th>
-              <th>الأنشطة المرتبطة</th>
-            </tr>
-          </thead>
-          <tbody id="registeredClubsRows"></tbody>
-        </table>
+      <div class="multi-donut approval-gender-donut" id="approvalGenderDonut"
+           style="--male:0deg">
+        <div><b id="approvalGenderTotal">0</b><small>نشاط</small></div>
       </div>
+    </div>
+
+    <div class="card approval-chart-card club-share-chart-card">
+      <div class="approval-chart-copy">
+        <span>توزيع أنشطة النوادي</span>
+        <strong id="clubActivitiesTotalText">0 نشاط</strong>
+        <small>نسبة مساهمة كل نادٍ من إجمالي أنشطة النوادي</small>
+      </div>
+      <div class="club-share-chart-layout">
+        <div class="multi-donut club-share-donut" id="clubShareDonut">
+          <div><b id="clubShareTotal">0</b><small>نشاط</small></div>
+        </div>
+        <div class="club-chart-legend" id="clubShareLegend"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card registered-clubs-panel hidden" id="registeredClubsPanel">
+    <div class="registered-clubs-header">
+      <div>
+        <h4>النوادي المسجلة والمفعلة</h4>
+        <p>تتحدث القائمة تلقائيًا عند اعتماد نادي جديد، ويمكن تعديل النادي أو حذفه.</p>
+      </div>
+      <div class="registered-clubs-header-actions">
+        <button class="btn outline compact-btn" id="manageRegisteredClubsBtn" type="button">
+          ✎ تعديل النوادي
+        </button>
+        <button class="btn outline compact-btn" id="closeRegisteredClubsPanel" type="button">
+          إغلاق
+        </button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table class="registered-clubs-table">
+        <thead>
+          <tr>
+            <th>اسم النادي</th>
+            <th>الحالة</th>
+            <th>عدد الأنشطة</th>
+            <th>الأنشطة المرتبطة</th>
+            <th class="club-management-column">الإدارة</th>
+          </tr>
+        </thead>
+        <tbody id="registeredClubsRows"></tbody>
+      </table>
     </div>
   </div>
   <div class="card table-card"><div class="table-wrap"><table><thead><tr><th>نوع الطلب</th><th>العنوان</th><th>مقدم الطلب</th><th>التاريخ</th><th>الفئة/السعة</th><th>الحالة</th><th>الإجراء</th></tr></thead><tbody id="approvalRequestRows"></tbody></table></div></div>
@@ -984,6 +1029,6 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=23.3"></script>
+<script src="js/app.js?v=23.4"></script>
 </body>
 </html>

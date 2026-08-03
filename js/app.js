@@ -2769,7 +2769,9 @@ window.addEventListener('DOMContentLoaded',initPreferences);
 'use strict';
 const CAT=["الأنشطة التوعوية","الأنشطة و البرامج المجتمعية و التطوعية","الأنشطة الثقافية","الأنشطة العلمية","الأنشطة الفنية","الأنشطة الرياضية","البرامج التدريبية","برامج عامة على مستوى الجامعة"];
 const K={sports:'sah-v22-sports',clubs:'sah-v22-clubs',clubEvents:'sah-v22-club-events',vol:'sah-v22-vol',apps:'sah-v22-apps'};
-const DEFAULT_REGISTERED_CLUBS=["نادي الأمن السيبراني", "نادي البرمجة", "نادي التنمية المستدامة", "نادي الهندسة المعمارية", "نادي الهندسة المدنية", "نادي ريادة الأعمال", "نادي إدارة الأعمال", "نادي المالية", "نادي المحاسبة"];
+const CLUB_REGISTRY_KEY='sah-v23-4-club-registry';
+const CLUB_DELETED_KEY='sah-v23-4-deleted-clubs';
+const DEFAULT_CLUB_REGISTRY=[{"name": "نادي الأمن السيبراني", "activities": ["مسابقة التقاط العلم", "ورشة الأمن الرقمي", "معسكر اختبار الاختراق"]}, {"name": "نادي البرمجة", "activities": ["هاكاثون البرمجة", "ورشة تطوير الويب", "تحدي الخوارزميات", "لقاء مطوري التطبيقات"]}, {"name": "نادي التنمية المستدامة", "activities": ["حملة الجامعة الخضراء", "مبادرة إعادة التدوير"]}, {"name": "نادي الهندسة المعمارية", "activities": ["معرض التصاميم المعمارية", "ورشة النمذجة ثلاثية الأبعاد"]}, {"name": "نادي الهندسة المدنية", "activities": ["زيارة مشروع إنشائي", "مسابقة الجسور المصغرة", "محاضرة البنية التحتية"]}, {"name": "نادي ريادة الأعمال", "activities": ["معسكر بناء المشاريع", "لقاء رواد الأعمال", "مسابقة نموذج العمل", "جلسة الاستثمار الجريء"]}, {"name": "نادي إدارة الأعمال", "activities": ["محاكاة إدارة الشركات", "ورشة القيادة الإدارية"]}, {"name": "نادي المالية", "activities": ["تحدي المحفظة الاستثمارية", "ورشة الثقافة المالية", "ملتقى الأسواق المالية"]}, {"name": "نادي المحاسبة", "activities": ["مسابقة المحاسب الواعد", "ورشة المعايير المحاسبية"]}];
 const R=(k,f=[])=>{try{return JSON.parse(localStorage.getItem(k)||'null')??f}catch{return f}};
 const W=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const id=p=>p+'-'+Date.now()+'-'+Math.random().toString(36).slice(2,6);
@@ -2778,21 +2780,73 @@ const badge=s=>`<span class="request-status ${s==='مقبول'?'accepted':s==='�
 const later3=d=>{const x=new Date(d+'T00:00:00'),m=new Date();m.setHours(0,0,0,0);m.setDate(m.getDate()+3);return x>=m};
 
 
-function registeredClubs(){
- const approvedRequests=R(K.clubs)
-   .filter(club=>club.status==='مقبول'&&club.name)
-   .map(club=>club.name.trim());
+let clubManagementMode=false;
 
- return [...new Set([
-   ...DEFAULT_REGISTERED_CLUBS,
-   ...approvedRequests
- ])].filter(Boolean);
+function seedClubRegistry(){
+ const existing=R(CLUB_REGISTRY_KEY,null);
+ if(Array.isArray(existing)&&existing.length)return existing;
+
+ const seeded=DEFAULT_CLUB_REGISTRY.map((club,index)=>({
+   id:`default-club-${index+1}`,
+   name:club.name,
+   status:'مفعل',
+   source:'default',
+   demoActivities:club.activities.map((name,activityIndex)=>({
+     id:`demo-${index+1}-${activityIndex+1}`,
+     name,
+     status:'مقبول',
+     demo:true
+   }))
+ }));
+
+ W(CLUB_REGISTRY_KEY,seeded);
+ return seeded;
 }
 
-function clubActivities(clubName){
+function syncApprovedClubRequests(){
+ const registry=seedClubRegistry();
+ const deleted=new Set(R(CLUB_DELETED_KEY,[]));
+ let changed=false;
+
+ R(K.clubs)
+   .filter(club=>club.status==='مقبول'&&club.name)
+   .forEach(club=>{
+     const name=club.name.trim();
+     if(deleted.has(name))return;
+     if(!registry.some(item=>item.name===name)){
+       registry.push({
+         id:club.id||id('club-registry'),
+         name,
+         status:'مفعل',
+         source:'approved-request',
+         demoActivities:[]
+       });
+       changed=true;
+     }
+   });
+
+ if(changed)W(CLUB_REGISTRY_KEY,registry);
+ return registry;
+}
+
+function clubRegistry(){
+ return syncApprovedClubRequests();
+}
+
+function registeredClubs(){
+ return clubRegistry().map(club=>club.name);
+}
+
+function realClubActivities(clubName){
  return R(K.clubEvents)
    .filter(event=>event.club===clubName)
    .sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+}
+
+function allClubActivities(club){
+ const demo=Array.isArray(club.demoActivities)?club.demoActivities:[];
+ const real=realClubActivities(club.name);
+ return [...demo,...real];
 }
 
 function populateClubEventSelect(){
@@ -2809,39 +2863,162 @@ function populateClubEventSelect(){
  if(current&&clubs.includes(current))select.value=current;
 }
 
+function clubColor(index){
+ const colors=[
+   '#1769c2','#7b4acb','#0e8b6d','#d28218','#b52b55',
+   '#2c8ca8','#6c7b20','#a44b20','#4054a8','#088a9b'
+ ];
+ return colors[index%colors.length];
+}
+
+function renderClubShareChart(){
+ const clubs=clubRegistry();
+ const totals=clubs.map(club=>allClubActivities(club).length);
+ const total=totals.reduce((sum,value)=>sum+value,0);
+ const donut=document.getElementById('clubShareDonut');
+ const legend=document.getElementById('clubShareLegend');
+
+ const set=(id,value)=>{
+   const element=document.getElementById(id);
+   if(element)element.textContent=value;
+ };
+
+ set('clubShareTotal',total);
+ set('clubActivitiesTotalText',`${total} نشاط`);
+
+ if(donut){
+   if(!total){
+     donut.style.background='conic-gradient(#e9eff8 0deg 360deg)';
+   }else{
+     let start=0;
+     const segments=totals.map((value,index)=>{
+       const degrees=value/total*360;
+       const end=start+degrees;
+       const segment=`${clubColor(index)} ${start.toFixed(2)}deg ${end.toFixed(2)}deg`;
+       start=end;
+       return segment;
+     });
+     donut.style.background=`conic-gradient(${segments.join(',')})`;
+   }
+ }
+
+ if(legend){
+   legend.innerHTML=clubs.map((club,index)=>{
+     const count=totals[index];
+     const percent=total?Math.round(count/total*100):0;
+     return `<div class="club-chart-legend-item">
+       <i style="background:${clubColor(index)}"></i>
+       <span>${club.name}</span>
+       <b>${count}</b>
+       <small>${percent}%</small>
+     </div>`;
+   }).join('');
+ }
+}
+
 function renderRegisteredClubs(){
- const clubs=registeredClubs();
+ const clubs=clubRegistry();
  const count=document.getElementById('registeredClubsCount');
  if(count)count.textContent=clubs.length;
 
  const body=document.getElementById('registeredClubsRows');
  if(!body)return;
 
- body.innerHTML=clubs.map(name=>{
-   const activities=clubActivities(name);
+ body.innerHTML=clubs.map(club=>{
+   const activities=allClubActivities(club);
    const activityText=activities.length
      ? activities.map(item=>`
         <span class="club-activity-chip ${item.status==='مقبول'?'accepted':item.status==='مرفوض'?'rejected':'pending'}">
           ${item.name||'فعالية بدون اسم'}
-          <small>${item.status||'تحت المراجعة'}</small>
+          <small>${item.demo?'تجريبي':(item.status||'تحت المراجعة')}</small>
         </span>`).join('')
      : '<span class="club-no-activities">لا توجد أنشطة مسجلة</span>';
 
-   const approvedFromRequest=R(K.clubs).some(
-     club=>club.name===name&&club.status==='مقبول'
-   );
+   const nameCell=clubManagementMode
+     ? `<input class="club-name-editor" data-club-id="${club.id}"
+               value="${club.name}" aria-label="اسم النادي">`
+     : `<strong class="registered-club-name">${club.name}</strong>`;
 
-   return `<tr>
-     <td><strong class="registered-club-name">${name}</strong></td>
-     <td>
-       <span class="request-status accepted">
-         ${approvedFromRequest?'معتمد حديثًا':'مفعل'}
-       </span>
-     </td>
+   return `<tr data-club-id="${club.id}">
+     <td>${nameCell}</td>
+     <td><span class="request-status accepted">${club.status||'مفعل'}</span></td>
      <td><strong class="club-activities-count">${activities.length}</strong></td>
      <td><div class="club-activities-list">${activityText}</div></td>
+     <td class="club-management-column">
+       <div class="club-management-actions">
+         <button class="club-save-btn" data-club-id="${club.id}" type="button">حفظ</button>
+         <button class="club-delete-btn" data-club-id="${club.id}" type="button">حذف</button>
+       </div>
+     </td>
    </tr>`;
  }).join('');
+
+ document.getElementById('registeredClubsPanel')
+   ?.classList.toggle('club-management-active',clubManagementMode);
+
+ renderClubShareChart();
+}
+
+function renameClub(clubId,newName){
+ const trimmed=String(newName||'').trim();
+ if(!trimmed){
+   window.showToast?.('لا يمكن ترك اسم النادي فارغًا.');
+   return false;
+ }
+
+ const registry=clubRegistry();
+ const club=registry.find(item=>item.id===clubId);
+ if(!club)return false;
+
+ if(registry.some(item=>item.id!==clubId&&item.name===trimmed)){
+   window.showToast?.('يوجد نادٍ آخر بالاسم نفسه.');
+   return false;
+ }
+
+ const oldName=club.name;
+ club.name=trimmed;
+ W(CLUB_REGISTRY_KEY,registry);
+
+ const events=R(K.clubEvents);
+ events.forEach(event=>{
+   if(event.club===oldName)event.club=trimmed;
+ });
+ W(K.clubEvents,events);
+
+ const clubRequests=R(K.clubs);
+ clubRequests.forEach(request=>{
+   if(request.name===oldName)request.name=trimmed;
+ });
+ W(K.clubs,clubRequests);
+
+ const deleted=new Set(R(CLUB_DELETED_KEY,[]));
+ deleted.delete(trimmed);
+ W(CLUB_DELETED_KEY,[...deleted]);
+
+ populateClubEventSelect();
+ renderAll();
+ window.showToast?.('تم تعديل بيانات النادي.');
+ return true;
+}
+
+function deleteClub(clubId){
+ const registry=clubRegistry();
+ const club=registry.find(item=>item.id===clubId);
+ if(!club)return;
+
+ if(!confirm(`هل تريد حذف "${club.name}" من النوادي المفعلة؟`))return;
+
+ W(CLUB_REGISTRY_KEY,registry.filter(item=>item.id!==clubId));
+
+ const deleted=new Set(R(CLUB_DELETED_KEY,[]));
+ deleted.add(club.name);
+ W(CLUB_DELETED_KEY,[...deleted]);
+
+ const events=R(K.clubEvents).filter(event=>event.club!==club.name);
+ W(K.clubEvents,events);
+
+ renderAll();
+ window.showToast?.('تم حذف النادي والأنشطة المرتبطة به.');
 }
 
 function approvalBeneficiaryTotals(requests){
@@ -3070,6 +3247,17 @@ function approvals(){
  const p=a.length?Math.round(ac/a.length*100):0;
  const beneficiaryTotals=approvalBeneficiaryTotals(a);
 
+ const approvedActivities=a.filter(item=>
+   item.status==='مقبول'&&item.kind!=='تسجيل نادي جديد'
+ );
+ const maleActivities=approvedActivities.filter(item=>item.gender==='طلاب').length;
+ const femaleActivities=approvedActivities.filter(item=>item.gender==='طالبات').length;
+ const sharedActivities=approvedActivities.filter(item=>item.gender==='الاثنان معًا').length;
+ const maleActivityTotal=maleActivities+Math.ceil(sharedActivities/2);
+ const femaleActivityTotal=femaleActivities+Math.floor(sharedActivities/2);
+ const genderTotal=maleActivityTotal+femaleActivityTotal;
+ const femaleRatio=genderTotal?Math.round(femaleActivityTotal/genderTotal*100):0;
+
  [
    ['approvalTotal',a.length],
    ['approvalAccepted',ac],
@@ -3078,13 +3266,34 @@ function approvals(){
    ['approvalPercent',p+'%'],
    ['approvalPercentText',p+'%'],
    ['approvalMaleBeneficiaries',beneficiaryTotals.male],
-   ['approvalFemaleBeneficiaries',beneficiaryTotals.female]
+   ['approvalFemaleBeneficiaries',beneficiaryTotals.female],
+   ['approvalChartAccepted',ac],
+   ['approvalChartRejected',re],
+   ['approvalChartPending',pe],
+   ['approvalDecisionTotal',a.length],
+   ['approvalFemaleRatioText',femaleRatio+'%'],
+   ['approvalMaleActivityCount',maleActivityTotal],
+   ['approvalFemaleActivityCount',femaleActivityTotal],
+   ['approvalGenderTotal',genderTotal]
  ].forEach(([i,v])=>{
    const e=document.getElementById(i);
    if(e)e.textContent=v;
  });
 
- document.getElementById('approvalDonut')?.style.setProperty('--p',p);
+ const decisionDonut=document.getElementById('approvalDecisionDonut');
+ if(decisionDonut){
+   const approvedDeg=a.length?ac/a.length*360:0;
+   const rejectedDeg=a.length?re/a.length*360:0;
+   decisionDonut.style.setProperty('--approved',`${approvedDeg}deg`);
+   decisionDonut.style.setProperty('--rejected',`${rejectedDeg}deg`);
+ }
+
+ const genderDonut=document.getElementById('approvalGenderDonut');
+ if(genderDonut){
+   const maleDeg=genderTotal?maleActivityTotal/genderTotal*360:0;
+   genderDonut.style.setProperty('--male',`${maleDeg}deg`);
+ }
+
  renderRegisteredClubs();
  populateClubEventSelect();
 }
@@ -3104,7 +3313,30 @@ window.addEventListener('DOMContentLoaded',()=>{
  });
 
  document.getElementById('closeRegisteredClubsPanel')?.addEventListener('click',()=>{
+   clubManagementMode=false;
    document.getElementById('registeredClubsPanel')?.classList.add('hidden');
+ });
+
+ document.getElementById('manageRegisteredClubsBtn')?.addEventListener('click',()=>{
+   clubManagementMode=!clubManagementMode;
+   const button=document.getElementById('manageRegisteredClubsBtn');
+   if(button)button.textContent=clubManagementMode?'✓ إنهاء التعديل':'✎ تعديل النوادي';
+   renderRegisteredClubs();
+ });
+
+ document.getElementById('registeredClubsRows')?.addEventListener('click',event=>{
+   const saveButton=event.target.closest('.club-save-btn');
+   const deleteButton=event.target.closest('.club-delete-btn');
+
+   if(saveButton){
+     const id=saveButton.dataset.clubId;
+     const input=document.querySelector(`.club-name-editor[data-club-id="${id}"]`);
+     renameClub(id,input?.value||'');
+   }
+
+   if(deleteButton){
+     deleteClub(deleteButton.dataset.clubId);
+   }
  });
 
  document.querySelectorAll('[data-event-category]').forEach((b,i)=>b.onclick=()=>{document.querySelectorAll('[data-event-category]').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderCategory(b.dataset.eventCategory);if(i===0||true){}});
@@ -3754,4 +3986,11 @@ window.addEventListener('DOMContentLoaded',()=>{
 window.addEventListener('DOMContentLoaded',()=>{
   console.info('SAH build 23.3 loaded');
   document.documentElement.dataset.sahBuild='23.3';
+});
+
+
+/* SAH V23.4 — approval charts and club management */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 23.4 loaded');
+  document.documentElement.dataset.sahBuild='23.4';
 });
