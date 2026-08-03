@@ -2992,51 +2992,95 @@ window.addEventListener('DOMContentLoaded',()=>{
 })();
 
 /* ==========================================================
-   SAH V22.3 — definitive modal interaction repair
+   SAH V22.4 — deterministic calculator modal controller
    ========================================================== */
 (function(){
   'use strict';
 
-  function isIndicator(){
-    return (document.getElementById('activeRole')?.value ||
-      document.getElementById('mobileActiveRole')?.value) === 'indicator';
+  const MODALS = {
+    indicatorSettingsModal: 'indicatorSettingsModal',
+    fieldPointsCalculatorModal: 'fieldPointsCalculatorModal',
+    indicatorFieldsManagerModal: 'indicatorFieldsManagerModal'
+  };
+
+  const ACTIONS = {
+    indicatorSaveLimits: 'saveIndicatorLimits',
+    saveFieldPointsCalculator: 'saveFieldCalculator',
+    saveIndicatorFieldsManager: 'saveFieldsManager',
+    restorePreviousIndicatorLimits: 'restorePreviousLimits',
+    indicatorResetLimits: 'resetOriginalLimits',
+    restorePreviousFieldPointsCalculator: 'restorePreviousFieldCalculator',
+    resetFieldPointsCalculator: 'resetFieldCalculator'
+  };
+
+  let lastHandledAt = 0;
+
+  function activeRole(){
+    return document.getElementById('activeRole')?.value ||
+      document.getElementById('mobileActiveRole')?.value ||
+      'system';
   }
 
-  function closeModalDirect(id){
-    const modal=document.getElementById(id);
+  function canEdit(){
+    return activeRole() === 'indicator';
+  }
+
+  function closeModal(id){
+    const modal = document.getElementById(id);
     if(!modal) return;
+
     modal.classList.add('hidden');
     modal.setAttribute('aria-hidden','true');
-    document.body.style.overflow='';
+    modal.style.display = '';
+    document.body.style.overflow = '';
   }
 
-  function saveThroughApi(action){
-    if(!isIndicator()){
+  function closeFromTarget(target){
+    if(target.matches('[data-close-indicator-settings]')){
+      closeModal(MODALS.indicatorSettingsModal);
+      return true;
+    }
+    if(target.matches('[data-close-field-calculator]')){
+      closeModal(MODALS.fieldPointsCalculatorModal);
+      return true;
+    }
+    if(target.matches('[data-close-fields-manager]')){
+      closeModal(MODALS.indicatorFieldsManagerModal);
+      return true;
+    }
+    return false;
+  }
+
+  function runAction(target){
+    const actionName = ACTIONS[target.id];
+    if(!actionName) return false;
+
+    if(!canEdit()){
       window.showToast?.('تعديل النقاط متاح لمسؤول مؤشر الأداء الرياضي فقط.');
-      return;
+      return true;
     }
 
-    const api=window.SAH_POINT_API;
-    if(!api || typeof api[action] !== 'function'){
-      console.error('SAH_POINT_API action unavailable:',action);
-      window.showToast?.('تعذر تنفيذ العملية. أعد تحميل الصفحة.');
-      return;
+    const api = window.SAH_POINT_API;
+    const fn = api?.[actionName];
+
+    if(typeof fn !== 'function'){
+      console.error('Missing point action:', actionName, api);
+      window.showToast?.('تعذر الوصول إلى وظيفة الحفظ. أعد تحميل الصفحة.');
+      return true;
     }
 
     try{
-      api[action]();
+      fn();
     }catch(error){
-      console.error('Point calculator action failed:',error);
-      window.showToast?.('حدث خطأ أثناء الحفظ. راجع Console للتفاصيل.');
+      console.error(`Point action failed: ${actionName}`, error);
+      window.showToast?.('تعذر تنفيذ العملية. افتح Console لمعرفة الخطأ.');
     }
+
+    return true;
   }
 
-  /*
-    Capture-phase delegation runs before accumulated legacy listeners.
-    It makes close/save/reset/restore deterministic without cloning nodes.
-  */
-  document.addEventListener('click',event=>{
-    const target=event.target.closest(
+  function handleInteraction(event){
+    const target = event.target.closest(
       '[data-close-indicator-settings],' +
       '[data-close-field-calculator],' +
       '[data-close-fields-manager],' +
@@ -3051,53 +3095,63 @@ window.addEventListener('DOMContentLoaded',()=>{
 
     if(!target) return;
 
+    const now = Date.now();
+    if(now - lastHandledAt < 250) return;
+    lastHandledAt = now;
+
     event.preventDefault();
-    event.stopImmediatePropagation();
+    event.stopPropagation();
+    event.stopImmediatePropagation?.();
 
-    if(target.matches('[data-close-indicator-settings]')){
-      closeModalDirect('indicatorSettingsModal');
-      return;
-    }
-    if(target.matches('[data-close-field-calculator]')){
-      closeModalDirect('fieldPointsCalculatorModal');
-      return;
-    }
-    if(target.matches('[data-close-fields-manager]')){
-      closeModalDirect('indicatorFieldsManagerModal');
-      return;
-    }
-
-    const actions={
-      indicatorSaveLimits:'saveIndicatorLimits',
-      saveFieldPointsCalculator:'saveFieldCalculator',
-      saveIndicatorFieldsManager:'saveFieldsManager',
-      restorePreviousIndicatorLimits:'restorePreviousLimits',
-      indicatorResetLimits:'resetOriginalLimits',
-      restorePreviousFieldPointsCalculator:'restorePreviousFieldCalculator',
-      resetFieldPointsCalculator:'resetFieldCalculator'
-    };
-
-    saveThroughApi(actions[target.id]);
-  },true);
+    if(closeFromTarget(target)) return;
+    runAction(target);
+  }
 
   /*
-    Prevent backdrop/document handlers from swallowing input interaction.
+    Pointerup is the primary mobile/desktop path.
+    Click is a keyboard/accessibility fallback.
   */
-  document.addEventListener('pointerdown',event=>{
-    if(event.target.closest('.modal-card')){
-      event.stopPropagation();
+  document.addEventListener('pointerup', handleInteraction, true);
+  document.addEventListener('click', handleInteraction, true);
+
+  document.addEventListener('keydown',event=>{
+    if(event.key !== 'Escape') return;
+
+    const visible = [
+      MODALS.indicatorSettingsModal,
+      MODALS.fieldPointsCalculatorModal,
+      MODALS.indicatorFieldsManagerModal
+    ].find(id=>{
+      const modal=document.getElementById(id);
+      return modal && !modal.classList.contains('hidden');
+    });
+
+    if(visible){
+      event.preventDefault();
+      closeModal(visible);
     }
-  },true);
+  });
 
   window.addEventListener('DOMContentLoaded',()=>{
-    console.info('SAH build 22.3 loaded');
-    document.documentElement.dataset.sahBuild='22.3';
+    console.info('SAH build 22.4 loaded');
+    document.documentElement.dataset.sahBuild='22.4';
 
-    document.querySelectorAll('.modal').forEach(modal=>{
-      modal.setAttribute(
-        'aria-hidden',
-        String(modal.classList.contains('hidden'))
-      );
-    });
+    /*
+      Guarantee that all modal controls are enabled for the indicator role.
+    */
+    if(canEdit()){
+      [
+        'indicatorSaveLimits',
+        'saveFieldPointsCalculator',
+        'saveIndicatorFieldsManager',
+        'restorePreviousIndicatorLimits',
+        'indicatorResetLimits',
+        'restorePreviousFieldPointsCalculator',
+        'resetFieldPointsCalculator'
+      ].forEach(id=>{
+        const element=document.getElementById(id);
+        if(element) element.disabled=false;
+      });
+    }
   });
 })();

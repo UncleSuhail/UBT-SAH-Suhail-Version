@@ -3574,3 +3574,67 @@ body:not([data-active-role="indicator"]) #openFieldPointsCalculator{
 body.theme-dark .modal .modal-actions{
   background:#061c3d!important;
 }
+
+
+/* ==========================================================
+   SAH V22.4 — modal controls always interactive
+   ========================================================== */
+
+.modal.hidden{
+  display:none!important;
+}
+
+.modal:not(.hidden){
+  display:grid!important;
+  pointer-events:auto!important;
+}
+
+.modal-backdrop{
+  pointer-events:auto!important;
+}
+
+.modal-card{
+  pointer-events:auto!important;
+  position:relative!important;
+  z-index:10!important;
+}
+
+.modal-card input,
+.modal-card select,
+.modal-card textarea,
+.modal-card button{
+  pointer-events:auto!important;
+  opacity:1!important;
+}
+
+.modal-card button:not(:disabled){
+  cursor:pointer!important;
+}
+
+.modal-actions{
+  position:sticky!important;
+  bottom:0!important;
+  z-index:30!important;
+  margin-inline:-22px!important;
+  padding:14px 22px!important;
+  background:#fff!important;
+  border-top:1px solid var(--border)!important;
+  box-shadow:0 -8px 20px rgba(7,44,100,.08)!important;
+}
+
+body.theme-dark .modal-actions{
+  background:#061c3d!important;
+}
+
+@media(max-width:580px){
+  .modal-actions{
+    margin-inline:-15px!important;
+    padding:12px 15px!important;
+    flex-wrap:wrap!important;
+  }
+
+  .modal-actions .btn{
+    flex:1 1 45%!important;
+    justify-content:center!important;
+  }
+}
