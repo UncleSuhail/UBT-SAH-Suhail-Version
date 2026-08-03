@@ -1932,3 +1932,428 @@ body.theme-dark .indicator-field-row td:first-child{
   line-height:1.45!important;
 }
 
+/* ==========================================================
+   SAH V20 — complete responsive/mobile compatibility
+   ========================================================== */
+
+html,body{
+  max-width:100%;
+  overflow-x:hidden;
+}
+
+img,svg,video,iframe{
+  max-width:100%;
+}
+
+.main,.page,.card,.table-card,.hero{
+  min-width:0;
+}
+
+/* Tablet and mobile drawer */
+@media(max-width:1100px){
+
+  #app{
+    padding-top:76px!important;
+  }
+
+  .topbar{
+    position:fixed!important;
+    top:0!important;
+    right:0!important;
+    left:0!important;
+    width:100%!important;
+    min-height:76px!important;
+    height:76px!important;
+    margin:0!important;
+    padding:9px 12px!important;
+    display:grid!important;
+    grid-template-columns:46px auto minmax(0,1fr) auto!important;
+    align-items:center!important;
+    gap:10px!important;
+    border-radius:0!important;
+    overflow:hidden!important;
+  }
+
+  .topbar .mobile-menu{
+    display:grid!important;
+    grid-column:1!important;
+    place-items:center!important;
+    width:44px!important;
+    min-width:44px!important;
+    height:44px!important;
+    margin:0!important;
+    order:initial!important;
+  }
+
+  .topbar .brand-left{
+    grid-column:2!important;
+    display:flex!important;
+    align-items:center!important;
+    gap:8px!important;
+    min-width:0!important;
+  }
+
+  .topbar .brand-left .ubt{
+    width:auto!important;
+    height:48px!important;
+    max-width:130px!important;
+  }
+
+  .topbar .brand-left .dsa{
+    display:none!important;
+  }
+
+  .topbar .brand-title{
+    grid-column:3!important;
+    min-width:0!important;
+    width:auto!important;
+    margin:0!important;
+    text-align:center!important;
+    order:initial!important;
+  }
+
+  .topbar .brand-title h1{
+    margin:0!important;
+    font-size:20px!important;
+    line-height:1.15!important;
+    white-space:normal!important;
+  }
+
+  .topbar .brand-title p{
+    margin:2px 0 0!important;
+    font-size:11px!important;
+    line-height:1.2!important;
+  }
+
+  .topbar .topbar-right{
+    grid-column:4!important;
+    display:flex!important;
+    align-items:center!important;
+    gap:6px!important;
+    min-width:0!important;
+  }
+
+  .topbar .role-switcher,
+  .topbar .user-chip{
+    display:none!important;
+  }
+
+  .topbar .app-controls{
+    display:flex!important;
+    gap:6px!important;
+    margin:0!important;
+  }
+
+  .topbar .control-btn{
+    width:42px!important;
+    min-width:42px!important;
+    height:42px!important;
+    padding:0!important;
+    border-radius:12px!important;
+  }
+
+  .layout{
+    display:block!important;
+    width:100%!important;
+    margin:0!important;
+    padding:14px!important;
+  }
+
+  .main{
+    width:100%!important;
+  }
+
+  .sidebar{
+    position:fixed!important;
+    top:76px!important;
+    right:0!important;
+    bottom:0!important;
+    left:auto!important;
+    width:min(88vw,340px)!important;
+    height:calc(100dvh - 76px)!important;
+    min-height:0!important;
+    max-height:none!important;
+    padding:16px!important;
+    border-radius:0!important;
+    overflow-y:auto!important;
+    overscroll-behavior:contain!important;
+    transform:translateX(105%)!important;
+    transition:transform .28s ease!important;
+    z-index:1190!important;
+    box-shadow:-18px 0 45px rgba(3,24,58,.28)!important;
+  }
+
+  .sidebar.open{
+    transform:translateX(0)!important;
+  }
+
+  .sidebar.collapsed{
+    width:min(88vw,340px)!important;
+  }
+
+  .sidebar.collapsed .side-logo,
+  .sidebar.collapsed .sidebar-title,
+  .sidebar.collapsed .nav-group-name,
+  .sidebar.collapsed .nav-items button span{
+    display:initial!important;
+  }
+
+  .sidebar .side-logo.identity-card{
+    margin-bottom:14px!important;
+  }
+
+  .sidebar .side-logo.identity-card img{
+    max-height:105px!important;
+    width:100%!important;
+    object-fit:cover!important;
+  }
+
+  .sidebar-toolbar{
+    position:sticky!important;
+    top:-16px!important;
+    z-index:2!important;
+    margin:0 -16px 12px!important;
+    padding:12px 16px!important;
+    background:#072c64!important;
+  }
+
+  .nav{
+    gap:10px!important;
+  }
+
+  .nav-group{
+    border-radius:16px!important;
+  }
+
+  .nav-group-title,
+  .nav-items button{
+    min-height:48px!important;
+    padding:12px 14px!important;
+    font-size:14px!important;
+  }
+
+  .hero{
+    min-height:300px!important;
+    border-radius:22px!important;
+  }
+
+  .hero-content{
+    width:100%!important;
+    max-width:none!important;
+    margin:0!important;
+    padding:28px 22px!important;
+  }
+
+  .hero h2{
+    font-size:27px!important;
+  }
+
+  .grid.cols-2,
+  .grid.cols-3,
+  .grid.cols-4{
+    grid-template-columns:1fr!important;
+  }
+
+  .card{
+    border-radius:22px!important;
+    padding:20px!important;
+  }
+
+  .section-title{
+    align-items:flex-start!important;
+    flex-direction:column!important;
+  }
+
+  .table-wrap{
+    width:100%!important;
+    overflow-x:auto!important;
+    -webkit-overflow-scrolling:touch!important;
+  }
+
+  .modal{
+    padding:10px!important;
+  }
+
+  .modal-card{
+    width:min(96vw,900px)!important;
+    max-height:88dvh!important;
+    padding:16px!important;
+    border-radius:18px!important;
+  }
+}
+
+/* Smaller phones */
+@media(max-width:640px){
+
+  #app{
+    padding-top:68px!important;
+  }
+
+  .topbar{
+    height:68px!important;
+    min-height:68px!important;
+    grid-template-columns:42px auto minmax(0,1fr) auto!important;
+    gap:7px!important;
+    padding:7px 8px!important;
+  }
+
+  .topbar .mobile-menu{
+    width:40px!important;
+    min-width:40px!important;
+    height:40px!important;
+  }
+
+  .topbar .brand-left .ubt{
+    height:40px!important;
+    max-width:104px!important;
+  }
+
+  .topbar .brand-title h1{
+    font-size:15px!important;
+  }
+
+  .topbar .brand-title p{
+    font-size:9px!important;
+  }
+
+  .topbar .control-btn{
+    width:38px!important;
+    min-width:38px!important;
+    height:38px!important;
+    font-size:13px!important;
+  }
+
+  .topbar .app-controls{
+    gap:4px!important;
+  }
+
+  .sidebar{
+    top:68px!important;
+    width:min(92vw,330px)!important;
+    height:calc(100dvh - 68px)!important;
+  }
+
+  .layout{
+    padding:10px!important;
+  }
+
+  .hero{
+    min-height:330px!important;
+  }
+
+  .hero-content{
+    padding:24px 18px!important;
+  }
+
+  .hero h2{
+    font-size:23px!important;
+  }
+
+  .hero p{
+    font-size:14px!important;
+    line-height:1.7!important;
+  }
+
+  .btns{
+    width:100%!important;
+  }
+
+  .btns .btn{
+    flex:1 1 100%!important;
+    justify-content:center!important;
+  }
+
+  .section-title h3{
+    font-size:23px!important;
+  }
+
+  .card{
+    padding:17px!important;
+  }
+
+  .stat .value{
+    font-size:34px!important;
+  }
+
+  .indicator-audience-summary{
+    grid-template-columns:1fr!important;
+  }
+
+  .evidence-actionbar,
+  .evidence-toolbar-row,
+  .evidence-toolbar-primary,
+  .evidence-toolbar-secondary{
+    align-items:stretch!important;
+    flex-direction:column!important;
+  }
+
+  .evidence-search-main{
+    grid-template-columns:1fr!important;
+  }
+
+  .evidence-search-main input,
+  .evidence-search-main select,
+  .evidence-delete-selected,
+  .evidence-status-filter{
+    width:100%!important;
+  }
+
+  .reports-compact-grid{
+    grid-template-columns:1fr!important;
+  }
+
+  .activity-form,
+  .dynamic-form,
+  .calculator-base-grid{
+    grid-template-columns:1fr!important;
+  }
+
+  .activity-points-preview{
+    grid-column:auto!important;
+  }
+}
+
+/* Ultra narrow screens */
+@media(max-width:420px){
+
+  .topbar{
+    grid-template-columns:40px 78px minmax(0,1fr) 80px!important;
+  }
+
+  .topbar .brand-left .ubt{
+    width:78px!important;
+    height:auto!important;
+  }
+
+  .topbar .brand-title h1{
+    font-size:13px!important;
+  }
+
+  .topbar .brand-title p{
+    display:none!important;
+  }
+
+  .topbar .control-btn{
+    width:36px!important;
+    min-width:36px!important;
+    height:36px!important;
+  }
+
+  .sidebar{
+    width:94vw!important;
+  }
+}
+
+/* SAH V20.2 — Safari/iOS numeric and card compatibility */
+@supports (-webkit-touch-callout:none){
+  .donut{
+    -webkit-transform:translateZ(0);
+    transform:translateZ(0);
+  }
+  .indicator-card,
+  .indicator-audience-summary>div{
+    -webkit-backface-visibility:hidden;
+    backface-visibility:hidden;
+  }
+}
+

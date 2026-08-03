@@ -1826,3 +1826,118 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     }
   });
 })();
+
+/* SAH V20.1 — deployment fingerprint and deterministic mobile drawer */
+(function(){
+  console.info('SAH build 20.1 loaded');
+
+  function sidebar(){ return document.querySelector('.sidebar'); }
+  function isMobile(){ return window.matchMedia('(max-width:1100px)').matches; }
+
+  window.addEventListener('DOMContentLoaded',()=>{
+    document.documentElement.dataset.sahBuild='20.1';
+
+    const menu=document.getElementById('mobileMenu');
+    if(menu){
+      const clean=menu.cloneNode(true);
+      menu.replaceWith(clean);
+      clean.addEventListener('click',event=>{
+        event.preventDefault();
+        event.stopPropagation();
+        if(isMobile()) sidebar()?.classList.toggle('open');
+      });
+    }
+
+    document.querySelectorAll('.nav button[data-page]').forEach(button=>{
+      button.addEventListener('click',()=>{
+        if(isMobile()) sidebar()?.classList.remove('open');
+      });
+    });
+
+    document.addEventListener('click',event=>{
+      const side=sidebar();
+      const menuButton=document.getElementById('mobileMenu');
+      if(!isMobile() || !side?.classList.contains('open')) return;
+      if(side.contains(event.target) || menuButton?.contains(event.target)) return;
+      side.classList.remove('open');
+    });
+  });
+})();
+
+/* ==========================================================
+   SAH V20.2 — cross-browser indicator data repair
+   ========================================================== */
+(function(){
+  'use strict';
+
+  const REPAIR_KEY='sah-v20-2-indicator-repair';
+  const FIELDS_KEY='sah-v18-indicator-fields';
+  const LIMITS_KEY='sah-v15-indicator-limits';
+  const LIMITS_PREVIOUS_KEY='sah-v15-indicator-limits-previous';
+  const MIGRATION_KEY='sah-v19-field-migration';
+
+  function validPositiveTotal(values){
+    return Array.isArray(values) &&
+      values.length > 0 &&
+      values.some(value => Number(value) > 0) &&
+      values.reduce((sum,value)=>sum+(Number(value)||0),0) > 0;
+  }
+
+  function repairInvalidBrowserStorage(){
+    let fields=null;
+    let limits=null;
+
+    try{ fields=JSON.parse(localStorage.getItem(FIELDS_KEY)||'null'); }catch{}
+    try{ limits=JSON.parse(localStorage.getItem(LIMITS_KEY)||'null'); }catch{}
+
+    const fieldMaximums=Array.isArray(fields)
+      ? fields.map(field=>Number(field?.max)||0)
+      : [];
+
+    const invalidFields=Array.isArray(fields) && !validPositiveTotal(fieldMaximums);
+    const invalidLimits=Array.isArray(limits) && !validPositiveTotal(limits);
+
+    if(invalidFields) localStorage.removeItem(FIELDS_KEY);
+    if(invalidLimits){
+      localStorage.removeItem(LIMITS_KEY);
+      localStorage.removeItem(LIMITS_PREVIOUS_KEY);
+    }
+
+    if(invalidFields || invalidLimits){
+      localStorage.removeItem(MIGRATION_KEY);
+      console.warn('SAH V20.2 repaired invalid indicator values saved by an older build.');
+    }
+
+    localStorage.setItem(REPAIR_KEY,'done');
+  }
+
+  function forceIndicatorRefresh(){
+    if(!window.SAH_DATA || !Array.isArray(SAH_DATA.indicatorFields)) return;
+
+    const fields=SAH_DATA.indicatorFields;
+    const maximumTotal=fields.reduce((sum,field)=>sum+(Number(field.max)||0),0);
+
+    if(maximumTotal <= 0){
+      // The previous build may have overwritten current runtime values with zeros.
+      localStorage.removeItem(FIELDS_KEY);
+      localStorage.removeItem(LIMITS_KEY);
+      localStorage.removeItem(LIMITS_PREVIOUS_KEY);
+      localStorage.removeItem(MIGRATION_KEY);
+      location.reload();
+      return;
+    }
+
+    if(typeof window.calcIndicators==='function') window.calcIndicators();
+    if(typeof window.renderEvidenceStats==='function') window.renderEvidenceStats();
+    if(typeof window.renderEvidence==='function') window.renderEvidence();
+  }
+
+  repairInvalidBrowserStorage();
+
+  window.addEventListener('DOMContentLoaded',()=>{
+    document.documentElement.dataset.sahBuild='20.2';
+    console.info('SAH build 20.2 loaded');
+    setTimeout(forceIndicatorRefresh,50);
+    setTimeout(forceIndicatorRefresh,400);
+  });
+})();
