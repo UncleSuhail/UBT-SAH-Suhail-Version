@@ -2031,8 +2031,8 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   }
 
   window.addEventListener('DOMContentLoaded',()=>{
-    console.info('SAH build 20.3 loaded');
-    document.documentElement.dataset.sahBuild='20.3';
+    console.info('SAH build 20.4 loaded');
+    document.documentElement.dataset.sahBuild='20.4';
 
     const desktop=document.getElementById('activeRole');
     const mobile=document.getElementById('mobileActiveRole');
@@ -2040,14 +2040,104 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     desktop?.addEventListener('change',updateMobileIdentity);
     mobile?.addEventListener('change',changeRoleFromMobile);
 
-    document.getElementById('exportDeviceData')
-      ?.addEventListener('click',exportDeviceData);
-
-    document.getElementById('importDeviceData')
-      ?.addEventListener('change',event=>{
-        importDeviceData(event.target.files?.[0]);
-      });
-
     updateMobileIdentity();
+  });
+})();
+
+/* SAH V20.4 — mobile menu cleanup */
+(function(){
+  window.addEventListener('DOMContentLoaded',()=>{
+    console.info('SAH build 20.4 loaded');
+
+    const internalToggle=document.querySelector('.sidebar .sidebar-toggle');
+    if(internalToggle){
+      internalToggle.setAttribute('aria-hidden','true');
+      internalToggle.tabIndex=-1;
+    }
+  });
+})();
+
+/* ==========================================================
+   SAH V20.5 — keep mobile drawer open while expanding sections
+   ========================================================== */
+(function(){
+  'use strict';
+
+  function isMobile(){
+    return window.matchMedia('(max-width:1100px)').matches;
+  }
+
+  function sidebar(){
+    return document.querySelector('.sidebar');
+  }
+
+  function closeDrawer(){
+    if(isMobile()) sidebar()?.classList.remove('open');
+  }
+
+  window.addEventListener('DOMContentLoaded',()=>{
+    console.info('SAH build 20.5 loaded');
+    document.documentElement.dataset.sahBuild='20.5';
+
+    /*
+      Replace accumulated accordion listeners with one predictable handler.
+      Group titles expand/collapse without closing the mobile drawer.
+    */
+    document.querySelectorAll('.nav-group-title').forEach(oldTitle=>{
+      const title=oldTitle.cloneNode(true);
+      oldTitle.replaceWith(title);
+
+      title.addEventListener('click',event=>{
+        event.preventDefault();
+        event.stopPropagation();
+
+        const selected=title.closest('.nav-group');
+        if(!selected) return;
+
+        const willOpen=!selected.classList.contains('open');
+
+        document.querySelectorAll('.sidebar .nav-group').forEach(group=>{
+          const open=group===selected && willOpen;
+          group.classList.toggle('open',open);
+          group.querySelector('.nav-group-title')
+            ?.setAttribute('aria-expanded',String(open));
+        });
+
+        if(isMobile()){
+          sidebar()?.classList.add('open');
+        }
+      });
+    });
+
+    /*
+      Close only after selecting a real destination.
+      Clicking a section title never closes the drawer.
+    */
+    document.querySelectorAll('.sidebar .nav-items button[data-page]').forEach(oldButton=>{
+      const button=oldButton.cloneNode(true);
+      oldButton.replaceWith(button);
+
+      button.addEventListener('click',event=>{
+        event.stopPropagation();
+
+        const page=button.dataset.page;
+        if(page && typeof window.route==='function'){
+          window.route(page);
+        }
+
+        document.querySelectorAll('.sidebar .nav-items button[data-page]')
+          .forEach(item=>item.classList.toggle('active',item===button));
+
+        window.setTimeout(closeDrawer,120);
+      });
+    });
+
+    /*
+      Do not let clicks inside the drawer reach older document-level
+      handlers that may close it.
+    */
+    sidebar()?.addEventListener('click',event=>{
+      event.stopPropagation();
+    });
   });
 })();

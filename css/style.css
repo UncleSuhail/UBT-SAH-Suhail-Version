@@ -2579,3 +2579,210 @@ body.theme-dark .mobile-sync-btn{
   color:#fff;
 }
 
+/* ==========================================================
+   SAH V20.4 — balanced mobile menu and permissions row
+   ========================================================== */
+
+@media(max-width:1100px){
+
+  /* Main hamburger: clearly visible and correctly balanced */
+  .topbar .mobile-menu{
+    width:48px!important;
+    min-width:48px!important;
+    height:48px!important;
+    border-radius:15px!important;
+    background:#072c64!important;
+    color:#fff!important;
+    border:1px solid rgba(255,255,255,.22)!important;
+    box-shadow:0 8px 20px rgba(7,44,100,.22)!important;
+  }
+
+  .topbar .mobile-menu .icon{
+    width:28px!important;
+    height:28px!important;
+    stroke-width:2.8!important;
+  }
+
+  /* Hide the repeated hamburger inside the opened drawer on mobile */
+  .sidebar .sidebar-toggle{
+    display:none!important;
+  }
+
+  .sidebar .sidebar-toolbar{
+    justify-content:flex-end!important;
+    min-height:46px!important;
+  }
+
+  .sidebar .sidebar-title{
+    margin-inline-start:auto!important;
+    margin-inline-end:0!important;
+  }
+
+  /* Permissions row no longer overlaps page content */
+  .mobile-user-strip{
+    min-height:58px!important;
+    height:auto!important;
+    padding:8px 12px!important;
+    align-items:center!important;
+    gap:12px!important;
+  }
+
+  .mobile-user-identity{
+    flex:1 1 auto!important;
+    min-width:0!important;
+  }
+
+  .mobile-role-actions{
+    flex:0 0 auto!important;
+    min-width:0!important;
+  }
+
+  .mobile-role-actions select{
+    width:190px!important;
+    max-width:42vw!important;
+    height:40px!important;
+    padding-inline:12px!important;
+    border-radius:12px!important;
+  }
+
+  /* Remove any remaining arrow/download controls in the permissions row */
+  .mobile-user-strip .mobile-sync-btn,
+  .mobile-user-strip .mobile-import-btn,
+  #exportDeviceData,
+  #importDeviceData{
+    display:none!important;
+  }
+
+  #app{
+    padding-top:130px!important;
+  }
+
+  .sidebar{
+    top:130px!important;
+    height:calc(100dvh - 130px)!important;
+  }
+}
+
+@media(max-width:520px){
+
+  .topbar .mobile-menu{
+    width:44px!important;
+    min-width:44px!important;
+    height:44px!important;
+    border-radius:14px!important;
+  }
+
+  .topbar .mobile-menu .icon{
+    width:26px!important;
+    height:26px!important;
+  }
+
+  .mobile-user-strip{
+    min-height:54px!important;
+    padding:7px 8px!important;
+    gap:8px!important;
+  }
+
+  .mobile-user-identity{
+    max-width:44vw!important;
+  }
+
+  .mobile-user-identity strong{
+    font-size:12px!important;
+  }
+
+  .mobile-user-identity span{
+    font-size:9px!important;
+  }
+
+  .mobile-role-actions select{
+    width:150px!important;
+    max-width:45vw!important;
+    height:38px!important;
+    font-size:10px!important;
+  }
+
+  #app{
+    padding-top:118px!important;
+  }
+
+  .sidebar{
+    top:118px!important;
+    height:calc(100dvh - 118px)!important;
+  }
+}
+
+@media(max-width:380px){
+  .mobile-user-identity{
+    max-width:38vw!important;
+  }
+
+  .mobile-role-actions select{
+    width:142px!important;
+    max-width:48vw!important;
+  }
+}
+
+/* ==========================================================
+   SAH V20.5 — smooth mobile accordion navigation
+   ========================================================== */
+
+@media(max-width:1100px){
+
+  .sidebar .nav-group-title{
+    cursor:pointer!important;
+    user-select:none!important;
+    -webkit-tap-highlight-color:transparent!important;
+    touch-action:manipulation!important;
+  }
+
+  .sidebar .nav-items{
+    display:grid!important;
+    grid-template-rows:0fr!important;
+    opacity:0!important;
+    overflow:hidden!important;
+    transition:grid-template-rows .25s ease,opacity .22s ease!important;
+  }
+
+  .sidebar .nav-items>*{
+    min-height:0!important;
+  }
+
+  .sidebar .nav-group.open .nav-items{
+    grid-template-rows:1fr!important;
+    opacity:1!important;
+  }
+
+  .sidebar .nav-group.open .nav-items>*{
+    min-height:48px!important;
+  }
+
+  .sidebar .nav-group-title:active{
+    transform:scale(.99)!important;
+  }
+
+  .sidebar .nav-group-title::after{
+    content:"＋"!important;
+    display:grid!important;
+    place-items:center!important;
+    width:26px!important;
+    height:26px!important;
+    margin-inline-start:auto!important;
+    border-radius:8px!important;
+    background:rgba(255,255,255,.08)!important;
+    color:#fff!important;
+    font-size:17px!important;
+    font-weight:900!important;
+    transition:transform .22s ease,background .22s ease!important;
+  }
+
+  .sidebar .nav-group.open .nav-group-title::after{
+    content:"−"!important;
+    background:rgba(255,255,255,.15)!important;
+  }
+
+  .sidebar .nav-group-title .arrow{
+    display:none!important;
+  }
+}
+
