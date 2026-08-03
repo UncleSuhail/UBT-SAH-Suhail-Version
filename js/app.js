@@ -3272,3 +3272,10 @@ window.addEventListener('DOMContentLoaded',()=>{
     localStorage.setItem(DONE_KEY,'done');
   });
 })();
+
+
+/* SAH V22.6 — centered calculator modal */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 22.6 loaded');
+  document.documentElement.dataset.sahBuild='22.6';
+});

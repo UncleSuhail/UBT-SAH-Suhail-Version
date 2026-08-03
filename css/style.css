@@ -3638,3 +3638,65 @@ body.theme-dark .modal-actions{
     justify-content:center!important;
   }
 }
+
+
+/* ==========================================================
+   SAH V22.6 — perfectly centered point calculator modal
+   ========================================================== */
+
+#indicatorSettingsModal{
+  display:grid!important;
+  place-items:center!important;
+  padding:24px!important;
+}
+
+#indicatorSettingsModal.hidden{
+  display:none!important;
+}
+
+#indicatorSettingsModal .modal-card{
+  position:relative!important;
+  top:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  left:auto!important;
+  margin:auto!important;
+  width:min(1180px,calc(100vw - 48px))!important;
+  max-width:1180px!important;
+  max-height:calc(100dvh - 48px)!important;
+  transform:none!important;
+  align-self:center!important;
+  justify-self:center!important;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:hidden!important;
+}
+
+#indicatorSettingsModal .indicator-settings-scroll,
+#indicatorSettingsModal .dynamic-form,
+#indicatorSettingsModal .indicator-limit-list{
+  min-height:0!important;
+}
+
+#indicatorSettingsModal .indicator-limit-list{
+  flex:1 1 auto!important;
+  overflow-y:auto!important;
+  padding-inline-end:8px!important;
+}
+
+#indicatorSettingsModal .modal-actions{
+  margin-top:auto!important;
+  flex:0 0 auto!important;
+}
+
+@media(max-width:700px){
+  #indicatorSettingsModal{
+    padding:10px!important;
+  }
+
+  #indicatorSettingsModal .modal-card{
+    width:calc(100vw - 20px)!important;
+    max-height:calc(100dvh - 20px)!important;
+    border-radius:18px!important;
+  }
+}
