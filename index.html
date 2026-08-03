@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#082b63">
+<title>SAH | منصة الأنشطة الطلابية</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-mode">
+<section id="login" class="login-page">
+  <div class="login-bg"></div>
+  <div class="login-card">
+    <img src="assets/logos/ubt-logo.png" class="login-logo" alt="UBT">
+    <h1 data-i18n="brand.en">Student Activities Hub</h1>
+    <h2 data-i18n="brand.ar">منصة الأنشطة الطلابية</h2>
+    <p>منصة موحدة لإدارة خدمات وأنشطة عمادة شؤون الطلاب.</p>
+    <input value="h.alhussain@ubt.edu.sa" aria-label="University email">
+    <button id="enterApp" class="btn primary wide">تسجيل الدخول عبر Microsoft</button>
+    <img src="assets/logos/ubt-slogan.png" class="slogan" alt="UBT Slogan">
+  </div>
+</section>
+
+<div id="app" class="app hidden">
+<header class="topbar">
+  <button id="mobileMenu" class="mobile-menu"><span data-icon="menu"></span></button>
+  <div class="brand-left">
+    <img class="ubt" src="assets/logos/ubt-logo.png" alt="UBT">
+    <img class="dsa" src="assets/logos/dsa-logo.png" alt="DSA">
+  </div>
+  <div class="brand-title">
+    <h1>Student Activities Hub</h1>
+    <p>منصة الأنشطة الطلابية</p>
+  </div>
+  <div class="app-controls">
+    <button id="themeToggle" class="control-btn" title="Theme">🌙</button>
+    <button id="langToggle" class="control-btn" title="Language">EN</button>
+  </div>
+  <div class="role-switcher"><label for="activeRole">المستخدم الحالي</label><select id="activeRole"><option value="system">حسام الحسين — مسؤول النظام</option><option value="indicator">مسؤول مؤشر الأداء الرياضي</option><option value="dean">العميد</option></select></div>
+  <div class="user-chip"><div><strong id="activeUserName">حسام الحسين</strong><span id="activeUserRole">مسؤول النظام — صلاحية كاملة</span></div><div class="avatar" id="activeUserAvatar">ح</div></div>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="side-logo identity-card"><img src="assets/images/sah-identity-card.png" alt="Student Activities Hub"></div>
+    <nav class="nav">
+      <button data-page="home"><span data-i18n="nav.home">الرئيسية</span><small data-icon="home"></small></button>
+      <button data-page="sports"><span data-i18n="nav.sports" data-i18n="sports.title">الإدارة الرياضية</span><small data-icon="trophy"></small></button>
+      <button data-page="indicator"><span data-i18n="nav.indicator" data-i18n="indicator.title">مؤشر الأداء الرياضي</span><small data-icon="chart"></small></button>
+      <button data-page="scholarships"><span data-i18n="nav.scholarships">المنح الرياضية</span><small data-icon="award"></small></button>
+      <button data-page="agreement"><span data-i18n="nav.agreement">الإقرار الإلكتروني للمنح</span><small data-icon="pen"></small></button>
+      <button data-page="championships"><span data-i18n="nav.championships">البطولات الرياضية</span><small data-icon="calendar"></small></button>
+      <button data-page="athletes"><span data-i18n="nav.athletes">ملف الطالب الرياضي</span><small data-icon="users"></small></button>
+      <button data-page="activities"><span data-i18n="nav.activities">الأنشطة الطلابية العامة</span><small data-icon="activity"></small></button>
+      <button data-page="volunteer"><span data-i18n="nav.volunteer">العمل التطوعي</span><small data-icon="heart"></small></button>
+      <button data-page="student"><span data-i18n="nav.student">بوابة الطالب</span><small data-icon="student"></small></button>
+      <button data-page="calendar"><span data-i18n="nav.calendar">التقويم الموحد</span><small data-icon="calendar"></small></button>
+      <button data-page="requests"><span data-i18n="nav.requests">طلبات التسجيل</span><small data-icon="inbox"></small></button>
+      <button data-page="reports"><span data-i18n="nav.reports">التقارير والتحليلات</span><small data-icon="briefcase"></small></button>
+      <button data-page="admin"><span>إدارة البيانات</span><small data-icon="pen"></small></button>
+      <button data-page="audit"><span data-i18n="nav.audit">سجل العمليات</span><small data-icon="log"></small></button>
+    </nav>
+  </aside>
+  <main class="main">
+
+    <section id="page-home" class="page active">
+      <div class="hero home-hero">
+        <div class="hero-img" style="background-image:url('assets/images/campus-wide.jpg')"></div>
+        <div class="hero-content">
+          <span class="eyebrow" data-i18n="home.eyebrow">عمادة شؤون الطلاب</span>
+          <h2 data-i18n="home.title">منصة واحدة لإدارة الأنشطة والخدمات الطلابية</h2>
+          <p>بوابة مؤسسية تجمع الإدارة الرياضية، الأنشطة الطلابية، العمل التطوعي، التقويم، وبوابة الطالب بهوية جامعة الأعمال والتكنولوجيا.</p>
+          <div class="btns"><button class="btn primary" data-route="sports" data-i18n="btn.sports">الدخول للإدارة الرياضية</button><button class="btn secondary" data-route="student" data-i18n="btn.student">عرض بوابة الطالب</button></div>
+        </div>
+      </div>
+      <div class="section-title"><div><h3 data-i18n="home.modules">وحدات المنصة</h3><p>كل وحدة لها صلاحياتها وبياناتها، والطالب يشاهد ما يهمه في بوابة واحدة.</p></div></div>
+      <div class="grid cols-3">
+        <div class="card module-card" data-route="sports"><div><div class="iconbox" data-icon="trophy"></div><h4>الإدارة الرياضية</h4><p>المؤشر، المنح، الإقرار الإلكتروني، البطولات، ملفات الرياضيين، والتقارير.</p></div><span class="pill">وحدة مستقلة</span></div>
+        <div class="card module-card" data-route="activities"><div><div class="iconbox" data-icon="activity"></div><h4>الأنشطة الطلابية العامة</h4><p>الأندية، الفعاليات، المبادرات، الأعضاء، وفرص المشاركة.</p></div><span class="pill burg">طلاب / طالبات</span></div>
+        <div class="card module-card" data-route="volunteer"><div><div class="iconbox" data-icon="heart"></div><h4>العمل التطوعي</h4><p>فرص تطوعية واحتساب ساعات بناءً على الضوابط اللاصفية المعتمدة.</p></div><span class="pill">محرك ساعات</span></div>
+      </div>
+      <div class="section-title"><div><h3 data-i18n="home.dataSummary">ملخص البيانات المستوردة</h3><p>الأرقام التالية مستخرجة من الملفات المعتمدة المرفوعة: قوائم المنح، روزنامة الاتحاد، ودليل مؤشر الأداء الرياضي.</p></div></div>
+      <div class="grid cols-4">
+        <div class="card stat"><div class="label">طلاب المنح الرياضية</div><div class="value" id="homeMaleScholarships">0</div><div class="sub">ربيع 2026</div></div>
+        <div class="card stat burg"><div class="label">طالبات المنح الرياضية</div><div class="value" id="homeFemaleScholarships">0</div><div class="sub">ربيع 2026</div></div>
+        <div class="card stat"><div class="label">مجالات مؤشر الأداء الرياضي</div><div class="value">16</div><div class="sub">حسب دليل المؤشر</div></div>
+        <div class="card stat"><div class="label">أحداث التقويم المستوردة</div><div class="value" id="homeEvents">0</div><div class="sub">رياضي، أكاديمي، رسمي</div></div>
+      </div>
+    </section>
+
+    <section id="page-sports" class="page">
+      <div class="hero">
+        <div class="hero-img" style="background-image:url('assets/images/basketball-match.jpg')"></div>
+        <div class="hero-content"><span class="eyebrow" data-i18n="sports.eyebrow">وحدة الإدارة الرياضية</span><h2 data-i18n="sports.heroTitle">كل ما يخص الرياضة في صفحة واحدة</h2><p>المؤشر، المنح، الإقرار الإلكتروني، البطولات، ملفات الطلاب الرياضيين، التحليل، وسجل العمليات داخل وحدة الإدارة الرياضية.</p><div class="btns"><button class="btn primary" data-route="indicator">مؤشر الأداء الرياضي</button><button class="btn secondary" data-route="athletes">ملف الطالب الرياضي</button></div></div>
+      </div>
+      <div class="grid cols-4">
+        <div class="card stat"><div class="label">طلاب المنح</div><div class="value" id="sportsMale">0</div><div class="sub">من ملف الطلاب</div></div>
+        <div class="card stat burg"><div class="label">طالبات المنح</div><div class="value" id="sportsFemale">0</div><div class="sub">من ملف الطالبات</div></div>
+        <div class="card stat"><div class="label">بطولات الاتحاد المدرجة</div><div class="value" id="sportsEventsCount">0</div><div class="sub">من روزنامة الاتحاد</div></div>
+        <div class="card stat"><div class="label">ملفات رياضيين</div><div class="value" id="profilesCount">0</div><div class="sub">طلاب وطالبات</div></div>
+      </div>
+      <div class="section-title"><div><h3>خدمات الإدارة الرياضية</h3><p>كل عنصر يفتح صفحة متخصصة بنفس البيانات والصلاحيات.</p></div></div>
+      <div class="grid cols-3">
+        <div class="card service" data-route="indicator"><span data-icon="chart"></span><h4>مؤشر الأداء الرياضي</h4><p>مؤشر الطلاب والطالبات مستقلين حسب دليل المؤشر.</p></div>
+        <div class="card service" data-route="scholarships"><span data-icon="award"></span><h4>المنح الرياضية</h4><p>إحصائيات وقوائم المنح ونسب الخصم.</p></div>
+        <div class="card service" data-route="agreement"><span data-icon="pen"></span><h4>الإقرار الإلكتروني للمنح</h4><p>متابعة التوقيع والاعتماد.</p></div>
+        <div class="card service" data-route="championships"><span data-icon="calendar"></span><h4>البطولات الرياضية</h4><p>روزنامة الاتحاد والبطولات المستضافة.</p></div>
+        <div class="card service" data-route="athletes"><span data-icon="users"></span><h4>ملف الطالب الرياضي</h4><p>بيانات الطالب ومشاركاته وسجل بطولاته.</p></div>
+        <div class="card service" data-route="audit"><span data-icon="log"></span><h4>سجل العمليات</h4><p>تتبع الاستيراد والتحديثات والاعتمادات.</p></div>
+      </div>
+      <div class="section-title"><div><h3>مركز القرار التنفيذي</h3><p>تحليل ومقارنة بدون دمج مؤشر الطلاب مع الطالبات.</p></div><div id="decisionBtns" class="filterbar"><button class="active" data-mode="general">نظرة عامة</button><button data-mode="male">تحليل الطلاب</button><button data-mode="female">تحليل الطالبات</button></div></div>
+      <div class="grid cols-2">
+        <div class="card analytics"><h3 id="decisionTitle">ملخص الأداء الحالي</h3><p id="decisionText">يعرض النظام مؤشرين مستقلين للطلاب والطالبات وفق دليل مؤشر الأداء الرياضي. لا يتم جمع المؤشرين في رقم واحد، ويتم تحليل كل فرع حسب مساراته ومجالاته الـ16.</p><button class="btn secondary" data-route="indicator">فتح صفحة المؤشر</button></div>
+        <div class="image-card" style="background-image:url('assets/images/football-field-night.jpg')"><div class="caption"><h3>المنشآت الرياضية</h3><p>إدارة البطولات والفعاليات الرياضية من داخل المنصة.</p></div></div>
+      </div>
+    </section>
+
+    <section id="page-indicator" class="page">
+      <div class="section-title"><div><h3>مؤشر الأداء الرياضي</h3><p>الاحتساب مبني على دليل مؤشر الأداء الرياضي فقط.</p></div><a class="btn outline" href="assets/docs/sports-performance-indicator-guide.pdf" target="_blank">عرض الدليل</a></div>
+      <div class="reference-card"><div><h4 data-i18n="indicator.referenceTitle">مرجعية احتساب المؤشر</h4><p data-i18n="indicator.referenceText">يعتمد احتساب المؤشر على دليل مؤشر الأداء الرياضي الصادر من الاتحاد السعودي للرياضة الجامعية.</p></div><img src="assets/logos/susf-logo.png" alt="SUSF"></div>
+      <div class="grid cols-2">
+        <div class="card indicator-card"><h4 data-i18n="indicator.male">مؤشر الأداء الرياضي - الطلاب</h4><div class="donut" id="maleDonut"><b id="malePct">0%</b></div><div class="points" id="malePoints">0 / 0 نقطة</div><p>لا يتم جمع هذا المؤشر مع مؤشر الطالبات.</p></div>
+        <div class="card indicator-card burg"><h4 data-i18n="indicator.female">مؤشر الأداء الرياضي - الطالبات</h4><div class="donut burg" id="femaleDonut"><b id="femalePct">0%</b></div><div class="points" id="femalePoints">0 / 0 نقطة</div><p>مؤشر مستقل حسب نفس المجالات والمسارات.</p></div>
+      </div>
+      <div class="grid cols-4">
+        <div class="card stat"><div class="label">نقاط الطلاب المحققة</div><div class="value" id="maleAchieved">0</div><div class="sub">من أصل نقاط الدليل</div></div>
+        <div class="card stat"><div class="label">المتبقي للطلاب</div><div class="value" id="maleRemaining">0</div><div class="sub">نقطة</div></div>
+        <div class="card stat burg"><div class="label">نقاط الطالبات المحققة</div><div class="value" id="femaleAchieved">0</div><div class="sub">من أصل نقاط الدليل</div></div>
+        <div class="card stat burg"><div class="label">المتبقي للطالبات</div><div class="value" id="femaleRemaining">0</div><div class="sub">نقطة</div></div>
+      </div>
+      <div class="section-title"><div><h3>تحليل المسارات والمجالات الـ16</h3><p>كل مجال يعرض الحد الأعلى والنقاط المحققة للطلاب والطالبات بشكل منفصل.</p></div></div>
+      <div class="card table-card"><div class="table-wrap"><table><thead><tr><th>المسار</th><th>المجال</th><th>الحد الأعلى</th><th>نقاط الطلاب</th><th>إنجاز الطلاب</th><th>نقاط الطالبات</th><th>إنجاز الطالبات</th></tr></thead><tbody id="indicatorRows"></tbody></table></div></div>
+    </section>
+
+    <section id="page-scholarships" class="page">
+      <div class="section-title"><div><h3>المنح الرياضية</h3><p>الإحصائيات التالية مستخرجة من ملفات الطلاب والطالبات المرفوعة للفصل الدراسي ربيع 2026.</p></div><label class="btn outline filebtn">استيراد Excel<input id="scholarImport" type="file" accept=".xlsx,.xls" hidden></label></div>
+      <div class="grid cols-4">
+        <div class="card stat"><div class="label">إجمالي مستحقي المنح</div><div class="value" id="scholarTotal">0</div><div class="sub">طلاب + طالبات</div></div>
+        <div class="card stat"><div class="label">طلاب</div><div class="value" id="scholarBoys">0</div><div class="sub">ملف الطلاب</div></div>
+        <div class="card stat burg"><div class="label">طالبات</div><div class="value" id="scholarGirls">0</div><div class="sub">ملف الطالبات</div></div>
+        <div class="card stat"><div class="label">أنشطة مختلفة</div><div class="value" id="uniqueActivities">0</div><div class="sub">حسب ملفات المنح</div></div>
+      </div>
+      <div class="grid cols-2">
+        <div class="card"><h4>توزيع المنح حسب نسبة الخصم</h4><div id="scholarBars" class="bars"></div></div>
+        <div class="card"><h4>توزيع الطلاب والطالبات حسب الكلية</h4><div id="collegeBars" class="bars"></div></div>
+      </div>
+      <div class="section-title"><div><h3>تحليل المنح الرياضية</h3><p>ملخص ومقارنة وتشخيص سريع مبني على ملفات المنح المرفوعة.</p></div><div id="scholarAnalysisBtns" class="filterbar"><button class="active" data-mode="summary">الملخص</button><button data-mode="compare">المقارنة</button><button data-mode="action">المتابعة</button></div></div>
+      <div id="scholarInsight" class="card analytics"></div>
+      <div class="card table-card"><h4>قائمة المنح</h4><div class="table-toolbar"><input id="scholarSearch" placeholder="بحث بالاسم أو الرقم الجامعي أو الكلية أو النشاط"><div id="scholarGender" class="filterbar"><button class="active" data-gender="all">الكل</button><button data-gender="طلاب">طلاب</button><button data-gender="طالبات">طالبات</button></div></div><div class="table-wrap"><table><thead><tr><th>الاسم</th><th>الرقم الجامعي</th><th>الفئة</th><th>الكلية</th><th>النشاط</th><th>نسبة المنحة</th><th>الإقرار</th></tr></thead><tbody id="scholarRows"></tbody></table></div></div>
+    </section>
+
+    <section id="page-agreement" class="page">
+      <div class="section-title"><div><h3>الإقرار الإلكتروني للمنح الرياضية</h3><p>المقصود: توقيع الطالب/الطالبة على إقرار وشروط المنحة الرياضية ومتابعة حالة الاعتماد.</p></div></div>
+      <div class="grid cols-3">
+        <div class="card stat"><div class="label">إقرارات مكتملة</div><div class="value" id="agreementsDone">0</div><div class="sub">من ملف الطالبات الحالي</div></div>
+        <div class="card stat burg"><div class="label">إقرارات ناقصة</div><div class="value" id="agreementsMissing">0</div><div class="sub">تحتاج متابعة</div></div>
+        <div class="card stat"><div class="label">إقرارات الطلاب</div><div class="value">—</div><div class="sub">غير متوفر في ملف الطلاب الحالي</div></div>
+      </div>
+      <div class="grid cols-2">
+        <div class="card form-card"><h4>نموذج الإقرار الإلكتروني</h4><input placeholder="اسم الطالب / الطالبة"><input placeholder="الرقم الجامعي"><input placeholder="رقم الجوال"><select><option>طالب</option><option>طالبة</option></select><select><option>10%</option><option>20%</option><option>30%</option></select><label class="check"><input type="checkbox"> أقر بالاطلاع على معايير وشروط المنحة الرياضية والالتزام بها.</label><div class="signature">توقيع الطالب</div><div class="btns"><button class="btn primary">حفظ الإقرار</button><a class="btn outline" href="assets/docs/scholarship-agreement.pdf" target="_blank">فتح نموذج الإقرار PDF</a><a class="btn outline" href="assets/docs/scholarship-criteria.pdf" target="_blank">فتح معايير وشروط المنح</a></div></div>
+        <div class="card"><h4>النموذج الرسمي للإقرار والتعهد</h4><p>يعرض للطالب نفس نموذج الإقرار الرسمي الخاص بمنح المتميزين رياضيًا.</p><iframe class="pdf-frame" src="assets/docs/scholarship-agreement.pdf"></iframe></div>
+      </div>
+      <div class="section-title"><div><h3>معايير وشروط المنح الجزئية للطلبة الرياضيين</h3><p>النسخة المحدثة المعتمدة بالعربية والإنجليزية، وتشمل شروط الاستحقاق ونسب المنح 10% و20% و30%.</p></div><a class="btn outline" href="assets/docs/scholarship-criteria.pdf" target="_blank">عرض الملف المحدث</a></div>
+      <div class="card"><iframe class="pdf-frame criteria-frame" src="assets/docs/scholarship-criteria.pdf"></iframe></div>
+      <div class="card table-card"><h4>متابعة الإقرارات</h4><div class="table-toolbar"><input id="agreementSearch" placeholder="بحث بالاسم أو الرقم الجامعي أو الكلية أو الحالة"></div><div class="table-wrap"><table><thead><tr><th>الاسم</th><th>الرقم</th><th>الكلية</th><th>الحالة</th></tr></thead><tbody id="agreementRows"></tbody></table></div></div>
+    </section>
+
+    <section id="page-championships" class="page">
+      <div class="section-title"><div><h3>البطولات الرياضية</h3><p>روزنامة بطولات الاتحاد السعودي للرياضة الجامعية، مع فصل الطلاب والطالبات.</p></div><a class="btn outline" href="assets/docs/susf-sports-calendar-2025.pdf" target="_blank">عرض روزنامة الاتحاد</a></div>
+      <div class="grid cols-3" id="championshipCards"></div>
+      <div class="card table-card"><h4>قائمة البطولات</h4><div class="table-toolbar"><input id="championshipSearch" placeholder="بحث باسم البطولة أو التاريخ أو المكان أو الفئة"></div><div class="table-wrap"><table><thead><tr><th>التاريخ</th><th>البطولة</th><th>الفئة</th><th>المكان</th><th>الإجراء</th></tr></thead><tbody id="championshipRows"></tbody></table></div></div>
+    </section>
+
+    <section id="page-athletes" class="page">
+      <div class="section-title"><div><h3>ملف الطالب الرياضي</h3><p>البحث عن طالب أو طالبة ومعرفة بياناته، المنحة، البطولات، وسجل المشاركات.</p></div></div>
+      <div class="grid cols-3">
+        <div class="card search-panel"><h4>البحث</h4><input id="profileSearch" placeholder="اكتب الاسم أو الرقم الجامعي أو الكلية أو البطولة"><div id="profileList" class="profile-list"></div></div>
+        <div class="card profile-card span-2" id="profileDetails"><h4>اختر طالبًا لعرض الملف</h4><p>سيظهر هنا سجل المشاركات والبطولات والبيانات الأساسية.</p></div>
+      </div>
+    </section>
+
+    <section id="page-activities" class="page">
+      <div class="hero compact">
+        <div class="hero-img" style="background-image:url('assets/images/campus-gate.jpg')"></div>
+        <div class="hero-content"><span class="eyebrow">وحدة الأنشطة الطلابية العامة</span><h2>الأندية، الفعاليات، المبادرات والبرامج</h2><p>إدارة الأنشطة العامة منفصلة عن الإدارة الرياضية، مع استقبال طلبات الطلاب الخاصة بها فقط.</p></div>
+      </div>
+
+      <div class="section-title"><div><h3>مجالات الأنشطة الطلابية</h3><p>تصنيف الأنشطة حسب المجالات المعتمدة داخل عمادة شؤون الطلاب.</p></div></div>
+      <div class="grid cols-4" id="activityCategoryCards">
+        <div class="card service"><span data-icon="activity"></span><h4>الأنشطة التوعوية</h4><p>برامج توعوية موجهة للطلبة.</p></div>
+        <div class="card service"><span data-icon="heart"></span><h4>الأنشطة والبرامج المجتمعية والتطوعية</h4><p>أنشطة ومبادرات تخدم المجتمع وتمنح ساعات تطوعية.</p></div>
+        <div class="card service"><span data-icon="briefcase"></span><h4>الأنشطة الثقافية</h4><p>فعاليات ثقافية ومشاركات طلابية.</p></div>
+        <div class="card service"><span data-icon="chart"></span><h4>الأنشطة العلمية</h4><p>برامج ومسابقات وورش علمية.</p></div>
+        <div class="card service"><span data-icon="pen"></span><h4>الأنشطة الفنية</h4><p>فعاليات فنية وإبداعية.</p></div>
+        <div class="card service"><span data-icon="trophy"></span><h4>الأنشطة الرياضية</h4><p>ترتبط بوحدة الإدارة الرياضية داخل المنصة.</p></div>
+        <div class="card service"><span data-icon="award"></span><h4>البرامج التدريبية</h4><p>دورات وورش لتطوير مهارات الطلبة.</p></div>
+        <div class="card service"><span data-icon="home"></span><h4>برامج عامة على مستوى الجامعة</h4><p>برامج مركزية تشمل جميع الطلبة.</p></div>
+      </div>
+
+      <div class="grid cols-3">
+        <div class="card form-card"><h4>إضافة نادي طلابي</h4><input placeholder="اسم النادي"><select><option>طلاب وطالبات</option><option>طلاب</option><option>طالبات</option></select><input placeholder="مشرف النادي"><button class="btn primary">إضافة نادي</button></div>
+        <div class="card form-card"><h4>إضافة فعالية / مبادرة</h4><input placeholder="اسم الفعالية"><input type="date"><select><option>أنشطة طلابية</option><option>مبادرة</option><option>فعالية</option></select><label class="check"><input type="checkbox"> تمنح ساعات تطوعية</label><button class="btn primary">إضافة فعالية</button></div>
+        <div class="card"><h4>الأندية المسجلة</h4><div id="clubsList" class="mini-list"></div></div>
+      </div>
+    </section>
+
+    <section id="page-volunteer" class="page">
+      <div class="section-title"><div><h3>العمل التطوعي</h3><p>فرص تطوعية واحتساب ساعات حسب الضوابط اللاصفية وآلية احتساب الساعات التطوعية.</p></div><a class="btn outline" href="assets/docs/volunteer-hours-policy.pdf" target="_blank">عرض الدليل الكامل</a></div>
+      <div class="grid cols-3"><div class="card stat"><div class="label">فرص مفتوحة</div><div class="value" id="volunteerOpps">0</div><div class="sub">في المنصة</div></div><div class="card stat"><div class="label">ساعات مقترحة</div><div class="value">20+</div><div class="sub">حسب الفرص الحالية</div></div><div class="card stat"><div class="label">طلبات تحت المراجعة</div><div class="value" id="volunteerRequests">0</div><div class="sub">مرتبطة بالفرص</div></div></div>
+      <div class="section-title"><div><h3>آلية احتساب الساعات التطوعية</h3><p>تعرض داخل الصفحة حتى يفهمها الطالب والمسؤول بدون الرجوع للملف.</p></div></div>
+      <div class="grid cols-3">
+        <div class="card"><h4>الأنشطة والفعاليات العامة</h4><div class="table-wrap"><table><thead><tr><th>الساعات</th><th>نقاط الحضور</th><th>نقاط التنظيم</th></tr></thead><tbody><tr><td>1 - 3</td><td>3</td><td>5</td></tr><tr><td>4 - 8</td><td>5</td><td>8</td></tr><tr><td>9 - 15</td><td>7</td><td>11</td></tr><tr><td>أكثر من 16</td><td>10</td><td>15</td></tr></tbody></table></div></div>
+        <div class="card"><h4>عضوية اللجان والأندية</h4><div class="table-wrap"><table><thead><tr><th>نسبة المشاركة</th><th>النقاط</th></tr></thead><tbody><tr><td>90% - 100%</td><td>5</td></tr><tr><td>50% - 89%</td><td>3</td></tr><tr><td>10% - 49%</td><td>2</td></tr></tbody></table></div></div>
+        <div class="card"><h4>المسابقات</h4><div class="table-wrap"><table><thead><tr><th>المركز</th><th>داخلية</th><th>محلية</th><th>دولية</th></tr></thead><tbody><tr><td>الأول</td><td>10</td><td>15</td><td>20</td></tr><tr><td>الثاني</td><td>7</td><td>12</td><td>17</td></tr><tr><td>الثالث</td><td>5</td><td>9</td><td>15</td></tr><tr><td>مشاركة فقط</td><td>1</td><td>3</td><td>7</td></tr></tbody></table></div></div>
+      </div>
+    </section>
+
+    <section id="page-student" class="page">
+      <div class="section-title"><div><h3>بوابة الطالب</h3><p>الطالب يرى كل الفرص التي تهمه في مكان واحد، والإدارة تستقبل الطلب حسب نوع الفرصة.</p></div></div>
+      <div class="grid cols-3"><div class="card stat"><div class="label">فرص رياضية</div><div class="value" id="studentSportsOpps">0</div><div class="sub">تذهب للإدارة الرياضية</div></div><div class="card stat burg"><div class="label">فرص أنشطة</div><div class="value" id="studentActivityOpps">0</div><div class="sub">تذهب للأنشطة الطلابية</div></div><div class="card stat"><div class="label">طلبات الطالب</div><div class="value" id="studentApps">0</div><div class="sub">قيد المراجعة أو مقبولة</div></div></div>
+      <div class="section-title"><div><h3>الفرص المتاحة</h3><p>شواغر، فعاليات، مبادرات، وفرص تطوعية.</p></div><div id="oppFilters" class="filterbar"><button class="active" data-filter="all">الكل</button><button data-filter="sports">رياضية</button><button data-filter="activities">أنشطة</button><button data-filter="volunteer">تطوع</button></div></div>
+      <div class="grid cols-3" id="opportunityCards"></div>
+    </section>
+
+    <section id="page-calendar" class="page">
+      <div class="section-title"><div><h3>التقويم الموحد</h3><p>تقويم واحد مع فلاتر: أكاديمي، مناسبات رسمية، إسلامية، أنشطة، رياضة، تطوع.</p></div><label class="btn outline filebtn">استيراد Calendar<input id="importCalendar" type="file" accept=".xlsx,.xls,.pdf,.ics" hidden></label></div>
+      <div id="calFilters" class="filterbar large"><button class="active" data-filter="all">الكل</button><button data-filter="academic">أكاديمي</button><button data-filter="national">مناسبات رسمية</button><button data-filter="islamic">إسلامية</button><button data-filter="activities">أنشطة طلابية</button><button data-filter="sports">رياضية</button><button data-filter="volunteer">تطوع</button></div>
+      <div class="card"><div id="eventList" class="event-list"></div></div>
+    </section>
+
+    <section id="page-requests" class="page">
+      <div class="section-title"><div><h3>طلبات التسجيل</h3><p>الطلبات مفصولة حسب الجهة: الرياضة للإدارة الرياضية، والأنشطة للأنشطة الطلابية.</p></div><div id="requestFilters" class="filterbar"><button class="active" data-filter="all">الكل</button><button data-filter="sports">الإدارة الرياضية</button><button data-filter="activities">الأنشطة الطلابية</button></div></div>
+      <div class="card table-card"><div class="table-toolbar"><input id="requestSearch" placeholder="بحث بالطالب أو الرقم الجامعي أو الفرصة أو الحالة"></div><div class="table-wrap"><table><thead><tr><th>الطالب</th><th>الرقم الجامعي</th><th>الفرصة</th><th>الجهة المستقبلة</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="requestRows"></tbody></table></div></div>
+    </section>
+
+    <section id="page-reports" class="page">
+      <div class="section-title"><div><h3>التقارير والتحليلات</h3><p>تقارير تنفيذية للإدارة الرياضية والأنشطة الطلابية والعمل التطوعي، مع مركز متكامل للشواهد.</p></div></div>
+      <div class="grid cols-4"><div class="card service"><span data-icon="chart"></span><h4>تقرير مؤشر الأداء الرياضي</h4><p>طلاب وطالبات بشكل مستقل.</p><button class="btn outline">تصدير PDF</button></div><div class="card service"><span data-icon="award"></span><h4>تقرير المنح الرياضية</h4><p>حسب الكلية ونسبة الخصم والفئة.</p><button class="btn outline">تصدير Excel</button></div><div class="card service"><span data-icon="heart"></span><h4>تقرير العمل التطوعي</h4><p>الفرص والساعات والطلبات.</p><button class="btn outline">تصدير PDF</button></div><div class="card service" data-route="reports"><span data-icon="file"></span><h4>تقرير الشواهد</h4><p>تقرير توثيق الأنشطة وفق متطلبات مؤشر الأداء.</p><button class="btn outline" id="scrollEvidence">فتح مركز الشواهد</button></div></div>
+
+      <div id="evidenceCenter" class="section-title"><div><h3>مركز الشواهد وتوثيق الأنشطة</h3><p>مبني على نموذج توثيق الأنشطة الطلابية وفق متطلبات مؤشر الأداء، ويتيح البحث والمراجعة واستخراج التقرير بنفس الحقول المعتمدة.</p></div><div class="btns"><a class="btn outline" href="assets/data/activity-evidence-template.xlsx" download>تحميل نموذج Excel</a><label class="btn outline filebtn">استيراد شواهد<input id="importEvidence" type="file" accept=".xlsx,.xls,.csv" hidden></label><button class="btn primary" id="printEvidenceReport">توليد تقرير الشواهد</button><button class="btn outline" id="exportEvidenceCsv">تصدير Excel / CSV</button></div></div>
+      <div class="grid cols-4">
+        <div class="card stat"><div class="label">إجمالي سجلات الشواهد</div><div class="value" id="evidenceTotal">0</div><div class="sub">سجل نشاط</div></div>
+        <div class="card stat"><div class="label">شواهد مكتملة</div><div class="value" id="evidenceComplete">0</div><div class="sub">تحتوي على روابط توثيق كافية</div></div>
+        <div class="card stat burg"><div class="label">شواهد جزئية</div><div class="value" id="evidencePartial">0</div><div class="sub">تحتاج استكمال بعض المرفقات</div></div>
+        <div class="card stat burg"><div class="label">شواهد ناقصة</div><div class="value" id="evidenceMissing">0</div><div class="sub">لا تحتوي على توثيق كافٍ</div></div>
+      </div>
+      <div class="card table-card evidence-card">
+        <div class="table-toolbar evidence-toolbar"><input id="evidenceSearch" placeholder="بحث باسم النشاط أو التاريخ أو نوع النشاط أو التصنيف"><div class="filterbar" id="evidenceGender"><button class="active" data-gender="all">الكل</button><button data-gender="طلاب">طلاب</button><button data-gender="طالبات">طالبات</button></div><select id="evidenceStatus"><option value="all">كل الحالات</option><option value="مكتمل">مكتمل</option><option value="جزئي">جزئي</option><option value="ناقص">ناقص</option></select></div>
+        <div class="table-wrap"><table class="evidence-table"><thead><tr><th>#</th><th>اسم النشاط</th><th>التاريخ</th><th>الأيام</th><th>المستفيدون</th><th>اللاعبون</th><th>الفئة</th><th>نوع النشاط</th><th>التصنيف الفرعي</th><th>نوع اللعبة</th><th>النقاط</th><th>الحالة</th><th>التفاصيل</th></tr></thead><tbody id="evidenceRows"></tbody></table></div>
+      </div>
+      <div class="card evidence-detail" id="evidenceDetails"><h4>تفاصيل الشاهد</h4><p>اختر سجلًا من الجدول لعرض روابط الخبر والصور والنشر وحالة اكتمال التوثيق.</p></div>
+    </section>
+
+    <section id="page-admin" class="page">
+      <div class="section-title"><div><h3>إدارة البيانات والتعديل اليدوي</h3><p>إضافة وتعديل وحذف بيانات المنصة من الواجهة دون فتح الكود. تحفظ التعديلات محليًا في هذه النسخة وتُسجل في سجل العمليات.</p></div><div class="btns"><button class="btn primary" id="adminAddRecord">إضافة سجل</button><button class="btn outline" id="adminExportData">تصدير نسخة احتياطية</button><label class="btn outline filebtn">استيراد نسخة احتياطية<input id="adminImportData" type="file" accept="application/json,.json" hidden></label><button class="btn danger" id="adminResetData">إلغاء التعديلات المحلية</button></div></div>
+      <div class="grid cols-4 admin-summary">
+        <div class="card stat"><div class="label">صلاحية المستخدم</div><div class="value small-value">كاملة</div><div class="sub">إضافة، تعديل، حذف، اعتماد</div></div>
+        <div class="card stat"><div class="label">المستخدمون الرئيسيون</div><div class="value">3</div><div class="sub">مسؤول النظام، مسؤول المؤشر، العميد</div></div>
+        <div class="card stat"><div class="label">مجموعة البيانات الحالية</div><div class="value small-value" id="adminDatasetName">—</div><div class="sub">اختر من القائمة أدناه</div></div>
+        <div class="card stat"><div class="label">عدد السجلات</div><div class="value" id="adminRecordCount">0</div><div class="sub">بعد البحث والتصفية</div></div>
+      </div>
+      <div class="card table-card">
+        <div class="table-toolbar admin-toolbar"><select id="adminDataset"></select><input id="adminSearch" placeholder="بحث في جميع الحقول: الاسم، الرقم الجامعي، التاريخ، الحالة..."><button class="btn outline" id="adminRefresh">تحديث العرض</button></div>
+        <div class="admin-help">كل تعديل في هذه النسخة يُحفظ داخل المتصفح عبر Local Storage. عند التنفيذ الرسمي تُستبدل هذه الطبقة بقاعدة بيانات وصلاحيات دخول Microsoft.</div>
+        <div class="table-wrap"><table><thead id="adminHead"></thead><tbody id="adminRows"></tbody></table></div>
+      </div>
+    </section>
+
+    <section id="page-audit" class="page">
+      <div class="section-title"><div><h3>سجل العمليات</h3><p>تتبع عمليات الاستيراد والتعديل والاعتماد داخل المنصة.</p></div></div>
+      <div class="card table-card"><div class="table-toolbar"><input id="auditSearch" placeholder="بحث بالوقت أو المستخدم أو الوحدة أو العملية"></div><div class="table-wrap"><table><thead><tr><th>الوقت</th><th>المستخدم</th><th>الوحدة</th><th>العملية</th></tr></thead><tbody id="auditRows"></tbody></table></div></div>
+    </section>
+
+  </main>
+</div>
+<div id="adminModal" class="modal hidden" role="dialog" aria-modal="true"><div class="modal-backdrop" data-close-admin></div><div class="modal-card"><div class="section-title compact-title"><div><h3 id="adminModalTitle">إضافة سجل</h3><p>عدّل الحقول ثم اضغط حفظ.</p></div><button class="btn outline" data-close-admin>إغلاق</button></div><form id="adminForm" class="dynamic-form"></form><div class="modal-actions"><button class="btn outline" type="button" data-close-admin>إلغاء</button><button class="btn primary" id="adminSave" type="button">حفظ التعديلات</button></div></div></div>
+<div id="toast" class="toast"></div>
+</div>
+<script src="js/data.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

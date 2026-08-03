@@ -1,0 +1,218 @@
+const $ = (s, root=document) => root.querySelector(s);
+const $$ = (s, root=document) => [...root.querySelectorAll(s)];
+const fmt = n => Number(n||0).toLocaleString('en-US');
+const pct = (n,d) => d ? Math.round((Number(n)||0)/(Number(d)||1)*100) : 0;
+const norm = v => String(v ?? '').toLowerCase().replace(/[أإآا]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').replace(/[ًٌٍَُِّْـ]/g,'').replace(/[^\p{L}\p{N}]+/gu,' ').trim();
+const match = (obj, q) => !norm(q) || norm(JSON.stringify(obj)).includes(norm(q));
+
+function icon(name){
+ const set={
+  home:'M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V11z',
+  trophy:'M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z M17 6h3a3 3 0 0 1-3 3M7 6H4a3 3 0 0 0 3 3',
+  users:'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8 M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75',
+  calendar:'M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z',
+  chart:'M3 3v18h18M7 15v3M12 9v9M17 5v13',
+  file:'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M8 13h8 M8 17h8 M8 9h2',
+  heart:'M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z',
+  activity:'M22 12h-4l-3 9L9 3l-3 9H2',
+  upload:'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M17 8l-5-5-5 5 M12 3v12',
+  search:'M21 21l-4.35-4.35M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16z',
+  briefcase:'M10 6V5a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v1 M3 8h18v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z M3 13h18',
+  target:'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4z',
+  info:'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 16v-4 M12 8h.01',
+  award:'M12 15a5 5 0 1 0 0-10 5 5 0 0 0 0 10z M8.5 14.5 7 22l5-3 5 3-1.5-7.5',
+  pen:'M12 20h9 M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z',
+  student:'M22 10 12 5 2 10l10 5 10-5z M6 12v5c3 2 9 2 12 0v-5',
+  inbox:'M22 12h-6l-2 3h-4l-2-3H2 M5 4h14l3 8v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6l3-8z',
+  log:'M4 4h16v16H4z M8 8h8 M8 12h8 M8 16h5',
+  menu:'M4 6h16M4 12h16M4 18h16'
+ };
+ return `<svg class="icon" viewBox="0 0 24 24"><path d="${set[name]||set.info}"></path></svg>`;
+}
+function renderIcons(){ $$('[data-icon]').forEach(el=>el.innerHTML=icon(el.dataset.icon)); }
+function route(id){
+ $$('.page').forEach(p=>p.classList.remove('active'));
+ const page = document.getElementById('page-'+id) || $('#page-home');
+ page.classList.add('active');
+ $$('.nav button').forEach(b=>b.classList.toggle('active', b.dataset.page===id));
+ history.replaceState(null,'','#'+id);
+ window.scrollTo({top:0,behavior:'smooth'});
+ $('.sidebar')?.classList.remove('open');
+}
+function showToast(text){ const t=$('#toast'); if(!t) return; t.textContent=text; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2800); }
+function setText(id, val){ const el=$(id); if(el) el.textContent=val; }
+
+function initLogin(){ $('#enterApp')?.addEventListener('click',()=>{document.body.classList.remove('login-mode');$('#login').classList.add('hidden');$('#app').classList.remove('hidden'); route((location.hash||'#home').replace('#','')||'home');}); }
+function initNavigation(){
+ $$('.nav button,[data-route]').forEach(btn=>btn.addEventListener('click',()=> route(btn.dataset.page||btn.dataset.route)));
+ $('#mobileMenu')?.addEventListener('click',()=>$('.sidebar').classList.toggle('open'));
+}
+
+function initSummary(){
+ const s=SAH_DATA.stats;
+ const events=SAH_DATA.events?.length||0;
+ setText('#homeMaleScholarships', fmt(s.maleScholarships)); setText('#homeFemaleScholarships', fmt(s.femaleScholarships)); setText('#homeEvents', fmt(events));
+ setText('#sportsMale', fmt(s.maleScholarships)); setText('#sportsFemale', fmt(s.femaleScholarships)); setText('#sportsEventsCount', fmt((SAH_DATA.championships||[]).length)); setText('#profilesCount', fmt(s.totalProfiles));
+ setText('#uniqueActivities', fmt(s.uniqueActivities));
+ setText('#scholarTotal', fmt(s.totalScholarships)); setText('#scholarBoys', fmt(s.maleScholarships)); setText('#scholarGirls', fmt(s.femaleScholarships));
+ setText('#agreementsDone', fmt(s.femaleAgreementsComplete)); setText('#agreementsMissing', fmt(s.femaleAgreementsMissing));
+ setText('#volunteerOpps', fmt((SAH_DATA.opportunities||[]).filter(o=>o.type==='volunteer').length));
+ setText('#volunteerRequests', fmt((SAH_DATA.applications||[]).filter(a=>a.target==='volunteer').length));
+ setText('#studentSportsOpps', fmt((SAH_DATA.opportunities||[]).filter(o=>o.type==='sports').length));
+ setText('#studentActivityOpps', fmt((SAH_DATA.opportunities||[]).filter(o=>o.type==='activities').length));
+ setText('#studentApps', fmt((SAH_DATA.applications||[]).length));
+}
+
+function calcIndicators(){
+ const fields=SAH_DATA.indicatorFields||[];
+ const max=fields.reduce((a,b)=>a+(+b.max||0),0), male=fields.reduce((a,b)=>a+(+b.male||0),0), female=fields.reduce((a,b)=>a+(+b.female||0),0);
+ const mp=pct(male,max), fp=pct(female,max);
+ setText('#malePoints', `${fmt(male)} / ${fmt(max)} نقطة`); setText('#femalePoints', `${fmt(female)} / ${fmt(max)} نقطة`);
+ setText('#malePct', `${mp}%`); setText('#femalePct', `${fp}%`);
+ $('#maleDonut')?.style.setProperty('--p', mp); $('#femaleDonut')?.style.setProperty('--p', fp);
+ setText('#maleAchieved', fmt(male)); setText('#femaleAchieved', fmt(female)); setText('#maleRemaining', fmt(max-male)); setText('#femaleRemaining', fmt(max-female));
+ const tbody=$('#indicatorRows'); if(!tbody) return; tbody.innerHTML='';
+ fields.forEach(f=>{
+  const tr=document.createElement('tr');
+  const mpct=pct(f.male,f.max), fpct=pct(f.female,f.max);
+  tr.innerHTML=`<td>${f.track}</td><td>${f.field}</td><td>${fmt(f.max)}</td><td>${fmt(f.male)}</td><td><div class="progress"><span style="width:${mpct}%"></span></div><small>${mpct}%</small></td><td>${fmt(f.female)}</td><td><div class="progress burg"><span style="width:${fpct}%"></span></div><small>${fpct}%</small></td>`;
+  tbody.appendChild(tr);
+ });
+}
+
+function barline(label,value,max,color){ return `<div class="barline"><span>${label}</span><div class="progress"><span style="width:${pct(value,max)}%;background:${color||''}"></span></div><b>${fmt(value)}</b></div>`; }
+function renderBars(){
+ const s=SAH_DATA.stats;
+ const db=Object.entries(s.discounts||{}).map(([k,v])=>[`${k}% خصم`,v]);
+ const maxD=Math.max(1,...db.map(x=>x[1]));
+ const colors=['#0a8f63','#0b55d9','#d98a00','#ad2348'];
+ const box=$('#scholarBars'); if(box){ box.innerHTML=db.map((x,i)=>barline(x[0],x[1],maxD,colors[i%colors.length])).join(''); }
+ const colleges=Object.entries(s.colleges||{}).sort((a,b)=>b[1]-a[1]);
+ const maxC=Math.max(1,...colleges.map(x=>x[1]));
+ const cb=$('#collegeBars'); if(cb){ cb.innerHTML=colleges.map((x,i)=>barline(x[0],x[1],maxC,i%2?'#ad2348':'#0b55d9')).join(''); }
+}
+
+function scholarshipStats(){
+ const rows=SAH_DATA.students||[];
+ const boys=rows.filter(r=>r.gender==='طلاب'), girls=rows.filter(r=>r.gender==='طالبات');
+ const byCollege=Object.entries(SAH_DATA.stats?.colleges||{}).sort((a,b)=>b[1]-a[1]);
+ const topCollege=byCollege[0]||['—',0];
+ const topDiscount=Object.entries(SAH_DATA.stats?.discounts||{}).sort((a,b)=>b[1]-a[1])[0]||['—',0];
+ return {boys,girls,rows,topCollege,topDiscount};
+}
+function renderScholarInsight(mode='summary'){
+ const box=$('#scholarInsight'); if(!box) return;
+ const st=scholarshipStats();
+ if(mode==='compare'){
+  box.innerHTML=`<h3>مقارنة المنح الرياضية</h3><p>عدد طلاب المنح: <b>${fmt(st.boys.length)}</b>، وعدد طالبات المنح: <b>${fmt(st.girls.length)}</b>. أعلى كلية من حيث عدد المستفيدين هي <b>${st.topCollege[0]}</b> بعدد <b>${fmt(st.topCollege[1])}</b> مستفيد.</p><div class="profile-meta"><div class="meta-box"><span>طلاب</span><b>${fmt(st.boys.length)}</b></div><div class="meta-box"><span>طالبات</span><b>${fmt(st.girls.length)}</b></div><div class="meta-box"><span>أكثر نسبة خصم</span><b>${st.topDiscount[0]}%</b></div><div class="meta-box"><span>إجمالي المستفيدين</span><b>${fmt(st.rows.length)}</b></div></div>`;
+ } else if(mode==='action'){
+  box.innerHTML=`<h3>ملخص المتابعة</h3><p>الأولوية التشغيلية: متابعة الإقرارات الناقصة للطالبات وعددها <b>${fmt(SAH_DATA.stats.femaleAgreementsMissing||0)}</b>، ومراجعة بيانات الإقرار للطلاب لأنها غير متوفرة في ملف الطلاب الحالي.</p><button class="btn primary" data-route="agreement">فتح الإقرار الإلكتروني للمنح</button>`;
+  box.querySelector('[data-route]')?.addEventListener('click', e=>route(e.currentTarget.dataset.route));
+ } else {
+  box.innerHTML=`<h3>الملخص التنفيذي للمنح</h3><p>تم تحميل <b>${fmt(st.rows.length)}</b> سجل من ملفات المنح للفصل الدراسي ربيع 2026. القائمة قابلة للبحث بالاسم أو الرقم الجامعي أو الكلية أو نوع المشاركة، والبيانات مفصولة بين الطلاب والطالبات.</p><div class="profile-meta"><div class="meta-box"><span>طلاب المنح</span><b>${fmt(st.boys.length)}</b></div><div class="meta-box"><span>طالبات المنح</span><b>${fmt(st.girls.length)}</b></div><div class="meta-box"><span>أنشطة مختلفة</span><b>${fmt(SAH_DATA.stats.uniqueActivities)}</b></div><div class="meta-box"><span>إقرارات مكتملة</span><b>${fmt(SAH_DATA.stats.femaleAgreementsComplete||0)}</b></div></div>`;
+ }
+}
+function renderScholarRows(){
+ const tbody=$('#scholarRows'); if(!tbody) return;
+ const q=$('#scholarSearch')?.value||'';
+ const gender=$('#scholarGender button.active')?.dataset.gender || 'all';
+ let rows=(SAH_DATA.students||[]).filter(r=>(gender==='all'||r.gender===gender));
+ rows=rows.filter(r=>match(r,q));
+ tbody.innerHTML='';
+ rows.forEach(r=>tbody.insertAdjacentHTML('beforeend',`<tr><td>${r.name}</td><td>${r.id}</td><td><span class="pill ${r.gender==='طالبات'?'burg':''}">${r.gender}</span></td><td>${r.college}</td><td>${r.activity}</td><td>${r.discount}%</td><td>${r.agreement||'—'}</td></tr>`));
+}
+function initScholarships(){
+ $('#scholarSearch')?.addEventListener('input',renderScholarRows);
+ $$('#scholarGender button').forEach(b=>b.addEventListener('click',()=>{$$('#scholarGender button').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderScholarRows();}));
+ $$('#scholarAnalysisBtns button').forEach(b=>b.addEventListener('click',()=>{$$('#scholarAnalysisBtns button').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderScholarInsight(b.dataset.mode);}));
+ $('#scholarImport')?.addEventListener('change',()=>showToast('تم استيراد ملف Excel وربطه بقائمة المنح.'));
+ renderScholarRows(); renderScholarInsight('summary');
+}
+
+function renderAgreements(){
+ const tbody=$('#agreementRows'); if(!tbody) return;
+ const q=$('#agreementSearch')?.value||'';
+ tbody.innerHTML='';
+ (SAH_DATA.girls||[]).filter(r=>match(r,q)).forEach(r=>tbody.insertAdjacentHTML('beforeend',`<tr><td>${r.name}</td><td>${r.id}</td><td>${r.college}</td><td><span class="pill ${r.agreement==='مكتمل'?'':'burg'}">${r.agreement}</span></td></tr>`));
+}
+function initAgreements(){ $('#agreementSearch')?.addEventListener('input',renderAgreements); renderAgreements(); }
+
+function renderChampionships(){
+ const cards=$('#championshipCards'), rows=$('#championshipRows'); if(cards) cards.innerHTML=''; if(rows) rows.innerHTML='';
+ const q=$('#championshipSearch')?.value||'';
+ const champs=SAH_DATA.championships||[];
+ const grouped={طلاب:champs.filter(c=>c.scope==='طلاب').length, طالبات:champs.filter(c=>c.scope==='طالبات').length, UBT:champs.filter(c=>(c.place||'').includes('الأعمال')||(c.place||'').includes('التكنولوجيا')).length};
+ if(cards){
+  cards.innerHTML=`<div class="card stat"><div class="label">بطولات الطلاب</div><div class="value">${fmt(grouped['طلاب'])}</div><div class="sub">من روزنامة الاتحاد</div></div><div class="card stat burg"><div class="label">بطولات الطالبات</div><div class="value">${fmt(grouped['طالبات'])}</div><div class="sub">من روزنامة الاتحاد</div></div><div class="card stat"><div class="label">بطولات تستضيفها UBT</div><div class="value">${fmt(grouped.UBT)}</div><div class="sub">حسب الملف المرفوع</div></div>`;
+ }
+ if(rows){ champs.filter(c=>match(c,q)).forEach(c=>rows.insertAdjacentHTML('beforeend',`<tr><td>${c.date}</td><td>${c.title}</td><td><span class="pill ${c.scope==='طالبات'?'burg':''}">${c.scope}</span></td><td>${c.place||'يحدد لاحقًا'}</td><td><button class="btn outline" onclick="showToast('تم فتح تفاصيل البطولة')">عرض</button></td></tr>`)); }
+}
+function initChampionships(){ $('#championshipSearch')?.addEventListener('input',renderChampionships); renderChampionships(); }
+
+function renderProfiles(){
+ const list=$('#profileList'), details=$('#profileDetails'); if(!list||!details) return;
+ const drawList=()=>{
+  const q=$('#profileSearch')?.value||'';
+  const profiles=(SAH_DATA.profiles||[]).filter(p=>match(p,q) || (p.activities||[]).some(a=>match(a,q)));
+  list.innerHTML='';
+  profiles.forEach((p,i)=>{
+   const btn=document.createElement('button');
+   btn.innerHTML=`<b>${p.name}</b><br><small>${p.id} • ${p.college} • ${p.gender} • ${p.activitiesCount} مشاركة</small>`;
+   btn.addEventListener('click',()=>{ $$('#profileList button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); drawDetails(p); });
+   list.appendChild(btn);
+   if(i===0) { setTimeout(()=>btn.click(),0); }
+  });
+  if(!profiles.length) details.innerHTML='<h4>لا توجد نتائج</h4><p>جرّب البحث بالاسم أو الرقم الجامعي أو اسم البطولة، والبحث لا يفرق بين الأحرف الكبيرة والصغيرة.</p>';
+ };
+ const drawDetails=(p)=>{
+  const rows=(p.activities||[]).map((a,idx)=>`<tr><td>${idx+1}</td><td>${a.activity||'—'}</td><td>${a.season||a.term||'—'}</td><td>${a.dateFrom||'—'} ${a.dateTo?'إلى '+a.dateTo:''}</td><td>${a.place||'—'}</td><td>${a.organizer||'—'}</td><td>${a.level||'—'}</td><td>${a.rank||'—'}</td><td>${a.discount||0}%</td></tr>`).join('');
+  details.innerHTML=`<div class="profile-head"><div class="profile-avatar">${(p.name||'ح').slice(0,1)}</div><div><h4>${p.name}</h4><p>${p.id} • ${p.college} • ${p.gender}</p></div></div><div class="profile-meta"><div class="meta-box"><span>عدد المشاركات</span><b>${fmt(p.activitiesCount)}</b></div><div class="meta-box"><span>نسبة المنحة</span><b>${p.discount||0}%</b></div><div class="meta-box"><span>الإقرار</span><b>${p.agreement||'—'}</b></div><div class="meta-box"><span>الجوال</span><b>${p.mobile||'—'}</b></div></div><h4>سجل المشاركات والبطولات</h4><div class="table-wrap"><table><thead><tr><th>#</th><th>البطولة / المشاركة</th><th>الموسم</th><th>التاريخ</th><th>المكان</th><th>الجهة المنفذة</th><th>التصنيف</th><th>المركز</th><th>المنحة</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+ };
+ $('#profileSearch')?.addEventListener('input',drawList);
+ drawList();
+}
+
+function renderClubs(){ const box=$('#clubsList'); if(!box) return; box.innerHTML=(SAH_DATA.clubs||[]).map(c=>`<div class="mini-item"><div><b>${c.name}</b><br><small>${c.gender}</small></div><span class="pill">${c.members} عضو</span></div>`).join(''); }
+function renderOpportunities(filter='all'){
+ const box=$('#opportunityCards'); if(!box) return; box.innerHTML='';
+ const rows=(SAH_DATA.opportunities||[]).filter(o=>filter==='all'||o.type===filter);
+ rows.forEach(o=>box.insertAdjacentHTML('beforeend',`<div class="card service"><span data-icon="${o.type==='sports'?'trophy':o.type==='volunteer'?'heart':'activity'}"></span><h4>${o.title}</h4><p>${o.date} • ${o.seats} مقعد • الطلب يذهب إلى ${o.destination}</p><button class="btn primary" onclick="showToast('تم إرسال الطلب للجهة المختصة')">قدّم الآن</button></div>`));
+ renderIcons();
+}
+function initOpportunities(){
+ $$('#oppFilters button').forEach(b=>b.addEventListener('click',()=>{$$('#oppFilters button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); renderOpportunities(b.dataset.filter)}));
+ renderOpportunities('all');
+}
+
+function typeName(t){return {sports:'رياضي',academic:'أكاديمي',national:'رسمي',islamic:'إسلامي',activities:'أنشطة طلابية',volunteer:'تطوعي'}[t]||t;}
+function renderEvents(filter='all'){
+ const list=$('#eventList'); if(!list) return; list.innerHTML='';
+ const events=(SAH_DATA.events||[]).filter(e=>filter==='all'||e.type===filter);
+ events.forEach(e=>list.insertAdjacentHTML('beforeend',`<div class="event"><div class="date">${e.date}</div><div><h4>${e.title}</h4><p>${e.place||'—'} • ${e.scope||'—'}</p></div><span class="tag ${e.type}">${typeName(e.type)}</span></div>`));
+}
+function initCalendar(){
+ $$('#calFilters button').forEach(b=>b.addEventListener('click',()=>{$$('#calFilters button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); renderEvents(b.dataset.filter)}));
+ $('#importCalendar')?.addEventListener('change',()=>showToast('تمت قراءة ملف التقويم، وسيتم عرض الأحداث للمراجعة قبل الاعتماد.'));
+ renderEvents('all');
+}
+
+function renderRequests(filter='all'){
+ const tbody=$('#requestRows'); if(!tbody) return; tbody.innerHTML='';
+ const q=$('#requestSearch')?.value||'';
+ let apps=SAH_DATA.applications||[]; if(filter!=='all') apps=apps.filter(a=>a.target===filter);
+ apps.filter(a=>match(a,q)).forEach(a=>tbody.insertAdjacentHTML('beforeend',`<tr><td>${a.student}</td><td>${a.id}</td><td>${a.opportunity}</td><td>${a.destination}</td><td><span class="pill ${a.status==='مقبول'?'':'burg'}">${a.status}</span></td><td><button class="btn outline" onclick="showToast('تم تحديث حالة الطلب')">قبول / رفض</button></td></tr>`));
+}
+function initRequests(){ $('#requestSearch')?.addEventListener('input',()=>renderRequests($('#requestFilters button.active')?.dataset.filter||'all')); $$('#requestFilters button').forEach(b=>b.addEventListener('click',()=>{$$('#requestFilters button').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderRequests(b.dataset.filter)})); renderRequests('all'); }
+
+function renderAudit(){ const tbody=$('#auditRows'); if(!tbody) return; const q=$('#auditSearch')?.value||''; tbody.innerHTML=''; (SAH_DATA.audit||[]).filter(a=>match(a,q)).forEach(a=>tbody.insertAdjacentHTML('beforeend',`<tr><td>${a.time}</td><td>${a.user}</td><td>${a.module}</td><td>${a.action}</td></tr>`)); }
+function initAudit(){ $('#auditSearch')?.addEventListener('input',renderAudit); renderAudit(); }
+function initDecisionCenter(){
+ const max=(SAH_DATA.indicatorFields||[]).reduce((a,b)=>a+(+b.max||0),0), male=(SAH_DATA.indicatorFields||[]).reduce((a,b)=>a+(+b.male||0),0), female=(SAH_DATA.indicatorFields||[]).reduce((a,b)=>a+(+b.female||0),0);
+ const content={general:['ملخص الأداء الحالي',`يعرض النظام مؤشرين مستقلين: الطلاب ${fmt(male)} / ${fmt(max)} نقطة، والطالبات ${fmt(female)} / ${fmt(max)} نقطة. لا يتم جمع المؤشرين في رقم واحد.`],male:['تحليل الطلاب',`حقق الطلاب ${pct(male,max)}% من إجمالي نقاط دليل المؤشر. الأولوية: رفع نقاط الأنشطة المركزية والداخلية وتوثيق شواهد الإنجاز.`],female:['تحليل الطالبات',`حققت الطالبات ${pct(female,max)}% من إجمالي نقاط دليل المؤشر. الأولوية: تعزيز البطولات الوطنية والأنشطة المركزية وتوسيع المشاركات الرياضية.`]};
+ $$('#decisionBtns button').forEach(b=>b.addEventListener('click',()=>{$$('#decisionBtns button').forEach(x=>x.classList.remove('active'));b.classList.add('active'); const c=content[b.dataset.mode]; setText('#decisionTitle',c[0]); setText('#decisionText',c[1]);}));
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+ renderIcons(); initLogin(); initNavigation();
+ initSummary(); calcIndicators(); renderBars(); initScholarships(); initAgreements(); initChampionships(); renderProfiles(); renderClubs(); initOpportunities(); initCalendar(); initRequests(); initAudit(); initDecisionCenter();
+});
