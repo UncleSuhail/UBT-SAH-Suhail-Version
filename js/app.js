@@ -2823,17 +2823,28 @@ function approvals(){
    const decisionIcon=r.status==='مقبول'?'✓':'×';
    const decisionText=r.status==='مقبول'?'تمت الموافقة':'تم الرفض';
    const actionHtml=isPending
-     ? `<div class="approval-action-buttons">
-          <button class="approve-req approval-decision-btn approve"
-                  data-store="${r.store}" data-id="${r.id}" type="button">
-            <span class="approval-btn-icon">✓</span>
-            <span>موافقة</span>
-          </button>
-          <button class="reject-req approval-decision-btn reject"
-                  data-store="${r.store}" data-id="${r.id}" type="button">
-            <span class="approval-btn-icon">×</span>
-            <span>رفض</span>
-          </button>
+     ? `<div class="approval-inline-decision">
+          <div class="approval-inline-comment-wrap">
+            <input class="approval-rejection-comment"
+                   data-store="${r.store}"
+                   data-id="${r.id}"
+                   type="text"
+                   placeholder="اكتب سبب الرفض قبل الضغط على رفض"
+                   aria-label="سبب الرفض">
+            <small class="approval-comment-hint">سبب الرفض إلزامي عند الرفض</small>
+          </div>
+          <div class="approval-action-buttons">
+            <button class="approve-req approval-decision-btn approve"
+                    data-store="${r.store}" data-id="${r.id}" type="button">
+              <span class="approval-btn-icon">✓</span>
+              <span>موافقة</span>
+            </button>
+            <button class="reject-req approval-decision-btn reject"
+                    data-store="${r.store}" data-id="${r.id}" type="button">
+              <span class="approval-btn-icon">×</span>
+              <span>رفض</span>
+            </button>
+          </div>
         </div>`
      : `<div class="approval-final-decision ${decisionClass}">
           <span class="approval-final-icon">${decisionIcon}</span>
@@ -2859,15 +2870,20 @@ function approvals(){
    if(!request||request.status!=='تحت المراجعة')return;
 
    const approved=x.classList.contains('approve-req');
-   request.status=approved?'مقبول':'مرفوض';
+   const row=x.closest('.approval-inline-decision');
+   const commentInput=row?.querySelector('.approval-rejection-comment');
+   const reason=(commentInput?.value||'').trim();
 
-   if(!approved){
-     const reason=prompt('اكتب سبب الرفض:');
-     if(reason===null)return;
-     request.reason=reason.trim()||'لم يتم ذكر سبب الرفض';
-   }else{
-     request.reason='';
+   if(!approved && !reason){
+     commentInput?.classList.add('invalid');
+     commentInput?.focus();
+     window.showToast?.('اكتب سبب الرفض أولًا.');
+     return;
    }
+
+   commentInput?.classList.remove('invalid');
+   request.status=approved?'مقبول':'مرفوض';
+   request.reason=approved?'':reason;
 
    W(x.dataset.store,rows);
    renderAll();
@@ -3473,4 +3489,18 @@ window.addEventListener('DOMContentLoaded',()=>{
 window.addEventListener('DOMContentLoaded',()=>{
   console.info('SAH build 23.0 loaded');
   document.documentElement.dataset.sahBuild='23.0';
+});
+
+
+/* SAH V23.1 — inline rejection comment */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 23.1 loaded');
+  document.documentElement.dataset.sahBuild='23.1';
+
+  document.addEventListener('input',event=>{
+    const input=event.target.closest('.approval-rejection-comment');
+    if(input && input.value.trim()){
+      input.classList.remove('invalid');
+    }
+  });
 });
