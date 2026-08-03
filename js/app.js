@@ -4539,8 +4539,8 @@ window.addEventListener('DOMContentLoaded',()=>{
 });
 
 
-/* SAH V24.0 — clubs regulations link */
+/* SAH V24.1 — safe club button alignment */
 window.addEventListener('DOMContentLoaded',()=>{
-  console.info('SAH build 24.0 loaded');
-  document.documentElement.dataset.sahBuild='24.0';
+  console.info('SAH build 24.1 loaded');
+  document.documentElement.dataset.sahBuild='24.1';
 });

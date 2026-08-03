@@ -5859,7 +5859,7 @@ body.theme-dark .approval-export-btn.pdf{
 
 
 /* ==========================================================
-   SAH V24.0 — Student clubs regulations link
+   SAH V24.1 — clubs regulations and centered club form buttons
    ========================================================== */
 
 .clubs-regulations-card{
@@ -5873,16 +5873,12 @@ body.theme-dark .approval-export-btn.pdf{
   padding:14px 16px;
   border:1px solid #c9d8ec;
   border-radius:16px;
-  background:
-    linear-gradient(135deg,rgba(237,244,255,.98),rgba(255,255,255,.98));
+  background:linear-gradient(135deg,rgba(237,244,255,.98),rgba(255,255,255,.98));
   color:var(--blue);
   text-decoration:none;
   box-shadow:0 10px 26px rgba(7,44,100,.08);
   overflow:hidden;
-  transition:
-    transform .18s ease,
-    box-shadow .18s ease,
-    border-color .18s ease;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
 }
 
 .clubs-regulations-card::before{
@@ -5946,22 +5942,29 @@ body.theme-dark .approval-export-btn.pdf{
   white-space:nowrap;
 }
 
+/* Target only the two club form buttons */
+#page-clubs #submitClubRequest,
+#page-clubs #submitClubEventRequest,
+#page-clubs .club-form-submit{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:100%!important;
+  min-height:54px!important;
+  padding:12px 20px!important;
+  margin:0!important;
+  text-align:center!important;
+  line-height:1.35!important;
+}
+
 body.theme-dark .clubs-regulations-card{
   background:linear-gradient(135deg,rgba(13,53,105,.96),rgba(6,28,61,.96));
   border-color:var(--border);
 }
 
-body.theme-dark .clubs-regulations-content strong{
-  color:#fff;
-}
-
-body.theme-dark .clubs-regulations-icon{
-  background:rgba(255,255,255,.09);
-}
-
-body.theme-dark .clubs-regulations-action{
-  background:#0b55d9;
-}
+body.theme-dark .clubs-regulations-content strong{color:#fff}
+body.theme-dark .clubs-regulations-icon{background:rgba(255,255,255,.09)}
+body.theme-dark .clubs-regulations-action{background:#0b55d9}
 
 @media(max-width:650px){
   .clubs-regulations-card{

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>Student Activities Platform | UBT</title>
-<link rel="stylesheet" href="css/style.css?v=24.0">
+<link rel="stylesheet" href="css/style.css?v=24.1">
 
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
@@ -71,7 +71,7 @@
 </style>
 
 </head>
-<body data-sah-version="24.0" class="login-mode">
+<body data-sah-version="24.1" class="login-mode">
 <section id="login" class="login-page">
   <div class="login-bg"></div>
   <div class="login-card">
@@ -520,8 +520,7 @@
   <a class="clubs-regulations-card"
      href="https://drive.google.com/file/d/17ExalYDUN_PfDILv_21xZVAnQFEoVGgr/view?usp=sharing"
      target="_blank"
-     rel="noopener noreferrer"
-     aria-label="إطلع على القواعد التنظيمية للأندية الطلابية">
+     rel="noopener noreferrer">
     <span class="clubs-regulations-icon" aria-hidden="true">📘</span>
     <span class="clubs-regulations-content">
       <strong>إطلع على القواعد التنظيمية للأندية الطلابية</strong>
@@ -535,7 +534,7 @@
       <label><span>مسؤول النادي</span><input id="clubManager"></label><label><span>الأعضاء (10 على الأقل، كل اسم في سطر)</span><textarea id="clubMembers" rows="7"></textarea></label>
       <label><span>هدف النادي</span><textarea id="clubGoal"></textarea></label><label><span>شعار النادي</span><input id="clubLogo" type="file" accept="image/*"></label>
       <label><span>الفئة</span><select id="clubGender"><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
-      <button id="submitClubRequest" class="btn primary" type="button">إرسال طلب النادي</button>
+      <button id="submitClubRequest" class="btn primary club-form-submit" type="button">إرسال طلب النادي</button>
     </form></div>
     <div class="card"><h4>تقديم طلب مبادرة / فعالية تابعة للنادي</h4><form class="workflow-form single-column">
       <label>
@@ -549,7 +548,7 @@
       <label><span>الأفراد المشاركون وبياناتهم</span><textarea id="clubEventParticipants"></textarea></label><label><span>المشرف المسؤول</span><input id="clubEventSupervisor"></label>
       <label><span>الفئة</span><select id="clubEventGender"><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
       <label><span>الحد الأقصى للمتقدمين</span><input id="clubEventCapacity" type="number" min="1"></label>
-      <button id="submitClubEventRequest" class="btn primary" type="button">إرسال طلب الفعالية</button>
+      <button id="submitClubEventRequest" class="btn primary club-form-submit" type="button">إرسال طلب الفعالية</button>
     </form></div>
   </div>
   <div class="card table-card"><h4>طلبات الأندية</h4><div class="table-wrap"><table><thead><tr><th>النادي</th><th>المشرف</th><th>المسؤول</th><th>الأعضاء</th><th>الفئة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead><tbody id="clubRequestRows"></tbody></table></div></div>
@@ -1104,6 +1103,6 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=24.0"></script>
+<script src="js/app.js?v=24.1"></script>
 </body>
 </html>
