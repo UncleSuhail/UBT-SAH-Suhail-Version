@@ -23,21 +23,99 @@
 
 <div id="app" class="app hidden">
 <header class="topbar">
-  <button id="mobileMenu" class="mobile-menu"><span data-icon="menu"></span></button>
-  <div class="brand-left">
-    <img class="ubt" src="assets/logos/ubt-logo.png" alt="UBT">
-    <img class="dsa" src="assets/logos/dsa-logo.png" alt="DSA">
-  </div>
-  <div class="brand-title">
-    <h1>Student Activities Hub</h1>
-    <p>منصة الأنشطة الطلابية</p>
-  </div>
-  <div class="app-controls">
-    <button id="themeToggle" class="control-btn" title="Theme">🌙</button>
-    <button id="langToggle" class="control-btn" title="Language">EN</button>
-  </div>
-  <div class="role-switcher"><label for="activeRole">المستخدم الحالي</label><select id="activeRole"><option value="system">حسام الحسين — مسؤول النظام</option><option value="indicator">مسؤول مؤشر الأداء الرياضي</option><option value="dean">العميد</option></select></div>
-  <div class="user-chip"><div><strong id="activeUserName">حسام الحسين</strong><span id="activeUserRole">مسؤول النظام — صلاحية كاملة</span></div><div class="avatar" id="activeUserAvatar">ح</div></div>
+
+    <button id="mobileMenu" class="mobile-menu">
+        <span data-icon="menu"></span>
+    </button>
+
+    <!-- الشعارات -->
+    <div class="brand-left">
+
+        <img class="ubt"
+             src="assets/logos/ubt-logo.png"
+             alt="UBT">
+
+        <img class="dsa"
+             src="assets/logos/dsa-logo.png"
+             alt="DSA">
+
+    </div>
+
+    <!-- عنوان المنصة -->
+    <div class="brand-title">
+
+        <h1>Student Activities Hub</h1>
+
+        <p>منصة الأنشطة الطلابية</p>
+
+    </div>
+
+    <!-- أدوات النظام -->
+    <div class="topbar-right">
+
+        <div class="app-controls">
+
+            <button id="themeToggle"
+                    class="control-btn">
+                🌙
+            </button>
+
+            <button id="langToggle"
+                    class="control-btn">
+                EN
+            </button>
+
+        </div>
+
+        <div class="role-switcher">
+
+            <label for="activeRole">
+                المستخدم الحالي
+            </label>
+
+            <select id="activeRole">
+
+                <option value="system">
+                    حسام الحسين — مسؤول النظام
+                </option>
+
+                <option value="indicator">
+                    مسؤول مؤشر الأداء الرياضي
+                </option>
+
+                <option value="dean">
+                    العميد
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="user-chip">
+
+            <div>
+
+                <strong id="activeUserName">
+                    حسام الحسين
+                </strong>
+
+                <span id="activeUserRole">
+                    مسؤول النظام — صلاحية كاملة
+                </span>
+
+            </div>
+
+            <div class="avatar"
+                 id="activeUserAvatar">
+
+                ح
+
+            </div>
+
+        </div>
+
+    </div>
+
 </header>
 <div class="layout">
   <aside class="sidebar">
