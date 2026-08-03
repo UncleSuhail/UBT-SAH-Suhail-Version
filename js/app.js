@@ -2816,8 +2816,62 @@ function applicants(){
  document.querySelectorAll('.approve-app,.reject-app').forEach(b=>b.onclick=()=>{const x=R(K.apps),r=x.find(y=>y.id===b.dataset.id);r.status=b.classList.contains('approve-app')?'مقبول':'مرفوض';W(K.apps,x);renderAll()})
 }
 function approvals(){
- const a=allReq(),b=document.getElementById('approvalRequestRows');if(b)b.innerHTML=a.length?a.map(r=>`<tr><td>${r.kind}</td><td>${r.name}</td><td>${r.submittedBy||'المستخدم الحالي'}</td><td>${r.date||r.submittedAt}</td><td>${r.gender||r.capacity||'—'}</td><td>${badge(r.status)}</td><td><button class="approve-req" data-store="${r.store}" data-id="${r.id}">موافقة</button> <button class="reject-req" data-store="${r.store}" data-id="${r.id}">رفض</button></td></tr>`).join(''):'<tr><td colspan="7">لا توجد طلبات.</td></tr>';
- document.querySelectorAll('.approve-req,.reject-req').forEach(x=>x.onclick=()=>{const a=R(x.dataset.store),r=a.find(y=>y.id===x.dataset.id);r.status=x.classList.contains('approve-req')?'مقبول':'مرفوض';if(r.status==='مرفوض')r.reason=prompt('سبب الرفض:')||'لم يذكر';W(x.dataset.store,a);renderAll()});
+ const a=allReq(),b=document.getElementById('approvalRequestRows');
+ if(b)b.innerHTML=a.length?a.map(r=>{
+   const isPending=r.status==='تحت المراجعة';
+   const decisionClass=r.status==='مقبول'?'decision-approved':'decision-rejected';
+   const decisionIcon=r.status==='مقبول'?'✓':'×';
+   const decisionText=r.status==='مقبول'?'تمت الموافقة':'تم الرفض';
+   const actionHtml=isPending
+     ? `<div class="approval-action-buttons">
+          <button class="approve-req approval-decision-btn approve"
+                  data-store="${r.store}" data-id="${r.id}" type="button">
+            <span class="approval-btn-icon">✓</span>
+            <span>موافقة</span>
+          </button>
+          <button class="reject-req approval-decision-btn reject"
+                  data-store="${r.store}" data-id="${r.id}" type="button">
+            <span class="approval-btn-icon">×</span>
+            <span>رفض</span>
+          </button>
+        </div>`
+     : `<div class="approval-final-decision ${decisionClass}">
+          <span class="approval-final-icon">${decisionIcon}</span>
+          <div>
+            <strong>${decisionText}</strong>
+            ${r.status==='مرفوض'&&r.reason?`<small>${r.reason}</small>`:''}
+          </div>
+        </div>`;
+   return `<tr class="approval-request-row ${isPending?'is-pending':'is-decided'}">
+     <td>${r.kind}</td>
+     <td><strong class="approval-request-title">${r.name}</strong></td>
+     <td>${r.submittedBy||'المستخدم الحالي'}</td>
+     <td>${r.date||r.submittedAt}</td>
+     <td>${r.gender||r.capacity||'—'}</td>
+     <td>${badge(r.status)}</td>
+     <td class="approval-action-cell">${actionHtml}</td>
+   </tr>`;
+ }).join(''):'<tr><td colspan="7">لا توجد طلبات.</td></tr>';
+
+ document.querySelectorAll('.approve-req,.reject-req').forEach(x=>x.onclick=()=>{
+   const rows=R(x.dataset.store);
+   const request=rows.find(y=>y.id===x.dataset.id);
+   if(!request||request.status!=='تحت المراجعة')return;
+
+   const approved=x.classList.contains('approve-req');
+   request.status=approved?'مقبول':'مرفوض';
+
+   if(!approved){
+     const reason=prompt('اكتب سبب الرفض:');
+     if(reason===null)return;
+     request.reason=reason.trim()||'لم يتم ذكر سبب الرفض';
+   }else{
+     request.reason='';
+   }
+
+   W(x.dataset.store,rows);
+   renderAll();
+ });
  const ac=a.filter(x=>x.status==='مقبول').length,re=a.filter(x=>x.status==='مرفوض').length,pe=a.length-ac-re,p=a.length?Math.round(ac/a.length*100):0;
  [['approvalTotal',a.length],['approvalAccepted',ac],['approvalRejected',re],['approvalPending',pe],['approvalPercent',p+'%']].forEach(([i,v])=>{const e=document.getElementById(i);if(e)e.textContent=v});document.getElementById('approvalDonut')?.style.setProperty('--p',p);
 }
@@ -3413,3 +3467,10 @@ window.addEventListener('DOMContentLoaded',()=>{
     setTimeout(showManagerButton,500);
   });
 })();
+
+
+/* SAH V23.0 — polished approval decisions */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 23.0 loaded');
+  document.documentElement.dataset.sahBuild='23.0';
+});
