@@ -3356,10 +3356,176 @@ function student(){
  document.getElementById('studentAppliedCount').textContent=a.length;document.getElementById('studentJoinedCount').textContent=a.filter(x=>x.status==='مقبول').length;
 }
 function applicants(){
- const a=R(K.apps),q=allReq(),draw=(i,k)=>{const b=document.getElementById(i);if(!b)return;const rows=a.filter(x=>q.find(r=>r.id===x.requestId)?.kind===k);b.innerHTML=rows.length?rows.map(x=>`<tr><td>${x.eventName}</td><td>${x.student.name}</td><td>${x.student.studentId}</td><td>${x.student.email}</td><td>${x.student.age}</td><td>${x.student.gender}</td><td>${x.student.phone}</td><td><button class="approve-app" data-id="${x.id}">قبول</button> <button class="reject-app" data-id="${x.id}">رفض</button></td></tr>`).join(''):'<tr><td colspan="8">لا توجد طلبات.</td></tr>'};
- draw('sportsApplicantRows','بطولة/حدث رياضي');draw('clubApplicantRows','مبادرة/فعالية نادي');
- document.querySelectorAll('.approve-app,.reject-app').forEach(b=>b.onclick=()=>{const x=R(K.apps),r=x.find(y=>y.id===b.dataset.id);r.status=b.classList.contains('approve-app')?'مقبول':'مرفوض';W(K.apps,x);renderAll()})
+ const applications=R(K.apps);
+ const requests=allReq();
+
+ const actionMarkup=application=>{
+   const isPending=!application.status||application.status==='تحت المراجعة';
+
+   if(!isPending){
+     const accepted=application.status==='مقبول';
+     return `<div class="approval-final-decision ${accepted?'decision-approved':'decision-rejected'}">
+       <span class="approval-final-icon">${accepted?'✓':'×'}</span>
+       <div>
+         <strong>${accepted?'تم القبول':'تم الرفض'}</strong>
+         ${!accepted&&application.reason?`<small>${application.reason}</small>`:''}
+       </div>
+     </div>`;
+   }
+
+   return `<div class="approval-inline-decision applicant-inline-decision"
+                data-application-id="${application.id}">
+     <div class="approval-action-buttons applicant-initial-actions">
+       <button class="approve-app approval-decision-btn approve"
+               data-id="${application.id}" type="button"
+               title="قبول طلب الطالب">
+         <span class="approval-btn-icon">✓</span>
+         <span>قبول</span>
+       </button>
+
+       <button class="open-app-rejection-editor approval-decision-btn reject"
+               data-id="${application.id}" type="button"
+               title="رفض طلب الطالب">
+         <span class="approval-btn-icon">×</span>
+         <span>رفض</span>
+       </button>
+     </div>
+
+     <div class="approval-rejection-editor applicant-rejection-editor" hidden>
+       <input class="approval-rejection-comment applicant-rejection-comment"
+              data-id="${application.id}"
+              type="text"
+              placeholder="اكتب سبب الرفض هنا..."
+              aria-label="سبب رفض طلب الطالب"
+              maxlength="180">
+
+       <div class="approval-rejection-editor-actions">
+         <button class="confirm-reject-app"
+                 data-id="${application.id}"
+                 type="button">
+           تأكيد الرفض
+         </button>
+         <button class="cancel-app-rejection-editor"
+                 type="button">
+           إلغاء
+         </button>
+       </div>
+
+       <small class="approval-comment-hint">
+         لا يمكن رفض الطلب دون كتابة السبب.
+       </small>
+     </div>
+   </div>`;
+ };
+
+ const draw=(tbodyId,kind)=>{
+   const tbody=document.getElementById(tbodyId);
+   if(!tbody)return;
+
+   const rows=applications.filter(application=>
+     requests.find(request=>request.id===application.requestId)?.kind===kind
+   );
+
+   tbody.innerHTML=rows.length
+     ? rows.map(application=>`<tr class="student-application-row ${
+         application.status==='مقبول'?'is-accepted':
+         application.status==='مرفوض'?'is-rejected':'is-pending'
+       }">
+         <td><strong>${application.eventName}</strong></td>
+         <td>${application.student.name}</td>
+         <td>${application.student.studentId}</td>
+         <td>${application.student.email}</td>
+         <td>${application.student.age}</td>
+         <td>${application.student.gender}</td>
+         <td>${application.student.phone}</td>
+         <td class="student-application-action-cell">
+           ${actionMarkup(application)}
+         </td>
+       </tr>`).join('')
+     : '<tr><td colspan="8">لا توجد طلبات.</td></tr>';
+ };
+
+ draw('sportsApplicantRows','بطولة/حدث رياضي');
+ draw('clubApplicantRows','مبادرة/فعالية نادي');
+
+ document.querySelectorAll('.approve-app').forEach(button=>{
+   button.onclick=()=>{
+     const rows=R(K.apps);
+     const application=rows.find(item=>item.id===button.dataset.id);
+     if(!application||(
+       application.status&&application.status!=='تحت المراجعة'
+     ))return;
+
+     application.status='مقبول';
+     application.reason='';
+     W(K.apps,rows);
+     renderAll();
+   };
+ });
+
+ document.querySelectorAll('.open-app-rejection-editor').forEach(button=>{
+   button.onclick=()=>{
+     const container=button.closest('.applicant-inline-decision');
+     const editor=container?.querySelector('.applicant-rejection-editor');
+     const actions=container?.querySelector('.applicant-initial-actions');
+     const input=container?.querySelector('.applicant-rejection-comment');
+
+     if(!editor||!actions)return;
+
+     editor.hidden=false;
+     actions.hidden=true;
+     container.classList.add('rejection-editor-open');
+     input?.focus();
+   };
+ });
+
+ document.querySelectorAll('.cancel-app-rejection-editor').forEach(button=>{
+   button.onclick=()=>{
+     const container=button.closest('.applicant-inline-decision');
+     const editor=container?.querySelector('.applicant-rejection-editor');
+     const actions=container?.querySelector('.applicant-initial-actions');
+     const input=container?.querySelector('.applicant-rejection-comment');
+
+     if(!editor||!actions)return;
+
+     editor.hidden=true;
+     actions.hidden=false;
+     container.classList.remove('rejection-editor-open');
+
+     if(input){
+       input.value='';
+       input.classList.remove('invalid');
+     }
+   };
+ });
+
+ document.querySelectorAll('.confirm-reject-app').forEach(button=>{
+   button.onclick=()=>{
+     const rows=R(K.apps);
+     const application=rows.find(item=>item.id===button.dataset.id);
+     if(!application||(
+       application.status&&application.status!=='تحت المراجعة'
+     ))return;
+
+     const container=button.closest('.applicant-inline-decision');
+     const input=container?.querySelector('.applicant-rejection-comment');
+     const reason=(input?.value||'').trim();
+
+     if(!reason){
+       input?.classList.add('invalid');
+       input?.focus();
+       window.showToast?.('اكتب سبب الرفض قبل تأكيد القرار.');
+       return;
+     }
+
+     application.status='مرفوض';
+     application.reason=reason;
+     W(K.apps,rows);
+     renderAll();
+   };
+ });
 }
+
 function approvals(){
  const a=allReq(),b=document.getElementById('approvalRequestRows');
  if(b)b.innerHTML=a.length?a.map(r=>{
@@ -4639,4 +4805,28 @@ window.addEventListener('DOMContentLoaded',()=>{
 window.addEventListener('DOMContentLoaded',()=>{
   console.info('SAH build 24.2 loaded');
   document.documentElement.dataset.sahBuild='24.2';
+});
+
+
+/* SAH V24.3 — unified applicant approval and rejection */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 24.3 loaded');
+  document.documentElement.dataset.sahBuild='24.3';
+
+  document.addEventListener('input',event=>{
+    const input=event.target.closest('.applicant-rejection-comment');
+    if(input&&input.value.trim()){
+      input.classList.remove('invalid');
+    }
+  });
+
+  document.addEventListener('keydown',event=>{
+    const input=event.target.closest('.applicant-rejection-comment');
+    if(!input||event.key!=='Enter')return;
+
+    event.preventDefault();
+    input.closest('.applicant-rejection-editor')
+      ?.querySelector('.confirm-reject-app')
+      ?.click();
+  });
 });

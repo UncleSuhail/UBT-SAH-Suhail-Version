@@ -6188,3 +6188,184 @@ body.theme-dark #fieldPointsCalculatorModal .points-limit-field.limit input{
     grid-column:auto;
   }
 }
+
+
+/* ==========================================================
+   SAH V24.3 — unified student applicant decision controls
+   ========================================================== */
+
+#page-sports-request .student-application-action-cell,
+#page-clubs .student-application-action-cell{
+  width:220px;
+  min-width:220px;
+  padding-inline:10px!important;
+}
+
+#page-sports-request .applicant-inline-decision,
+#page-clubs .applicant-inline-decision{
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+}
+
+#page-sports-request .applicant-initial-actions,
+#page-clubs .applicant-initial-actions{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex-direction:row!important;
+  flex-wrap:nowrap!important;
+  gap:8px!important;
+}
+
+#page-sports-request .applicant-inline-decision .approval-decision-btn,
+#page-clubs .applicant-inline-decision .approval-decision-btn{
+  min-width:86px!important;
+  min-height:40px!important;
+  padding:8px 12px!important;
+  border-radius:12px!important;
+  font-size:12px!important;
+}
+
+#page-sports-request .applicant-rejection-editor[hidden],
+#page-sports-request .applicant-initial-actions[hidden],
+#page-clubs .applicant-rejection-editor[hidden],
+#page-clubs .applicant-initial-actions[hidden]{
+  display:none!important;
+}
+
+#page-sports-request .applicant-rejection-editor,
+#page-clubs .applicant-rejection-editor{
+  display:grid;
+  grid-template-columns:minmax(180px,1fr) auto;
+  align-items:center;
+  gap:7px;
+  width:100%;
+  min-width:350px;
+  padding:8px;
+  border:1px solid #efbdca;
+  border-radius:13px;
+  background:#fff7f9;
+  animation:applicantRejectEditorIn .18s ease both;
+}
+
+@keyframes applicantRejectEditorIn{
+  from{
+    opacity:0;
+    transform:translateX(-5px);
+  }
+  to{
+    opacity:1;
+    transform:translateX(0);
+  }
+}
+
+#page-sports-request .applicant-rejection-comment,
+#page-clubs .applicant-rejection-comment{
+  min-width:0!important;
+  min-height:39px!important;
+  padding:8px 10px!important;
+  border-radius:9px!important;
+  font-size:11px!important;
+}
+
+#page-sports-request .applicant-rejection-editor .approval-rejection-editor-actions,
+#page-clubs .applicant-rejection-editor .approval-rejection-editor-actions{
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+
+#page-sports-request .confirm-reject-app,
+#page-sports-request .cancel-app-rejection-editor,
+#page-clubs .confirm-reject-app,
+#page-clubs .cancel-app-rejection-editor{
+  min-height:36px;
+  padding:7px 9px;
+  border-radius:9px;
+  border:1px solid transparent;
+  font-family:inherit;
+  font-size:10px;
+  font-weight:900;
+  white-space:nowrap;
+  cursor:pointer;
+}
+
+#page-sports-request .confirm-reject-app,
+#page-clubs .confirm-reject-app{
+  color:#fff;
+  background:#ad2348;
+  border-color:#ad2348;
+}
+
+#page-sports-request .confirm-reject-app:hover,
+#page-clubs .confirm-reject-app:hover{
+  background:#8f1738;
+}
+
+#page-sports-request .cancel-app-rejection-editor,
+#page-clubs .cancel-app-rejection-editor{
+  color:var(--blue);
+  background:#fff;
+  border-color:#c8d7ea;
+}
+
+#page-sports-request .applicant-rejection-editor .approval-comment-hint,
+#page-clubs .applicant-rejection-editor .approval-comment-hint{
+  grid-column:1/-1;
+  margin:0;
+  color:#a13450;
+  font-size:8px;
+  line-height:1.35;
+}
+
+#page-sports-request .student-application-action-cell:has(.rejection-editor-open),
+#page-clubs .student-application-action-cell:has(.rejection-editor-open){
+  width:410px!important;
+  min-width:410px!important;
+}
+
+#page-sports-request .student-application-row.is-accepted,
+#page-clubs .student-application-row.is-accepted{
+  background:rgba(235,249,242,.34);
+}
+
+#page-sports-request .student-application-row.is-rejected,
+#page-clubs .student-application-row.is-rejected{
+  background:rgba(255,241,244,.38);
+}
+
+body.theme-dark #page-sports-request .applicant-rejection-editor,
+body.theme-dark #page-clubs .applicant-rejection-editor{
+  background:rgba(173,35,72,.13);
+  border-color:rgba(239,189,202,.4);
+}
+
+body.theme-dark #page-sports-request .cancel-app-rejection-editor,
+body.theme-dark #page-clubs .cancel-app-rejection-editor{
+  color:#fff;
+  background:rgba(255,255,255,.06);
+  border-color:var(--border);
+}
+
+@media(max-width:900px){
+  #page-sports-request .student-application-action-cell,
+  #page-sports-request .student-application-action-cell:has(.rejection-editor-open),
+  #page-clubs .student-application-action-cell,
+  #page-clubs .student-application-action-cell:has(.rejection-editor-open){
+    width:320px!important;
+    min-width:320px!important;
+  }
+
+  #page-sports-request .applicant-rejection-editor,
+  #page-clubs .applicant-rejection-editor{
+    grid-template-columns:1fr;
+    min-width:280px;
+  }
+
+  #page-sports-request .applicant-rejection-editor .approval-rejection-editor-actions,
+  #page-clubs .applicant-rejection-editor .approval-rejection-editor-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+}
