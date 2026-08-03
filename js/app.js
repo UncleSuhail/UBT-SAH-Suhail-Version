@@ -3251,17 +3251,91 @@ function push(k,o){const a=R(k);a.push(o);W(k,a);renderAll();showToast?.('تم �
 function evidence(){return window.getFilteredEvidence?window.getFilteredEvidence():(window.SAH_DATA?.evidenceRecords||[])}
 
 function renderCategory(c){
- const rows=evidence().filter(r=>(r.eventCategory||'الأنشطة الرياضية')===c),m=rows.filter(r=>r.gender==='طلاب'),f=rows.filter(r=>r.gender==='طالبات');
- const sb=(i,v)=>{const e=document.getElementById(i);if(e)e.textContent=v};
- sb('categoryMaleCount',m.length);sb('categoryFemaleCount',f.length);sb('categoryTotalCount',rows.length);
- sb('categoryBeneficiaries',rows.reduce((s,r)=>s+(+r.beneficiaries||0),0));
- sb('categoryMaleBeneficiaries',m.reduce((s,r)=>s+(+r.beneficiaries||0),0));
- sb('categoryFemaleBeneficiaries',f.reduce((s,r)=>s+(+r.beneficiaries||0),0));
- const p=rows.length?Math.round(m.length/rows.length*100):0;sb('categoryGenderPercent',p+'%');sb('categoryCurrentName',c);
- document.getElementById('categoryGenderDonut')?.style.setProperty('--p',p);
- const b=document.getElementById('categoryActivityRows');if(b)b.innerHTML=rows.length?rows.map(r=>`<tr><td>${r.activity||'—'}</td><td>${r.date||'—'}</td><td>${r.days??'—'}</td><td>${r.beneficiaries??0}</td><td>${r.gender||'—'}</td><td>${/^https?:/.test(r.documentationUrl||'')?`<a href="${r.documentationUrl}" target="_blank">فتح</a>`:'غير متوفر'}</td></tr>`).join(''):'<tr><td colspan="6">لا توجد أنشطة.</td></tr>';
-}
+ const allRows=evidence();
+ const rows=allRows.filter(row=>(row.eventCategory||'الأنشطة الرياضية')===c);
+ const maleRows=rows.filter(row=>row.gender==='طلاب');
+ const femaleRows=rows.filter(row=>row.gender==='طالبات');
 
+ const allMaleRows=allRows.filter(row=>row.gender==='طلاب');
+ const allFemaleRows=allRows.filter(row=>row.gender==='طالبات');
+
+ const sumBeneficiaries=list=>list.reduce(
+   (total,row)=>total+(Number(row.beneficiaries)||0),0
+ );
+
+ const set=(id,value)=>{
+   const element=document.getElementById(id);
+   if(element)element.textContent=value;
+ };
+
+ const categoryMalePercent=rows.length
+   ? Math.round(maleRows.length/rows.length*100)
+   : 0;
+
+ const allMalePercent=allRows.length
+   ? Math.round(allMaleRows.length/allRows.length*100)
+   : 0;
+
+ const activeCategories=new Set(
+   allRows.map(row=>row.eventCategory||'الأنشطة الرياضية').filter(Boolean)
+ ).size;
+
+ const isDocumented=row=>{
+   const url=String(row.documentationUrl||'').trim();
+   const status=String(row.status||'').trim();
+   return /^https?:\/\//i.test(url)||status==='مكتمل';
+ };
+
+ const documentedCount=allRows.filter(isDocumented).length;
+ const incompleteCount=Math.max(0,allRows.length-documentedCount);
+
+ set('categoryMaleCount',maleRows.length);
+ set('categoryFemaleCount',femaleRows.length);
+ set('categoryTotalCount',rows.length);
+ set('categoryBeneficiaries',sumBeneficiaries(rows));
+ set('categoryMaleBeneficiaries',sumBeneficiaries(maleRows));
+ set('categoryFemaleBeneficiaries',sumBeneficiaries(femaleRows));
+ set('categoryCurrentName',c);
+
+ set('categoryGenderPercent',`${categoryMalePercent}%`);
+ set('categoryGenderPercentText',`${categoryMalePercent}%`);
+ set('categoryChartMaleCount',maleRows.length);
+ set('categoryChartFemaleCount',femaleRows.length);
+
+ set('allActivitiesGenderPercent',`${allMalePercent}%`);
+ set('allActivitiesGenderPercentText',`${allMalePercent}%`);
+ set('allActivitiesMaleCount',allMaleRows.length);
+ set('allActivitiesFemaleCount',allFemaleRows.length);
+ set('allActivitiesTotal',allRows.length);
+ set('allActivitiesBeneficiaries',sumBeneficiaries(allRows));
+ set('allActivitiesCategories',activeCategories);
+ set('allActivitiesDocumented',documentedCount);
+ set('allActivitiesIncomplete',incompleteCount);
+
+ document.getElementById('categoryGenderDonut')
+   ?.style.setProperty('--p',categoryMalePercent);
+
+ document.getElementById('allActivitiesGenderDonut')
+   ?.style.setProperty('--p',allMalePercent);
+
+ const body=document.getElementById('categoryActivityRows');
+ if(body){
+   body.innerHTML=rows.length
+     ? rows.map(row=>`<tr>
+         <td>${row.activity||'—'}</td>
+         <td>${row.date||'—'}</td>
+         <td>${row.days??'—'}</td>
+         <td>${row.beneficiaries??0}</td>
+         <td>${row.gender||'—'}</td>
+         <td>${
+           /^https?:/.test(row.documentationUrl||'')
+             ? `<a href="${row.documentationUrl}" target="_blank" rel="noopener">فتح</a>`
+             : 'غير متوفر'
+         }</td>
+       </tr>`).join('')
+     : '<tr><td colspan="6">لا توجد أنشطة.</td></tr>';
+ }
+}
 function tableFilterValue(id,fallback=''){
  const element=document.getElementById(id);
  return element ? String(element.value||fallback) : fallback;
@@ -4934,4 +5008,11 @@ window.addEventListener('DOMContentLoaded',()=>{
       approvals();
     });
   });
+});
+
+
+/* SAH V24.5 — activities statistics dashboard */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 24.5 loaded');
+  document.documentElement.dataset.sahBuild='24.5';
 });

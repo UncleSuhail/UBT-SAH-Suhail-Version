@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>Student Activities Platform | UBT</title>
-<link rel="stylesheet" href="css/style.css?v=24.4">
+<link rel="stylesheet" href="css/style.css?v=24.5">
 
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
@@ -71,7 +71,7 @@
 </style>
 
 </head>
-<body data-sah-version="24.4" class="login-mode">
+<body data-sah-version="24.5" class="login-mode">
 <section id="login" class="login-page">
   <div class="login-bg"></div>
   <div class="login-card">
@@ -445,15 +445,103 @@
     <section id="page-activities" class="page">
   <div class="section-title"><div><h3>الأنشطة والفعاليات</h3><p>تتحدث البيانات مباشرة من جدول التقارير والتحليلات حسب فئة الحدث.</p></div></div>
   <div class="activity-category-menu" id="activityEventCategoryMenu"><button type="button" data-event-category="الأنشطة التوعوية">الأنشطة التوعوية</button><button type="button" data-event-category="الأنشطة و البرامج المجتمعية و التطوعية">الأنشطة و البرامج المجتمعية و التطوعية</button><button type="button" data-event-category="الأنشطة الثقافية">الأنشطة الثقافية</button><button type="button" data-event-category="الأنشطة العلمية">الأنشطة العلمية</button><button type="button" data-event-category="الأنشطة الفنية">الأنشطة الفنية</button><button type="button" data-event-category="الأنشطة الرياضية">الأنشطة الرياضية</button><button type="button" data-event-category="البرامج التدريبية">البرامج التدريبية</button><button type="button" data-event-category="برامج عامة على مستوى الجامعة">برامج عامة على مستوى الجامعة</button></div>
-  <div class="grid cols-4">
-    <div class="card stat"><div class="label">أنشطة الطلاب</div><div class="value" id="categoryMaleCount">0</div></div>
-    <div class="card stat burg"><div class="label">أنشطة الطالبات</div><div class="value" id="categoryFemaleCount">0</div></div>
-    <div class="card stat"><div class="label">مجموع الأنشطة</div><div class="value" id="categoryTotalCount">0</div></div>
-    <div class="card stat"><div class="label">مجموع المستفيدين</div><div class="value" id="categoryBeneficiaries">0</div></div>
+  <div class="activities-category-stats">
+    <div class="card activity-stat-card male">
+      <span>أنشطة الطلاب</span>
+      <strong id="categoryMaleCount">0</strong>
+      <small>ضمن الفئة المحددة</small>
+    </div>
+
+    <div class="card activity-stat-card female">
+      <span>أنشطة الطالبات</span>
+      <strong id="categoryFemaleCount">0</strong>
+      <small>ضمن الفئة المحددة</small>
+    </div>
+
+    <div class="card activity-stat-card total">
+      <span>إجمالي أنشطة الفئة</span>
+      <strong id="categoryTotalCount">0</strong>
+      <small id="categoryCurrentName">اختر فئة</small>
+    </div>
+
+    <div class="card activity-stat-card male-beneficiaries">
+      <span>مستفيدو الطلاب</span>
+      <strong id="categoryMaleBeneficiaries">0</strong>
+      <small>إجمالي الطلاب المستفيدين</small>
+    </div>
+
+    <div class="card activity-stat-card female-beneficiaries">
+      <span>مستفيدات الطالبات</span>
+      <strong id="categoryFemaleBeneficiaries">0</strong>
+      <small>إجمالي الطالبات المستفيدات</small>
+    </div>
+
+    <div class="card activity-stat-card beneficiaries-total">
+      <span>إجمالي مستفيدي الفئة</span>
+      <strong id="categoryBeneficiaries">0</strong>
+      <small>الطلاب والطالبات</small>
+    </div>
   </div>
-  <div class="grid cols-2">
-    <div class="card indicator-card"><h4>توزيع الأنشطة</h4><div class="donut" id="categoryGenderDonut" style="--p:0"><b id="categoryGenderPercent">0%</b></div><p id="categoryCurrentName">اختر فئة.</p></div>
-    <div class="card"><h4>المستفيدون</h4><div class="profile-meta"><div class="meta-box"><span>الطلاب</span><b id="categoryMaleBeneficiaries">0</b></div><div class="meta-box"><span>الطالبات</span><b id="categoryFemaleBeneficiaries">0</b></div></div></div>
+
+  <div class="activities-insights-grid">
+    <div class="card activity-chart-card">
+      <div class="activity-chart-copy">
+        <span>توزيع الفئة المحددة</span>
+        <strong id="categoryGenderPercentText">0%</strong>
+        <small>نسبة أنشطة الطلاب من إجمالي أنشطة الفئة</small>
+        <div class="activity-chart-legend">
+          <span><i class="activity-legend-dot male"></i>الطلاب <b id="categoryChartMaleCount">0</b></span>
+          <span><i class="activity-legend-dot female"></i>الطالبات <b id="categoryChartFemaleCount">0</b></span>
+        </div>
+      </div>
+      <div class="donut activity-donut" id="categoryGenderDonut" style="--p:0">
+        <b id="categoryGenderPercent">0%</b>
+      </div>
+    </div>
+
+    <div class="card activity-chart-card">
+      <div class="activity-chart-copy">
+        <span>التوزيع العام لجميع الأنشطة</span>
+        <strong id="allActivitiesGenderPercentText">0%</strong>
+        <small>نسبة أنشطة الطلاب من جميع الأنشطة المسجلة</small>
+        <div class="activity-chart-legend">
+          <span><i class="activity-legend-dot male"></i>الطلاب <b id="allActivitiesMaleCount">0</b></span>
+          <span><i class="activity-legend-dot female"></i>الطالبات <b id="allActivitiesFemaleCount">0</b></span>
+        </div>
+      </div>
+      <div class="donut activity-donut" id="allActivitiesGenderDonut" style="--p:0">
+        <b id="allActivitiesGenderPercent">0%</b>
+      </div>
+    </div>
+
+    <div class="card all-activities-summary-card">
+      <div class="all-activities-summary-head">
+        <div>
+          <span>الإحصائيات الشاملة</span>
+          <h4>جميع الأنشطة المسجلة</h4>
+        </div>
+        <strong id="allActivitiesTotal">0</strong>
+      </div>
+
+      <div class="all-activities-summary-grid">
+        <div>
+          <span>إجمالي المستفيدين</span>
+          <b id="allActivitiesBeneficiaries">0</b>
+        </div>
+        <div>
+          <span>الفئات النشطة</span>
+          <b id="allActivitiesCategories">0</b>
+        </div>
+        <div>
+          <span>موثقة بالكامل</span>
+          <b id="allActivitiesDocumented">0</b>
+        </div>
+        <div>
+          <span>تحتاج استكمال</span>
+          <b id="allActivitiesIncomplete">0</b>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="card table-card"><div class="table-wrap"><table>
     <thead><tr><th>اسم النشاط</th><th>التاريخ</th><th>الأيام</th><th>المستفيدون</th><th>الفئة</th><th>التوثيق</th></tr></thead>
@@ -1196,6 +1284,6 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=24.4"></script>
+<script src="js/app.js?v=24.5"></script>
 </body>
 </html>
