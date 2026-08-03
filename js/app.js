@@ -1941,3 +1941,113 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     setTimeout(forceIndicatorRefresh,400);
   });
 })();
+
+/* ==========================================================
+   SAH V20.3 — mobile identity and manual cross-device data transfer
+   ========================================================== */
+(function(){
+  'use strict';
+
+  const MOBILE_ROLE_META={
+    system:{name:'حسام الحسين',role:'مسؤول النظام',avatar:'ح'},
+    indicator:{name:'سهيل الكعكي',role:'مسؤول مؤشر الأداء الرياضي',avatar:'س'},
+    sports_manager:{name:'مجدي البلوشي',role:'مدير النادي الرياضي',avatar:'م'},
+    dean:{name:'د. محمد المقدم',role:'عميد شؤون الطلاب',avatar:'د'}
+  };
+
+  function updateMobileIdentity(){
+    const desktop=document.getElementById('activeRole');
+    const mobile=document.getElementById('mobileActiveRole');
+    const role=desktop?.value || mobile?.value || 'system';
+    const meta=MOBILE_ROLE_META[role] || MOBILE_ROLE_META.system;
+
+    if(mobile && mobile.value!==role) mobile.value=role;
+    const name=document.getElementById('mobileUserName');
+    const description=document.getElementById('mobileUserRole');
+    const avatar=document.getElementById('mobileUserAvatar');
+    if(name) name.textContent=meta.name;
+    if(description) description.textContent=meta.role;
+    if(avatar) avatar.textContent=meta.avatar;
+  }
+
+  function changeRoleFromMobile(){
+    const desktop=document.getElementById('activeRole');
+    const mobile=document.getElementById('mobileActiveRole');
+    if(!desktop || !mobile) return;
+    desktop.value=mobile.value;
+    desktop.dispatchEvent(new Event('change',{bubbles:true}));
+    updateMobileIdentity();
+  }
+
+  function exportDeviceData(){
+    const data={};
+    for(let index=0;index<localStorage.length;index++){
+      const key=localStorage.key(index);
+      if(key && key.startsWith('sah-')){
+        data[key]=localStorage.getItem(key);
+      }
+    }
+
+    const payload={
+      app:'SAH',
+      version:'20.3',
+      exportedAt:new Date().toISOString(),
+      localStorage:data
+    };
+
+    const blob=new Blob(
+      [JSON.stringify(payload,null,2)],
+      {type:'application/json;charset=utf-8'}
+    );
+    const link=document.createElement('a');
+    link.href=URL.createObjectURL(blob);
+    link.download=`SAH-device-data-${new Date().toISOString().slice(0,10)}.json`;
+    link.click();
+    URL.revokeObjectURL(link.href);
+  }
+
+  async function importDeviceData(file){
+    if(!file) return;
+
+    try{
+      const text=await file.text();
+      const payload=JSON.parse(text);
+      if(payload?.app!=='SAH' || !payload.localStorage){
+        throw new Error('Invalid SAH export');
+      }
+
+      Object.entries(payload.localStorage).forEach(([key,value])=>{
+        if(key.startsWith('sah-') && typeof value==='string'){
+          localStorage.setItem(key,value);
+        }
+      });
+
+      alert('تم استيراد بيانات الجهاز بنجاح. ستتم إعادة تحميل الصفحة.');
+      location.reload();
+    }catch(error){
+      console.error(error);
+      alert('تعذر استيراد الملف. تأكد أنه ملف بيانات SAH صحيح.');
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded',()=>{
+    console.info('SAH build 20.3 loaded');
+    document.documentElement.dataset.sahBuild='20.3';
+
+    const desktop=document.getElementById('activeRole');
+    const mobile=document.getElementById('mobileActiveRole');
+
+    desktop?.addEventListener('change',updateMobileIdentity);
+    mobile?.addEventListener('change',changeRoleFromMobile);
+
+    document.getElementById('exportDeviceData')
+      ?.addEventListener('click',exportDeviceData);
+
+    document.getElementById('importDeviceData')
+      ?.addEventListener('change',event=>{
+        importDeviceData(event.target.files?.[0]);
+      });
+
+    updateMobileIdentity();
+  });
+})();

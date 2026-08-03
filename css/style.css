@@ -2357,3 +2357,225 @@ img,svg,video,iframe{
   }
 }
 
+/* ==========================================================
+   SAH V20.3 — mobile right menu, visible permissions and data transfer
+   ========================================================== */
+
+.mobile-user-strip{
+  display:none;
+}
+
+@media(max-width:1100px){
+
+  #app{
+    padding-top:126px!important;
+  }
+
+  .topbar{
+    direction:rtl!important;
+    grid-template-columns:44px auto minmax(0,1fr) auto!important;
+  }
+
+  /* Menu button on the right */
+  .topbar .mobile-menu{
+    grid-column:1!important;
+    justify-self:start!important;
+    background:#072c64!important;
+    color:#fff!important;
+    border:1px solid rgba(255,255,255,.18)!important;
+    box-shadow:0 7px 18px rgba(7,44,100,.18)!important;
+  }
+
+  .topbar .mobile-menu .icon{
+    width:24px!important;
+    height:24px!important;
+    stroke-width:2.4!important;
+  }
+
+  .topbar .brand-left{
+    grid-column:2!important;
+  }
+
+  .topbar .brand-title{
+    grid-column:3!important;
+  }
+
+  .topbar .topbar-right{
+    grid-column:4!important;
+  }
+
+  .mobile-user-strip{
+    position:fixed;
+    top:72px;
+    right:0;
+    left:0;
+    z-index:1195;
+    min-height:54px;
+    padding:7px 12px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    background:#fff;
+    border-bottom:1px solid var(--border);
+    box-shadow:0 5px 16px rgba(7,44,100,.07);
+    direction:rtl;
+  }
+
+  .mobile-user-identity{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    min-width:0;
+  }
+
+  .mobile-user-avatar{
+    width:36px;
+    height:36px;
+    min-width:36px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:#072c64;
+    color:#fff;
+    font-weight:900;
+  }
+
+  .mobile-user-identity strong,
+  .mobile-user-identity span{
+    display:block;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  .mobile-user-identity strong{
+    color:#072c64;
+    font-size:13px;
+  }
+
+  .mobile-user-identity span{
+    margin-top:2px;
+    color:var(--muted);
+    font-size:10px;
+  }
+
+  .mobile-role-actions{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    min-width:0;
+  }
+
+  .mobile-role-actions select{
+    max-width:170px;
+    height:38px;
+    padding:0 9px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:#fff;
+    color:#072c64;
+    font-size:11px;
+  }
+
+  .mobile-sync-btn{
+    width:38px;
+    height:38px;
+    min-width:38px;
+    display:grid;
+    place-items:center;
+    border:1px solid #bfd0e8;
+    border-radius:10px;
+    background:#f5f9ff;
+    color:#072c64;
+    font-size:18px;
+    font-weight:900;
+    cursor:pointer;
+  }
+
+  .mobile-import-btn{
+    position:relative;
+  }
+
+  .sidebar{
+    top:126px!important;
+    height:calc(100dvh - 126px)!important;
+  }
+}
+
+@media(max-width:520px){
+
+  #app{
+    padding-top:116px!important;
+  }
+
+  .topbar{
+    grid-template-columns:40px 80px minmax(0,1fr) 78px!important;
+  }
+
+  .mobile-user-strip{
+    top:64px;
+    min-height:52px;
+    padding:6px 8px;
+  }
+
+  .mobile-user-avatar{
+    width:32px;
+    height:32px;
+    min-width:32px;
+    font-size:12px;
+  }
+
+  .mobile-user-identity strong{
+    font-size:11px;
+  }
+
+  .mobile-user-identity span{
+    font-size:9px;
+  }
+
+  .mobile-role-actions select{
+    max-width:125px;
+    height:34px;
+    font-size:10px;
+  }
+
+  .mobile-sync-btn{
+    width:34px;
+    height:34px;
+    min-width:34px;
+  }
+
+  .sidebar{
+    top:116px!important;
+    height:calc(100dvh - 116px)!important;
+  }
+}
+
+@media(max-width:390px){
+  .mobile-user-identity span{
+    display:none;
+  }
+
+  .mobile-role-actions select{
+    max-width:108px;
+  }
+}
+
+body.theme-dark .mobile-user-strip{
+  background:#061c3d;
+  border-color:var(--border);
+}
+
+body.theme-dark .mobile-user-identity strong,
+body.theme-dark .mobile-role-actions select{
+  color:#fff;
+}
+
+body.theme-dark .mobile-role-actions select,
+body.theme-dark .mobile-sync-btn{
+  background:rgba(255,255,255,.08);
+  border-color:var(--border);
+  color:#fff;
+}
+
