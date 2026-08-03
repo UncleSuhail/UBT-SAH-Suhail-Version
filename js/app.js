@@ -1346,6 +1346,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
       if (completion === 'complete' && percent !== 100) return false;
       if (completion === 'incomplete' && (percent === 100 || percent === 0)) return false;
       if (completion === 'missing' && percent !== 0) return false;
+      if (window.__reportsExcludeComplete && percent === 100) return false;
 
       if (!query) return true;
 
@@ -1394,25 +1395,144 @@ window.addEventListener('DOMContentLoaded',initPreferences);
 
   window.renderEvidenceStats = function () {
     const rows = allEvidenceRows();
-    const percentages = rows.map(completionPercent);
-    const complete = percentages.filter(value => value === 100).length;
-    const missing = percentages.filter(value => value === 0).length;
-    const partial = rows.length - complete - missing;
-    const average = rows.length
-      ? Math.round(percentages.reduce((sum, value) => sum + value, 0) / rows.length)
-      : 0;
 
-    setText('#evidenceTotal', fmt(rows.length));
-    setText('#evidenceComplete', fmt(complete));
-    setText('#evidencePartial', fmt(partial));
-    setText('#evidenceMissing', fmt(missing));
-    setText('#documentationCompletionPercent', `${average}%`);
-    setText('#documentationCompletionText',
-      `${complete} نشاط مكتمل من أصل ${rows.length}`);
+    const byGender = gender => {
+      const genderRows = rows.filter(row => row.gender === gender);
+      const complete = genderRows.filter(row => completionPercent(row) === 100).length;
+      const incomplete = genderRows.length - complete;
+      const percent = genderRows.length
+        ? Math.round(complete / genderRows.length * 100)
+        : 0;
 
-    const bar = document.getElementById('documentationCompletionBar');
-    if (bar) bar.style.width = `${average}%`;
+      return {
+        rows: genderRows,
+        total: genderRows.length,
+        complete,
+        incomplete,
+        percent
+      };
+    };
+
+    const male = byGender('طلاب');
+    const female = byGender('طالبات');
+
+    const set = (id,value) => {
+      const element = document.getElementById(id);
+      if (element) element.textContent = value;
+    };
+
+    set('reportsMaleTotal', male.total);
+    set('reportsMaleRegistered', male.total);
+    set('reportsMaleComplete', male.complete);
+    set('reportsMaleIncomplete', male.incomplete);
+    set('reportsMalePercent', `${male.percent}%`);
+
+    set('reportsFemaleTotal', female.total);
+    set('reportsFemaleRegistered', female.total);
+    set('reportsFemaleComplete', female.complete);
+    set('reportsFemaleIncomplete', female.incomplete);
+    set('reportsFemalePercent', `${female.percent}%`);
+
+    set('reportsAllActivitiesTotal', rows.length);
+
+    document.getElementById('reportsMaleDonut')
+      ?.style.setProperty('--p', male.percent);
+
+    document.getElementById('reportsFemaleDonut')
+      ?.style.setProperty('--p', female.percent);
+
+    const counts = new Map();
+
+    rows.forEach(row => {
+      const field = String(
+        row.mainField ||
+        row.indicatorField ||
+        row.field ||
+        row.subCategory ||
+        'غير محدد'
+      ).trim() || 'غير محدد';
+
+      counts.set(field,(counts.get(field)||0)+1);
+    });
+
+    const configuredFields = (SAH_DATA.indicatorFields||[])
+      .map(item => item.field)
+      .filter(Boolean);
+
+    configuredFields.forEach(field => {
+      if (!counts.has(field)) counts.set(field,0);
+    });
+
+    const entries = [...counts.entries()]
+      .sort((a,b) => b[1]-a[1] || a[0].localeCompare(b[0],'ar'));
+
+    const max = Math.max(1,...entries.map(([,count])=>count));
+    const chart = document.getElementById('reportsMainFieldsChart');
+
+    if (chart) {
+      chart.innerHTML = entries.length
+        ? entries.map(([field,count],index) => {
+            const width = Math.max(count ? 6 : 0,Math.round(count/max*100));
+            const percent = rows.length
+              ? Math.round(count/rows.length*100)
+              : 0;
+
+            return `<button class="reports-main-field-row"
+                            type="button"
+                            data-evidence-main-field="${field}"
+                            title="عرض أنشطة ${field}">
+              <span class="reports-main-field-rank">${index+1}</span>
+              <span class="reports-main-field-name">${field}</span>
+              <span class="reports-main-field-track">
+                <i style="width:${width}%"></i>
+              </span>
+              <strong>${count}</strong>
+              <small>${percent}%</small>
+            </button>`;
+          }).join('')
+        : '<div class="reports-no-fields">لا توجد مجالات أو أنشطة مسجلة.</div>';
+    }
   };
+  function applyReportsDashboardFilter({gender='all',completion='all',mainField=''}) {
+    const genderButtons = [...document.querySelectorAll('#evidenceGender button')];
+    const targetGender = genderButtons.find(button=>button.dataset.gender===gender)
+      || genderButtons.find(button=>button.dataset.gender==='all');
+
+    genderButtons.forEach(button=>button.classList.toggle(
+      'active',button===targetGender
+    ));
+
+    const completionSelect = document.getElementById('evidenceCompletionFilter');
+    const statusSelect = document.getElementById('evidenceStatus');
+    const columnSelect = document.getElementById('evidenceColumnFilter');
+    const searchInput = document.getElementById('evidenceSearch');
+
+    if (statusSelect) statusSelect.value='all';
+
+    if (completionSelect) {
+      completionSelect.value = completion==='complete'
+        ? 'complete'
+        : completion==='not-complete'
+          ? 'all'
+          : 'all';
+    }
+
+    if (columnSelect) {
+      columnSelect.value = mainField ? 'indicatorField' : 'all';
+    }
+
+    if (searchInput) {
+      searchInput.value = mainField || '';
+    }
+
+    window.__reportsExcludeComplete = completion==='not-complete';
+
+    renderEvidence();
+
+    document.querySelector('.evidence-card')
+      ?.scrollIntoView({behavior:'smooth',block:'start'});
+  }
+
 
   window.renderEvidence = function () {
     const tbody = document.getElementById('evidenceRows');
@@ -5015,4 +5135,52 @@ window.addEventListener('DOMContentLoaded',()=>{
 window.addEventListener('DOMContentLoaded',()=>{
   console.info('SAH build 24.5 loaded');
   document.documentElement.dataset.sahBuild='24.5';
+});
+
+
+/* SAH V24.6 — reports documentation dashboard */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 24.6 loaded');
+  document.documentElement.dataset.sahBuild='24.6';
+
+  document.addEventListener('click',event=>{
+    const summary=event.target.closest('[data-evidence-gender]');
+    if(summary){
+      applyReportsDashboardFilter({
+        gender:summary.dataset.evidenceGender||'all',
+        completion:summary.dataset.evidenceCompletion||'all'
+      });
+      return;
+    }
+
+    const field=event.target.closest('[data-evidence-main-field]');
+    if(field){
+      applyReportsDashboardFilter({
+        gender:'all',
+        completion:'all',
+        mainField:field.dataset.evidenceMainField||''
+      });
+    }
+  });
+
+  [
+    'evidenceSearch',
+    'evidenceColumnFilter',
+    'evidenceCompletionFilter',
+    'evidenceStatus'
+  ].forEach(id=>{
+    const element=document.getElementById(id);
+    if(!element)return;
+
+    element.addEventListener(
+      element.tagName==='INPUT'?'input':'change',
+      ()=>{ window.__reportsExcludeComplete=false; }
+    );
+  });
+
+  document.querySelectorAll('#evidenceGender button').forEach(button=>{
+    button.addEventListener('click',()=>{
+      window.__reportsExcludeComplete=false;
+    });
+  });
 });

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>Student Activities Platform | UBT</title>
-<link rel="stylesheet" href="css/style.css?v=24.5">
+<link rel="stylesheet" href="css/style.css?v=24.6">
 
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
@@ -71,7 +71,7 @@
 </style>
 
 </head>
-<body data-sah-version="24.5" class="login-mode">
+<body data-sah-version="24.6" class="login-mode">
 <section id="login" class="login-page">
   <div class="login-bg"></div>
   <div class="login-card">
@@ -929,64 +929,136 @@
     </section>
 
     <section id="page-reports" class="page">
-      <div class="section-title">
-        <div>
-          <h3>التقارير والتحليلات</h3>
-          <p>تقارير تنفيذية للإدارة الرياضية والأنشطة الطلابية والعمل التطوعي، مع مركز متكامل للشواهد.</p>
+      <div class="reports-documentation-dashboard">
+
+        <div class="reports-gender-documentation-grid">
+
+          <article class="card reports-gender-card male">
+            <div class="reports-gender-card-head">
+              <div>
+                <span>توثيق أنشطة الطلاب</span>
+                <h3>الطلاب</h3>
+              </div>
+              <strong id="reportsMaleTotal">0</strong>
+            </div>
+
+            <div class="reports-gender-chart-layout">
+              <button class="reports-completion-donut"
+                      id="reportsMaleDonut"
+                      type="button"
+                      data-evidence-gender="طلاب"
+                      data-evidence-completion="complete"
+                      style="--p:0"
+                      title="عرض أنشطة الطلاب المكتملة">
+                <span>
+                  <b id="reportsMalePercent">0%</b>
+                  <small>مكتمل</small>
+                </span>
+              </button>
+
+              <div class="reports-gender-stats">
+                <button type="button"
+                        data-evidence-gender="طلاب"
+                        data-evidence-completion="all">
+                  <span>الأنشطة المسجلة</span>
+                  <b id="reportsMaleRegistered">0</b>
+                </button>
+
+                <button class="complete"
+                        type="button"
+                        data-evidence-gender="طلاب"
+                        data-evidence-completion="complete">
+                  <span>مكتملة التوثيق</span>
+                  <b id="reportsMaleComplete">0</b>
+                </button>
+
+                <button class="incomplete"
+                        type="button"
+                        data-evidence-gender="طلاب"
+                        data-evidence-completion="not-complete">
+                  <span>غير مكتملة</span>
+                  <b id="reportsMaleIncomplete">0</b>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card reports-gender-card female">
+            <div class="reports-gender-card-head">
+              <div>
+                <span>توثيق أنشطة الطالبات</span>
+                <h3>الطالبات</h3>
+              </div>
+              <strong id="reportsFemaleTotal">0</strong>
+            </div>
+
+            <div class="reports-gender-chart-layout">
+              <button class="reports-completion-donut female"
+                      id="reportsFemaleDonut"
+                      type="button"
+                      data-evidence-gender="طالبات"
+                      data-evidence-completion="complete"
+                      style="--p:0"
+                      title="عرض أنشطة الطالبات المكتملة">
+                <span>
+                  <b id="reportsFemalePercent">0%</b>
+                  <small>مكتمل</small>
+                </span>
+              </button>
+
+              <div class="reports-gender-stats">
+                <button type="button"
+                        data-evidence-gender="طالبات"
+                        data-evidence-completion="all">
+                  <span>الأنشطة المسجلة</span>
+                  <b id="reportsFemaleRegistered">0</b>
+                </button>
+
+                <button class="complete"
+                        type="button"
+                        data-evidence-gender="طالبات"
+                        data-evidence-completion="complete">
+                  <span>مكتملة التوثيق</span>
+                  <b id="reportsFemaleComplete">0</b>
+                </button>
+
+                <button class="incomplete"
+                        type="button"
+                        data-evidence-gender="طالبات"
+                        data-evidence-completion="not-complete">
+                  <span>غير مكتملة</span>
+                  <b id="reportsFemaleIncomplete">0</b>
+                </button>
+              </div>
+            </div>
+          </article>
+
         </div>
-      </div>
 
-      <div class="reports-compact-grid">
-        <button class="report-mini-card" type="button">
-          <span data-icon="chart"></span>
-          <strong>تقرير مؤشر الأداء الرياضي</strong>
-          <small>طلاب وطالبات بشكل مستقل</small>
-        </button>
-        <button class="report-mini-card" type="button">
-          <span data-icon="award"></span>
-          <strong>تقرير المنح الرياضية</strong>
-          <small>حسب الكلية ونسبة الخصم والفئة</small>
-        </button>
-        <button class="report-mini-card" type="button">
-          <span data-icon="heart"></span>
-          <strong>تقرير العمل التطوعي</strong>
-          <small>الفرص والساعات والطلبات</small>
-        </button>
-        <button class="report-mini-card" id="scrollEvidence" type="button">
-          <span data-icon="file"></span>
-          <strong>تقرير الشواهد</strong>
-          <small>توثيق الأنشطة وفق متطلبات المؤشر</small>
-        </button>
-      </div>
-
-      <div id="evidenceCenter" class="section-title evidence-center-title">
-        <div>
-          <h3>مركز الشواهد وتوثيق الأنشطة</h3>
-          <p>مبني على نموذج توثيق الأنشطة الطلابية وفق متطلبات مؤشر الأداء، ويتيح البحث والمراجعة واستخراج التقرير بنفس الحقول المعتمدة.</p>
-        </div>
-      </div>
-
-      <div class="documentation-completion-card">
-        <div class="documentation-completion-head">
-          <div>
-            <span>نسبة اكتمال التوثيق</span>
-            <strong id="documentationCompletionPercent">0%</strong>
+        <article class="card reports-main-fields-card">
+          <div class="reports-main-fields-head">
+            <div>
+              <span>التوزيع الديناميكي</span>
+              <h3>الأنشطة حسب المجالات الرئيسية</h3>
+              <p>يتحدث المخطط تلقائيًا عند إضافة مجال رئيسي جديد أو تعديل المجالات الحالية.</p>
+            </div>
+            <div class="reports-main-fields-total">
+              <span>إجمالي الأنشطة</span>
+              <strong id="reportsAllActivitiesTotal">0</strong>
+            </div>
           </div>
-          <small id="documentationCompletionText">يتم احتسابها وفق اكتمال بيانات جميع الأنشطة.</small>
+
+          <div class="reports-main-fields-chart"
+               id="reportsMainFieldsChart">
+          </div>
+        </article>
+
+        <div class="reports-dashboard-hint">
+          اضغط على أي نسبة أو بطاقة أو مجال لعرض السجلات المرتبطة مباشرة في الجدول أدناه.
         </div>
-        <div class="documentation-completion-bar">
-          <span id="documentationCompletionBar" style="width:0%"></span>
-        </div>
+
       </div>
 
-      <div class="grid cols-4 evidence-summary-grid">
-        <div class="card stat"><div class="label">إجمالي سجلات الشواهد</div><div class="value" id="evidenceTotal">0</div><div class="sub">سجل نشاط</div></div>
-        <div class="card stat"><div class="label">شواهد مكتملة</div><div class="value" id="evidenceComplete">0</div><div class="sub">تحتوي على الملفات المطلوبة</div></div>
-        <div class="card stat burg"><div class="label">شواهد جزئية</div><div class="value" id="evidencePartial">0</div><div class="sub">تحتاج استكمال أحد الملفات</div></div>
-        <div class="card stat burg"><div class="label">شواهد ناقصة</div><div class="value" id="evidenceMissing">0</div><div class="sub">لا تحتوي على الملفات المطلوبة</div></div>
-      </div>
-
-      
       <div class="evidence-actionbar">
         <div class="evidence-actions-primary">
           <button class="btn primary add-activity-btn" id="openAddActivity" type="button">
@@ -1284,6 +1356,6 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=24.5"></script>
+<script src="js/app.js?v=24.6"></script>
 </body>
 </html>

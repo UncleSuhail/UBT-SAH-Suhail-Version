@@ -6813,3 +6813,419 @@ body.theme-dark .all-activities-summary-grid>div{
     align-self:center;
   }
 }
+
+
+/* ==========================================================
+   SAH V24.6 — reports documentation dashboard
+   ========================================================== */
+
+.reports-documentation-dashboard{
+  display:grid;
+  gap:15px;
+  margin-bottom:18px;
+}
+
+.reports-gender-documentation-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:15px;
+}
+
+.reports-gender-card{
+  min-height:285px;
+  padding:20px!important;
+  overflow:hidden;
+}
+
+.reports-gender-card.male{
+  border-color:#c7d9f1!important;
+  background:
+    linear-gradient(145deg,#f4f8ff 0%,#ffffff 65%)!important;
+}
+
+.reports-gender-card.female{
+  border-color:#efc7d2!important;
+  background:
+    linear-gradient(145deg,#fff5f8 0%,#ffffff 65%)!important;
+}
+
+.reports-gender-card-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:16px;
+}
+
+.reports-gender-card-head span{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:800;
+}
+
+.reports-gender-card-head h3{
+  margin:4px 0 0;
+  color:var(--blue);
+  font-size:24px;
+}
+
+.reports-gender-card.female .reports-gender-card-head h3{
+  color:#ad2348;
+}
+
+.reports-gender-card-head>strong{
+  min-width:62px;
+  height:62px;
+  display:grid;
+  place-items:center;
+  border-radius:17px;
+  background:#e8f1fd;
+  color:#0b55aa;
+  font-size:27px;
+}
+
+.reports-gender-card.female .reports-gender-card-head>strong{
+  background:#fdeaf0;
+  color:#ad2348;
+}
+
+.reports-gender-chart-layout{
+  display:grid;
+  grid-template-columns:170px minmax(0,1fr);
+  align-items:center;
+  gap:18px;
+}
+
+.reports-completion-donut{
+  --p:0;
+  position:relative;
+  width:165px;
+  height:165px;
+  display:grid;
+  place-items:center;
+  border:0;
+  border-radius:50%;
+  background:
+    conic-gradient(#1769c2 calc(var(--p)*1%),#e8eef7 0);
+  cursor:pointer;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+
+.reports-completion-donut.female{
+  background:
+    conic-gradient(#ad2348 calc(var(--p)*1%),#f3e7ec 0);
+}
+
+.reports-completion-donut::before{
+  content:"";
+  position:absolute;
+  inset:21px;
+  border-radius:50%;
+  background:#fff;
+}
+
+.reports-completion-donut:hover{
+  transform:scale(1.025);
+  box-shadow:0 12px 28px rgba(7,44,100,.12);
+}
+
+.reports-completion-donut>span{
+  position:relative;
+  z-index:1;
+  display:grid;
+  text-align:center;
+}
+
+.reports-completion-donut b{
+  color:#0b55aa;
+  font-size:31px;
+  line-height:1;
+}
+
+.reports-completion-donut.female b{
+  color:#ad2348;
+}
+
+.reports-completion-donut small{
+  margin-top:5px;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.reports-gender-stats{
+  display:grid;
+  gap:8px;
+}
+
+.reports-gender-stats button{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  min-height:49px;
+  padding:9px 12px;
+  border:1px solid #dce6f2;
+  border-radius:12px;
+  background:#fff;
+  color:var(--blue);
+  font-family:inherit;
+  text-align:right;
+  cursor:pointer;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+
+.reports-gender-stats button:hover{
+  transform:translateX(-3px);
+  border-color:#9bb7dd;
+  box-shadow:0 7px 16px rgba(7,44,100,.08);
+}
+
+.reports-gender-stats button.complete{
+  background:#effaf5;
+  border-color:#b9e3cf;
+}
+
+.reports-gender-stats button.incomplete{
+  background:#fff5f7;
+  border-color:#efc3ce;
+}
+
+.reports-gender-stats span{
+  font-size:11px;
+  font-weight:800;
+}
+
+.reports-gender-stats b{
+  font-size:20px;
+}
+
+.reports-gender-stats .complete b{
+  color:#08764e;
+}
+
+.reports-gender-stats .incomplete b{
+  color:#ad2348;
+}
+
+.reports-main-fields-card{
+  padding:20px!important;
+}
+
+.reports-main-fields-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:17px;
+}
+
+.reports-main-fields-head>div>span{
+  display:block;
+  color:#1d67c1;
+  font-size:10px;
+  font-weight:900;
+}
+
+.reports-main-fields-head h3{
+  margin:4px 0 0;
+  color:var(--blue);
+  font-size:23px;
+}
+
+.reports-main-fields-head p{
+  margin:6px 0 0;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.reports-main-fields-total{
+  min-width:128px;
+  padding:10px 13px;
+  border:1px solid #d7e3f1;
+  border-radius:13px;
+  background:#f7faff;
+  text-align:center;
+}
+
+.reports-main-fields-total span{
+  display:block;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.reports-main-fields-total strong{
+  display:block;
+  margin-top:4px;
+  color:var(--blue);
+  font-size:27px;
+}
+
+.reports-main-fields-chart{
+  display:grid;
+  gap:7px;
+  max-height:390px;
+  overflow:auto;
+  padding-inline-end:5px;
+}
+
+.reports-main-field-row{
+  display:grid;
+  grid-template-columns:30px minmax(190px,1.2fr) minmax(180px,2fr) 46px 43px;
+  align-items:center;
+  gap:9px;
+  width:100%;
+  min-height:44px;
+  padding:7px 9px;
+  border:1px solid transparent;
+  border-radius:10px;
+  background:transparent;
+  color:var(--blue);
+  font-family:inherit;
+  text-align:right;
+  cursor:pointer;
+  transition:background .18s ease,border-color .18s ease,transform .18s ease;
+}
+
+.reports-main-field-row:hover{
+  transform:translateX(-3px);
+  border-color:#d1dfee;
+  background:#f7faff;
+}
+
+.reports-main-field-rank{
+  width:27px;
+  height:27px;
+  display:grid;
+  place-items:center;
+  border-radius:8px;
+  background:#eaf2fd;
+  color:#0b55aa;
+  font-size:10px;
+  font-weight:900;
+}
+
+.reports-main-field-name{
+  overflow:hidden;
+  color:var(--blue);
+  font-size:11px;
+  font-weight:850;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.reports-main-field-track{
+  height:11px;
+  overflow:hidden;
+  border-radius:999px;
+  background:#e9eef6;
+}
+
+.reports-main-field-track i{
+  display:block;
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg,#1769c2,#17a7bd);
+}
+
+.reports-main-field-row strong{
+  color:var(--blue);
+  font-size:14px;
+  text-align:center;
+}
+
+.reports-main-field-row small{
+  color:var(--muted);
+  font-size:9px;
+  text-align:left;
+}
+
+.reports-dashboard-hint{
+  padding:10px 13px;
+  border:1px dashed #b8cae1;
+  border-radius:11px;
+  background:#f8fbff;
+  color:var(--muted);
+  font-size:10px;
+  text-align:center;
+}
+
+.reports-no-fields{
+  padding:24px;
+  color:var(--muted);
+  text-align:center;
+}
+
+body.theme-dark .reports-gender-card.male,
+body.theme-dark .reports-gender-card.female{
+  background:rgba(6,28,61,.78)!important;
+  border-color:var(--border)!important;
+}
+
+body.theme-dark .reports-completion-donut::before{
+  background:#061c3d;
+}
+
+body.theme-dark .reports-gender-stats button,
+body.theme-dark .reports-main-fields-total,
+body.theme-dark .reports-dashboard-hint{
+  background:rgba(255,255,255,.05);
+  border-color:var(--border);
+  color:#fff;
+}
+
+body.theme-dark .reports-main-field-row:hover{
+  background:rgba(255,255,255,.05);
+  border-color:var(--border);
+}
+
+body.theme-dark .reports-main-field-track{
+  background:rgba(255,255,255,.09);
+}
+
+@media(max-width:950px){
+  .reports-gender-documentation-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:700px){
+  .reports-gender-chart-layout{
+    grid-template-columns:1fr;
+  }
+
+  .reports-completion-donut{
+    justify-self:center;
+  }
+
+  .reports-main-fields-head{
+    flex-direction:column;
+  }
+
+  .reports-main-fields-total{
+    width:100%;
+  }
+
+  .reports-main-field-row{
+    grid-template-columns:27px minmax(150px,1fr) 42px 38px;
+  }
+
+  .reports-main-field-track{
+    grid-column:2/-1;
+    grid-row:2;
+  }
+}
+
+@media(max-width:430px){
+  .reports-main-field-row{
+    grid-template-columns:27px minmax(120px,1fr) 38px;
+  }
+
+  .reports-main-field-row small{
+    display:none;
+  }
+
+  .reports-main-field-track{
+    grid-column:2/-1;
+  }
+}
