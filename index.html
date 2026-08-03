@@ -23,44 +23,103 @@
 
 <div id="app" class="app hidden">
 <header class="topbar">
-  <div class="topbar-brand" aria-label="هوية الجامعة والعمادة">
-    <img class="ubt" src="assets/logos/ubt-logo.png" alt="UBT">
-    <span class="topbar-brand-divider" aria-hidden="true"></span>
-    <img class="dsa" src="assets/logos/dsa-logo.png" alt="DSA">
-  </div>
 
-  <div class="brand-title">
-    <h1>Student Activities Hub</h1>
-    <p>منصة الأنشطة الطلابية</p>
-  </div>
-
-  <div class="topbar-actions">
-    <button id="mobileMenu" class="mobile-menu" type="button" aria-label="فتح القائمة">
-      <span data-icon="menu"></span>
+    <button id="mobileMenu" class="mobile-menu">
+        <span data-icon="menu"></span>
     </button>
 
-    <div class="app-controls">
-      <button id="themeToggle" class="control-btn" type="button" title="Theme" aria-label="Switch to dark mode">🌙</button>
-      <button id="langToggle" class="control-btn" type="button" title="Switch to English">EN</button>
+    <!-- الشعارات -->
+    <div class="brand-left">
+
+        <img class="ubt"
+             src="assets/logos/ubt-logo.png"
+             alt="UBT">
+
+        <img class="dsa"
+             src="assets/logos/dsa-logo.png"
+             alt="DSA">
+
     </div>
 
-    <div class="role-switcher">
-      <label for="activeRole">المستخدم الحالي</label>
-      <select id="activeRole">
-        <option value="system">حسام الحسين — مسؤول النظام</option>
-        <option value="indicator">مسؤول مؤشر الأداء الرياضي</option>
-        <option value="dean">العميد</option>
-      </select>
+    <!-- عنوان المنصة -->
+    <div class="brand-title">
+
+        <h1>Student Activities Hub</h1>
+
+        <p>منصة الأنشطة الطلابية</p>
+
     </div>
 
-    <div class="user-chip">
-      <div class="avatar" id="activeUserAvatar">ح</div>
-      <div class="user-chip-details">
-        <strong id="activeUserName">حسام الحسين</strong>
-        <span id="activeUserRole">مسؤول النظام — صلاحية كاملة</span>
-      </div>
+    <!-- أدوات النظام -->
+    <div class="topbar-right">
+
+        <div class="app-controls">
+
+            <button id="themeToggle"
+                    class="control-btn">
+                🌙
+            </button>
+
+            <button id="langToggle"
+                    class="control-btn">
+                EN
+            </button>
+
+        </div>
+
+        <div class="role-switcher">
+
+            <label for="activeRole">
+                المستخدم الحالي
+            </label>
+
+            <select id="activeRole">
+
+                <option value="system">
+                    حسام الحسين — مسؤول النظام
+                </option>
+
+                <option value="indicator">
+                    مسؤول مؤشر الأداء الرياضي
+                </option>
+
+                <option value="sports_manager">
+                    مدير النشاط الرياضي
+                </option>
+
+                <option value="dean">
+                    العميد
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="user-chip">
+
+            <div>
+
+                <strong id="activeUserName">
+                    حسام الحسين
+                </strong>
+
+                <span id="activeUserRole">
+                    مسؤول النظام — صلاحية كاملة
+                </span>
+
+            </div>
+
+            <div class="avatar"
+                 id="activeUserAvatar">
+
+                ح
+
+            </div>
+
+        </div>
+
     </div>
-  </div>
+
 </header>
 <div class="layout">
   <aside class="sidebar">
@@ -83,6 +142,7 @@
             <span class="nav-group-symbol" aria-hidden="true">🏆</span>
             <span class="nav-group-name">القسم الرياضي</span>
           </span>
+          <span class="arrow" aria-hidden="true">⌄</span>
         </button>
 
         <div class="nav-items">
@@ -123,6 +183,7 @@
             <span class="nav-group-symbol" aria-hidden="true">👨‍🎓</span>
             <span class="nav-group-name">قسم الطالب</span>
           </span>
+          <span class="arrow" aria-hidden="true">⌄</span>
         </button>
 
         <div class="nav-items">
@@ -143,6 +204,7 @@
             <span class="nav-group-symbol" aria-hidden="true">🎓</span>
             <span class="nav-group-name">عمادة شؤون الطلاب</span>
           </span>
+          <span class="arrow" aria-hidden="true">⌄</span>
         </button>
 
         <div class="nav-items">
@@ -228,9 +290,9 @@
         </div>
         <div class="btns indicator-heading-actions">
           <button id="indicatorPermissionSettings" class="btn permission-settings-btn hidden"
-                  type="button" title="تعديل الحدود العليا وفق صلاحية المستخدم">
+                  type="button" title="تعديل الحدود العليا لحاسبة نقاط المؤشر">
             <span aria-hidden="true">⚙</span>
-            حسب الصلاحية
+            تعديل حاسبة النقاط
           </button>
           <a class="btn outline" href="assets/docs/sports-performance-indicator-guide.pdf"
              target="_blank" rel="noopener">عرض الدليل</a>
@@ -353,24 +415,102 @@
     </section>
 
     <section id="page-reports" class="page">
-      <div class="section-title"><div><h3>التقارير والتحليلات</h3><p>تقارير تنفيذية للإدارة الرياضية والأنشطة الطلابية والعمل التطوعي، مع مركز متكامل للشواهد.</p></div></div>
-      <div class="grid cols-4"><div class="card service"><span data-icon="chart"></span><h4>تقرير مؤشر الأداء الرياضي</h4><p>طلاب وطالبات بشكل مستقل.</p><button class="btn outline">تصدير PDF</button></div><div class="card service"><span data-icon="award"></span><h4>تقرير المنح الرياضية</h4><p>حسب الكلية ونسبة الخصم والفئة.</p><button class="btn outline">تصدير Excel</button></div><div class="card service"><span data-icon="heart"></span><h4>تقرير العمل التطوعي</h4><p>الفرص والساعات والطلبات.</p><button class="btn outline">تصدير PDF</button></div><div class="card service" data-route="reports"><span data-icon="file"></span><h4>تقرير الشواهد</h4><p>تقرير توثيق الأنشطة وفق متطلبات مؤشر الأداء.</p><button class="btn outline" id="scrollEvidence">فتح مركز الشواهد</button></div></div>
+      <div class="section-title">
+        <div>
+          <h3>التقارير والتحليلات</h3>
+          <p>تقارير تنفيذية للإدارة الرياضية والأنشطة الطلابية والعمل التطوعي، مع مركز متكامل للشواهد.</p>
+        </div>
+      </div>
 
-      <div id="evidenceCenter" class="section-title"><div><h3>مركز الشواهد وتوثيق الأنشطة</h3><p>مبني على نموذج توثيق الأنشطة الطلابية وفق متطلبات مؤشر الأداء، ويتيح البحث والمراجعة واستخراج التقرير بنفس الحقول المعتمدة.</p></div><div class="btns"><a class="btn outline" href="assets/data/activity-evidence-template.xlsx" download>تحميل نموذج Excel</a><label class="btn outline filebtn">استيراد شواهد<input id="importEvidence" type="file" accept=".xlsx,.xls,.csv" hidden></label><button class="btn primary" id="printEvidenceReport">توليد تقرير الشواهد</button><button class="btn outline" id="exportEvidenceCsv">تصدير Excel / CSV</button></div></div>
-      <div class="grid cols-4">
+      <div class="reports-compact-grid">
+        <button class="report-mini-card" type="button">
+          <span data-icon="chart"></span>
+          <strong>تقرير مؤشر الأداء الرياضي</strong>
+          <small>طلاب وطالبات بشكل مستقل</small>
+        </button>
+        <button class="report-mini-card" type="button">
+          <span data-icon="award"></span>
+          <strong>تقرير المنح الرياضية</strong>
+          <small>حسب الكلية ونسبة الخصم والفئة</small>
+        </button>
+        <button class="report-mini-card" type="button">
+          <span data-icon="heart"></span>
+          <strong>تقرير العمل التطوعي</strong>
+          <small>الفرص والساعات والطلبات</small>
+        </button>
+        <button class="report-mini-card" id="scrollEvidence" type="button">
+          <span data-icon="file"></span>
+          <strong>تقرير الشواهد</strong>
+          <small>توثيق الأنشطة وفق متطلبات المؤشر</small>
+        </button>
+      </div>
+
+      <div id="evidenceCenter" class="section-title evidence-center-title">
+        <div>
+          <h3>مركز الشواهد وتوثيق الأنشطة</h3>
+          <p>مبني على نموذج توثيق الأنشطة الطلابية وفق متطلبات مؤشر الأداء، ويتيح البحث والمراجعة واستخراج التقرير بنفس الحقول المعتمدة.</p>
+        </div>
+      </div>
+
+      <div class="grid cols-4 evidence-summary-grid">
         <div class="card stat"><div class="label">إجمالي سجلات الشواهد</div><div class="value" id="evidenceTotal">0</div><div class="sub">سجل نشاط</div></div>
-        <div class="card stat"><div class="label">شواهد مكتملة</div><div class="value" id="evidenceComplete">0</div><div class="sub">تحتوي على روابط توثيق كافية</div></div>
-        <div class="card stat burg"><div class="label">شواهد جزئية</div><div class="value" id="evidencePartial">0</div><div class="sub">تحتاج استكمال بعض المرفقات</div></div>
-        <div class="card stat burg"><div class="label">شواهد ناقصة</div><div class="value" id="evidenceMissing">0</div><div class="sub">لا تحتوي على توثيق كافٍ</div></div>
+        <div class="card stat"><div class="label">شواهد مكتملة</div><div class="value" id="evidenceComplete">0</div><div class="sub">تحتوي على الملفات المطلوبة</div></div>
+        <div class="card stat burg"><div class="label">شواهد جزئية</div><div class="value" id="evidencePartial">0</div><div class="sub">تحتاج استكمال أحد الملفات</div></div>
+        <div class="card stat burg"><div class="label">شواهد ناقصة</div><div class="value" id="evidenceMissing">0</div><div class="sub">لا تحتوي على الملفات المطلوبة</div></div>
       </div>
+
+      <div class="evidence-tools">
+        <a class="btn outline" href="assets/data/activity-evidence-template.xlsx" download>تحميل نموذج Excel</a>
+        <label class="btn outline filebtn">استيراد شواهد<input id="importEvidence" type="file" accept=".xlsx,.xls,.csv" hidden></label>
+        <button class="btn primary" id="printEvidenceReport" type="button">توليد تقرير الشواهد</button>
+        <button class="btn outline" id="exportEvidenceCsv" type="button">تصدير Excel / CSV</button>
+        <button class="btn primary" id="openAddActivity" type="button">إضافة نشاط</button>
+        <button class="btn outline indicator-only hidden" id="openFieldPointsCalculator" type="button">تعديل حاسبة النقاط للمجالات</button>
+      </div>
+
       <div class="card table-card evidence-card">
-        <div class="table-toolbar evidence-toolbar"><input id="evidenceSearch" placeholder="بحث باسم النشاط أو التاريخ أو نوع النشاط أو التصنيف"><div class="filterbar" id="evidenceGender"><button class="active" data-gender="all">الكل</button><button data-gender="طلاب">طلاب</button><button data-gender="طالبات">طالبات</button></div><select id="evidenceStatus"><option value="all">كل الحالات</option><option value="مكتمل">مكتمل</option><option value="جزئي">جزئي</option><option value="ناقص">ناقص</option></select></div>
-        <div class="table-wrap"><table class="evidence-table"><thead><tr><th>#</th><th>اسم النشاط</th><th>التاريخ</th><th>الأيام</th><th>المستفيدون</th><th>اللاعبون</th><th>الفئة</th><th>نوع النشاط</th><th>التصنيف الفرعي</th><th>نوع اللعبة</th><th>النقاط</th><th>الحالة</th><th>التفاصيل</th></tr></thead><tbody id="evidenceRows"></tbody></table></div>
+        <div class="table-toolbar evidence-toolbar">
+          <input id="evidenceSearch" placeholder="بحث باسم النشاط أو التاريخ أو نوع النشاط أو المجال">
+          <div class="filterbar" id="evidenceGender">
+            <button class="active" data-gender="all">الكل</button>
+            <button data-gender="طلاب">طلاب</button>
+            <button data-gender="طالبات">طالبات</button>
+          </div>
+          <select id="evidenceStatus">
+            <option value="all">كل الحالات</option>
+            <option value="مكتمل">مكتمل</option>
+            <option value="جزئي">جزئي</option>
+            <option value="ناقص">ناقص</option>
+          </select>
+        </div>
+        <div class="table-wrap">
+          <table class="evidence-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>اسم النشاط</th>
+                <th>التاريخ</th>
+                <th>الأيام</th>
+                <th>المستفيدون</th>
+                <th>اللاعبون</th>
+                <th>الفئة</th>
+                <th>المجال المرتبط</th>
+                <th>نوع المشاركة</th>
+                <th>الجامعات المشاركة</th>
+                <th>النقاط</th>
+                <th>الحالة</th>
+                <th>تقرير الاتحاد</th>
+                <th>الجدول الزمني</th>
+              </tr>
+            </thead>
+            <tbody id="evidenceRows"></tbody>
+          </table>
+        </div>
       </div>
-      <div class="card evidence-detail" id="evidenceDetails"><h4>تفاصيل الشاهد</h4><p>اختر سجلًا من الجدول لعرض روابط الخبر والصور والنشر وحالة اكتمال التوثيق.</p></div>
     </section>
 
-    <section id="page-admin" class="page">
+
+<section id="page-admin" class="page">
       <div class="section-title"><div><h3>إدارة البيانات والتعديل اليدوي</h3><p>إضافة وتعديل وحذف بيانات المنصة من الواجهة دون فتح الكود. تحفظ التعديلات محليًا في هذه النسخة وتُسجل في سجل العمليات.</p></div><div class="btns"><button class="btn primary" id="adminAddRecord">إضافة سجل</button><button class="btn outline" id="adminExportData">تصدير نسخة احتياطية</button><label class="btn outline filebtn">استيراد نسخة احتياطية<input id="adminImportData" type="file" accept="application/json,.json" hidden></label><button class="btn danger" id="adminResetData">إلغاء التعديلات المحلية</button></div></div>
       <div class="grid cols-4 admin-summary">
         <div class="card stat"><div class="label">صلاحية المستخدم</div><div class="value small-value">كاملة</div><div class="sub">إضافة، تعديل، حذف، اعتماد</div></div>
@@ -399,14 +539,14 @@
   <div class="modal-card indicator-settings-card">
     <div class="section-title compact-title indicator-modal-heading">
       <div>
-        <h3 id="indicatorSettingsTitle">إعداد الحدود العليا للمؤشر</h3>
+        <h3 id="indicatorSettingsTitle">تعديل حاسبة النقاط</h3>
         <p>عدّل الحد الأعلى لكل مجال. يُعاد احتساب الإجمالي والنسب والرسوم مباشرة بعد الحفظ.</p>
       </div>
       <button class="btn outline" type="button" data-close-indicator-settings>إغلاق</button>
     </div>
 
     <div class="indicator-settings-note">
-      هذه الصلاحية متاحة لمسؤول النظام ومسؤول مؤشر الأداء الرياضي فقط.
+      هذه الصلاحية متاحة لمسؤول مؤشر الأداء الرياضي فقط.
       تحفظ القيم في المتصفح لهذه النسخة التجريبية.
     </div>
 
@@ -416,6 +556,75 @@
       <button id="indicatorResetLimits" class="btn outline" type="button">استعادة القيم الأصلية</button>
       <button class="btn outline" type="button" data-close-indicator-settings>إلغاء</button>
       <button id="indicatorSaveLimits" class="btn primary" type="button">حفظ وتحديث المؤشر</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="addActivityModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="addActivityTitle">
+  <div class="modal-backdrop" data-close-add-activity></div>
+  <div class="modal-card activity-modal-card">
+    <div class="section-title compact-title">
+      <div>
+        <h3 id="addActivityTitle">إضافة نشاط جديد</h3>
+        <p>تُحسب النقاط تلقائيًا حسب المجال والفئة ونوع المشاركة، ثم تُضاف مباشرة إلى مؤشر الطلاب أو الطالبات.</p>
+      </div>
+      <button class="btn outline" type="button" data-close-add-activity>إغلاق</button>
+    </div>
+    <form id="addActivityForm" class="activity-form">
+      <label><span>اسم النشاط</span><input id="activityName" required></label>
+      <label><span>التاريخ</span><input id="activityDate" type="date" required></label>
+      <label><span>عدد الأيام</span><input id="activityDays" type="number" min="1" value="1" required></label>
+      <label><span>عدد المستفيدين</span><input id="activityBeneficiaries" type="number" min="0" value="0"></label>
+      <label><span>عدد اللاعبين المشاركين</span><input id="activityPlayers" type="number" min="0" value="0"></label>
+      <label><span>الفئة</span><select id="activityGender"><option value="طلاب">طلاب</option><option value="طالبات">طالبات</option></select></label>
+      <label><span>المجال المرتبط بالمؤشر</span><select id="activityIndicatorField" required></select></label>
+      <label><span>نوع المشاركة</span><select id="activityParticipationType"><option value="guest">ضيف</option><option value="host">مستضيف</option></select></label>
+      <label><span>عدد الجامعات المشاركة</span><input id="activityUniversities" type="number" min="0" value="0"></label>
+      <label><span>نوع اللعبة / النشاط</span><input id="activityGameType"></label>
+      <label class="file-field"><span>تقرير الاتحاد</span><input id="activityFederationReport" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"></label>
+      <label class="file-field"><span>الجدول الزمني</span><input id="activityScheduleFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"></label>
+      <div class="activity-points-preview">
+        <span>النقاط المحتسبة</span>
+        <strong id="activityCalculatedPoints">0</strong>
+      </div>
+    </form>
+    <div class="modal-actions">
+      <button class="btn outline" type="button" data-close-add-activity>إلغاء</button>
+      <button class="btn primary" id="saveNewActivity" type="button">حفظ النشاط وإضافة النقاط</button>
+    </div>
+  </div>
+</div>
+
+<div id="fieldPointsCalculatorModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="fieldPointsCalculatorTitle">
+  <div class="modal-backdrop" data-close-field-calculator></div>
+  <div class="modal-card field-calculator-card">
+    <div class="section-title compact-title">
+      <div>
+        <h3 id="fieldPointsCalculatorTitle">تعديل حاسبة النقاط للمجالات</h3>
+        <p>حدد نقاط الضيف والمستضيف، ونقاط الجامعات واللاعبين، ثم عدّل نقاط كل مجال حسب نوع المشاركة.</p>
+      </div>
+      <button class="btn outline" type="button" data-close-field-calculator>إغلاق</button>
+    </div>
+
+    <div class="calculator-base-grid">
+      <label><span>نقاط المشاركة كضيف</span><input id="guestParticipationPoints" type="number" min="0"></label>
+      <label><span>نقاط المشاركة كمستضيف</span><input id="hostParticipationPoints" type="number" min="0"></label>
+      <label><span>نقاط كل جامعة مشاركة</span><input id="universityParticipationPoints" type="number" min="0"></label>
+      <label><span>نقاط كل لاعب مشارك</span><input id="playerParticipationPoints" type="number" min="0"></label>
+    </div>
+
+    <div class="field-calculator-table-wrap">
+      <table class="field-calculator-table">
+        <thead><tr><th>المسار</th><th>المجال</th><th>نقاط الضيف</th><th>نقاط المستضيف</th></tr></thead>
+        <tbody id="fieldPointsRows"></tbody>
+      </table>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn outline" id="resetFieldPointsCalculator" type="button">استعادة الإعدادات الافتراضية</button>
+      <button class="btn outline" type="button" data-close-field-calculator>إلغاء</button>
+      <button class="btn primary" id="saveFieldPointsCalculator" type="button">حفظ الحاسبة</button>
     </div>
   </div>
 </div>

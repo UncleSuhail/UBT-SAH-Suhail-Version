@@ -429,676 +429,578 @@ function initPreferences(){
   observeDynamicTranslations();
 }
 window.addEventListener('DOMContentLoaded',initPreferences);
+
 /* ==========================================================
-   SAH V10
-   القائمة الجانبية + تعديل الحدود العليا حسب الصلاحية
+   SAH V10 — Sidebar and editable indicator maximum limits
    ========================================================== */
+(function(){
+  const LIMITS_KEY = 'sah-indicator-max-limits-v1';
+  const ROLE_KEY = 'sah-active-role-v1';
+  let originalIndicatorLimits = [];
 
-(function () {
+  function initSidebarV10(){
+    const sidebar = document.querySelector('.sidebar');
+    const layout = document.querySelector('.layout');
+    const toggle = document.getElementById('toggleSidebar');
 
-    const INDICATOR_LIMITS_KEY = "sah-indicator-max-limits-v1";
-    const SIDEBAR_STATE_KEY = "sah-sidebar-collapsed";
+    document.querySelectorAll('.nav-group-title').forEach(title=>{
+      title.addEventListener('click',()=>{
+        const group = title.closest('.nav-group');
+        if(!group) return;
 
-    let originalIndicatorLimits = [];
-
-    /* ======================================================
-       تشغيل القائمة الجانبية
-       ====================================================== */
-
-    function initProfessionalSidebar() {
-
-        const sidebar = document.querySelector(".sidebar");
-        const layout = document.querySelector(".layout");
-        const toggleButton = document.getElementById("toggleSidebar");
-
-        /* فتح قسم واحد وإغلاق الأقسام الأخرى */
-
-        document.querySelectorAll(".nav-group-title").forEach(title => {
-
-            title.addEventListener("click", () => {
-
-                const selectedGroup = title.closest(".nav-group");
-
-                if (!selectedGroup) {
-                    return;
-                }
-
-                const shouldOpen =
-                    !selectedGroup.classList.contains("open");
-
-                document.querySelectorAll(".nav-group").forEach(group => {
-
-                    const isSelected =
-                        group === selectedGroup && shouldOpen;
-
-                    group.classList.toggle("open", isSelected);
-
-                    const groupTitle =
-                        group.querySelector(".nav-group-title");
-
-                    if (groupTitle) {
-
-                        groupTitle.setAttribute(
-                            "aria-expanded",
-                            String(isSelected)
-                        );
-
-                    }
-
-                });
-
-            });
-
+        const willOpen = !group.classList.contains('open');
+        document.querySelectorAll('.nav-group').forEach(other=>{
+          if(other !== group){
+            other.classList.remove('open');
+            other.querySelector('.nav-group-title')?.setAttribute('aria-expanded','false');
+          }
         });
 
-        /* إبقاء مجموعة الصفحة المختارة مفتوحة */
+        group.classList.toggle('open', willOpen);
+        title.setAttribute('aria-expanded', String(willOpen));
+      });
+    });
 
-        document
-            .querySelectorAll(".nav-items button[data-page]")
-            .forEach(button => {
+    if(toggle && sidebar && layout){
+      const applyCollapsed = collapsed=>{
+        sidebar.classList.toggle('collapsed',collapsed);
+        layout.classList.toggle('sidebar-mini',collapsed);
+        toggle.setAttribute('aria-expanded',String(!collapsed));
+        toggle.title = collapsed ? 'توسيع القائمة' : 'تصغير القائمة';
+        localStorage.setItem('sah-sidebar-collapsed',collapsed?'1':'0');
+      };
 
-                button.addEventListener("click", () => {
+      applyCollapsed(
+        localStorage.getItem('sah-sidebar-collapsed') === '1' &&
+        window.matchMedia('(min-width:1101px)').matches
+      );
 
-                    const currentGroup =
-                        button.closest(".nav-group");
-
-                    if (!currentGroup) {
-                        return;
-                    }
-
-                    document.querySelectorAll(".nav-group")
-                        .forEach(group => {
-
-                            const isCurrent =
-                                group === currentGroup;
-
-                            group.classList.toggle(
-                                "open",
-                                isCurrent
-                            );
-
-                            const groupTitle =
-                                group.querySelector(
-                                    ".nav-group-title"
-                                );
-
-                            if (groupTitle) {
-
-                                groupTitle.setAttribute(
-                                    "aria-expanded",
-                                    String(isCurrent)
-                                );
-
-                            }
-
-                        });
-
-                });
-
-            });
-
-        /* تصغير وتوسيع القائمة */
-
-        if (!sidebar || !layout || !toggleButton) {
-            return;
+      toggle.addEventListener('click',()=>{
+        if(window.matchMedia('(max-width:1100px)').matches){
+          sidebar.classList.toggle('open');
+          return;
         }
+        applyCollapsed(!sidebar.classList.contains('collapsed'));
+      });
+    }
 
-        function applySidebarState(collapsed) {
-
-            sidebar.classList.toggle(
-                "collapsed",
-                collapsed
-            );
-
-            layout.classList.toggle(
-                "sidebar-mini",
-                collapsed
-            );
-
-            toggleButton.setAttribute(
-                "aria-expanded",
-                String(!collapsed)
-            );
-
-            toggleButton.title =
-                collapsed
-                    ? "توسيع القائمة"
-                    : "تصغير القائمة";
-
-            localStorage.setItem(
-                SIDEBAR_STATE_KEY,
-                collapsed ? "1" : "0"
-            );
-
-        }
-
-        const savedCollapsedState =
-            localStorage.getItem(SIDEBAR_STATE_KEY) === "1";
-
-        const isDesktop =
-            window.matchMedia("(min-width:1101px)").matches;
-
-        applySidebarState(
-            savedCollapsedState && isDesktop
-        );
-
-        toggleButton.addEventListener("click", () => {
-
-            const isMobile =
-                window.matchMedia("(max-width:1100px)").matches;
-
-            if (isMobile) {
-
-                sidebar.classList.toggle("open");
-                return;
-
-            }
-
-            const shouldCollapse =
-                !sidebar.classList.contains("collapsed");
-
-            applySidebarState(shouldCollapse);
-
+    document.querySelectorAll('.nav-items button[data-page]').forEach(button=>{
+      button.addEventListener('click',()=>{
+        const group = button.closest('.nav-group');
+        if(!group) return;
+        document.querySelectorAll('.nav-group').forEach(other=>{
+          other.classList.toggle('open',other===group);
+          other.querySelector('.nav-group-title')
+            ?.setAttribute('aria-expanded',String(other===group));
         });
+      });
+    });
+  }
 
+  function currentIndicatorRole(){
+    return localStorage.getItem(ROLE_KEY) ||
+      document.getElementById('activeRole')?.value ||
+      'system';
+  }
+
+  function canEditIndicatorLimits(){
+    return ['system','indicator'].includes(currentIndicatorRole());
+  }
+
+  function refreshIndicatorPermissionButton(){
+    const button = document.getElementById('indicatorPermissionSettings');
+    if(!button) return;
+    button.classList.toggle('hidden',!canEditIndicatorLimits());
+  }
+
+  function captureOriginalLimits(){
+    if(!window.SAH_DATA || !Array.isArray(SAH_DATA.indicatorFields)) return;
+    if(!originalIndicatorLimits.length){
+      originalIndicatorLimits = SAH_DATA.indicatorFields.map(field=>Number(field.max)||0);
     }
-
-    /* ======================================================
-       معرفة دور المستخدم
-       ====================================================== */
-
-    function getCurrentRole() {
-
-        const roleSelect =
-            document.getElementById("activeRole");
-
-        return roleSelect
-            ? roleSelect.value
-            : "system";
-
-    }
-
-    function canEditIndicatorLimits() {
-
-        const role = getCurrentRole();
-
-        return (
-            role === "system" ||
-            role === "indicator"
-        );
-
-    }
-
-    function refreshIndicatorPermissionButton() {
-
-        const settingsButton =
-            document.getElementById(
-                "indicatorPermissionSettings"
-            );
-
-        if (!settingsButton) {
-            return;
-        }
-
-        settingsButton.classList.toggle(
-            "hidden",
-            !canEditIndicatorLimits()
-        );
-
-    }
-
-    /* ======================================================
-       حفظ القيم الأصلية
-       ====================================================== */
-
-    function captureOriginalIndicatorLimits() {
-
-        if (
-            typeof SAH_DATA === "undefined" ||
-            !Array.isArray(SAH_DATA.indicatorFields)
-        ) {
-            return;
-        }
-
-        if (originalIndicatorLimits.length > 0) {
-            return;
-        }
-
-        originalIndicatorLimits =
-            SAH_DATA.indicatorFields.map(field => {
-
-                return Number(field.max) || 0;
-
-            });
-
-    }
-
-    /* ======================================================
-       تطبيق القيم المحفوظة
-       ====================================================== */
-
-    function applyStoredIndicatorLimits() {
-
-        captureOriginalIndicatorLimits();
-
-        if (
-            typeof SAH_DATA === "undefined" ||
-            !Array.isArray(SAH_DATA.indicatorFields)
-        ) {
-            return;
-        }
-
-        try {
-
-            const storedValue =
-                localStorage.getItem(
-                    INDICATOR_LIMITS_KEY
-                );
-
-            if (!storedValue) {
-                return;
-            }
-
-            const storedLimits =
-                JSON.parse(storedValue);
-
-            if (
-                !Array.isArray(storedLimits) ||
-                storedLimits.length !==
-                    SAH_DATA.indicatorFields.length
-            ) {
-                return;
-            }
-
-            SAH_DATA.indicatorFields.forEach(
-                (field, index) => {
-
-                    const value =
-                        Number(storedLimits[index]);
-
-                    if (
-                        Number.isFinite(value) &&
-                        value >= 0
-                    ) {
-
-                        field.max = value;
-
-                    }
-
-                }
-            );
-
-        } catch (error) {
-
-            console.warn(
-                "تعذر قراءة الحدود العليا المحفوظة:",
-                error
-            );
-
-        }
-
-    }
-
-    /* ======================================================
-       إنشاء حقول التعديل
-       ====================================================== */
-
-    function renderIndicatorLimitFields() {
-
-        const form =
-            document.getElementById(
-                "indicatorSettingsForm"
-            );
-
-        if (
-            !form ||
-            typeof SAH_DATA === "undefined"
-        ) {
-            return;
-        }
-
-        form.innerHTML = "";
-
-        SAH_DATA.indicatorFields.forEach(
-            (field, index) => {
-
-                const row =
-                    document.createElement("div");
-
-                row.className =
-                    "indicator-limit-row";
-
-                row.innerHTML = `
-                    <div class="limit-track">
-                        ${field.track || "—"}
-                    </div>
-
-                    <div class="limit-field">
-                        ${field.field || "—"}
-                    </div>
-
-                    <label>
-                        <span class="hidden">
-                            الحد الأعلى
-                        </span>
-
-                        <input
-                            class="indicator-limit-input"
-                            type="number"
-                            min="0"
-                            step="1"
-                            inputmode="numeric"
-                            data-index="${index}"
-                            value="${Number(field.max) || 0}"
-                            aria-label="الحد الأعلى لـ ${field.field || "المجال"}"
-                        >
-                    </label>
-                `;
-
-                form.appendChild(row);
-
-            }
-        );
-
-    }
-
-    /* ======================================================
-       فتح وإغلاق النافذة
-       ====================================================== */
-
-    function openIndicatorSettings() {
-
-        if (!canEditIndicatorLimits()) {
-
-            if (typeof showToast === "function") {
-
-                showToast(
-                    "لا تملك صلاحية تعديل الحدود العليا."
-                );
-
-            }
-
-            return;
-
-        }
-
-        renderIndicatorLimitFields();
-
-        const modal =
-            document.getElementById(
-                "indicatorSettingsModal"
-            );
-
-        if (modal) {
-
-            modal.classList.remove("hidden");
-            document.body.style.overflow = "hidden";
-
-        }
-
-    }
-
-    function closeIndicatorSettings() {
-
-        const modal =
-            document.getElementById(
-                "indicatorSettingsModal"
-            );
-
-        if (modal) {
-
-            modal.classList.add("hidden");
-
-        }
-
-        document.body.style.overflow = "";
-
-    }
-
-    /* ======================================================
-       حفظ الحدود العليا
-       ====================================================== */
-
-    function saveIndicatorLimits() {
-
-        if (!canEditIndicatorLimits()) {
-            return;
-        }
-
-        const inputs = [
-            ...document.querySelectorAll(
-                ".indicator-limit-input"
-            )
-        ];
-
-        const newLimits =
-            inputs.map(input => Number(input.value));
-
-        const hasInvalidValue =
-            newLimits.some(value => {
-
-                return (
-                    !Number.isFinite(value) ||
-                    value < 0
-                );
-
-            });
-
-        if (hasInvalidValue) {
-
-            if (typeof showToast === "function") {
-
-                showToast(
-                    "أدخل أرقامًا صحيحة غير سالبة."
-                );
-
-            }
-
-            return;
-
-        }
-
-        newLimits.forEach((value, index) => {
-
-            if (SAH_DATA.indicatorFields[index]) {
-
-                SAH_DATA.indicatorFields[index].max =
-                    value;
-
-            }
-
+  }
+
+  function applyStoredIndicatorLimits(){
+    captureOriginalLimits();
+    if(!window.SAH_DATA || !Array.isArray(SAH_DATA.indicatorFields)) return;
+
+    try{
+      const stored = JSON.parse(localStorage.getItem(LIMITS_KEY) || 'null');
+      if(Array.isArray(stored) && stored.length === SAH_DATA.indicatorFields.length){
+        SAH_DATA.indicatorFields.forEach((field,index)=>{
+          const value = Number(stored[index]);
+          if(Number.isFinite(value) && value >= 0) field.max = value;
         });
+      }
+    }catch(error){
+      console.warn('تعذر قراءة إعدادات الحدود العليا:',error);
+    }
+  }
 
-        localStorage.setItem(
-            INDICATOR_LIMITS_KEY,
-            JSON.stringify(newLimits)
-        );
+  function renderIndicatorLimitFields(){
+    const form = document.getElementById('indicatorSettingsForm');
+    if(!form || !window.SAH_DATA) return;
+    form.innerHTML = '';
 
-        if (typeof calcIndicators === "function") {
+    (SAH_DATA.indicatorFields || []).forEach((field,index)=>{
+      const row = document.createElement('div');
+      row.className = 'indicator-limit-row';
+      row.innerHTML = `
+        <div class="limit-track">${field.track || '—'}</div>
+        <div class="limit-field">${field.field || '—'}</div>
+        <label>
+          <span class="hidden">الحد الأعلى</span>
+          <input class="indicator-limit-input" type="number" min="0" step="1"
+                 inputmode="numeric" data-index="${index}"
+                 value="${Number(field.max)||0}"
+                 aria-label="الحد الأعلى لـ ${field.field || 'المجال'}">
+        </label>`;
+      form.appendChild(row);
+    });
+  }
 
-            calcIndicators();
+  function openIndicatorSettings(){
+    if(!canEditIndicatorLimits()){
+      if(typeof showToast === 'function') showToast('لا تملك صلاحية تعديل الحدود العليا.');
+      return;
+    }
+    renderIndicatorLimitFields();
+    document.getElementById('indicatorSettingsModal')?.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
 
-        }
+  function closeIndicatorSettings(){
+    document.getElementById('indicatorSettingsModal')?.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
 
-        closeIndicatorSettings();
+  function saveIndicatorLimits(){
+    if(!canEditIndicatorLimits()) return;
+    const inputs = [...document.querySelectorAll('.indicator-limit-input')];
+    const values = inputs.map(input=>Number(input.value));
 
-        if (typeof showToast === "function") {
-
-            showToast(
-                "تم حفظ الحدود العليا وتحديث المؤشر."
-            );
-
-        }
-
+    if(values.some(value=>!Number.isFinite(value) || value < 0)){
+      if(typeof showToast === 'function') showToast('أدخل أرقامًا صحيحة غير سالبة.');
+      return;
     }
 
-    /* ======================================================
-       استعادة القيم الأصلية
-       ====================================================== */
+    values.forEach((value,index)=>{
+      if(SAH_DATA.indicatorFields[index]) SAH_DATA.indicatorFields[index].max = value;
+    });
 
-    function resetIndicatorLimits() {
+    localStorage.setItem(LIMITS_KEY,JSON.stringify(values));
+    if(typeof calcIndicators === 'function') calcIndicators();
+    closeIndicatorSettings();
+    if(typeof showToast === 'function') showToast('تم حفظ الحدود العليا وتحديث المؤشر.');
+  }
 
-        captureOriginalIndicatorLimits();
+  function resetIndicatorLimits(){
+    captureOriginalLimits();
+    if(!originalIndicatorLimits.length) return;
 
-        if (originalIndicatorLimits.length === 0) {
-            return;
-        }
+    originalIndicatorLimits.forEach((value,index)=>{
+      if(SAH_DATA.indicatorFields[index]) SAH_DATA.indicatorFields[index].max = value;
+    });
 
-        originalIndicatorLimits.forEach(
-            (value, index) => {
+    localStorage.removeItem(LIMITS_KEY);
+    renderIndicatorLimitFields();
+    if(typeof calcIndicators === 'function') calcIndicators();
+    if(typeof showToast === 'function') showToast('تمت استعادة الحدود العليا الأصلية.');
+  }
 
-                if (SAH_DATA.indicatorFields[index]) {
+  function initIndicatorLimitSettings(){
+    applyStoredIndicatorLimits();
+    if(typeof calcIndicators === 'function') calcIndicators();
+    refreshIndicatorPermissionButton();
 
-                    SAH_DATA.indicatorFields[index].max =
-                        value;
+    document.getElementById('indicatorPermissionSettings')
+      ?.addEventListener('click',openIndicatorSettings);
 
-                }
+    document.querySelectorAll('[data-close-indicator-settings]').forEach(element=>{
+      element.addEventListener('click',closeIndicatorSettings);
+    });
 
-            }
-        );
+    document.getElementById('indicatorSaveLimits')
+      ?.addEventListener('click',saveIndicatorLimits);
 
-        localStorage.removeItem(
-            INDICATOR_LIMITS_KEY
-        );
+    document.getElementById('indicatorResetLimits')
+      ?.addEventListener('click',resetIndicatorLimits);
 
-        renderIndicatorLimitFields();
+    document.getElementById('activeRole')?.addEventListener('change',()=>{
+      setTimeout(refreshIndicatorPermissionButton,0);
+      if(!canEditIndicatorLimits()) closeIndicatorSettings();
+    });
 
-        if (typeof calcIndicators === "function") {
+    document.addEventListener('keydown',event=>{
+      if(event.key === 'Escape') closeIndicatorSettings();
+    });
+  }
 
-            calcIndicators();
-
-        }
-
-        if (typeof showToast === "function") {
-
-            showToast(
-                "تمت استعادة الحدود العليا الأصلية."
-            );
-
-        }
-
-    }
-
-    /* ======================================================
-       ربط الأزرار
-       ====================================================== */
-
-    function initIndicatorLimitSettings() {
-
-        applyStoredIndicatorLimits();
-
-        refreshIndicatorPermissionButton();
-
-        const settingsButton =
-            document.getElementById(
-                "indicatorPermissionSettings"
-            );
-
-        if (settingsButton) {
-
-            settingsButton.addEventListener(
-                "click",
-                openIndicatorSettings
-            );
-
-        }
-
-        document
-            .querySelectorAll(
-                "[data-close-indicator-settings]"
-            )
-            .forEach(element => {
-
-                element.addEventListener(
-                    "click",
-                    closeIndicatorSettings
-                );
-
-            });
-
-        const saveButton =
-            document.getElementById(
-                "indicatorSaveLimits"
-            );
-
-        if (saveButton) {
-
-            saveButton.addEventListener(
-                "click",
-                saveIndicatorLimits
-            );
-
-        }
-
-        const resetButton =
-            document.getElementById(
-                "indicatorResetLimits"
-            );
-
-        if (resetButton) {
-
-            resetButton.addEventListener(
-                "click",
-                resetIndicatorLimits
-            );
-
-        }
-
-        const roleSelect =
-            document.getElementById("activeRole");
-
-        if (roleSelect) {
-
-            roleSelect.addEventListener(
-                "change",
-                () => {
-
-                    refreshIndicatorPermissionButton();
-
-                    if (!canEditIndicatorLimits()) {
-
-                        closeIndicatorSettings();
-
-                    }
-
-                }
-            );
-
-        }
-
-        document.addEventListener(
-            "keydown",
-            event => {
-
-                if (event.key === "Escape") {
-
-                    closeIndicatorSettings();
-
-                }
-
-            }
-        );
-
-    }
-
-    /* ======================================================
-       بدء التشغيل
-       ====================================================== */
-
-    window.addEventListener(
-        "DOMContentLoaded",
-        () => {
-
-            initProfessionalSidebar();
-            initIndicatorLimitSettings();
-
-            if (typeof calcIndicators === "function") {
-
-                calcIndicators();
-
-            }
-
-        }
-    );
-
+  window.addEventListener('DOMContentLoaded',()=>{
+    initSidebarV10();
+    initIndicatorLimitSettings();
+  });
 })();
+
+/* ==========================================================
+   SAH V11 — role permissions, activities, and linked scoring
+   ========================================================== */
+(function(){
+  const ROLE_KEY = 'sah-active-role-v2';
+  const ACTIVITIES_KEY = 'sah-added-sports-activities-v1';
+  const FIELD_CALCULATOR_KEY = 'sah-field-points-calculator-v1';
+  const SESSION_FILES = new Map();
+
+  const ROLE_META = {
+    system: {name:'حسام الحسين', role:'مسؤول النظام — صلاحية كاملة', avatar:'ح'},
+    indicator: {name:'مسؤول مؤشر الأداء الرياضي', role:'صلاحية كاملة على المنصة وحاسبات النقاط', avatar:'م'},
+    sports_manager: {name:'مدير النشاط الرياضي', role:'صلاحيات القسم الرياضي المحددة', avatar:'ن'},
+    dean: {name:'العميد', role:'صلاحية مشاهدة وإدارة كاملة دون حاسبات النقاط', avatar:'ع'}
+  };
+
+  const SPORTS_MANAGER_PAGES = new Set([
+    'sports','scholarships','championships','athletes','reports','calendar'
+  ]);
+
+  function roleValue(){
+    return document.getElementById('activeRole')?.value || 'system';
+  }
+
+  function applyRolePermissions(){
+    const role = roleValue();
+    localStorage.setItem(ROLE_KEY, role);
+
+    const meta = ROLE_META[role] || ROLE_META.system;
+    setText('#activeUserName', meta.name);
+    setText('#activeUserRole', meta.role);
+    setText('#activeUserAvatar', meta.avatar);
+
+    document.querySelectorAll('.nav button[data-page]').forEach(button=>{
+      const allowed = role !== 'sports_manager' || SPORTS_MANAGER_PAGES.has(button.dataset.page);
+      button.classList.toggle('role-hidden', !allowed);
+    });
+
+    document.querySelectorAll('.nav-group').forEach(group=>{
+      const visibleButtons = [...group.querySelectorAll('.nav-items button[data-page]')]
+        .some(button=>!button.classList.contains('role-hidden'));
+      group.classList.toggle('empty-role-group', !visibleButtons);
+    });
+
+    const indicatorOnly = role === 'indicator';
+    document.getElementById('indicatorPermissionSettings')
+      ?.classList.toggle('hidden', !indicatorOnly);
+    document.getElementById('openFieldPointsCalculator')
+      ?.classList.toggle('hidden', !indicatorOnly);
+
+    const activePage = document.querySelector('.page.active')?.id?.replace('page-','');
+    if(role === 'sports_manager' && !SPORTS_MANAGER_PAGES.has(activePage)){
+      route('sports');
+    }
+  }
+
+  const originalRouteV11 = route;
+  route = function(id){
+    if(roleValue()==='sports_manager' && !SPORTS_MANAGER_PAGES.has(id)){
+      showToast('هذه الصفحة غير متاحة لمدير النشاط الرياضي.');
+      id='sports';
+    }
+    originalRouteV11(id);
+  };
+
+  function defaultFieldCalculator(){
+    const fields = (SAH_DATA.indicatorFields || []);
+    return {
+      guestParticipation: 0,
+      hostParticipation: 0,
+      university: 0,
+      player: 0,
+      fields: Object.fromEntries(fields.map(field=>[
+        field.field,
+        {guest:0, host:0}
+      ]))
+    };
+  }
+
+  function loadFieldCalculator(){
+    const defaults = defaultFieldCalculator();
+    try{
+      const saved = JSON.parse(localStorage.getItem(FIELD_CALCULATOR_KEY) || 'null');
+      if(!saved) return defaults;
+      return {
+        ...defaults,
+        ...saved,
+        fields:{...defaults.fields,...(saved.fields||{})}
+      };
+    }catch{
+      return defaults;
+    }
+  }
+
+  function activityPoints(activity){
+    const calculator = loadFieldCalculator();
+    const fieldPoints = calculator.fields?.[activity.indicatorField] || {guest:0,host:0};
+    const participationPoints = activity.participationType === 'host'
+      ? Number(calculator.hostParticipation||0)
+      : Number(calculator.guestParticipation||0);
+    const specificFieldPoints = activity.participationType === 'host'
+      ? Number(fieldPoints.host||0)
+      : Number(fieldPoints.guest||0);
+
+    return Math.max(0, Math.round(
+      participationPoints +
+      (Number(activity.universities)||0) * Number(calculator.university||0) +
+      (Number(activity.players)||0) * Number(calculator.player||0) +
+      specificFieldPoints
+    ));
+  }
+
+  function storedActivities(){
+    try{
+      const rows = JSON.parse(localStorage.getItem(ACTIVITIES_KEY) || '[]');
+      return Array.isArray(rows) ? rows : [];
+    }catch{
+      return [];
+    }
+  }
+
+  function applyStoredActivities(){
+    if(window.__sahStoredActivitiesApplied) return;
+    window.__sahStoredActivitiesApplied = true;
+
+    const activities = storedActivities();
+    SAH_DATA.evidenceRecords = SAH_DATA.evidenceRecords || [];
+
+    activities.forEach(activity=>{
+      if(!SAH_DATA.evidenceRecords.some(row=>row.localActivityId===activity.localActivityId)){
+        SAH_DATA.evidenceRecords.push(activity);
+      }
+      const field = (SAH_DATA.indicatorFields||[]).find(item=>item.field===activity.indicatorField);
+      if(field){
+        if(activity.gender==='طالبات') field.female = Number(field.female||0) + Number(activity.points||0);
+        else field.male = Number(field.male||0) + Number(activity.points||0);
+      }
+    });
+  }
+
+  function populateActivityFields(){
+    const select = document.getElementById('activityIndicatorField');
+    if(!select) return;
+    select.innerHTML = (SAH_DATA.indicatorFields||[])
+      .map(field=>`<option value="${field.field}">${field.track} — ${field.field}</option>`)
+      .join('');
+  }
+
+  function updateActivityPreview(){
+    const activity = {
+      indicatorField: document.getElementById('activityIndicatorField')?.value,
+      participationType: document.getElementById('activityParticipationType')?.value,
+      universities: Number(document.getElementById('activityUniversities')?.value||0),
+      players: Number(document.getElementById('activityPlayers')?.value||0)
+    };
+    setText('#activityCalculatedPoints', fmt(activityPoints(activity)));
+  }
+
+  function openAddActivity(){
+    populateActivityFields();
+    document.getElementById('addActivityModal')?.classList.remove('hidden');
+    document.body.style.overflow='hidden';
+    updateActivityPreview();
+  }
+
+  function closeAddActivity(){
+    document.getElementById('addActivityModal')?.classList.add('hidden');
+    document.body.style.overflow='';
+  }
+
+  function fileStatus(reportName, scheduleName){
+    if(reportName && scheduleName) return 'مكتمل';
+    if(reportName || scheduleName) return 'جزئي';
+    return 'ناقص';
+  }
+
+  function saveActivity(){
+    const name = document.getElementById('activityName')?.value.trim();
+    const date = document.getElementById('activityDate')?.value;
+    const fieldName = document.getElementById('activityIndicatorField')?.value;
+    if(!name || !date || !fieldName){
+      showToast('أكمل اسم النشاط والتاريخ والمجال المرتبط.');
+      return;
+    }
+
+    const reportFile = document.getElementById('activityFederationReport')?.files?.[0];
+    const scheduleFile = document.getElementById('activityScheduleFile')?.files?.[0];
+    const localActivityId = `local-${Date.now()}`;
+
+    if(reportFile) SESSION_FILES.set(`${localActivityId}:report`, URL.createObjectURL(reportFile));
+    if(scheduleFile) SESSION_FILES.set(`${localActivityId}:schedule`, URL.createObjectURL(scheduleFile));
+
+    const activity = {
+      localActivityId,
+      id: (SAH_DATA.evidenceRecords?.length||0)+1,
+      activity:name,
+      date,
+      days:Number(document.getElementById('activityDays')?.value||1),
+      beneficiaries:Number(document.getElementById('activityBeneficiaries')?.value||0),
+      players:Number(document.getElementById('activityPlayers')?.value||0),
+      gender:document.getElementById('activityGender')?.value||'طلاب',
+      indicatorField:fieldName,
+      field:fieldName,
+      participationType:document.getElementById('activityParticipationType')?.value||'guest',
+      universities:Number(document.getElementById('activityUniversities')?.value||0),
+      gameType:document.getElementById('activityGameType')?.value||'—',
+      activityType:'رياضي',
+      subCategory:fieldName,
+      federationReportName:reportFile?.name||'',
+      scheduleFileName:scheduleFile?.name||'',
+      status:fileStatus(reportFile?.name,scheduleFile?.name)
+    };
+    activity.points = activityPoints(activity);
+
+    const activities = storedActivities();
+    activities.push(activity);
+    localStorage.setItem(ACTIVITIES_KEY,JSON.stringify(activities));
+
+    SAH_DATA.evidenceRecords = SAH_DATA.evidenceRecords || [];
+    SAH_DATA.evidenceRecords.push(activity);
+    const field = (SAH_DATA.indicatorFields||[]).find(item=>item.field===fieldName);
+    if(field){
+      if(activity.gender==='طالبات') field.female = Number(field.female||0)+activity.points;
+      else field.male = Number(field.male||0)+activity.points;
+    }
+
+    calcIndicators();
+    renderEvidenceStats();
+    renderEvidence();
+    closeAddActivity();
+    document.getElementById('addActivityForm')?.reset();
+    showToast('تمت إضافة النشاط واحتساب نقاطه في مؤشر الأداء الرياضي.');
+  }
+
+  function fileCell(row,type){
+    const isReport = type==='report';
+    const name = isReport
+      ? (row.federationReportName || row.newsDocumentation || '')
+      : (row.scheduleFileName || row.publishLink || '');
+    const sessionUrl = row.localActivityId
+      ? SESSION_FILES.get(`${row.localActivityId}:${type}`)
+      : '';
+
+    if(sessionUrl) return `<a class="file-link" href="${sessionUrl}" target="_blank" download="${name}">${name}</a>`;
+    if(/^https?:\/\//i.test(String(name))) return `<a class="file-link" href="${name}" target="_blank" rel="noopener">فتح الملف</a>`;
+    if(name && name!=='-' && name!=='—') return `<span class="file-name">${name}</span>`;
+    return `<span class="file-name missing">غير مرفوع</span>`;
+  }
+
+  renderEvidence = function(){
+    const tbody=$('#evidenceRows'); if(!tbody) return;
+    const rows=getFilteredEvidence(); tbody.innerHTML='';
+    rows.forEach((r,i)=>{
+      const participation = r.participationType==='host'?'مستضيف':r.participationType==='guest'?'ضيف':'—';
+      const tr=document.createElement('tr');
+      tr.innerHTML=`
+        <td>${r.id||i+1}</td>
+        <td><b>${r.activity||'—'}</b></td>
+        <td class="ltr-cell">${r.date||'—'}</td>
+        <td>${r.days||'—'}</td>
+        <td>${fmt(r.beneficiaries||0)}</td>
+        <td>${fmt(r.players||0)}</td>
+        <td>${r.gender||'—'}</td>
+        <td>${r.indicatorField||r.field||r.subCategory||'—'}</td>
+        <td>${participation}</td>
+        <td>${fmt(r.universities||0)}</td>
+        <td>${fmt(r.points||0)}</td>
+        <td><span class="pill evidence-status ${evidenceStatusClass(r.status)}">${r.status||'ناقص'}</span></td>
+        <td>${fileCell(r,'report')}</td>
+        <td>${fileCell(r,'schedule')}</td>`;
+      tbody.appendChild(tr);
+    });
+    relocalizeSoon();
+  };
+
+  function renderFieldCalculator(){
+    const calculator = loadFieldCalculator();
+    const setValue=(id,value)=>{const el=document.getElementById(id);if(el)el.value=Number(value||0)};
+    setValue('guestParticipationPoints',calculator.guestParticipation);
+    setValue('hostParticipationPoints',calculator.hostParticipation);
+    setValue('universityParticipationPoints',calculator.university);
+    setValue('playerParticipationPoints',calculator.player);
+
+    const tbody=document.getElementById('fieldPointsRows');
+    if(!tbody) return;
+    tbody.innerHTML=(SAH_DATA.indicatorFields||[]).map((field,index)=>{
+      const values=calculator.fields?.[field.field]||{guest:0,host:0};
+      return `<tr>
+        <td>${field.track}</td>
+        <td>${field.field}</td>
+        <td><input class="field-guest-points" data-index="${index}" value="${Number(values.guest||0)}" type="number" min="0"></td>
+        <td><input class="field-host-points" data-index="${index}" value="${Number(values.host||0)}" type="number" min="0"></td>
+      </tr>`;
+    }).join('');
+  }
+
+  function openFieldCalculator(){
+    if(roleValue()!=='indicator') return;
+    renderFieldCalculator();
+    document.getElementById('fieldPointsCalculatorModal')?.classList.remove('hidden');
+    document.body.style.overflow='hidden';
+  }
+
+  function closeFieldCalculator(){
+    document.getElementById('fieldPointsCalculatorModal')?.classList.add('hidden');
+    document.body.style.overflow='';
+  }
+
+  function saveFieldCalculator(){
+    if(roleValue()!=='indicator') return;
+    const calculator={
+      guestParticipation:Number(document.getElementById('guestParticipationPoints')?.value||0),
+      hostParticipation:Number(document.getElementById('hostParticipationPoints')?.value||0),
+      university:Number(document.getElementById('universityParticipationPoints')?.value||0),
+      player:Number(document.getElementById('playerParticipationPoints')?.value||0),
+      fields:{}
+    };
+    (SAH_DATA.indicatorFields||[]).forEach((field,index)=>{
+      calculator.fields[field.field]={
+        guest:Number(document.querySelector(`.field-guest-points[data-index="${index}"]`)?.value||0),
+        host:Number(document.querySelector(`.field-host-points[data-index="${index}"]`)?.value||0)
+      };
+    });
+    localStorage.setItem(FIELD_CALCULATOR_KEY,JSON.stringify(calculator));
+    closeFieldCalculator();
+    updateActivityPreview();
+    showToast('تم حفظ حاسبة النقاط للمجالات.');
+  }
+
+  function resetFieldCalculator(){
+    localStorage.removeItem(FIELD_CALCULATOR_KEY);
+    renderFieldCalculator();
+    showToast('تمت استعادة إعدادات الحاسبة الافتراضية.');
+  }
+
+  function initV11(){
+    applyStoredActivities();
+    calcIndicators();
+    renderEvidenceStats();
+    renderEvidence();
+
+    const roleSelect=document.getElementById('activeRole');
+    const savedRole=localStorage.getItem(ROLE_KEY);
+    if(savedRole && roleSelect?.querySelector(`option[value="${savedRole}"]`)) roleSelect.value=savedRole;
+    applyRolePermissions();
+    roleSelect?.addEventListener('change',applyRolePermissions);
+
+    document.getElementById('openAddActivity')?.addEventListener('click',openAddActivity);
+    document.querySelectorAll('[data-close-add-activity]').forEach(el=>el.addEventListener('click',closeAddActivity));
+    document.getElementById('saveNewActivity')?.addEventListener('click',saveActivity);
+    ['activityIndicatorField','activityParticipationType','activityUniversities','activityPlayers']
+      .forEach(id=>document.getElementById(id)?.addEventListener('input',updateActivityPreview));
+
+    document.getElementById('openFieldPointsCalculator')?.addEventListener('click',openFieldCalculator);
+    document.querySelectorAll('[data-close-field-calculator]').forEach(el=>el.addEventListener('click',closeFieldCalculator));
+    document.getElementById('saveFieldPointsCalculator')?.addEventListener('click',saveFieldCalculator);
+    document.getElementById('resetFieldPointsCalculator')?.addEventListener('click',resetFieldCalculator);
+  }
+
+  window.addEventListener('DOMContentLoaded',initV11);
+})();
+

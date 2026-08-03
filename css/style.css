@@ -450,608 +450,216 @@ body.theme-dark .indicator-limit-input{
     }
 }
 
-/* ==========================================================
-   SAH FINAL HEADER — Attached, responsive, conflict-safe
-   ========================================================== */
-:root{
-  --sah-header-height:88px;
-}
-
 .topbar{
-  position:sticky !important;
-  inset-block-start:0 !important;
-  z-index:500 !important;
-  width:100% !important;
-  min-height:var(--sah-header-height) !important;
-  height:auto !important;
-  margin:0 !important;
-  padding:12px clamp(16px,2.2vw,34px) !important;
-  display:grid !important;
-  grid-template-columns:minmax(250px,auto) minmax(280px,1fr) minmax(430px,auto) !important;
-  align-items:center !important;
-  gap:clamp(16px,2vw,34px) !important;
-  border:0 !important;
-  border-bottom:1px solid var(--border) !important;
-  border-radius:0 !important;
-  background:#fff !important;
-  box-shadow:0 8px 24px rgba(7,44,100,.07) !important;
-  direction:ltr !important;
+    position:sticky;
+    top:14px;
+    z-index:50;
+
+    height:96px;
+    margin:14px 24px 20px;
+    padding:14px 20px;
+
+    border-radius:24px;
 }
 
-.topbar-brand{
-  min-width:0;
-  display:flex;
-  align-items:center;
-  justify-content:flex-start;
-  gap:16px;
-  direction:ltr;
+.brand-left .ubt{
+    height:58px;
 }
 
-.topbar-brand .ubt{
-  width:auto;
-  height:54px;
-  max-width:150px;
-  object-fit:contain;
-  flex:0 1 auto;
+.brand-left .dsa{
+    height:40px;
 }
 
-.topbar-brand .dsa{
-  width:auto;
-  height:42px;
-  max-width:190px;
-  object-fit:contain;
-  flex:0 1 auto;
+.brand-title h1{
+    font-size:27px;
 }
 
-.topbar-brand-divider{
-  width:1px;
-  height:44px;
-  background:var(--border);
-  flex:0 0 1px;
+.avatar{
+    width:44px;
+    height:44px;
 }
 
-.topbar .brand-title{
-  min-width:0;
-  margin:0 !important;
-  text-align:center !important;
-  direction:rtl;
+@media(max-width:1100px){
+    .topbar{
+        height:auto;
+    }
 }
 
-.topbar .brand-title h1{
-  margin:0 !important;
-  color:var(--blue);
-  font-size:clamp(21px,2vw,31px) !important;
-  line-height:1.15;
-  white-space:normal;
+.nav-group-title .arrow{
+    display:none !important;
 }
 
-.topbar .brand-title p{
-  margin:5px 0 0 !important;
-  color:var(--muted);
-  font-size:14px;
-}
+/* ==========================================================
+   SAH V11 — Roles, reports, activities, linked point calculator
+   ========================================================== */
 
-.topbar-actions{
-  min-width:0;
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  gap:clamp(10px,1.2vw,18px);
-  direction:ltr;
+/* Clean attached header */
+.topbar{
+  position:sticky!important;
+  top:0!important;
+  z-index:500!important;
+  width:100%!important;
+  min-height:92px!important;
+  height:auto!important;
+  margin:0!important;
+  padding:12px 26px!important;
+  display:grid!important;
+  grid-template-columns:auto minmax(260px,1fr) auto!important;
+  align-items:center!important;
+  gap:24px!important;
+  direction:ltr!important;
+  background:#fff!important;
+  border:0!important;
+  border-bottom:1px solid var(--border)!important;
+  border-radius:0!important;
+  box-shadow:0 5px 20px rgba(7,44,100,.07)!important;
+  overflow:visible!important;
 }
+.topbar .brand-left{grid-column:1!important;display:flex!important;align-items:center!important;gap:16px!important;margin:0!important}
+.topbar .brand-left .ubt{height:54px!important;width:auto!important;object-fit:contain!important}
+.topbar .brand-left .dsa{height:42px!important;width:auto!important;object-fit:contain!important}
+.topbar .brand-title{grid-column:2!important;margin:0!important;width:auto!important;text-align:center!important}
+.topbar .brand-title h1{font-size:27px!important;line-height:1.15!important;white-space:nowrap!important}
+.topbar .brand-title p{font-size:14px!important;margin-top:4px!important}
+.topbar .topbar-right{grid-column:3!important;display:flex!important;align-items:center!important;gap:12px!important;direction:ltr!important}
+.topbar .role-switcher{width:255px!important;min-width:210px!important;margin:0!important;direction:rtl!important}
+.topbar .user-chip{min-width:205px!important;margin:0!important;direction:ltr!important}
+.topbar .user-chip>div:first-child{direction:rtl!important}
+.topbar .control-btn{width:42px!important;min-width:42px!important;height:42px!important}
+.layout{margin-top:20px!important}
+.sidebar{top:112px!important;max-height:calc(100vh - 130px)!important}
 
-.topbar .app-controls{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex:0 0 auto;
-}
+/* Role visibility */
+.role-hidden{display:none!important}
+.nav-group.empty-role-group{display:none!important}
 
-.topbar .control-btn{
-  width:44px;
-  min-width:44px;
-  height:42px;
-  padding:0;
+/* Compact reports */
+.reports-compact-grid{
   display:grid;
-  place-items:center;
-  border-radius:12px;
-  box-shadow:none;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin-bottom:26px;
 }
-
-.topbar .role-switcher{
-  min-width:220px;
-  max-width:270px;
-  display:flex;
-  flex-direction:column;
-  gap:4px;
-  direction:rtl;
-  text-align:right;
-}
-
-.topbar .role-switcher label{
-  font-size:11px;
-  color:var(--muted);
-}
-
-.topbar .role-switcher select{
-  width:100%;
-  height:40px;
-  padding-inline:12px !important;
-  border:1px solid var(--border);
-  border-radius:11px;
-  background:#fff !important;
-  color:var(--text);
-}
-
-.topbar .user-chip{
-  min-width:205px;
-  display:flex !important;
+.report-mini-card{
+  min-height:118px;
+  padding:16px;
+  display:grid;
+  grid-template-columns:42px 1fr;
+  grid-template-rows:auto auto;
+  gap:5px 10px;
   align-items:center;
-  justify-content:flex-start;
-  gap:14px !important;
-  direction:ltr;
   text-align:right;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:#fff;
+  color:var(--text);
+  cursor:pointer;
+  box-shadow:0 10px 28px rgba(7,44,100,.07);
 }
-
-.topbar .avatar{
-  width:48px !important;
-  height:48px !important;
-  flex:0 0 48px;
+.report-mini-card>span{grid-row:1/3;width:42px;height:42px;border-radius:13px;background:#eef4ff;color:var(--blue);display:grid;place-items:center}
+.report-mini-card strong{color:var(--blue);font-size:15px}
+.report-mini-card small{color:var(--muted);line-height:1.5}
+.report-mini-card:hover{transform:translateY(-2px);border-color:#b8cdf0}
+.evidence-center-title{margin-top:12px}
+.evidence-tools{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 18px}
+.evidence-summary-grid .card{padding:18px}
+.evidence-summary-grid .value{font-size:32px}
+.evidence-table{min-width:1650px}
+.file-link,.file-name{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:7px 10px;
+  border-radius:10px;
+  background:#eef4ff;
+  color:var(--blue);
+  text-decoration:none;
+  font-size:12px;
+  font-weight:700;
 }
+.file-name.missing{background:#f3f5f8;color:var(--muted)}
 
-.user-chip-details{
-  min-width:0;
+/* Activity modal */
+.activity-modal-card,.field-calculator-card{width:min(1050px,96vw)}
+.activity-form{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+}
+.activity-form label,.calculator-base-grid label{
   display:flex;
   flex-direction:column;
-  align-items:flex-end;
-  direction:rtl;
-}
-
-.user-chip-details strong,
-.user-chip-details span{
-  max-width:210px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-}
-
-.user-chip-details strong{
-  color:var(--text);
-  font-size:15px;
-}
-
-.user-chip-details span{
-  display:block;
-  margin-top:3px;
+  gap:6px;
   color:var(--muted);
   font-size:12px;
+  font-weight:700;
 }
-
-/* The header is attached, so the sidebar starts directly below it. */
-.sidebar{
-  top:calc(var(--sah-header-height) + 16px) !important;
-  max-height:calc(100vh - var(--sah-header-height) - 32px) !important;
+.activity-form input,.activity-form select,.calculator-base-grid input{
+  width:100%;
+  min-height:42px;
+  padding:10px 12px;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:#fff;
+  color:var(--text);
 }
-
-/* Remove accordion arrows visually and from layout without affecting clicks. */
-.nav-group-title .arrow{
-  display:none !important;
-  visibility:hidden !important;
-  width:0 !important;
-  min-width:0 !important;
-  margin:0 !important;
-  padding:0 !important;
+.activity-points-preview{
+  grid-column:span 3;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 16px;
+  border-radius:14px;
+  background:#eef4ff;
+  color:var(--blue);
 }
-
-.nav-group-title{
-  justify-content:flex-start !important;
+.activity-points-preview strong{font-size:28px}
+.calculator-base-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin-bottom:18px;
 }
-
-body.theme-dark .topbar{
-  background:rgba(6,28,61,.94) !important;
-  border-bottom-color:var(--border) !important;
+.field-calculator-table-wrap{max-height:52vh;overflow:auto;border:1px solid var(--border);border-radius:16px}
+.field-calculator-table{min-width:760px}
+.field-calculator-table input{
+  width:110px;
+  padding:8px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  text-align:center;
+  direction:ltr;
 }
-
-body.theme-dark .topbar-brand-divider{
-  background:rgba(255,255,255,.16);
-}
-
-body.theme-dark .topbar .role-switcher select{
-  background:#10284b !important;
+body.theme-dark .report-mini-card,
+body.theme-dark .activity-form input,
+body.theme-dark .activity-form select,
+body.theme-dark .calculator-base-grid input{
+  background:rgba(255,255,255,.06);
   color:#fff;
-  border-color:#2f4e78;
+  border-color:var(--border);
 }
+body.theme-dark .report-mini-card strong{color:#fff}
 
-@media (max-width:1280px){
-  .topbar{
-    grid-template-columns:minmax(215px,auto) minmax(240px,1fr) minmax(360px,auto) !important;
-    gap:14px !important;
-    padding-inline:18px !important;
-  }
-
-  .topbar-brand .ubt{height:46px;max-width:125px}
-  .topbar-brand .dsa{height:36px;max-width:155px}
-  .topbar-brand-divider{height:38px}
-  .topbar .role-switcher{min-width:190px;max-width:225px}
-  .topbar .user-chip{min-width:175px}
-  .user-chip-details span{max-width:170px}
-}
-
-@media (max-width:1050px){
-  :root{--sah-header-height:76px}
-
-  .topbar{
-    grid-template-columns:auto 1fr auto !important;
-    min-height:76px !important;
-  }
-
-  .topbar .role-switcher,
-  .topbar .user-chip{
-    display:none !important;
-  }
-
-  .topbar-actions{
-    gap:8px;
-  }
-
-  .mobile-menu{
-    display:grid !important;
-    place-items:center;
-    order:-1;
-  }
-
-  .topbar-brand .ubt{height:42px}
-  .topbar-brand .dsa{height:32px}
-}
-
-@media (max-width:700px){
-  :root{--sah-header-height:68px}
-
-  .topbar{
-    min-height:68px !important;
-    grid-template-columns:1fr auto !important;
-    padding:9px 12px !important;
-    gap:10px !important;
-  }
-
-  .topbar-brand{
-    gap:9px;
-  }
-
-  .topbar-brand .ubt{height:34px;max-width:92px}
-  .topbar-brand .dsa{height:27px;max-width:112px}
-  .topbar-brand-divider{height:30px}
-  .topbar .brand-title{display:none}
-  .topbar .control-btn{width:38px;min-width:38px;height:38px}
-  .topbar .app-controls{gap:5px}
-}
-
-/* ==========================================================
-   SAH — Final Header Fix
-   ========================================================== */
-
-.topbar{
-    position:sticky !important;
-    top:0 !important;
-    z-index:500 !important;
-
-    width:100% !important;
-    min-height:96px !important;
-    height:auto !important;
-
-    margin:0 !important;
-    padding:14px 28px !important;
-
-    display:grid !important;
-    grid-template-columns:auto minmax(260px,1fr) auto !important;
-    align-items:center !important;
-    gap:28px !important;
-
-    direction:ltr !important;
-
-    background:#fff !important;
-    border:0 !important;
-    border-bottom:1px solid var(--border) !important;
-    border-radius:0 !important;
-
-    box-shadow:0 5px 20px rgba(7,44,100,.07) !important;
-    overflow:visible !important;
-}
-
-/* الشعارات في أقصى اليسار */
-.topbar .brand-left{
-    grid-column:1 !important;
-
-    display:flex !important;
-    align-items:center !important;
-    justify-content:flex-start !important;
-    gap:18px !important;
-
-    direction:ltr !important;
-    margin:0 !important;
-    flex-shrink:0 !important;
-}
-
-.topbar .brand-left .ubt{
-    width:auto !important;
-    height:58px !important;
-    max-width:150px !important;
-    object-fit:contain !important;
-}
-
-.topbar .brand-left .dsa{
-    width:auto !important;
-    height:46px !important;
-    max-width:185px !important;
-    object-fit:contain !important;
-}
-
-/* عنوان المنصة في المنتصف */
-.topbar .brand-title{
-    grid-column:2 !important;
-
-    width:auto !important;
-    margin:0 !important;
-
-    text-align:center !important;
-    direction:ltr !important;
-}
-
-.topbar .brand-title h1{
-    margin:0 !important;
-    font-size:28px !important;
-    line-height:1.2 !important;
-    color:#072c64 !important;
-    white-space:nowrap !important;
-}
-
-.topbar .brand-title p{
-    margin:4px 0 0 !important;
-    font-size:14px !important;
-    color:var(--muted) !important;
-    direction:rtl !important;
-}
-
-/* أدوات المستخدم في أقصى اليمين */
-.topbar .topbar-right{
-    grid-column:3 !important;
-
-    display:flex !important;
-    align-items:center !important;
-    justify-content:flex-end !important;
-    gap:14px !important;
-
-    direction:ltr !important;
-    min-width:0 !important;
-}
-
-/* اللغة والوضع الليلي */
-.topbar .app-controls{
-    display:flex !important;
-    align-items:center !important;
-    gap:8px !important;
-    margin:0 !important;
-}
-
-.topbar .control-btn{
-    width:44px !important;
-    min-width:44px !important;
-    height:44px !important;
-    margin:0 !important;
-    flex:0 0 44px !important;
-}
-
-/* اختيار الصلاحية */
-.topbar .role-switcher{
-    display:flex !important;
-    flex-direction:column !important;
-    justify-content:center !important;
-    gap:3px !important;
-
-    width:260px !important;
-    min-width:220px !important;
-    margin:0 !important;
-
-    direction:rtl !important;
-}
-
-.topbar .role-switcher label{
-    margin:0 !important;
-    font-size:11px !important;
-    line-height:1.2 !important;
-    color:var(--muted) !important;
-}
-
-.topbar .role-switcher select{
-    width:100% !important;
-    height:42px !important;
-    margin:0 !important;
-    padding:0 13px !important;
-
-    border:1px solid var(--border) !important;
-    border-radius:12px !important;
-
-    background:#fff !important;
-    color:var(--text) !important;
-
-    direction:rtl !important;
-    appearance:none !important;
-    -webkit-appearance:none !important;
-    background-image:none !important;
-}
-
-/* المستخدم */
-.topbar .user-chip{
-    display:flex !important;
-    align-items:center !important;
-    justify-content:flex-start !important;
-    gap:11px !important;
-
-    min-width:210px !important;
-    margin:0 !important;
-
-    direction:ltr !important;
-    text-align:right !important;
-}
-
-.topbar .user-chip > div:first-child{
-    min-width:0 !important;
-    direction:rtl !important;
-}
-
-.topbar .user-chip strong{
-    display:block !important;
-    margin:0 !important;
-
-    color:var(--text) !important;
-    font-size:15px !important;
-    line-height:1.3 !important;
-
-    white-space:nowrap !important;
-}
-
-.topbar .user-chip span{
-    display:block !important;
-    margin-top:3px !important;
-
-    color:var(--muted) !important;
-    font-size:11px !important;
-    line-height:1.3 !important;
-
-    white-space:nowrap !important;
-}
-
-.topbar .avatar{
-    width:48px !important;
-    height:48px !important;
-    min-width:48px !important;
-
-    margin:0 !important;
-    flex:0 0 48px !important;
-}
-
-/* منع المحتوى من الدخول تحت الهيدر */
-.layout{
-    margin-top:22px !important;
-}
-
-/* ضبط القائمة الجانبية حسب ارتفاع الهيدر */
-.sidebar{
-    top:118px !important;
-    max-height:calc(100vh - 136px) !important;
-}
-
-/* الشاشات المتوسطة */
 @media(max-width:1350px){
-
-    .topbar{
-        grid-template-columns:auto minmax(220px,1fr) auto !important;
-        gap:18px !important;
-        padding-inline:20px !important;
-    }
-
-    .topbar .brand-title h1{
-        font-size:23px !important;
-    }
-
-    .topbar .role-switcher{
-        width:220px !important;
-        min-width:190px !important;
-    }
-
-    .topbar .user-chip{
-        min-width:180px !important;
-    }
-
-    .topbar .brand-left .ubt{
-        height:50px !important;
-    }
-
-    .topbar .brand-left .dsa{
-        height:40px !important;
-    }
+  .topbar{grid-template-columns:auto minmax(220px,1fr) auto!important;gap:16px!important;padding-inline:18px!important}
+  .topbar .brand-title h1{font-size:22px!important}
+  .topbar .role-switcher{width:215px!important;min-width:185px!important}
+  .topbar .user-chip{min-width:170px!important}
+  .reports-compact-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-
-/* التابلت والجوال */
 @media(max-width:1100px){
-
-    .topbar{
-        min-height:76px !important;
-
-        display:flex !important;
-        flex-wrap:nowrap !important;
-        justify-content:space-between !important;
-
-        padding:10px 14px !important;
-        gap:12px !important;
-    }
-
-    .topbar .brand-left .ubt{
-        height:44px !important;
-    }
-
-    .topbar .brand-left .dsa{
-        height:34px !important;
-    }
-
-    .topbar .brand-title{
-        flex:1 !important;
-        order:initial !important;
-        width:auto !important;
-    }
-
-    .topbar .brand-title h1{
-        font-size:19px !important;
-        white-space:normal !important;
-    }
-
-    .topbar .brand-title p{
-        font-size:12px !important;
-    }
-
-    .topbar .topbar-right{
-        gap:8px !important;
-    }
-
-    .topbar .role-switcher,
-    .topbar .user-chip{
-        display:none !important;
-    }
-
-    .topbar .mobile-menu{
-        display:grid !important;
-        place-items:center !important;
-        flex:0 0 44px !important;
-    }
-
-    .layout{
-        margin-top:14px !important;
-    }
+  .topbar{display:flex!important;min-height:76px!important;padding:10px 14px!important;gap:10px!important}
+  .topbar .brand-title{flex:1!important;order:initial!important}
+  .topbar .brand-title h1{font-size:18px!important;white-space:normal!important}
+  .topbar .role-switcher,.topbar .user-chip{display:none!important}
+  .activity-form{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .activity-points-preview{grid-column:span 2}
+  .calculator-base-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:700px){
+  .reports-compact-grid{grid-template-columns:1fr}
+  .activity-form,.calculator-base-grid{grid-template-columns:1fr}
+  .activity-points-preview{grid-column:auto}
+  .topbar .brand-left .dsa{display:none!important}
 }
 
-/* الجوال الصغير */
-@media(max-width:650px){
-
-    .topbar .brand-left .dsa{
-        display:none !important;
-    }
-
-    .topbar .brand-left .ubt{
-        height:38px !important;
-    }
-
-    .topbar .brand-title h1{
-        font-size:16px !important;
-    }
-
-    .topbar .brand-title p{
-        font-size:10px !important;
-    }
-
-    .topbar .control-btn{
-        width:38px !important;
-        min-width:38px !important;
-        height:38px !important;
-        flex-basis:38px !important;
-    }
-}
