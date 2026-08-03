@@ -5814,3 +5814,45 @@ body.theme-dark .approval-export-btn.pdf{
   transition:opacity .18s ease,transform .18s ease;
 }
 .approval-export-btn:hover::after{opacity:1;transform:translateY(0)}
+
+
+/* ==========================================================
+   SAH V23.9 — platform rename and sidebar banner removal
+   ========================================================== */
+
+/* إخفاء أي أثر متبقٍ لصورة الهوية أعلى القائمة */
+.sidebar .side-logo,
+.sidebar .identity-card,
+.side-logo.identity-card{
+  display:none!important;
+}
+
+/* استغلال المساحة المحذوفة وإظهار أقسام أكثر */
+.sidebar{
+  padding-top:14px!important;
+}
+
+.sidebar-toolbar{
+  margin-top:0!important;
+  margin-bottom:12px!important;
+  min-height:44px!important;
+}
+
+.nav{
+  margin-top:0!important;
+  gap:7px!important;
+}
+
+.nav-group{
+  margin-top:0!important;
+}
+
+@media(max-width:1100px){
+  .sidebar{
+    padding-top:10px!important;
+  }
+
+  .sidebar-toolbar{
+    margin-bottom:9px!important;
+  }
+}

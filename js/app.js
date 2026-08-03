@@ -250,7 +250,7 @@ function exportEvidenceCsv(){
 function printEvidenceReport(){
  const rows=getFilteredEvidence(); const w=window.open('','_blank'); if(!w) return showToast('يرجى السماح بالنوافذ المنبثقة لتوليد التقرير');
  const body=rows.map((r,i)=>`<tr><td>${i+1}</td><td>${r.activity||'—'}</td><td>${r.date||'—'}</td><td>${r.gender||'—'}</td><td>${r.activityType||'—'}</td><td>${r.subCategory||'—'}</td><td>${r.points||0}</td><td>${r.status}</td><td>${r.newsLink||'—'}</td><td>${r.imagesLink||'—'}</td><td>${r.publishLink||'—'}</td></tr>`).join('');
- w.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>تقرير الشواهد</title><style>body{font-family:Tahoma,Arial;padding:24px;color:#102d5c}header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #0b3475;padding-bottom:16px;margin-bottom:20px}h1{font-size:24px}p{color:#566070}table{width:100%;border-collapse:collapse;font-size:11px}th,td{border:1px solid #ccd6e5;padding:7px;text-align:right;vertical-align:top}th{background:#eef4ff}@media print{body{padding:0}button{display:none}}</style></head><body><header><div><h1>تقرير توثيق الأنشطة والشواهد</h1><p>Student Activities Hub (SAH) — جامعة الأعمال والتكنولوجيا</p></div><div><b>عدد السجلات: ${rows.length}</b><br><small>${new Date().toLocaleDateString('ar-SA')}</small></div></header><button onclick="window.print()">طباعة / حفظ PDF</button><table><thead><tr><th>#</th><th>النشاط</th><th>التاريخ</th><th>الفئة</th><th>النوع</th><th>التصنيف</th><th>النقاط</th><th>الحالة</th><th>الخبر</th><th>الصور</th><th>النشر</th></tr></thead><tbody>${body}</tbody></table><script>setTimeout(()=>window.print(),500)<\/script></body></html>`); w.document.close();
+ w.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>تقرير الشواهد</title><style>body{font-family:Tahoma,Arial;padding:24px;color:#102d5c}header{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #0b3475;padding-bottom:16px;margin-bottom:20px}h1{font-size:24px}p{color:#566070}table{width:100%;border-collapse:collapse;font-size:11px}th,td{border:1px solid #ccd6e5;padding:7px;text-align:right;vertical-align:top}th{background:#eef4ff}@media print{body{padding:0}button{display:none}}</style></head><body><header><div><h1>تقرير توثيق الأنشطة والشواهد</h1><p>Student Activities Platform — جامعة الأعمال والتكنولوجيا</p></div><div><b>عدد السجلات: ${rows.length}</b><br><small>${new Date().toLocaleDateString('ar-SA')}</small></div></header><button onclick="window.print()">طباعة / حفظ PDF</button><table><thead><tr><th>#</th><th>النشاط</th><th>التاريخ</th><th>الفئة</th><th>النوع</th><th>التصنيف</th><th>النقاط</th><th>الحالة</th><th>الخبر</th><th>الصور</th><th>النشر</th></tr></thead><tbody>${body}</tbody></table><script>setTimeout(()=>window.print(),500)<\/script></body></html>`); w.document.close();
 }
 function initEvidence(){
  renderEvidenceStats(); renderEvidence();
@@ -385,11 +385,11 @@ function observeDynamicTranslations(){
 const SAH_I18N = {
   ar: {
     'nav.home':'الرئيسية','nav.sports':'الإدارة الرياضية','nav.indicator':'مؤشر الأداء الرياضي','nav.scholarships':'المنح الرياضية','nav.agreement':'الإقرار الإلكتروني للمنح','nav.championships':'البطولات الرياضية','nav.athletes':'ملف الطالب الرياضي','nav.activities':'الأنشطة الطلابية العامة','nav.volunteer':'العمل التطوعي','nav.student':'بوابة الطالب','nav.calendar':'التقويم الموحد','nav.requests':'طلبات التسجيل','nav.reports':'التقارير والتحليلات','nav.audit':'سجل العمليات',
-    'brand.en':'Student Activities Hub','brand.ar':'منصة الأنشطة الطلابية','user.hello':'مرحباً، حسام الحسين','user.role':'مسؤول تطوير منصة الأنشطة الطلابية','home.eyebrow':'عمادة شؤون الطلاب','home.title':'منصة واحدة لإدارة الأنشطة والخدمات الطلابية','btn.sports':'الدخول للإدارة الرياضية','btn.student':'عرض بوابة الطالب','home.modules':'وحدات المنصة','home.dataSummary':'ملخص البيانات المستوردة','indicator.title':'مؤشر الأداء الرياضي','indicator.referenceTitle':'مرجعية احتساب المؤشر','indicator.referenceText':'يعتمد احتساب المؤشر على دليل مؤشر الأداء الرياضي الصادر من الاتحاد السعودي للرياضة الجامعية.','indicator.male':'مؤشر الأداء الرياضي - الطلاب','indicator.female':'مؤشر الأداء الرياضي - الطالبات','sports.title':'الإدارة الرياضية','sports.eyebrow':'وحدة الإدارة الرياضية','sports.heroTitle':'كل ما يخص الرياضة في صفحة واحدة'
+    'brand.en':'Student Activities Platform','brand.ar':'منصة الأنشطة الطلابية','user.hello':'مرحباً، حسام الحسين','user.role':'مسؤول تطوير منصة الأنشطة الطلابية','home.eyebrow':'عمادة شؤون الطلاب','home.title':'منصة واحدة لإدارة الأنشطة والخدمات الطلابية','btn.sports':'الدخول للإدارة الرياضية','btn.student':'عرض بوابة الطالب','home.modules':'وحدات المنصة','home.dataSummary':'ملخص البيانات المستوردة','indicator.title':'مؤشر الأداء الرياضي','indicator.referenceTitle':'مرجعية احتساب المؤشر','indicator.referenceText':'يعتمد احتساب المؤشر على دليل مؤشر الأداء الرياضي الصادر من الاتحاد السعودي للرياضة الجامعية.','indicator.male':'مؤشر الأداء الرياضي - الطلاب','indicator.female':'مؤشر الأداء الرياضي - الطالبات','sports.title':'الإدارة الرياضية','sports.eyebrow':'وحدة الإدارة الرياضية','sports.heroTitle':'كل ما يخص الرياضة في صفحة واحدة'
   },
   en: {
     'nav.home':'Home','nav.sports':'Sports Administration','nav.indicator':'Sports Performance Indicator','nav.scholarships':'Sports Scholarships','nav.agreement':'Scholarship E-Agreement','nav.championships':'Sports Championships','nav.athletes':'Athlete Profile','nav.activities':'General Student Activities','nav.volunteer':'Volunteering','nav.student':'Student Portal','nav.calendar':'Unified Calendar','nav.requests':'Registration Requests','nav.reports':'Reports & Analytics','nav.audit':'Audit Log',
-    'brand.en':'Student Activities Hub','brand.ar':'Student Activities Platform','user.hello':'Welcome, Hussam Alhussain','user.role':'Student Activities Platform Development Officer','home.eyebrow':'Deanship of Student Affairs','home.title':'One platform for student activities and services','btn.sports':'Open Sports Administration','btn.student':'View Student Portal','home.modules':'Platform modules','home.dataSummary':'Imported data summary','indicator.title':'Sports Performance Indicator','indicator.referenceTitle':'Indicator calculation reference','indicator.referenceText':'The indicator is calculated based on the Sports Performance Indicator Guide issued by the Saudi Universities Sports Federation.','indicator.male':'Sports Performance Indicator - Male students','indicator.female':'Sports Performance Indicator - Female students','sports.title':'Sports Administration','sports.eyebrow':'Sports Administration Module','sports.heroTitle':'Everything related to sports in one place'
+    'brand.en':'Student Activities Platform','brand.ar':'Student Activities Platform','user.hello':'Welcome, Hussam Alhussain','user.role':'Student Activities Platform Development Officer','home.eyebrow':'Deanship of Student Affairs','home.title':'One platform for student activities and services','btn.sports':'Open Sports Administration','btn.student':'View Student Portal','home.modules':'Platform modules','home.dataSummary':'Imported data summary','indicator.title':'Sports Performance Indicator','indicator.referenceTitle':'Indicator calculation reference','indicator.referenceText':'The indicator is calculated based on the Sports Performance Indicator Guide issued by the Saudi Universities Sports Federation.','indicator.male':'Sports Performance Indicator - Male students','indicator.female':'Sports Performance Indicator - Female students','sports.title':'Sports Administration','sports.eyebrow':'Sports Administration Module','sports.heroTitle':'Everything related to sports in one place'
   }
 };
 function applyLanguage(lang){
@@ -412,7 +412,7 @@ function applyLanguage(lang){
   if(typeof renderAudit==='function') renderAudit();
   translateStatic(lang);
   const btn=$('#langToggle'); if(btn){ btn.textContent=lang==='en'?'AR':'EN'; btn.title=lang==='en'?'Switch to Arabic':'Switch to English'; }
-  document.title=lang==='en'?'SAH | Student Activities Hub':'SAH | منصة الأنشطة الطلابية';
+  document.title='Student Activities Platform | UBT';
   localStorage.setItem('sah-lang',lang);
 }
 function applyTheme(theme){
@@ -3758,7 +3758,7 @@ function exportApprovalsPdf(){
      ${clubSections||'<p>لا توجد أنشطة أندية مسجلة.</p>'}
    </section>
 
-   <div class="footer">Student Activities Hub — منصة الأنشطة الطلابية</div>
+   <div class="footer">Student Activities Platform — منصة الأنشطة الطلابية</div>
    <script>window.onload=()=>setTimeout(()=>window.print(),400);<\/script>
  </body>
  </html>`);
@@ -4528,4 +4528,12 @@ window.addEventListener('DOMContentLoaded',()=>{
 window.addEventListener('DOMContentLoaded',()=>{
   console.info('SAH build 23.8 loaded');
   document.documentElement.dataset.sahBuild='23.8';
+});
+
+
+/* SAH V23.9 — Student Activities Platform branding */
+window.addEventListener('DOMContentLoaded',()=>{
+  document.title='Student Activities Platform | UBT';
+  console.info('SAH build 23.9 loaded');
+  document.documentElement.dataset.sahBuild='23.9';
 });
