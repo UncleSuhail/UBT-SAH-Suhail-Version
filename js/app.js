@@ -435,7 +435,8 @@ window.addEventListener('DOMContentLoaded',initPreferences);
    ========================================================== */
 (function(){
   const LIMITS_KEY = 'sah-indicator-max-limits-v1';
-  const ROLE_KEY = 'sah-active-role-v1';
+  const INDICATOR_LIMITS_PREVIOUS_KEY = 'sah-indicator-max-limits-previous-v1';
+  const ROLE_KEY = 'sah-active-role-v2';
   let originalIndicatorLimits = [];
 
   function initSidebarV10(){
@@ -498,8 +499,8 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   }
 
   function currentIndicatorRole(){
-    return localStorage.getItem(ROLE_KEY) ||
-      document.getElementById('activeRole')?.value ||
+    return document.getElementById('activeRole')?.value ||
+      localStorage.getItem(ROLE_KEY) ||
       'system';
   }
 
@@ -559,23 +560,36 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     });
   }
 
+  function setModalOpen(modalId, open){
+    const modal = document.getElementById(modalId);
+    if(!modal) return;
+    if(open){
+      modal.classList.remove('hidden');
+      document.body.style.overflow='hidden';
+    }else{
+      modal.classList.add('hidden');
+      document.body.style.overflow='';
+    }
+  }
+
   function openIndicatorSettings(){
-    if(!canEditIndicatorLimits()){
+    if(currentIndicatorRole() !== 'indicator' || !canEditIndicatorLimits()){
       if(typeof showToast === 'function') showToast('لا تملك صلاحية تعديل الحدود العليا.');
       return;
     }
     renderIndicatorLimitFields();
-    document.getElementById('indicatorSettingsModal')?.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
+    setModalOpen('indicatorSettingsModal', true);
   }
 
   function closeIndicatorSettings(){
-    document.getElementById('indicatorSettingsModal')?.classList.add('hidden');
-    document.body.style.overflow = '';
+    setModalOpen('indicatorSettingsModal', false);
   }
 
   function saveIndicatorLimits(){
-    if(!canEditIndicatorLimits()) return;
+    if(currentIndicatorRole() !== 'indicator' || !canEditIndicatorLimits()){
+      if(typeof showToast === 'function') showToast('هذه الصلاحية متاحة لمسؤول مؤشر الأداء الرياضي فقط.');
+      return;
+    }
     const inputs = [...document.querySelectorAll('.indicator-limit-input')];
     const values = inputs.map(input=>Number(input.value));
 
@@ -680,7 +694,6 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   const ACTIVITIES_KEY = 'sah-added-sports-activities-v1';
   const FIELD_CALCULATOR_KEY = 'sah-field-points-calculator-v1';
   const FIELD_CALCULATOR_PREVIOUS_KEY = 'sah-field-points-calculator-previous-v1';
-  const INDICATOR_LIMITS_PREVIOUS_KEY = 'sah-indicator-max-limits-previous-v1';
   const SESSION_FILES = new Map();
 
   const ROLE_META = {
@@ -832,16 +845,21 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     setText('#activityCalculatedPoints', fmt(activityPoints(activity)));
   }
 
+  function setV11ModalOpen(modalId, open){
+    const modal=document.getElementById(modalId);
+    if(!modal) return;
+    modal.classList.toggle('hidden', !open);
+    document.body.style.overflow=open?'hidden':'';
+  }
+
   function openAddActivity(){
     populateActivityFields();
-    document.getElementById('addActivityModal')?.classList.remove('hidden');
-    document.body.style.overflow='hidden';
+    setV11ModalOpen('addActivityModal', true);
     updateActivityPreview();
   }
 
   function closeAddActivity(){
-    document.getElementById('addActivityModal')?.classList.add('hidden');
-    document.body.style.overflow='';
+    setV11ModalOpen('addActivityModal', false);
   }
 
   function fileStatus(reportName, scheduleName){
@@ -975,13 +993,11 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   function openFieldCalculator(){
     if(roleValue()!=='indicator') return;
     renderFieldCalculator();
-    document.getElementById('fieldPointsCalculatorModal')?.classList.remove('hidden');
-    document.body.style.overflow='hidden';
+    setV11ModalOpen('fieldPointsCalculatorModal', true);
   }
 
   function closeFieldCalculator(){
-    document.getElementById('fieldPointsCalculatorModal')?.classList.add('hidden');
-    document.body.style.overflow='';
+    setV11ModalOpen('fieldPointsCalculatorModal', false);
   }
 
   function saveFieldCalculator(){
@@ -1037,7 +1053,13 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     const savedRole=localStorage.getItem(ROLE_KEY);
     if(savedRole && roleSelect?.querySelector(`option[value="${savedRole}"]`)) roleSelect.value=savedRole;
     applyRolePermissions();
-    roleSelect?.addEventListener('change',applyRolePermissions);
+    roleSelect?.addEventListener('change',()=>{
+      applyRolePermissions();
+      document.getElementById('indicatorPermissionSettings')
+        ?.classList.toggle('hidden', roleValue() !== 'indicator');
+      document.getElementById('openFieldPointsCalculator')
+        ?.classList.toggle('hidden', roleValue() !== 'indicator');
+    });
 
     document.getElementById('openAddActivity')?.addEventListener('click',openAddActivity);
     document.querySelectorAll('[data-close-add-activity]').forEach(el=>el.addEventListener('click',closeAddActivity));

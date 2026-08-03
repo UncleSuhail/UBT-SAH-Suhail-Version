@@ -461,7 +461,7 @@
 
       
       <div class="evidence-actionbar">
-        <div class="evidence-actionbar-main">
+        <div class="evidence-actions-primary">
           <button class="btn primary add-activity-btn" id="openAddActivity" type="button">
             <span class="action-icon">＋</span>
             إضافة نشاط
@@ -472,30 +472,32 @@
           </button>
         </div>
 
-        <div class="evidence-actionbar-downloads">
-          <button class="download-tile" id="exportEvidenceCsv" type="button" title="تصدير Excel / CSV">
-            <span class="download-symbol">⇩</span>
+        <div class="evidence-actions-models">
+          <a class="btn outline model-action-btn"
+             href="https://ubtu-my.sharepoint.com/:w:/g/personal/s_kaaki_ubt_edu_sa/IQCy868fWsMaRq9HcTRHg1siAWJJr_W0osUtAq6YlZc7510?e=ScANX2"
+             target="_blank" rel="noopener">
+            <span class="model-action-icon">W</span>
+            نموذج التقرير
+          </a>
+
+          <a class="btn outline model-action-btn"
+             href="assets/data/activity-evidence-template.xlsx"
+             download>
+            <span class="model-action-icon">X</span>
+            نموذج الجدول الزمني
+          </a>
+        </div>
+
+        <div class="evidence-actions-export">
+          <button class="export-square" id="exportEvidenceCsv" type="button" title="تصدير Excel / CSV" aria-label="تصدير Excel">
+            <span>⇩</span>
             <small>Excel</small>
           </button>
 
-          <button class="download-tile" id="printEvidenceReport" type="button" title="توليد تقرير PDF">
-            <span class="download-symbol">⇩</span>
+          <button class="export-square" id="printEvidenceReport" type="button" title="توليد تقرير PDF" aria-label="تصدير PDF">
+            <span>⇩</span>
             <small>PDF</small>
           </button>
-
-          <a class="download-tile model-link"
-             href="https://ubtu-my.sharepoint.com/:w:/g/personal/s_kaaki_ubt_edu_sa/IQCy868fWsMaRq9HcTRHg1siAWJJr_W0osUtAq6YlZc7510?e=ScANX2"
-             target="_blank" rel="noopener" title="نموذج التقرير">
-            <span class="model-symbol">W</span>
-            <small>نموذج التقرير</small>
-          </a>
-
-          <a class="download-tile model-link"
-             href="assets/data/activity-evidence-template.xlsx"
-             download title="نموذج الجدول الزمني">
-            <span class="model-symbol">X</span>
-            <small>نموذج الجدول الزمني</small>
-          </a>
         </div>
       </div>
 
@@ -565,7 +567,7 @@
   </main>
 </div>
 
-<div id="indicatorSettingsModal" class="modal hidden" role="dialog"
+<div id="indicatorSettingsModal" class="modal calculator-modal hidden" role="dialog"
      aria-modal="true" aria-labelledby="indicatorSettingsTitle">
   <div class="modal-backdrop" data-close-indicator-settings></div>
   <div class="modal-card indicator-settings-card">
@@ -594,7 +596,7 @@
 </div>
 
 
-<div id="addActivityModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="addActivityTitle">
+<div id="addActivityModal" class="modal activity-entry-modal hidden" role="dialog" aria-modal="true" aria-labelledby="addActivityTitle">
   <div class="modal-backdrop" data-close-add-activity></div>
   <div class="modal-card activity-modal-card">
     <div class="section-title compact-title">
@@ -630,7 +632,7 @@
   </div>
 </div>
 
-<div id="fieldPointsCalculatorModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="fieldPointsCalculatorTitle">
+<div id="fieldPointsCalculatorModal" class="modal calculator-modal hidden" role="dialog" aria-modal="true" aria-labelledby="fieldPointsCalculatorTitle">
   <div class="modal-backdrop" data-close-field-calculator></div>
   <div class="modal-card field-calculator-card">
     <div class="section-title compact-title">
