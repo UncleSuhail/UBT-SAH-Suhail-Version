@@ -488,3 +488,10 @@ body.theme-dark .indicator-limit-input{
 .nav-group-title .arrow{
     display:none !important;
 }
+
+.sidebar .nav-group-title .arrow{
+    display:none !important;
+    visibility:hidden !important;
+    width:0 !important;
+    margin:0 !important;
+}
