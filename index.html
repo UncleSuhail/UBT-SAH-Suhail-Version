@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>Student Activities Platform | UBT</title>
-<link rel="stylesheet" href="css/style.css?v=24.3">
+<link rel="stylesheet" href="css/style.css?v=24.4">
 
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
@@ -71,7 +71,7 @@
 </style>
 
 </head>
-<body data-sah-version="24.3" class="login-mode">
+<body data-sah-version="24.4" class="login-mode">
 <section id="login" class="login-page">
   <div class="login-bg"></div>
   <div class="login-card">
@@ -473,10 +473,22 @@
     <label><span>مكان الحدث</span><input id="volunteerLocation" required></label>
     <div class="form-submit-row"><button id="submitVolunteerOpportunity" class="btn primary" type="button">إرسال الطلب</button></div>
   </form></div>
-  <div class="card table-card"><div class="table-wrap"><table>
-    <thead><tr><th>الحدث</th><th>التاريخ</th><th>السعة</th><th>الجهة المسؤولة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead>
-    <tbody id="volunteerRequestRows"></tbody>
-  </table></div></div>
+  <div class="card table-card records-table-card">
+    <h4>طلبات الفرص التطوعية</h4>
+    <div class="records-toolbar">
+      <div class="records-search">
+        <span data-icon="search" aria-hidden="true"></span>
+        <input id="volunteerTableSearch" type="search" placeholder="ابحث باسم الحدث أو التاريخ أو الجهة المسؤولة" autocomplete="off">
+      </div>
+      <select id="volunteerTableStatus" class="records-filter" aria-label="فلترة السجلات">
+        <option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
+      </select>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>الحدث</th><th>التاريخ</th><th>السعة</th><th>الجهة المسؤولة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead>
+      <tbody id="volunteerRequestRows"></tbody>
+    </table></div>
+  </div>
 </section>
 
     <section id="page-student" class="page">
@@ -512,8 +524,32 @@
     <label><span>الفئة المستهدفة</span><select id="sportsReqGender"><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
     <div class="form-submit-row"><button id="submitSportsRequest" class="btn primary" type="button">إرسال الطلب</button></div>
   </form></div>
-  <div class="card table-card"><div class="table-wrap"><table><thead><tr><th>الحدث</th><th>التاريخ</th><th>اللعبة</th><th>السعة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead><tbody id="sportsRequestRows"></tbody></table></div></div>
-  <div class="card table-card"><h4>طلبات الطلبة</h4><div class="table-wrap"><table><thead><tr><th>الحدث</th><th>الاسم</th><th>الرقم الجامعي</th><th>الإيميل</th><th>العمر</th><th>الجنس</th><th>الجوال</th><th>القرار</th></tr></thead><tbody id="sportsApplicantRows"></tbody></table></div></div>
+  <div class="card table-card records-table-card">
+    <h4>طلبات تنفيذ البطولات والأحداث</h4>
+    <div class="records-toolbar">
+      <div class="records-search">
+        <span data-icon="search" aria-hidden="true"></span>
+        <input id="sportsRequestSearch" type="search" placeholder="ابحث باسم الحدث أو التاريخ أو اللعبة" autocomplete="off">
+      </div>
+      <select id="sportsRequestStatus" class="records-filter" aria-label="فلترة السجلات">
+        <option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
+      </select>
+    </div>
+    <div class="table-wrap"><table><thead><tr><th>الحدث</th><th>التاريخ</th><th>اللعبة</th><th>السعة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead><tbody id="sportsRequestRows"></tbody></table></div>
+  </div>
+  <div class="card table-card records-table-card">
+    <h4>طلبات الطلبة</h4>
+    <div class="records-toolbar">
+      <div class="records-search">
+        <span data-icon="search" aria-hidden="true"></span>
+        <input id="sportsApplicantSearch" type="search" placeholder="ابحث باسم الحدث أو الطالب أو الرقم الجامعي أو الإيميل" autocomplete="off">
+      </div>
+      <select id="sportsApplicantStatus" class="records-filter" aria-label="فلترة السجلات">
+        <option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
+      </select>
+    </div>
+    <div class="table-wrap"><table><thead><tr><th>الحدث</th><th>الاسم</th><th>الرقم الجامعي</th><th>الإيميل</th><th>العمر</th><th>الجنس</th><th>الجوال</th><th>القرار</th></tr></thead><tbody id="sportsApplicantRows"></tbody></table></div>
+  </div>
 </section><section id="page-clubs" class="page">
   <div class="section-title"><div><h3>الأندية الطلابية</h3><p>تأسيس نادٍ جديد أو تقديم مبادرة/فعالية تابعة لنادٍ.</p></div></div>
 
@@ -551,9 +587,45 @@
       <button id="submitClubEventRequest" class="btn primary club-form-submit" type="button">إرسال طلب الفعالية</button>
     </form></div>
   </div>
-  <div class="card table-card"><h4>طلبات الأندية</h4><div class="table-wrap"><table><thead><tr><th>النادي</th><th>المشرف</th><th>المسؤول</th><th>الأعضاء</th><th>الفئة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead><tbody id="clubRequestRows"></tbody></table></div></div>
-  <div class="card table-card"><h4>طلبات المبادرات والفعاليات</h4><div class="table-wrap"><table><thead><tr><th>الحدث</th><th>النادي</th><th>التاريخ</th><th>المكان</th><th>السعة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead><tbody id="clubEventRequestRows"></tbody></table></div></div>
-  <div class="card table-card"><h4>طلبات الطلبة</h4><div class="table-wrap"><table><thead><tr><th>الحدث</th><th>الاسم</th><th>الرقم الجامعي</th><th>الإيميل</th><th>العمر</th><th>الجنس</th><th>الجوال</th><th>القرار</th></tr></thead><tbody id="clubApplicantRows"></tbody></table></div></div>
+  <div class="card table-card records-table-card">
+    <h4>طلبات الأندية</h4>
+    <div class="records-toolbar">
+      <div class="records-search">
+        <span data-icon="search" aria-hidden="true"></span>
+        <input id="clubRequestSearch" type="search" placeholder="ابحث باسم النادي أو المشرف أو المسؤول" autocomplete="off">
+      </div>
+      <select id="clubRequestStatus" class="records-filter" aria-label="فلترة السجلات">
+        <option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
+      </select>
+    </div>
+    <div class="table-wrap"><table><thead><tr><th>النادي</th><th>المشرف</th><th>المسؤول</th><th>الأعضاء</th><th>الفئة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead><tbody id="clubRequestRows"></tbody></table></div>
+  </div>
+  <div class="card table-card records-table-card">
+    <h4>طلبات المبادرات والفعاليات</h4>
+    <div class="records-toolbar">
+      <div class="records-search">
+        <span data-icon="search" aria-hidden="true"></span>
+        <input id="clubEventSearch" type="search" placeholder="ابحث باسم الحدث أو النادي أو التاريخ أو المكان" autocomplete="off">
+      </div>
+      <select id="clubEventStatus" class="records-filter" aria-label="فلترة السجلات">
+        <option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
+      </select>
+    </div>
+    <div class="table-wrap"><table><thead><tr><th>الحدث</th><th>النادي</th><th>التاريخ</th><th>المكان</th><th>السعة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead><tbody id="clubEventRequestRows"></tbody></table></div>
+  </div>
+  <div class="card table-card records-table-card">
+    <h4>طلبات الطلبة</h4>
+    <div class="records-toolbar">
+      <div class="records-search">
+        <span data-icon="search" aria-hidden="true"></span>
+        <input id="clubApplicantSearch" type="search" placeholder="ابحث باسم الحدث أو النادي أو الطالب أو الرقم الجامعي" autocomplete="off">
+      </div>
+      <select id="clubApplicantStatus" class="records-filter" aria-label="فلترة السجلات">
+        <option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
+      </select>
+    </div>
+    <div class="table-wrap"><table><thead><tr><th>الحدث</th><th>الاسم</th><th>الرقم الجامعي</th><th>الإيميل</th><th>العمر</th><th>الجنس</th><th>الجوال</th><th>القرار</th></tr></thead><tbody id="clubApplicantRows"></tbody></table></div>
+  </div>
 </section><section id="page-approvals" class="page">
   <div class="section-title approvals-page-heading">
     <div>
@@ -735,7 +807,28 @@
       </table>
     </div>
   </div>
-  <div class="card table-card"><div class="table-wrap"><table><thead><tr><th>نوع الطلب</th><th>العنوان</th><th>مقدم الطلب</th><th>التاريخ</th><th>الفئة/السعة</th><th>الحالة</th><th>الإجراء</th></tr></thead><tbody id="approvalRequestRows"></tbody></table></div></div>
+  <div class="card table-card records-table-card approvals-records-card">
+    <h4>جميع الطلبات والقرارات</h4>
+    <div class="records-toolbar records-toolbar-wide">
+      <div class="records-search">
+        <span data-icon="search" aria-hidden="true"></span>
+        <input id="approvalTableSearch" type="search"
+               placeholder="ابحث باسم النشاط أو النادي أو مقدم الطلب أو التاريخ"
+               autocomplete="off">
+      </div>
+      <select id="approvalTableStatus" class="records-filter" aria-label="فلترة حسب الحالة">
+        <option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
+      </select>
+      <select id="approvalTableType" class="records-filter" aria-label="فلترة حسب نوع الطلب">
+        <option value="all">كل أنواع الطلبات</option>
+        <option value="بطولة/حدث رياضي">بطولة/حدث رياضي</option>
+        <option value="تسجيل نادي جديد">تسجيل نادي جديد</option>
+        <option value="مبادرة/فعالية نادي">مبادرة/فعالية نادي</option>
+        <option value="فرصة تطوعية">فرصة تطوعية</option>
+      </select>
+    </div>
+    <div class="table-wrap"><table><thead><tr><th>نوع الطلب</th><th>العنوان</th><th>مقدم الطلب</th><th>التاريخ</th><th>الفئة/السعة</th><th>الحالة</th><th>الإجراء</th></tr></thead><tbody id="approvalRequestRows"></tbody></table></div>
+  </div>
 </section><section id="page-calendar" class="page">
       <div class="section-title"><div><h3>التقويم الموحد</h3><p>تقويم واحد مع فلاتر: أكاديمي، مناسبات رسمية، إسلامية، أنشطة، رياضة، تطوع.</p></div><label class="btn outline filebtn">استيراد Calendar<input id="importCalendar" type="file" accept=".xlsx,.xls,.pdf,.ics" hidden></label></div>
       <div id="calFilters" class="filterbar large"><button class="active" data-filter="all">الكل</button><button data-filter="academic">أكاديمي</button><button data-filter="national">مناسبات رسمية</button><button data-filter="islamic">إسلامية</button><button data-filter="activities">أنشطة طلابية</button><button data-filter="sports">رياضية</button><button data-filter="volunteer">تطوع</button></div>
@@ -1103,6 +1196,6 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=24.3"></script>
+<script src="js/app.js?v=24.4"></script>
 </body>
 </html>

@@ -3261,12 +3261,62 @@ function renderCategory(c){
  document.getElementById('categoryGenderDonut')?.style.setProperty('--p',p);
  const b=document.getElementById('categoryActivityRows');if(b)b.innerHTML=rows.length?rows.map(r=>`<tr><td>${r.activity||'—'}</td><td>${r.date||'—'}</td><td>${r.days??'—'}</td><td>${r.beneficiaries??0}</td><td>${r.gender||'—'}</td><td>${/^https?:/.test(r.documentationUrl||'')?`<a href="${r.documentationUrl}" target="_blank">فتح</a>`:'غير متوفر'}</td></tr>`).join(''):'<tr><td colspan="6">لا توجد أنشطة.</td></tr>';
 }
+
+function tableFilterValue(id,fallback=''){
+ const element=document.getElementById(id);
+ return element ? String(element.value||fallback) : fallback;
+}
+
+function rowMatchesSearch(row,query){
+ return !query || match(row,query);
+}
+
+function rowMatchesStatus(row,status){
+ return status==='all' || String(row.status||'تحت المراجعة')===status;
+}
+
+function filteredStoredRows(key,searchId,statusId){
+ const query=tableFilterValue(searchId,'').trim();
+ const status=tableFilterValue(statusId,'all');
+ return R(key).filter(row=>rowMatchesStatus(row,status)&&rowMatchesSearch(row,query));
+}
+
 function tables(){
- const put=(i,a,f)=>{const b=document.getElementById(i);if(b)b.innerHTML=a.length?a.map(f).join(''):'<tr><td colspan="9">لا توجد بيانات.</td></tr>'};
- put('sportsRequestRows',R(K.sports),r=>`<tr><td>${r.name}</td><td>${r.date}</td><td>${r.game}</td><td>${r.capacity}</td><td>${badge(r.status)}</td><td>${r.reason||'—'}</td></tr>`);
- put('clubRequestRows',R(K.clubs),r=>`<tr><td>${r.name}</td><td>${r.supervisor}</td><td>${r.manager}</td><td>${r.members.length}</td><td>${r.gender}</td><td>${badge(r.status)}</td><td>${r.reason||'—'}</td></tr>`);
- put('clubEventRequestRows',R(K.clubEvents),r=>`<tr><td>${r.name}</td><td>${r.club}</td><td>${r.date}</td><td>${r.location}</td><td>${r.capacity}</td><td>${badge(r.status)}</td><td>${r.reason||'—'}</td></tr>`);
- put('volunteerRequestRows',R(K.vol),r=>`<tr><td>${r.name}</td><td>${r.date}</td><td>${r.capacity}</td><td>${r.owner}</td><td>${badge(r.status)}</td><td>${r.reason||'—'}</td></tr>`);
+ const put=(id,rows,renderer,colspan)=>{
+   const body=document.getElementById(id);
+   if(!body)return;
+   body.innerHTML=rows.length
+     ? rows.map(renderer).join('')
+     : `<tr><td colspan="${colspan}" class="empty-filtered-row">لا توجد نتائج مطابقة.</td></tr>`;
+ };
+
+ put(
+   'sportsRequestRows',
+   filteredStoredRows(K.sports,'sportsRequestSearch','sportsRequestStatus'),
+   row=>`<tr><td>${row.name}</td><td>${row.date}</td><td>${row.game}</td><td>${row.capacity}</td><td>${badge(row.status)}</td><td>${row.reason||'—'}</td></tr>`,
+   6
+ );
+
+ put(
+   'clubRequestRows',
+   filteredStoredRows(K.clubs,'clubRequestSearch','clubRequestStatus'),
+   row=>`<tr><td>${row.name}</td><td>${row.supervisor}</td><td>${row.manager}</td><td>${row.members?.length||0}</td><td>${row.gender}</td><td>${badge(row.status)}</td><td>${row.reason||'—'}</td></tr>`,
+   7
+ );
+
+ put(
+   'clubEventRequestRows',
+   filteredStoredRows(K.clubEvents,'clubEventSearch','clubEventStatus'),
+   row=>`<tr><td>${row.name}</td><td>${row.club}</td><td>${row.date}</td><td>${row.location}</td><td>${row.capacity}</td><td>${badge(row.status)}</td><td>${row.reason||'—'}</td></tr>`,
+   7
+ );
+
+ put(
+   'volunteerRequestRows',
+   filteredStoredRows(K.vol,'volunteerTableSearch','volunteerTableStatus'),
+   row=>`<tr><td>${row.name}</td><td>${row.date}</td><td>${row.capacity}</td><td>${row.owner}</td><td>${badge(row.status)}</td><td>${row.reason||'—'}</td></tr>`,
+   6
+ );
 }
 function student(){
  const a=R(K.apps),used=new Set(a.map(x=>x.requestId)),ops=allReq().filter(r=>r.status==='مقبول'&&r.kind!=='تسجيل نادي جديد'&&!used.has(r.id));
@@ -3418,13 +3468,26 @@ function applicants(){
    </div>`;
  };
 
- const draw=(tbodyId,kind)=>{
+ const draw=(tbodyId,kind,searchId,statusId)=>{
    const tbody=document.getElementById(tbodyId);
    if(!tbody)return;
 
-   const rows=applications.filter(application=>
-     requests.find(request=>request.id===application.requestId)?.kind===kind
-   );
+   const query=tableFilterValue(searchId,'').trim();
+   const status=tableFilterValue(statusId,'all');
+
+   const rows=applications.filter(application=>{
+     const request=requests.find(item=>item.id===application.requestId);
+     if(request?.kind!==kind)return false;
+     if(status!=='all'&&String(application.status||'تحت المراجعة')!==status)return false;
+
+     return rowMatchesSearch({
+       ...application,
+       eventName:application.eventName,
+       club:request?.club||request?.name||'',
+       eventDate:request?.date||'',
+       requestType:request?.kind||''
+     },query);
+   });
 
    tbody.innerHTML=rows.length
      ? rows.map(application=>`<tr class="student-application-row ${
@@ -3445,8 +3508,8 @@ function applicants(){
      : '<tr><td colspan="8">لا توجد طلبات.</td></tr>';
  };
 
- draw('sportsApplicantRows','بطولة/حدث رياضي');
- draw('clubApplicantRows','مبادرة/فعالية نادي');
+ draw('sportsApplicantRows','بطولة/حدث رياضي','sportsApplicantSearch','sportsApplicantStatus');
+ draw('clubApplicantRows','مبادرة/فعالية نادي','clubApplicantSearch','clubApplicantStatus');
 
  document.querySelectorAll('.approve-app').forEach(button=>{
    button.onclick=()=>{
@@ -3527,7 +3590,21 @@ function applicants(){
 }
 
 function approvals(){
- const a=allReq(),b=document.getElementById('approvalRequestRows');
+ const query=tableFilterValue('approvalTableSearch','').trim();
+ const status=tableFilterValue('approvalTableStatus','all');
+ const type=tableFilterValue('approvalTableType','all');
+ const all=allReq();
+ const a=all.filter(request=>{
+   if(status!=='all'&&String(request.status||'تحت المراجعة')!==status)return false;
+   if(type!=='all'&&request.kind!==type)return false;
+   return rowMatchesSearch({
+     ...request,
+     activityName:request.name||'',
+     clubName:request.club||request.name||'',
+     requester:request.submittedBy||''
+   },query);
+ });
+ const b=document.getElementById('approvalRequestRows');
  if(b)b.innerHTML=a.length?a.map(r=>{
    const isPending=r.status==='تحت المراجعة';
    const decisionClass=r.status==='مقبول'?'decision-approved':'decision-rejected';
@@ -3656,13 +3733,13 @@ function approvals(){
    W(button.dataset.store,rows);
    renderAll();
  });
- const ac=a.filter(x=>x.status==='مقبول').length;
- const re=a.filter(x=>x.status==='مرفوض').length;
- const pe=a.length-ac-re;
- const p=a.length?Math.round(ac/a.length*100):0;
- const beneficiaryTotals=approvalBeneficiaryTotals(a);
+ const ac=all.filter(x=>x.status==='مقبول').length;
+ const re=all.filter(x=>x.status==='مرفوض').length;
+ const pe=all.length-ac-re;
+ const p=all.length?Math.round(ac/all.length*100):0;
+ const beneficiaryTotals=approvalBeneficiaryTotals(all);
 
- const approvedActivities=a.filter(item=>
+ const approvedActivities=all.filter(item=>
    item.status==='مقبول'&&item.kind!=='تسجيل نادي جديد'
  );
  const maleActivities=approvedActivities.filter(item=>item.gender==='طلاب').length;
@@ -3674,7 +3751,7 @@ function approvals(){
  const femaleRatio=genderTotal?Math.round(femaleActivityTotal/genderTotal*100):0;
 
  [
-   ['approvalTotal',a.length],
+   ['approvalTotal',all.length],
    ['approvalAccepted',ac],
    ['approvalRejected',re],
    ['approvalPending',pe],
@@ -3685,7 +3762,7 @@ function approvals(){
    ['approvalChartAccepted',ac],
    ['approvalChartRejected',re],
    ['approvalChartPending',pe],
-   ['approvalDecisionTotal',a.length],
+   ['approvalDecisionTotal',all.length],
    ['approvalFemaleRatioText',femaleRatio+'%'],
    ['approvalMaleActivityCount',maleActivityTotal],
    ['approvalFemaleActivityCount',femaleActivityTotal],
@@ -3697,8 +3774,8 @@ function approvals(){
 
  const decisionDonut=document.getElementById('approvalDecisionDonut');
  if(decisionDonut){
-   const approvedDeg=a.length?ac/a.length*360:0;
-   const rejectedDeg=a.length?re/a.length*360:0;
+   const approvedDeg=all.length?ac/all.length*360:0;
+   const rejectedDeg=all.length?re/all.length*360:0;
    decisionDonut.style.setProperty('--approved',`${approvedDeg}deg`);
    decisionDonut.style.setProperty('--rejected',`${rejectedDeg}deg`);
  }
@@ -4828,5 +4905,33 @@ window.addEventListener('DOMContentLoaded',()=>{
     input.closest('.applicant-rejection-editor')
       ?.querySelector('.confirm-reject-app')
       ?.click();
+  });
+});
+
+
+/* SAH V24.4 — unified search and filters for workflow tables */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 24.4 loaded');
+  document.documentElement.dataset.sahBuild='24.4';
+
+  const tableControls=[
+    'approvalTableSearch','approvalTableStatus','approvalTableType',
+    'clubRequestSearch','clubRequestStatus',
+    'clubEventSearch','clubEventStatus',
+    'clubApplicantSearch','clubApplicantStatus',
+    'volunteerTableSearch','volunteerTableStatus',
+    'sportsRequestSearch','sportsRequestStatus',
+    'sportsApplicantSearch','sportsApplicantStatus'
+  ];
+
+  tableControls.forEach(id=>{
+    const control=document.getElementById(id);
+    if(!control)return;
+
+    control.addEventListener(control.tagName==='INPUT'?'input':'change',()=>{
+      tables();
+      applicants();
+      approvals();
+    });
   });
 });

@@ -6369,3 +6369,135 @@ body.theme-dark #page-clubs .cancel-app-rejection-editor{
     grid-template-columns:1fr 1fr;
   }
 }
+
+
+/* ==========================================================
+   SAH V24.4 — search and filter toolbars for workflow tables
+   ========================================================== */
+
+.records-table-card{
+  margin-top:20px!important;
+  overflow:hidden!important;
+}
+
+.records-table-card + .records-table-card{
+  margin-top:22px!important;
+}
+
+.records-table-card>h4{
+  margin:0!important;
+  padding:18px 20px 8px!important;
+  color:var(--blue)!important;
+  font-size:18px!important;
+}
+
+.records-toolbar{
+  display:grid;
+  grid-template-columns:minmax(240px,1fr) minmax(150px,210px);
+  align-items:center;
+  gap:10px;
+  padding:10px 18px 16px;
+  border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg,#fff,#fbfdff);
+}
+
+.records-toolbar-wide{
+  grid-template-columns:minmax(280px,1fr) minmax(150px,190px) minmax(190px,250px);
+}
+
+.records-search{
+  position:relative;
+  min-width:0;
+}
+
+.records-search>[data-icon]{
+  position:absolute;
+  inset-inline-start:13px;
+  top:50%;
+  transform:translateY(-50%);
+  width:20px;
+  height:20px;
+  color:#7890ae;
+  pointer-events:none;
+}
+
+.records-search input,
+.records-filter{
+  width:100%;
+  min-height:44px;
+  border:1px solid #cedbec;
+  border-radius:13px;
+  background:#fff;
+  color:var(--blue);
+  outline:none;
+  transition:border-color .18s ease,box-shadow .18s ease,background .18s ease;
+}
+
+.records-search input{
+  padding:10px 42px 10px 13px;
+}
+
+.records-filter{
+  padding:9px 12px;
+  cursor:pointer;
+}
+
+.records-search input::placeholder{
+  color:#8796aa;
+}
+
+.records-search input:focus,
+.records-filter:focus{
+  border-color:#1d67c1;
+  box-shadow:0 0 0 3px rgba(29,103,193,.1);
+}
+
+.empty-filtered-row{
+  padding:28px!important;
+  color:var(--muted)!important;
+  text-align:center!important;
+  font-weight:700;
+}
+
+body.theme-dark .records-toolbar{
+  background:rgba(255,255,255,.025);
+}
+
+body.theme-dark .records-search input,
+body.theme-dark .records-filter{
+  background:rgba(255,255,255,.06);
+  border-color:var(--border);
+  color:#fff;
+}
+
+body.theme-dark .records-search input::placeholder{
+  color:#9fb0c7;
+}
+
+@media(max-width:850px){
+  .records-toolbar,
+  .records-toolbar-wide{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .records-search{
+    grid-column:1/-1;
+  }
+}
+
+@media(max-width:520px){
+  .records-toolbar,
+  .records-toolbar-wide{
+    grid-template-columns:1fr;
+    padding:10px 12px 14px;
+  }
+
+  .records-search{
+    grid-column:auto;
+  }
+
+  .records-table-card>h4{
+    padding:15px 14px 7px!important;
+    font-size:16px!important;
+  }
+}
