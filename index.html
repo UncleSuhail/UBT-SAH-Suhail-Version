@@ -459,13 +459,44 @@
         <div class="card stat burg"><div class="label">شواهد ناقصة</div><div class="value" id="evidenceMissing">0</div><div class="sub">لا تحتوي على الملفات المطلوبة</div></div>
       </div>
 
-      <div class="evidence-tools">
-        <a class="btn outline" href="assets/data/activity-evidence-template.xlsx" download>تحميل نموذج Excel</a>
-        <label class="btn outline filebtn">استيراد شواهد<input id="importEvidence" type="file" accept=".xlsx,.xls,.csv" hidden></label>
-        <button class="btn primary" id="printEvidenceReport" type="button">توليد تقرير الشواهد</button>
-        <button class="btn outline" id="exportEvidenceCsv" type="button">تصدير Excel / CSV</button>
-        <button class="btn primary" id="openAddActivity" type="button">إضافة نشاط</button>
-        <button class="btn outline indicator-only hidden" id="openFieldPointsCalculator" type="button">تعديل حاسبة النقاط للمجالات</button>
+      
+      <div class="evidence-actionbar">
+        <div class="evidence-actionbar-main">
+          <button class="btn primary add-activity-btn" id="openAddActivity" type="button">
+            <span class="action-icon">＋</span>
+            إضافة نشاط
+          </button>
+
+          <button class="btn outline indicator-only hidden" id="openFieldPointsCalculator" type="button">
+            تعديل حاسبة النقاط للمجالات
+          </button>
+        </div>
+
+        <div class="evidence-actionbar-downloads">
+          <button class="download-tile" id="exportEvidenceCsv" type="button" title="تصدير Excel / CSV">
+            <span class="download-symbol">⇩</span>
+            <small>Excel</small>
+          </button>
+
+          <button class="download-tile" id="printEvidenceReport" type="button" title="توليد تقرير PDF">
+            <span class="download-symbol">⇩</span>
+            <small>PDF</small>
+          </button>
+
+          <a class="download-tile model-link"
+             href="https://ubtu-my.sharepoint.com/:w:/g/personal/s_kaaki_ubt_edu_sa/IQCy868fWsMaRq9HcTRHg1siAWJJr_W0osUtAq6YlZc7510?e=ScANX2"
+             target="_blank" rel="noopener" title="نموذج التقرير">
+            <span class="model-symbol">W</span>
+            <small>نموذج التقرير</small>
+          </a>
+
+          <a class="download-tile model-link"
+             href="assets/data/activity-evidence-template.xlsx"
+             download title="نموذج الجدول الزمني">
+            <span class="model-symbol">X</span>
+            <small>نموذج الجدول الزمني</small>
+          </a>
+        </div>
       </div>
 
       <div class="card table-card evidence-card">
@@ -501,6 +532,7 @@
                 <th>الحالة</th>
                 <th>تقرير الاتحاد</th>
                 <th>الجدول الزمني</th>
+                <th>التوثيق</th>
               </tr>
             </thead>
             <tbody id="evidenceRows"></tbody>
@@ -553,6 +585,7 @@
     <form id="indicatorSettingsForm" class="indicator-settings-form"></form>
 
     <div class="modal-actions indicator-settings-actions">
+      <button id="restorePreviousIndicatorLimits" class="btn outline" type="button">استعادة الإعدادات السابقة</button>
       <button id="indicatorResetLimits" class="btn outline" type="button">استعادة القيم الأصلية</button>
       <button class="btn outline" type="button" data-close-indicator-settings>إلغاء</button>
       <button id="indicatorSaveLimits" class="btn primary" type="button">حفظ وتحديث المؤشر</button>
@@ -582,6 +615,7 @@
       <label><span>نوع المشاركة</span><select id="activityParticipationType"><option value="guest">ضيف</option><option value="host">مستضيف</option></select></label>
       <label><span>عدد الجامعات المشاركة</span><input id="activityUniversities" type="number" min="0" value="0"></label>
       <label><span>نوع اللعبة / النشاط</span><input id="activityGameType"></label>
+      <label><span>رابط التوثيق</span><input id="activityDocumentationUrl" type="url" placeholder="https://..."></label>
       <label class="file-field"><span>تقرير الاتحاد</span><input id="activityFederationReport" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"></label>
       <label class="file-field"><span>الجدول الزمني</span><input id="activityScheduleFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"></label>
       <div class="activity-points-preview">
@@ -622,6 +656,7 @@
     </div>
 
     <div class="modal-actions">
+      <button class="btn outline" id="restorePreviousFieldPointsCalculator" type="button">استعادة الإعدادات السابقة</button>
       <button class="btn outline" id="resetFieldPointsCalculator" type="button">استعادة الإعدادات الافتراضية</button>
       <button class="btn outline" type="button" data-close-field-calculator>إلغاء</button>
       <button class="btn primary" id="saveFieldPointsCalculator" type="button">حفظ الحاسبة</button>

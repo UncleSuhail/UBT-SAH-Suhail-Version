@@ -260,7 +260,7 @@ function initEvidence(){
  $('#exportEvidenceCsv')?.addEventListener('click',exportEvidenceCsv);
  $('#printEvidenceReport')?.addEventListener('click',printEvidenceReport);
  $('#scrollEvidence')?.addEventListener('click',()=>$('#evidenceCenter')?.scrollIntoView({behavior:'smooth'}));
- $('#importEvidence')?.addEventListener('change',()=>showToast('تم استلام ملف الشواهد للمراجعة. الربط الدائم بقاعدة البيانات يتم في النسخة الفعلية.'));
+ 
 }
 
 function renderAudit(){ const tbody=$('#auditRows'); if(!tbody) return; const q=$('#auditSearch')?.value||''; tbody.innerHTML=''; (SAH_DATA.audit||[]).filter(a=>match(a,q)).forEach(a=>tbody.insertAdjacentHTML('beforeend',`<tr><td>${a.time}</td><td>${a.user}</td><td>${a.module}</td><td>${a.action}</td></tr>`)); }
@@ -504,7 +504,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   }
 
   function canEditIndicatorLimits(){
-    return ['system','indicator'].includes(currentIndicatorRole());
+    return currentIndicatorRole() === 'indicator';
   }
 
   function refreshIndicatorPermissionButton(){
@@ -588,10 +588,37 @@ window.addEventListener('DOMContentLoaded',initPreferences);
       if(SAH_DATA.indicatorFields[index]) SAH_DATA.indicatorFields[index].max = value;
     });
 
+    const existingLimits = localStorage.getItem(LIMITS_KEY);
+    if(existingLimits) localStorage.setItem(INDICATOR_LIMITS_PREVIOUS_KEY, existingLimits);
     localStorage.setItem(LIMITS_KEY,JSON.stringify(values));
     if(typeof calcIndicators === 'function') calcIndicators();
     closeIndicatorSettings();
     if(typeof showToast === 'function') showToast('تم حفظ الحدود العليا وتحديث المؤشر.');
+  }
+
+  
+  function restorePreviousIndicatorLimits(){
+    const previous = localStorage.getItem(INDICATOR_LIMITS_PREVIOUS_KEY);
+    if(!previous){
+      if(typeof showToast === 'function') showToast('لا توجد إعدادات سابقة محفوظة.');
+      return;
+    }
+    try{
+      const values = JSON.parse(previous);
+      if(!Array.isArray(values) || values.length !== SAH_DATA.indicatorFields.length){
+        throw new Error('Invalid previous limits');
+      }
+      values.forEach((value,index)=>{
+        if(SAH_DATA.indicatorFields[index]) SAH_DATA.indicatorFields[index].max = Number(value)||0;
+      });
+      localStorage.setItem(LIMITS_KEY, previous);
+      renderIndicatorLimitFields();
+      if(typeof calcIndicators === 'function') calcIndicators();
+      if(typeof showToast === 'function') showToast('تمت استعادة الإعدادات السابقة.');
+    }catch(error){
+      console.warn(error);
+      if(typeof showToast === 'function') showToast('تعذر استعادة الإعدادات السابقة.');
+    }
   }
 
   function resetIndicatorLimits(){
@@ -623,6 +650,9 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     document.getElementById('indicatorSaveLimits')
       ?.addEventListener('click',saveIndicatorLimits);
 
+    document.getElementById('restorePreviousIndicatorLimits')
+      ?.addEventListener('click',restorePreviousIndicatorLimits);
+
     document.getElementById('indicatorResetLimits')
       ?.addEventListener('click',resetIndicatorLimits);
 
@@ -649,6 +679,8 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   const ROLE_KEY = 'sah-active-role-v2';
   const ACTIVITIES_KEY = 'sah-added-sports-activities-v1';
   const FIELD_CALCULATOR_KEY = 'sah-field-points-calculator-v1';
+  const FIELD_CALCULATOR_PREVIOUS_KEY = 'sah-field-points-calculator-previous-v1';
+  const INDICATOR_LIMITS_PREVIOUS_KEY = 'sah-indicator-max-limits-previous-v1';
   const SESSION_FILES = new Map();
 
   const ROLE_META = {
@@ -848,6 +880,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
       participationType:document.getElementById('activityParticipationType')?.value||'guest',
       universities:Number(document.getElementById('activityUniversities')?.value||0),
       gameType:document.getElementById('activityGameType')?.value||'—',
+      documentationUrl:document.getElementById('activityDocumentationUrl')?.value.trim()||'',
       activityType:'رياضي',
       subCategory:fieldName,
       federationReportName:reportFile?.name||'',
@@ -880,7 +913,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     const isReport = type==='report';
     const name = isReport
       ? (row.federationReportName || row.newsDocumentation || '')
-      : (row.scheduleFileName || row.publishLink || '');
+      : (row.scheduleFileName || '');
     const sessionUrl = row.localActivityId
       ? SESSION_FILES.get(`${row.localActivityId}:${type}`)
       : '';
@@ -911,7 +944,8 @@ window.addEventListener('DOMContentLoaded',initPreferences);
         <td>${fmt(r.points||0)}</td>
         <td><span class="pill evidence-status ${evidenceStatusClass(r.status)}">${r.status||'ناقص'}</span></td>
         <td>${fileCell(r,'report')}</td>
-        <td>${fileCell(r,'schedule')}</td>`;
+        <td>${fileCell(r,'schedule')}</td>
+        <td>${r.documentationUrl || r.publishLink || r.newsLink ? `<a class="file-link" href="${r.documentationUrl || r.publishLink || r.newsLink}" target="_blank" rel="noopener">فتح التوثيق</a>` : '<span class="file-name missing">غير متوفر</span>'}</td>`;
       tbody.appendChild(tr);
     });
     relocalizeSoon();
@@ -965,6 +999,8 @@ window.addEventListener('DOMContentLoaded',initPreferences);
         host:Number(document.querySelector(`.field-host-points[data-index="${index}"]`)?.value||0)
       };
     });
+    const existingCalculator = localStorage.getItem(FIELD_CALCULATOR_KEY);
+    if(existingCalculator) localStorage.setItem(FIELD_CALCULATOR_PREVIOUS_KEY, existingCalculator);
     localStorage.setItem(FIELD_CALCULATOR_KEY,JSON.stringify(calculator));
     closeFieldCalculator();
     updateActivityPreview();
@@ -975,6 +1011,20 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     localStorage.removeItem(FIELD_CALCULATOR_KEY);
     renderFieldCalculator();
     showToast('تمت استعادة إعدادات الحاسبة الافتراضية.');
+  }
+
+  function restorePreviousFieldCalculator(){
+    const previous = localStorage.getItem(FIELD_CALCULATOR_PREVIOUS_KEY);
+    if(!previous){
+      showToast('لا توجد إعدادات سابقة محفوظة.');
+      return;
+    }
+    const current = localStorage.getItem(FIELD_CALCULATOR_KEY);
+    if(current) localStorage.setItem(FIELD_CALCULATOR_PREVIOUS_KEY + '-swap', current);
+    localStorage.setItem(FIELD_CALCULATOR_KEY, previous);
+    renderFieldCalculator();
+    updateActivityPreview();
+    showToast('تمت استعادة الإعدادات السابقة.');
   }
 
   function initV11(){
@@ -998,6 +1048,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     document.getElementById('openFieldPointsCalculator')?.addEventListener('click',openFieldCalculator);
     document.querySelectorAll('[data-close-field-calculator]').forEach(el=>el.addEventListener('click',closeFieldCalculator));
     document.getElementById('saveFieldPointsCalculator')?.addEventListener('click',saveFieldCalculator);
+    document.getElementById('restorePreviousFieldPointsCalculator')?.addEventListener('click',restorePreviousFieldCalculator);
     document.getElementById('resetFieldPointsCalculator')?.addEventListener('click',resetFieldCalculator);
   }
 
