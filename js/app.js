@@ -2227,3 +2227,80 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   window.addEventListener('resize',syncFixedStack,{passive:true});
   window.addEventListener('orientationchange',()=>setTimeout(syncFixedStack,150),{passive:true});
 })();
+
+/* ==========================================================
+   SAH V20.8 — measure fixed rows and reserve exact page space
+   ========================================================== */
+(function(){
+  'use strict';
+
+  let resizeObserver;
+
+  function measureFixedStack(){
+    const root=document.documentElement;
+    const header=document.querySelector('.topbar');
+    const role=document.querySelector('.mobile-user-strip');
+    if(!header) return;
+
+    const headerHeight=Math.ceil(header.getBoundingClientRect().height);
+    const isMobile=window.matchMedia('(max-width:1100px)').matches;
+
+    if(isMobile && role){
+      /*
+        Position the permissions row immediately after the true header
+        height, then reserve the sum in normal page flow.
+      */
+      role.style.top=`${headerHeight}px`;
+
+      const roleHeight=Math.ceil(role.getBoundingClientRect().height);
+      const total=headerHeight+roleHeight;
+
+      root.style.setProperty('--sah-mobile-header-height',`${headerHeight}px`);
+      root.style.setProperty('--sah-mobile-role-height',`${roleHeight}px`);
+      root.style.setProperty('--sah-fixed-stack-height',`${total}px`);
+    }else{
+      root.style.setProperty('--sah-fixed-stack-height',`${headerHeight}px`);
+    }
+  }
+
+  function installObserver(){
+    if(!('ResizeObserver' in window)) return;
+
+    resizeObserver?.disconnect();
+    resizeObserver=new ResizeObserver(()=>{
+      window.requestAnimationFrame(measureFixedStack);
+    });
+
+    const header=document.querySelector('.topbar');
+    const role=document.querySelector('.mobile-user-strip');
+    if(header) resizeObserver.observe(header);
+    if(role) resizeObserver.observe(role);
+  }
+
+  window.addEventListener('DOMContentLoaded',()=>{
+    console.info('SAH build 20.8 loaded');
+    document.documentElement.dataset.sahBuild='20.8';
+
+    installObserver();
+    measureFixedStack();
+    setTimeout(measureFixedStack,100);
+    setTimeout(measureFixedStack,400);
+
+    document.getElementById('activeRole')
+      ?.addEventListener('change',()=>setTimeout(measureFixedStack,0));
+
+    document.getElementById('mobileActiveRole')
+      ?.addEventListener('change',()=>setTimeout(measureFixedStack,0));
+  });
+
+  window.addEventListener('resize',measureFixedStack,{passive:true});
+  window.addEventListener(
+    'orientationchange',
+    ()=>setTimeout(measureFixedStack,180),
+    {passive:true}
+  );
+
+  if(document.fonts?.ready){
+    document.fonts.ready.then(measureFixedStack);
+  }
+})();

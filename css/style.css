@@ -3258,3 +3258,101 @@ body{
   }
 }
 
+/* ==========================================================
+   SAH V20.8 — measured fixed-stack spacer, zero page overlap
+   ========================================================== */
+
+.fixed-stack-spacer{
+  width:100%;
+  height:var(--sah-fixed-stack-height,92px);
+  flex:0 0 auto;
+  pointer-events:none;
+}
+
+/*
+  The spacer, rather than #app padding, reserves the exact physical
+  height occupied by the fixed header and mobile permissions row.
+*/
+#app{
+  padding-top:0!important;
+}
+
+@media(min-width:1101px){
+  .fixed-stack-spacer{
+    height:var(--sah-fixed-stack-height,92px)!important;
+  }
+
+  .layout{
+    margin-top:20px!important;
+  }
+}
+
+@media(max-width:1100px){
+
+  .topbar{
+    position:fixed!important;
+    top:0!important;
+    right:0!important;
+    left:0!important;
+  }
+
+  /*
+    Do not force a height smaller than the actual contents. Safari can
+    enlarge Arabic text/select controls, so let the row size naturally.
+  */
+  .mobile-user-strip{
+    position:fixed!important;
+    right:0!important;
+    left:0!important;
+    height:auto!important;
+    min-height:58px!important;
+    padding-block:8px!important;
+    box-sizing:border-box!important;
+  }
+
+  .fixed-stack-spacer{
+    height:var(--sah-fixed-stack-height,138px)!important;
+  }
+
+  .layout{
+    margin:0!important;
+    padding-top:12px!important;
+  }
+
+  .sidebar{
+    top:var(--sah-fixed-stack-height,138px)!important;
+    height:calc(100dvh - var(--sah-fixed-stack-height,138px))!important;
+    max-height:calc(100dvh - var(--sah-fixed-stack-height,138px))!important;
+  }
+
+  .mobile-user-identity{
+    min-height:42px!important;
+  }
+
+  .mobile-role-actions select{
+    min-height:40px!important;
+  }
+}
+
+@media(max-width:520px){
+  .mobile-user-strip{
+    min-height:58px!important;
+    padding-block:7px!important;
+  }
+
+  .fixed-stack-spacer{
+    height:var(--sah-fixed-stack-height,126px)!important;
+  }
+
+  .sidebar{
+    top:var(--sah-fixed-stack-height,126px)!important;
+    height:calc(100dvh - var(--sah-fixed-stack-height,126px))!important;
+    max-height:calc(100dvh - var(--sah-fixed-stack-height,126px))!important;
+  }
+
+  .mobile-role-actions select{
+    width:150px!important;
+    max-width:44vw!important;
+  }
+}
+
