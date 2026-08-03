@@ -2805,8 +2805,88 @@ function tables(){
 }
 function student(){
  const a=R(K.apps),used=new Set(a.map(x=>x.requestId)),ops=allReq().filter(r=>r.status==='مقبول'&&r.kind!=='تسجيل نادي جديد'&&!used.has(r.id));
- const c=document.getElementById('studentApprovedOpportunityCards');if(c)c.innerHTML=ops.length?ops.map(r=>`<div class="card student-event-card"><span class="pill">${r.kind}</span><h4>${r.name}</h4><p>${r.date||'—'}</p><button class="btn primary apply-event" data-id="${r.id}">قدم الآن</button></div>`).join(''):'<div class="card">لا توجد فعاليات متاحة.</div>';
- document.querySelectorAll('.apply-event').forEach(b=>b.onclick=()=>{const r=allReq().find(x=>x.id===b.dataset.id),x=R(K.apps);x.push({id:id('app'),requestId:r.id,eventName:r.name,kind:r.kind,appliedAt:td(),status:'تحت المراجعة',student:{name:'فلان الفلاني',studentId:'20260001',email:'student@ubt.edu.sa',age:21,gender:'ذكر',phone:'0500000000'}});W(K.apps,x);renderAll()});
+ const c=document.getElementById('studentApprovedOpportunityCards');
+ if(c)c.innerHTML=ops.length?ops.map(r=>{
+   const appliedCount=a.filter(item=>item.requestId===r.id).length;
+   const capacity=Math.max(0,Number(r.capacity)||Number(r.participants)||0);
+   const remaining=Math.max(0,capacity-appliedCount);
+   const location=r.location||r.game||'غير محدد';
+   const eventType=r.kind||r.type||'فعالية';
+   const isFull=capacity>0&&remaining<=0;
+
+   return `<div class="card student-event-card ${isFull?'event-is-full':''}">
+     <div class="student-event-card-head">
+       <span class="student-event-kind">${eventType}</span>
+       <span class="student-event-status">${isFull?'اكتملت المقاعد':'متاح للتقديم'}</span>
+     </div>
+
+     <div class="student-event-main">
+       <span class="student-event-label">اسم الحدث</span>
+       <h4>${r.name||'فعالية بدون اسم'}</h4>
+     </div>
+
+     <div class="student-event-details">
+       <div class="student-event-detail">
+         <span>نوع الحدث</span>
+         <strong>${eventType}</strong>
+       </div>
+       <div class="student-event-detail">
+         <span>مكان الحدث</span>
+         <strong>${location}</strong>
+       </div>
+       <div class="student-event-detail">
+         <span>تاريخ الحدث</span>
+         <strong>${r.date||'غير محدد'}</strong>
+       </div>
+     </div>
+
+     <div class="student-event-seats ${isFull?'is-full':''}">
+       <span>المقاعد المتبقية</span>
+       <strong>${capacity>0?remaining:'غير محدد'}</strong>
+       ${capacity>0?`<small>من أصل ${capacity} مقعدًا</small>`:'<small>لم يحدد الحد الأقصى بعد</small>'}
+     </div>
+
+     <button class="btn primary apply-event"
+             data-id="${r.id}" type="button"
+             ${isFull?'disabled aria-disabled="true"':''}>
+       ${isFull?'اكتملت المقاعد':'قدم الآن'}
+     </button>
+   </div>`;
+ }).join(''):'<div class="card empty-student-events">لا توجد فعاليات متاحة حاليًا.</div>';
+ document.querySelectorAll('.apply-event').forEach(b=>b.onclick=()=>{
+   if(b.disabled)return;
+   const r=allReq().find(x=>x.id===b.dataset.id);
+   if(!r)return;
+
+   const x=R(K.apps);
+   const capacity=Math.max(0,Number(r.capacity)||Number(r.participants)||0);
+   const used=x.filter(item=>item.requestId===r.id).length;
+
+   if(capacity>0&&used>=capacity){
+     window.showToast?.('اكتملت جميع المقاعد المتاحة لهذا الحدث.');
+     renderAll();
+     return;
+   }
+
+   x.push({
+     id:id('app'),
+     requestId:r.id,
+     eventName:r.name,
+     kind:r.kind,
+     appliedAt:td(),
+     status:'تحت المراجعة',
+     student:{
+       name:'فلان الفلاني',
+       studentId:'20260001',
+       email:'student@ubt.edu.sa',
+       age:21,
+       gender:'ذكر',
+       phone:'0500000000'
+     }
+   });
+   W(K.apps,x);
+   renderAll();
+ });
  const body=document.getElementById('studentApplicationRows');if(body)body.innerHTML=a.length?a.map(x=>`<tr><td>${x.eventName}</td><td>${x.kind}</td><td>${x.appliedAt}</td><td>${badge(x.status)}</td></tr>`).join(''):'<tr><td colspan="4">لا توجد طلبات.</td></tr>';
  document.getElementById('studentAppliedCount').textContent=a.length;document.getElementById('studentJoinedCount').textContent=a.filter(x=>x.status==='مقبول').length;
 }
@@ -2896,7 +2976,9 @@ function bind(id,fn){const o=document.getElementById(id);if(!o)return;const n=o.
 window.addEventListener('DOMContentLoaded',()=>{
  document.querySelectorAll('[data-event-category]').forEach((b,i)=>b.onclick=()=>{document.querySelectorAll('[data-event-category]').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderCategory(b.dataset.eventCategory);if(i===0||true){}});
  const first=document.querySelector('[data-event-category]');if(first){first.classList.add('active');renderCategory(first.dataset.eventCategory)}
- bind('submitSportsRequest',()=>{const d=document.getElementById('sportsReqDate').value;if(!later3(d))return alert('يجب أن يكون الحدث بعد 3 أيام على الأقل.');push(K.sports,{id:id('sp'),name:document.getElementById('sportsReqName').value,date:d,game:document.getElementById('sportsReqGame').value,participants:+document.getElementById('sportsReqParticipants').value,teams:+document.getElementById('sportsReqTeams').value,universities:+document.getElementById('sportsReqUniversities').value,capacity:+document.getElementById('sportsReqCapacity').value,gender:document.getElementById('sportsReqGender').value,status:'تحت المراجعة',submittedAt:td(),submittedBy:'مدير النادي الرياضي'})});
+ bind('submitSportsRequest',()=>{const d=document.getElementById('sportsReqDate').value;if(!later3(d))return alert('يجب أن يكون الحدث بعد 3 أيام على الأقل.');push(K.sports,{id:id('sp'),name:document.getElementById('sportsReqName').value,date:d,game:document.getElementById('sportsReqGame').value,
+        location:document.getElementById('sportsReqLocation')?.value.trim()||'غير محدد',
+        participants:+document.getElementById('sportsReqParticipants').value,teams:+document.getElementById('sportsReqTeams').value,universities:+document.getElementById('sportsReqUniversities').value,capacity:+document.getElementById('sportsReqCapacity').value,gender:document.getElementById('sportsReqGender').value,status:'تحت المراجعة',submittedAt:td(),submittedBy:'مدير النادي الرياضي'})});
  bind('submitClubRequest',()=>{const m=document.getElementById('clubMembers').value.split(/\n|,/).map(x=>x.trim()).filter(Boolean);if(m.length<10)return alert('يلزم 10 أعضاء على الأقل.');if(!document.getElementById('clubLogo').files[0])return alert('ارفع شعار النادي.');push(K.clubs,{id:id('cl'),name:document.getElementById('clubName').value,supervisor:document.getElementById('clubSupervisor').value,manager:document.getElementById('clubManager').value,members:m,goal:document.getElementById('clubGoal').value,gender:document.getElementById('clubGender').value,status:'تحت المراجعة',submittedAt:td(),submittedBy:'حساب طالب'})});
  bind('submitClubEventRequest',()=>{const d=document.getElementById('clubEventDate').value;if(!later3(d))return alert('يجب أن يكون الحدث بعد 3 أيام على الأقل.');push(K.clubEvents,{id:id('ce'),club:document.getElementById('clubEventClub').value,name:document.getElementById('clubEventName').value,date:d,location:document.getElementById('clubEventLocation').value,participants:document.getElementById('clubEventParticipants').value,supervisor:document.getElementById('clubEventSupervisor').value,gender:document.getElementById('clubEventGender').value,capacity:+document.getElementById('clubEventCapacity').value,status:'تحت المراجعة',submittedAt:td(),submittedBy:'مسؤول النادي'})});
  bind('submitVolunteerOpportunity',()=>push(K.vol,{id:id('vo'),type:document.getElementById('volunteerType').value,capacity:+document.getElementById('volunteerCapacity').value,name:document.getElementById('volunteerEventName').value,date:document.getElementById('volunteerEventDate').value,sponsor:document.getElementById('volunteerSponsor').value,owner:document.getElementById('volunteerOwner').value,location:document.getElementById('volunteerLocation').value,gender:'الاثنان معًا',status:'تحت المراجعة',submittedAt:td(),submittedBy:'مدير الأنشطة الطلابية'}));
@@ -3503,4 +3585,11 @@ window.addEventListener('DOMContentLoaded',()=>{
       input.classList.remove('invalid');
     }
   });
+});
+
+
+/* SAH V23.2 — detailed student opportunity cards */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 23.2 loaded');
+  document.documentElement.dataset.sahBuild='23.2';
 });

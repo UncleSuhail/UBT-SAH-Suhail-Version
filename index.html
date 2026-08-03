@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>SAH | منصة الأنشطة الطلابية</title>
-<link rel="stylesheet" href="css/style.css?v=23.1">
+<link rel="stylesheet" href="css/style.css?v=23.2">
 
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
@@ -71,7 +71,7 @@
 </style>
 
 </head>
-<body data-sah-version="23.1" class="login-mode">
+<body data-sah-version="23.2" class="login-mode">
 <section id="login" class="login-page">
   <div class="login-bg"></div>
   <div class="login-card">
@@ -503,6 +503,12 @@
     <label><span>اسم الحدث/البطولة</span><input id="sportsReqName"></label>
     <label><span>تاريخ الحدث</span><input id="sportsReqDate" type="date"></label>
     <label><span>نوع اللعبة</span><select id="sportsReqGame"><option>كرة القدم</option><option>كرة السلة</option><option>الكرة الطائرة</option><option>كرة اليد</option><option>التنس</option><option>تنس الطاولة</option><option>السباحة</option><option>ألعاب القوى</option><option>الكاراتيه</option><option>الجودو</option><option>البلياردو</option><option>الشطرنج</option><option>رياضة أخرى</option></select></label>
+    
+    <label>
+      <span>مكان الحدث</span>
+      <input id="sportsReqLocation" type="text"
+             placeholder="مثال: الصالة الرياضية الرئيسية" required>
+    </label>
     <label><span>عدد المشاركين</span><input id="sportsReqParticipants" type="number" min="1"></label>
     <label><span>عدد الفرق المشاركة</span><input id="sportsReqTeams" type="number" min="0" value="0"></label>
     <label><span>عدد الجامعات المشاركة</span><input id="sportsReqUniversities" type="number" min="0" value="0"></label>
@@ -906,6 +912,6 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=23.1"></script>
+<script src="js/app.js?v=23.2"></script>
 </body>
 </html>

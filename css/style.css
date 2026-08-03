@@ -4361,3 +4361,233 @@ body.theme-dark .approval-rejection-comment.invalid{
     min-width:0;
   }
 }
+
+
+/* ==========================================================
+   SAH V23.2 — detailed student event cards
+   ========================================================== */
+
+#studentApprovedOpportunityCards{
+  align-items:stretch;
+}
+
+.student-event-card{
+  position:relative;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:15px!important;
+  min-height:420px;
+  overflow:hidden;
+  border:1px solid #d8e3f2!important;
+  background:
+    linear-gradient(180deg,rgba(240,246,255,.78) 0,rgba(255,255,255,1) 105px)!important;
+  box-shadow:0 15px 36px rgba(7,44,100,.09)!important;
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+}
+
+.student-event-card::before{
+  content:"";
+  position:absolute;
+  inset-inline:0;
+  top:0;
+  height:5px;
+  background:linear-gradient(90deg,#0b3977,#1d67c1);
+}
+
+.student-event-card:hover{
+  transform:translateY(-4px);
+  border-color:#b9cdea!important;
+  box-shadow:0 20px 42px rgba(7,44,100,.14)!important;
+}
+
+.student-event-card-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.student-event-kind,
+.student-event-status{
+  display:inline-flex;
+  align-items:center;
+  min-height:30px;
+  padding:6px 11px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:900;
+}
+
+.student-event-kind{
+  color:#07366f;
+  background:#e6effc;
+}
+
+.student-event-status{
+  color:#08764e;
+  background:#e9f9f1;
+}
+
+.student-event-main{
+  padding:3px 2px 7px;
+}
+
+.student-event-label{
+  display:block;
+  margin-bottom:4px;
+  color:var(--muted);
+  font-size:11px;
+  font-weight:700;
+}
+
+.student-event-main h4{
+  margin:0!important;
+  color:var(--blue);
+  font-size:24px!important;
+  line-height:1.35;
+}
+
+.student-event-details{
+  display:grid;
+  gap:9px;
+}
+
+.student-event-detail{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px 12px;
+  border:1px solid #e0e8f3;
+  border-radius:12px;
+  background:rgba(255,255,255,.75);
+}
+
+.student-event-detail span{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.student-event-detail strong{
+  color:var(--blue);
+  font-size:12px;
+  text-align:left;
+}
+
+.student-event-seats{
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  gap:2px 12px;
+  margin-top:auto;
+  padding:13px 15px;
+  border:1px solid #f0c86f;
+  border-radius:14px;
+  background:linear-gradient(135deg,#fff9e9,#fff3ca);
+  color:#855c00;
+}
+
+.student-event-seats span{
+  font-size:11px;
+  font-weight:800;
+}
+
+.student-event-seats strong{
+  grid-row:1/3;
+  grid-column:2;
+  font-size:30px;
+  line-height:1;
+  color:#a66d00;
+}
+
+.student-event-seats small{
+  color:#9a761d;
+  font-size:9px;
+}
+
+.student-event-card .apply-event{
+  width:100%;
+  min-height:48px;
+  margin-top:0!important;
+  border-radius:14px!important;
+  font-size:15px;
+  font-weight:900;
+}
+
+.student-event-card.event-is-full{
+  opacity:.78;
+}
+
+.student-event-card.event-is-full::before{
+  background:#9aa9bc;
+}
+
+.student-event-card.event-is-full .student-event-status{
+  color:#7b263d;
+  background:#fdeef2;
+}
+
+.student-event-seats.is-full{
+  color:#992748;
+  border-color:#efbdca;
+  background:#fff1f4;
+}
+
+.student-event-seats.is-full strong{
+  color:#b01f48;
+}
+
+.student-event-card .apply-event:disabled{
+  cursor:not-allowed;
+  color:#65758a!important;
+  background:#e6ebf2!important;
+  border-color:#d4dce7!important;
+  box-shadow:none!important;
+}
+
+.empty-student-events{
+  grid-column:1/-1;
+  text-align:center;
+  color:var(--muted);
+}
+
+body.theme-dark .student-event-card{
+  background:
+    linear-gradient(180deg,rgba(21,55,99,.95) 0,rgba(6,28,61,1) 110px)!important;
+  border-color:var(--border)!important;
+}
+
+body.theme-dark .student-event-detail{
+  background:rgba(255,255,255,.045);
+  border-color:var(--border);
+}
+
+body.theme-dark .student-event-main h4,
+body.theme-dark .student-event-detail strong{
+  color:#fff;
+}
+
+body.theme-dark .student-event-kind{
+  color:#dceaff;
+  background:rgba(44,111,198,.23);
+}
+
+@media(max-width:700px){
+  .student-event-card{
+    min-height:auto;
+  }
+
+  .student-event-main h4{
+    font-size:21px!important;
+  }
+
+  .student-event-detail{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:4px;
+  }
+
+  .student-event-detail strong{
+    text-align:right;
+  }
+}
