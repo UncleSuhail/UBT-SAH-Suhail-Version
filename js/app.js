@@ -1799,3 +1799,30 @@ window.addEventListener('DOMContentLoaded',initPreferences);
 
   window.addEventListener('DOMContentLoaded', initializeV15);
 })();
+
+/* SAH V20 — mobile drawer behavior */
+(function(){
+  function closeMobileSidebar(){
+    if(window.matchMedia('(max-width:1100px)').matches){
+      document.querySelector('.sidebar')?.classList.remove('open');
+    }
+  }
+
+  document.addEventListener('click',event=>{
+    const sidebar=document.querySelector('.sidebar');
+    const menu=document.getElementById('mobileMenu');
+    if(!sidebar || !sidebar.classList.contains('open')) return;
+    if(sidebar.contains(event.target) || menu?.contains(event.target)) return;
+    closeMobileSidebar();
+  });
+
+  document.querySelectorAll('.nav button[data-page]').forEach(button=>{
+    button.addEventListener('click',closeMobileSidebar);
+  });
+
+  window.addEventListener('resize',()=>{
+    if(window.innerWidth>1100){
+      document.querySelector('.sidebar')?.classList.remove('open');
+    }
+  });
+})();
