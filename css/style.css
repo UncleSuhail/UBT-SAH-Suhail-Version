@@ -2786,3 +2786,247 @@ body.theme-dark .mobile-sync-btn{
   }
 }
 
+/* ==========================================================
+   SAH V20.6 — fixed header stack and compact mobile accordion
+   ========================================================== */
+
+:root{
+  --sah-desktop-header-height:92px;
+  --sah-mobile-header-height:72px;
+  --sah-mobile-role-height:58px;
+  --sah-phone-header-height:64px;
+  --sah-phone-role-height:54px;
+}
+
+/* Desktop: the top header stays fixed and content starts below it */
+@media(min-width:1101px){
+  .topbar{
+    position:fixed!important;
+    top:0!important;
+    right:0!important;
+    left:0!important;
+    height:var(--sah-desktop-header-height)!important;
+    min-height:var(--sah-desktop-header-height)!important;
+    z-index:3000!important;
+  }
+
+  #app{
+    padding-top:var(--sah-desktop-header-height)!important;
+  }
+
+  .layout{
+    margin-top:20px!important;
+  }
+
+  .sidebar{
+    top:calc(var(--sah-desktop-header-height) + 20px)!important;
+    max-height:calc(100vh - var(--sah-desktop-header-height) - 40px)!important;
+  }
+}
+
+@media(max-width:1100px){
+
+  /* Header and permissions become one fixed, non-overlapping stack */
+  .topbar{
+    position:fixed!important;
+    top:0!important;
+    right:0!important;
+    left:0!important;
+    height:var(--sah-mobile-header-height)!important;
+    min-height:var(--sah-mobile-header-height)!important;
+    z-index:3100!important;
+    overflow:hidden!important;
+  }
+
+  .mobile-user-strip{
+    position:fixed!important;
+    top:var(--sah-mobile-header-height)!important;
+    right:0!important;
+    left:0!important;
+    height:var(--sah-mobile-role-height)!important;
+    min-height:var(--sah-mobile-role-height)!important;
+    z-index:3090!important;
+    margin:0!important;
+    box-sizing:border-box!important;
+  }
+
+  #app{
+    padding-top:calc(
+      var(--sah-mobile-header-height) + var(--sah-mobile-role-height)
+    )!important;
+  }
+
+  .layout{
+    margin:0!important;
+    padding-top:12px!important;
+  }
+
+  .sidebar{
+    top:calc(
+      var(--sah-mobile-header-height) + var(--sah-mobile-role-height)
+    )!important;
+    height:calc(
+      100dvh - var(--sah-mobile-header-height) - var(--sah-mobile-role-height)
+    )!important;
+    max-height:none!important;
+  }
+
+  /* A clear hamburger made from CSS bars, independent of the SVG */
+  .topbar .mobile-menu{
+    width:50px!important;
+    min-width:50px!important;
+    height:50px!important;
+    border-radius:16px!important;
+    padding:0!important;
+    display:grid!important;
+    place-items:center!important;
+  }
+
+  .topbar .mobile-menu span[data-icon]{
+    position:relative!important;
+    display:block!important;
+    width:26px!important;
+    height:20px!important;
+  }
+
+  .topbar .mobile-menu span[data-icon] svg{
+    display:none!important;
+  }
+
+  .topbar .mobile-menu span[data-icon]::before,
+  .topbar .mobile-menu span[data-icon]::after{
+    content:""!important;
+    position:absolute!important;
+    right:0!important;
+    width:26px!important;
+    height:3px!important;
+    border-radius:999px!important;
+    background:#fff!important;
+    box-shadow:0 8px 0 #fff!important;
+  }
+
+  .topbar .mobile-menu span[data-icon]::before{
+    top:0!important;
+  }
+
+  .topbar .mobile-menu span[data-icon]::after{
+    display:none!important;
+  }
+
+  /* Remove the large empty area when an accordion group is closed */
+  .sidebar .nav-group{
+    min-height:0!important;
+    height:auto!important;
+    overflow:hidden!important;
+  }
+
+  .sidebar .nav-items{
+    display:none!important;
+    height:auto!important;
+    min-height:0!important;
+    max-height:none!important;
+    margin:0!important;
+    padding:0!important;
+    opacity:1!important;
+    overflow:visible!important;
+  }
+
+  .sidebar .nav-group.open .nav-items{
+    display:grid!important;
+    gap:6px!important;
+    margin-top:8px!important;
+  }
+
+  .sidebar .nav-group:not(.open){
+    padding-bottom:0!important;
+  }
+
+  .sidebar .nav-group:not(.open) .nav-group-title{
+    margin-bottom:0!important;
+  }
+
+  .sidebar .nav-group.open{
+    padding-bottom:10px!important;
+  }
+
+  .sidebar .nav-group-title{
+    min-height:52px!important;
+  }
+
+  .sidebar .nav-items button{
+    min-height:46px!important;
+  }
+
+  /* The drawer's internal toolbar no longer reserves empty space */
+  .sidebar .sidebar-toolbar{
+    min-height:42px!important;
+    height:42px!important;
+    padding-block:6px!important;
+    margin-bottom:10px!important;
+  }
+
+  .sidebar .sidebar-toggle{
+    display:none!important;
+  }
+}
+
+@media(max-width:520px){
+
+  .topbar{
+    height:var(--sah-phone-header-height)!important;
+    min-height:var(--sah-phone-header-height)!important;
+  }
+
+  .mobile-user-strip{
+    top:var(--sah-phone-header-height)!important;
+    height:var(--sah-phone-role-height)!important;
+    min-height:var(--sah-phone-role-height)!important;
+  }
+
+  #app{
+    padding-top:calc(
+      var(--sah-phone-header-height) + var(--sah-phone-role-height)
+    )!important;
+  }
+
+  .sidebar{
+    top:calc(
+      var(--sah-phone-header-height) + var(--sah-phone-role-height)
+    )!important;
+    height:calc(
+      100dvh - var(--sah-phone-header-height) - var(--sah-phone-role-height)
+    )!important;
+  }
+
+  .topbar .mobile-menu{
+    width:46px!important;
+    min-width:46px!important;
+    height:46px!important;
+    border-radius:15px!important;
+  }
+
+  .topbar .mobile-menu span[data-icon],
+  .topbar .mobile-menu span[data-icon]::before{
+    width:24px!important;
+  }
+
+  .topbar .mobile-menu span[data-icon]::before{
+    height:3px!important;
+    box-shadow:0 7px 0 #fff!important;
+  }
+
+  .mobile-user-strip{
+    padding:6px 8px!important;
+    gap:8px!important;
+  }
+
+  .mobile-user-identity{
+    max-width:48vw!important;
+  }
+
+  .mobile-role-actions select{
+    width:145px!important;
+    max-width:43vw!important;
+  }
+}
+

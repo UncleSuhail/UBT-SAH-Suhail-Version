@@ -2141,3 +2141,59 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     });
   });
 })();
+
+/* ==========================================================
+   SAH V20.6 — stable mobile accordion and fixed-header offsets
+   ========================================================== */
+(function(){
+  'use strict';
+
+  function isMobile(){
+    return window.matchMedia('(max-width:1100px)').matches;
+  }
+
+  window.addEventListener('DOMContentLoaded',()=>{
+    console.info('SAH build 20.6 loaded');
+    document.documentElement.dataset.sahBuild='20.6';
+
+    /*
+      Closed groups must consume only their title height.
+      Open groups reveal their linked pages, without closing the drawer.
+    */
+    document.querySelectorAll('.sidebar .nav-group').forEach(group=>{
+      const title=group.querySelector('.nav-group-title');
+      if(!title) return;
+
+      title.setAttribute(
+        'aria-expanded',
+        String(group.classList.contains('open'))
+      );
+
+      title.addEventListener('click',()=>{
+        window.requestAnimationFrame(()=>{
+          document.querySelectorAll('.sidebar .nav-group').forEach(item=>{
+            item.querySelector('.nav-group-title')
+              ?.setAttribute(
+                'aria-expanded',
+                String(item.classList.contains('open'))
+              );
+          });
+        });
+      });
+    });
+
+    /*
+      Recalculate CSS viewport values after Safari's address bar changes.
+    */
+    const syncViewport=()=>{
+      document.documentElement.style.setProperty(
+        '--sah-real-vh',
+        `${window.innerHeight * 0.01}px`
+      );
+    };
+
+    syncViewport();
+    window.addEventListener('resize',syncViewport,{passive:true});
+    window.addEventListener('orientationchange',syncViewport,{passive:true});
+  });
+})();
