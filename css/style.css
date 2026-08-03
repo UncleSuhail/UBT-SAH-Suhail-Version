@@ -3759,3 +3759,133 @@ body[data-active-role="indicator"] #openFieldsManagerFromCalculator{
     max-height:calc(100dvh - 20px)!important;
   }
 }
+
+
+/* ==========================================================
+   SAH V22.8 — Center indicator calculator footer buttons
+   ========================================================== */
+
+/*
+  توسيط مجموعة الأزرار السفلية داخل نافذة تعديل حاسبة النقاط
+  مع إلغاء أي محاذاة قديمة إلى اليمين أو اليسار.
+*/
+#indicatorSettingsModal .modal-actions{
+    display:flex!important;
+    justify-content:center!important;
+    align-items:center!important;
+    align-content:center!important;
+    flex-wrap:wrap!important;
+
+    gap:14px!important;
+    width:100%!important;
+    max-width:100%!important;
+
+    margin:0 auto!important;
+    padding:18px 22px!important;
+
+    position:sticky!important;
+    right:auto!important;
+    left:auto!important;
+    bottom:0!important;
+
+    direction:rtl!important;
+    text-align:center!important;
+
+    background:#ffffff!important;
+    border-top:1px solid var(--border)!important;
+    box-shadow:0 -8px 22px rgba(7,44,100,.07)!important;
+}
+
+/* إلغاء أي تمدد أو هوامش تلقائية قد تدفع زرًا إلى طرف النافذة */
+#indicatorSettingsModal .modal-actions .btn,
+#indicatorSettingsModal .modal-actions button{
+    flex:0 0 auto!important;
+    width:auto!important;
+    margin:0!important;
+    float:none!important;
+    position:relative!important;
+    right:auto!important;
+    left:auto!important;
+    transform:none!important;
+    white-space:nowrap!important;
+}
+
+/* ترتيب الأزرار بصريًا في المنتصف */
+#indicatorSettingsModal #restorePreviousIndicatorLimits{
+    order:1!important;
+}
+
+#indicatorSettingsModal #indicatorResetLimits{
+    order:2!important;
+}
+
+#indicatorSettingsModal [data-close-indicator-settings],
+#indicatorSettingsModal .modal-actions .btn:nth-last-child(2){
+    order:3!important;
+}
+
+#indicatorSettingsModal #indicatorSaveLimits{
+    order:4!important;
+}
+
+/* الوضع الليلي */
+body.theme-dark #indicatorSettingsModal .modal-actions{
+    background:#061c3d!important;
+    border-color:var(--border)!important;
+    box-shadow:0 -8px 22px rgba(0,0,0,.18)!important;
+}
+
+/* الشاشات المتوسطة */
+@media(max-width:900px){
+    #indicatorSettingsModal .modal-actions{
+        gap:11px!important;
+        padding:15px 14px!important;
+    }
+
+    #indicatorSettingsModal .modal-actions .btn,
+    #indicatorSettingsModal .modal-actions button{
+        font-size:14px!important;
+        padding-inline:16px!important;
+    }
+}
+
+/* الجوال */
+@media(max-width:600px){
+    #indicatorSettingsModal .modal-actions{
+        display:grid!important;
+        grid-template-columns:repeat(2,minmax(0,1fr))!important;
+        justify-content:center!important;
+        align-items:stretch!important;
+        gap:9px!important;
+
+        margin:0!important;
+        padding:12px!important;
+    }
+
+    #indicatorSettingsModal .modal-actions .btn,
+    #indicatorSettingsModal .modal-actions button{
+        width:100%!important;
+        min-width:0!important;
+        min-height:44px!important;
+        padding:10px 8px!important;
+        justify-content:center!important;
+        white-space:normal!important;
+        line-height:1.4!important;
+    }
+
+    #indicatorSettingsModal #indicatorSaveLimits{
+        grid-column:1/-1!important;
+        order:4!important;
+    }
+}
+
+/* الهواتف شديدة الصغر */
+@media(max-width:390px){
+    #indicatorSettingsModal .modal-actions{
+        grid-template-columns:1fr!important;
+    }
+
+    #indicatorSettingsModal #indicatorSaveLimits{
+        grid-column:auto!important;
+    }
+}
