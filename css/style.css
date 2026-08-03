@@ -1763,7 +1763,7 @@ body.theme-dark .evidence-status-filter{
 }
 
 /* ==========================================================
-   SAH V17 — dynamic indicator linkage and audience totals
+   SAH V18 — grouped indicator tracks and dynamic fields
    ========================================================== */
 
 .indicator-audience-summary{
@@ -1788,19 +1788,114 @@ body.theme-dark .evidence-status-filter{
   color:var(--blue);
   font-size:20px;
 }
-.indicator-audience-summary.burg-summary strong{
-  color:var(--burg);
+.indicator-audience-summary.burg-summary strong{color:var(--burg)}
+
+.indicator-grouped-table{
+  min-width:900px!important;
 }
-body.theme-dark .indicator-audience-summary>div{
-  background:rgba(255,255,255,.06);
-  border-color:var(--border);
+.indicator-track-row td{
+  padding:18px 14px 8px!important;
+  border-bottom:0!important;
+  background:transparent!important;
 }
-body.theme-dark .indicator-audience-summary strong{
+.indicator-track-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:14px 18px;
+  border:1px solid #b9cbea;
+  border-radius:16px;
+  background:linear-gradient(135deg,#eef4ff,#fff);
+  color:var(--blue);
+  font-weight:900;
+  box-shadow:0 8px 20px rgba(7,44,100,.07);
+}
+.indicator-track-card small{
+  color:var(--muted);
+  font-weight:700;
+}
+.indicator-field-row td:first-child{
+  padding-inline-start:34px!important;
+  font-weight:800;
+  color:var(--blue);
+}
+.indicator-field-row:last-child td{
+  border-bottom:1px solid var(--border);
+}
+
+.fields-manager-card{
+  width:min(1050px,96vw)!important;
+}
+.fields-manager-toolbar{
+  display:flex;
+  justify-content:flex-start;
+  margin-bottom:14px;
+}
+.fields-manager-list{
+  display:grid;
+  gap:10px;
+  max-height:56vh;
+  overflow:auto;
+  padding-inline-end:4px;
+}
+.field-manager-row{
+  display:grid;
+  grid-template-columns:minmax(170px,.8fr) minmax(260px,1.5fr) 130px 44px;
+  gap:10px;
+  align-items:end;
+  padding:13px;
+  border:1px solid #c6d6ee;
+  border-radius:15px;
+  background:#f8fbff;
+}
+.field-manager-row label{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.field-manager-row label span{
+  color:var(--blue)!important;
+  font-size:12px;
+  font-weight:800;
+}
+.field-manager-row input{
+  min-height:42px;
+}
+.field-manager-delete{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  border:1px solid #efb6c3;
+  border-radius:11px;
+  background:#fff4f6;
+  color:#b01839;
+  cursor:pointer;
+  font-size:17px;
+}
+.field-manager-delete:hover{
+  background:#b01839;
   color:#fff;
 }
 
-/* account for the new main-field column */
-.evidence-table{
-  min-width:2210px!important;
+body.theme-dark .indicator-audience-summary>div,
+body.theme-dark .indicator-track-card{
+  background:rgba(255,255,255,.06);
+  border-color:var(--border);
+}
+body.theme-dark .indicator-audience-summary strong,
+body.theme-dark .indicator-track-card,
+body.theme-dark .indicator-field-row td:first-child{
+  color:#fff;
+}
+
+@media(max-width:760px){
+  .field-manager-row{
+    grid-template-columns:1fr;
+  }
+  .field-manager-delete{
+    width:100%;
+  }
 }
 

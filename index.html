@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>SAH | منصة الأنشطة الطلابية</title>
-<link rel="stylesheet" href="css/style.css?v=17.0">
+<link rel="stylesheet" href="css/style.css?v=18.0">
 </head>
 <body class="login-mode">
 <section id="login" class="login-page">
@@ -291,6 +291,11 @@
             <span aria-hidden="true">⚙</span>
             تعديل حاسبة النقاط
           </button>
+          <button id="indicatorFieldsManagerButton" class="btn outline indicator-only hidden"
+                  type="button" title="تعديل أسماء المجالات أو إضافة مجال جديد">
+            <span aria-hidden="true">✎</span>
+            إدارة المجالات
+          </button>
           <a class="btn outline" href="assets/docs/sports-performance-indicator-guide.pdf"
              target="_blank" rel="noopener">عرض الدليل</a>
         </div>
@@ -307,7 +312,7 @@
         <div class="card stat burg"><div class="label">المتبقي للطالبات</div><div class="value" id="femaleRemaining">0</div><div class="sub">نقطة</div></div>
       </div>
       <div class="section-title"><div><h3>تحليل المسارات والمجالات الـ16</h3><p>كل مجال يعرض الحد الأعلى والنقاط المحققة للطلاب والطالبات بشكل منفصل.</p></div></div>
-      <div class="card table-card"><div class="table-wrap"><table><thead><tr><th>المسار</th><th>المجال</th><th>الحد الأعلى</th><th>نقاط الطلاب</th><th>إنجاز الطلاب</th><th>نقاط الطالبات</th><th>إنجاز الطالبات</th></tr></thead><tbody id="indicatorRows"></tbody></table></div></div>
+      <div class="card table-card"><div class="table-wrap"><table class="indicator-grouped-table"><thead><tr><th>المجال</th><th>الحد الأعلى</th><th>نقاط الطلاب</th><th>إنجاز الطلاب</th><th>نقاط الطالبات</th><th>إنجاز الطالبات</th></tr></thead><tbody id="indicatorRows"></tbody></table></div></div>
     </section>
 
     <section id="page-scholarships" class="page">
@@ -582,7 +587,6 @@
                 <th>اللاعبون</th>
                 <th>الفئة</th>
                 <th>المجال الرئيسي</th>
-                <th>المجال المرتبط</th>
                 <th>نوع المشاركة</th>
                 <th>الجامعات المشاركة</th>
                 <th>النقاط</th>
@@ -653,6 +657,32 @@
 </div>
 
 
+
+<div id="indicatorFieldsManagerModal" class="modal calculator-modal hidden"
+     role="dialog" aria-modal="true" aria-labelledby="indicatorFieldsManagerTitle">
+  <div class="modal-backdrop" data-close-fields-manager></div>
+  <div class="modal-card fields-manager-card">
+    <div class="section-title compact-title">
+      <div>
+        <h3 id="indicatorFieldsManagerTitle">إدارة مجالات مؤشر الأداء الرياضي</h3>
+        <p>عدّل اسم المجال أو المسار، احذف مجالًا، أو أضف مجالًا جديدًا. تنعكس التغييرات تلقائيًا على التقارير ونموذج إضافة النشاط.</p>
+      </div>
+      <button class="btn outline" type="button" data-close-fields-manager>إغلاق</button>
+    </div>
+
+    <div class="fields-manager-toolbar">
+      <button id="addIndicatorFieldRow" class="btn outline" type="button">＋ إضافة مجال جديد</button>
+    </div>
+
+    <div class="fields-manager-list" id="indicatorFieldsManagerRows"></div>
+
+    <div class="modal-actions">
+      <button class="btn outline" type="button" data-close-fields-manager>إلغاء</button>
+      <button id="saveIndicatorFieldsManager" class="btn primary" type="button">حفظ المجالات وتحديث الأقسام</button>
+    </div>
+  </div>
+</div>
+
 <div id="addActivityModal" class="modal activity-entry-modal hidden" role="dialog" aria-modal="true" aria-labelledby="addActivityTitle">
   <div class="modal-backdrop" data-close-add-activity></div>
   <div class="modal-card activity-modal-card">
@@ -671,8 +701,7 @@
       <label><span>عدد المستفيدين</span><input id="activityBeneficiaries" type="number" min="0" value="0"></label>
       <label><span>عدد اللاعبين المشاركين</span><input id="activityPlayers" type="number" min="0" value="0"></label>
       <label><span>الفئة</span><select id="activityGender"><option value="طلاب">طلاب</option><option value="طالبات">طالبات</option></select></label>
-      <label><span>المجال الرئيسي</span><select id="activityMainField" required></select></label>
-      <label><span>المجال المرتبط بالمؤشر</span><select id="activityIndicatorField" required></select></label>
+      <label><span>المجال الرئيسي</span><select id="activityIndicatorField" required></select></label>
       <label><span>نوع المشاركة</span><select id="activityParticipationType"><option value="guest">ضيف</option><option value="host">مستضيف</option></select></label>
       <label><span>عدد الجامعات المشاركة</span><input id="activityUniversities" type="number" min="0" value="0"></label>
       <label><span>نوع اللعبة / النشاط</span><input id="activityGameType"></label>
@@ -730,6 +759,6 @@
 </div>
 <script src="js/data.js?v=15.0"></script>
 <script src="js/admin.js?v=15.0"></script>
-<script src="js/app.js?v=17.0"></script>
+<script src="js/app.js?v=18.0"></script>
 </body>
 </html>
