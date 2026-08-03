@@ -2769,12 +2769,108 @@ window.addEventListener('DOMContentLoaded',initPreferences);
 'use strict';
 const CAT=["الأنشطة التوعوية","الأنشطة و البرامج المجتمعية و التطوعية","الأنشطة الثقافية","الأنشطة العلمية","الأنشطة الفنية","الأنشطة الرياضية","البرامج التدريبية","برامج عامة على مستوى الجامعة"];
 const K={sports:'sah-v22-sports',clubs:'sah-v22-clubs',clubEvents:'sah-v22-club-events',vol:'sah-v22-vol',apps:'sah-v22-apps'};
+const DEFAULT_REGISTERED_CLUBS=["نادي الأمن السيبراني", "نادي البرمجة", "نادي التنمية المستدامة", "نادي الهندسة المعمارية", "نادي الهندسة المدنية", "نادي ريادة الأعمال", "نادي إدارة الأعمال", "نادي المالية", "نادي المحاسبة"];
 const R=(k,f=[])=>{try{return JSON.parse(localStorage.getItem(k)||'null')??f}catch{return f}};
 const W=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const id=p=>p+'-'+Date.now()+'-'+Math.random().toString(36).slice(2,6);
 const td=()=>new Date().toISOString().slice(0,10);
 const badge=s=>`<span class="request-status ${s==='مقبول'?'accepted':s==='مرفوض'?'rejected':'pending'}">${s}</span>`;
 const later3=d=>{const x=new Date(d+'T00:00:00'),m=new Date();m.setHours(0,0,0,0);m.setDate(m.getDate()+3);return x>=m};
+
+
+function registeredClubs(){
+ const approvedRequests=R(K.clubs)
+   .filter(club=>club.status==='مقبول'&&club.name)
+   .map(club=>club.name.trim());
+
+ return [...new Set([
+   ...DEFAULT_REGISTERED_CLUBS,
+   ...approvedRequests
+ ])].filter(Boolean);
+}
+
+function clubActivities(clubName){
+ return R(K.clubEvents)
+   .filter(event=>event.club===clubName)
+   .sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+}
+
+function populateClubEventSelect(){
+ const select=document.getElementById('clubEventClub');
+ if(!select)return;
+
+ const current=select.value;
+ const clubs=registeredClubs();
+
+ select.innerHTML=
+   '<option value="">اختر النادي المسجل</option>'+
+   clubs.map(name=>`<option value="${name}">${name}</option>`).join('');
+
+ if(current&&clubs.includes(current))select.value=current;
+}
+
+function renderRegisteredClubs(){
+ const clubs=registeredClubs();
+ const count=document.getElementById('registeredClubsCount');
+ if(count)count.textContent=clubs.length;
+
+ const body=document.getElementById('registeredClubsRows');
+ if(!body)return;
+
+ body.innerHTML=clubs.map(name=>{
+   const activities=clubActivities(name);
+   const activityText=activities.length
+     ? activities.map(item=>`
+        <span class="club-activity-chip ${item.status==='مقبول'?'accepted':item.status==='مرفوض'?'rejected':'pending'}">
+          ${item.name||'فعالية بدون اسم'}
+          <small>${item.status||'تحت المراجعة'}</small>
+        </span>`).join('')
+     : '<span class="club-no-activities">لا توجد أنشطة مسجلة</span>';
+
+   const approvedFromRequest=R(K.clubs).some(
+     club=>club.name===name&&club.status==='مقبول'
+   );
+
+   return `<tr>
+     <td><strong class="registered-club-name">${name}</strong></td>
+     <td>
+       <span class="request-status accepted">
+         ${approvedFromRequest?'معتمد حديثًا':'مفعل'}
+       </span>
+     </td>
+     <td><strong class="club-activities-count">${activities.length}</strong></td>
+     <td><div class="club-activities-list">${activityText}</div></td>
+   </tr>`;
+ }).join('');
+}
+
+function approvalBeneficiaryTotals(requests){
+ let male=0;
+ let female=0;
+
+ requests
+   .filter(request=>request.status==='مقبول')
+   .forEach(request=>{
+     const amount=Math.max(
+       0,
+       Number(request.capacity)||
+       Number(request.participants)||
+       (Array.isArray(request.members)?request.members.length:0)||
+       0
+     );
+
+     if(request.gender==='طلاب'){
+       male+=amount;
+     }else if(request.gender==='طالبات'){
+       female+=amount;
+     }else if(request.gender==='الاثنان معًا'){
+       male+=Math.ceil(amount/2);
+       female+=Math.floor(amount/2);
+     }
+   });
+
+ return {male,female};
+}
 
 function allReq(){return[
  ...R(K.sports).map(x=>({...x,store:K.sports,kind:'بطولة/حدث رياضي'})),
@@ -2968,19 +3064,78 @@ function approvals(){
    W(x.dataset.store,rows);
    renderAll();
  });
- const ac=a.filter(x=>x.status==='مقبول').length,re=a.filter(x=>x.status==='مرفوض').length,pe=a.length-ac-re,p=a.length?Math.round(ac/a.length*100):0;
- [['approvalTotal',a.length],['approvalAccepted',ac],['approvalRejected',re],['approvalPending',pe],['approvalPercent',p+'%']].forEach(([i,v])=>{const e=document.getElementById(i);if(e)e.textContent=v});document.getElementById('approvalDonut')?.style.setProperty('--p',p);
+ const ac=a.filter(x=>x.status==='مقبول').length;
+ const re=a.filter(x=>x.status==='مرفوض').length;
+ const pe=a.length-ac-re;
+ const p=a.length?Math.round(ac/a.length*100):0;
+ const beneficiaryTotals=approvalBeneficiaryTotals(a);
+
+ [
+   ['approvalTotal',a.length],
+   ['approvalAccepted',ac],
+   ['approvalRejected',re],
+   ['approvalPending',pe],
+   ['approvalPercent',p+'%'],
+   ['approvalPercentText',p+'%'],
+   ['approvalMaleBeneficiaries',beneficiaryTotals.male],
+   ['approvalFemaleBeneficiaries',beneficiaryTotals.female]
+ ].forEach(([i,v])=>{
+   const e=document.getElementById(i);
+   if(e)e.textContent=v;
+ });
+
+ document.getElementById('approvalDonut')?.style.setProperty('--p',p);
+ renderRegisteredClubs();
+ populateClubEventSelect();
 }
-function renderAll(){tables();student();applicants();approvals();const b=document.querySelector('[data-event-category].active');if(b)renderCategory(b.dataset.eventCategory)}
+function renderAll(){tables();student();applicants();approvals();populateClubEventSelect();renderRegisteredClubs();const b=document.querySelector('[data-event-category].active');if(b)renderCategory(b.dataset.eventCategory)}
 function bind(id,fn){const o=document.getElementById(id);if(!o)return;const n=o.cloneNode(true);o.replaceWith(n);n.onclick=fn}
 window.addEventListener('DOMContentLoaded',()=>{
+ populateClubEventSelect();
+ renderRegisteredClubs();
+
+ document.getElementById('registeredClubsStat')?.addEventListener('click',()=>{
+   const panel=document.getElementById('registeredClubsPanel');
+   panel?.classList.toggle('hidden');
+   if(panel&&!panel.classList.contains('hidden')){
+     renderRegisteredClubs();
+     panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+   }
+ });
+
+ document.getElementById('closeRegisteredClubsPanel')?.addEventListener('click',()=>{
+   document.getElementById('registeredClubsPanel')?.classList.add('hidden');
+ });
+
  document.querySelectorAll('[data-event-category]').forEach((b,i)=>b.onclick=()=>{document.querySelectorAll('[data-event-category]').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderCategory(b.dataset.eventCategory);if(i===0||true){}});
  const first=document.querySelector('[data-event-category]');if(first){first.classList.add('active');renderCategory(first.dataset.eventCategory)}
  bind('submitSportsRequest',()=>{const d=document.getElementById('sportsReqDate').value;if(!later3(d))return alert('يجب أن يكون الحدث بعد 3 أيام على الأقل.');push(K.sports,{id:id('sp'),name:document.getElementById('sportsReqName').value,date:d,game:document.getElementById('sportsReqGame').value,
         location:document.getElementById('sportsReqLocation')?.value.trim()||'غير محدد',
         participants:+document.getElementById('sportsReqParticipants').value,teams:+document.getElementById('sportsReqTeams').value,universities:+document.getElementById('sportsReqUniversities').value,capacity:+document.getElementById('sportsReqCapacity').value,gender:document.getElementById('sportsReqGender').value,status:'تحت المراجعة',submittedAt:td(),submittedBy:'مدير النادي الرياضي'})});
  bind('submitClubRequest',()=>{const m=document.getElementById('clubMembers').value.split(/\n|,/).map(x=>x.trim()).filter(Boolean);if(m.length<10)return alert('يلزم 10 أعضاء على الأقل.');if(!document.getElementById('clubLogo').files[0])return alert('ارفع شعار النادي.');push(K.clubs,{id:id('cl'),name:document.getElementById('clubName').value,supervisor:document.getElementById('clubSupervisor').value,manager:document.getElementById('clubManager').value,members:m,goal:document.getElementById('clubGoal').value,gender:document.getElementById('clubGender').value,status:'تحت المراجعة',submittedAt:td(),submittedBy:'حساب طالب'})});
- bind('submitClubEventRequest',()=>{const d=document.getElementById('clubEventDate').value;if(!later3(d))return alert('يجب أن يكون الحدث بعد 3 أيام على الأقل.');push(K.clubEvents,{id:id('ce'),club:document.getElementById('clubEventClub').value,name:document.getElementById('clubEventName').value,date:d,location:document.getElementById('clubEventLocation').value,participants:document.getElementById('clubEventParticipants').value,supervisor:document.getElementById('clubEventSupervisor').value,gender:document.getElementById('clubEventGender').value,capacity:+document.getElementById('clubEventCapacity').value,status:'تحت المراجعة',submittedAt:td(),submittedBy:'مسؤول النادي'})});
+ bind('submitClubEventRequest',()=>{
+ const selectedClub=document.getElementById('clubEventClub').value;
+ if(!selectedClub)return alert('اختر ناديًا مسجلًا من القائمة.');
+ if(!registeredClubs().includes(selectedClub))return alert('النادي المحدد غير مفعل.');
+
+ const d=document.getElementById('clubEventDate').value;
+ if(!later3(d))return alert('يجب أن يكون الحدث بعد 3 أيام على الأقل.');
+
+ push(K.clubEvents,{
+   id:id('ce'),
+   club:selectedClub,
+   name:document.getElementById('clubEventName').value,
+   date:d,
+   location:document.getElementById('clubEventLocation').value,
+   participants:document.getElementById('clubEventParticipants').value,
+   supervisor:document.getElementById('clubEventSupervisor').value,
+   gender:document.getElementById('clubEventGender').value,
+   capacity:+document.getElementById('clubEventCapacity').value,
+   status:'تحت المراجعة',
+   submittedAt:td(),
+   submittedBy:'مسؤول النادي'
+ });
+});
  bind('submitVolunteerOpportunity',()=>push(K.vol,{id:id('vo'),type:document.getElementById('volunteerType').value,capacity:+document.getElementById('volunteerCapacity').value,name:document.getElementById('volunteerEventName').value,date:document.getElementById('volunteerEventDate').value,sponsor:document.getElementById('volunteerSponsor').value,owner:document.getElementById('volunteerOwner').value,location:document.getElementById('volunteerLocation').value,gender:'الاثنان معًا',status:'تحت المراجعة',submittedAt:td(),submittedBy:'مدير الأنشطة الطلابية'}));
  renderAll();
 });
@@ -3592,4 +3747,11 @@ window.addEventListener('DOMContentLoaded',()=>{
 window.addEventListener('DOMContentLoaded',()=>{
   console.info('SAH build 23.2 loaded');
   document.documentElement.dataset.sahBuild='23.2';
+});
+
+
+/* SAH V23.3 — compact approvals and registered clubs */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 23.3 loaded');
+  document.documentElement.dataset.sahBuild='23.3';
 });

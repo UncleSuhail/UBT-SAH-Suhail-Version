@@ -4591,3 +4591,359 @@ body.theme-dark .student-event-kind{
     text-align:right;
   }
 }
+
+
+/* ==========================================================
+   SAH V23.3 — compact approvals dashboard and registered clubs
+   ========================================================== */
+
+.approval-summary-grid{
+  display:grid;
+  grid-template-columns:repeat(7,minmax(135px,1fr));
+  gap:12px;
+  margin-bottom:14px;
+}
+
+.approval-stat-card{
+  min-height:132px!important;
+  padding:17px 16px!important;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:5px;
+  text-align:right;
+  border-radius:18px!important;
+}
+
+.approval-stat-card span{
+  color:var(--muted);
+  font-size:13px;
+  font-weight:800;
+}
+
+.approval-stat-card strong{
+  color:var(--blue);
+  font-size:38px;
+  line-height:1;
+  font-weight:950;
+}
+
+.approval-stat-card small{
+  margin-top:3px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.approval-stat-card.approved strong{
+  color:#08764e;
+}
+
+.approval-stat-card.rejected strong{
+  color:#b21f49;
+}
+
+.approval-stat-card.pending strong{
+  color:#a36a00;
+}
+
+.approval-stat-card.beneficiaries{
+  position:relative;
+  overflow:hidden;
+  min-height:148px!important;
+}
+
+.approval-stat-card.beneficiaries::after{
+  content:"";
+  position:absolute;
+  width:72px;
+  height:72px;
+  inset-inline-end:-22px;
+  bottom:-24px;
+  border-radius:50%;
+  opacity:.16;
+}
+
+.approval-stat-card.beneficiaries.male{
+  background:linear-gradient(145deg,#f2f7ff,#e9f2ff)!important;
+  border-color:#c5d8f2!important;
+}
+
+.approval-stat-card.beneficiaries.male::after{
+  background:#1669c7;
+}
+
+.approval-stat-card.beneficiaries.male strong{
+  color:#0b55aa;
+  font-size:46px;
+}
+
+.approval-stat-card.beneficiaries.female{
+  background:linear-gradient(145deg,#fff4f7,#fdeaf0)!important;
+  border-color:#efc5d0!important;
+}
+
+.approval-stat-card.beneficiaries.female::after{
+  background:#b7204d;
+}
+
+.approval-stat-card.beneficiaries.female strong{
+  color:#b21f49;
+  font-size:46px;
+}
+
+.clubs-stat{
+  appearance:none;
+  border:1px solid #c8d7eb;
+  cursor:pointer;
+  font-family:inherit;
+  background:linear-gradient(145deg,#f8f4ff,#eee7ff)!important;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+
+.clubs-stat:hover{
+  transform:translateY(-3px);
+  border-color:#9f83df;
+  box-shadow:0 14px 28px rgba(78,49,143,.13)!important;
+}
+
+.clubs-stat strong{
+  color:#5c3a9d;
+  font-size:46px;
+}
+
+.approval-secondary-grid{
+  display:grid;
+  grid-template-columns:minmax(240px,340px) minmax(0,1fr);
+  gap:14px;
+  margin-bottom:14px;
+  align-items:start;
+}
+
+.approval-rate-card{
+  min-height:190px;
+  display:flex!important;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:18px 20px!important;
+}
+
+.approval-rate-label{
+  display:block;
+  color:var(--muted);
+  font-weight:800;
+  font-size:13px;
+}
+
+#approvalPercentText{
+  display:block;
+  margin-top:7px;
+  color:var(--blue);
+  font-size:32px;
+}
+
+.compact-donut{
+  width:120px!important;
+  height:120px!important;
+  min-width:120px;
+}
+
+.compact-donut::after{
+  inset:18px!important;
+}
+
+.compact-donut b{
+  font-size:22px!important;
+}
+
+.registered-clubs-panel{
+  padding:18px!important;
+  min-height:190px;
+}
+
+.registered-clubs-panel.hidden{
+  display:none!important;
+}
+
+.registered-clubs-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:12px;
+}
+
+.registered-clubs-header h4{
+  margin:0 0 3px;
+  color:var(--blue);
+}
+
+.registered-clubs-header p{
+  margin:0;
+  color:var(--muted);
+  font-size:11px;
+}
+
+.registered-clubs-table{
+  min-width:780px;
+}
+
+.registered-club-name{
+  color:var(--blue);
+}
+
+.club-activities-count{
+  min-width:34px;
+  height:34px;
+  display:inline-grid;
+  place-items:center;
+  border-radius:10px;
+  background:#e9f1fd;
+  color:#0b55aa;
+}
+
+.club-activities-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  min-width:250px;
+}
+
+.club-activity-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:7px 9px;
+  border-radius:10px;
+  background:#eef4fc;
+  color:#123f78;
+  font-size:11px;
+  font-weight:800;
+}
+
+.club-activity-chip small{
+  padding:2px 5px;
+  border-radius:999px;
+  font-size:8px;
+}
+
+.club-activity-chip.accepted small{
+  background:#daf4e7;
+  color:#08764e;
+}
+
+.club-activity-chip.pending small{
+  background:#fff1ca;
+  color:#8b6100;
+}
+
+.club-activity-chip.rejected small{
+  background:#fde5ec;
+  color:#ad2348;
+}
+
+.club-no-activities{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.field-help{
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.4;
+}
+
+/* Compact oversized cards/forms in clubs and approvals pages */
+#page-approvals .card,
+#page-clubs .card{
+  border-radius:18px;
+}
+
+#page-approvals .table-card,
+#page-clubs .table-card{
+  padding:14px!important;
+}
+
+#page-clubs > .grid.cols-2{
+  align-items:start;
+  gap:14px;
+}
+
+#page-clubs > .grid.cols-2 > .card{
+  padding:20px!important;
+}
+
+#page-clubs .workflow-form.single-column{
+  gap:11px!important;
+}
+
+#page-clubs .workflow-form input,
+#page-clubs .workflow-form select,
+#page-clubs .workflow-form textarea{
+  min-height:44px;
+  padding:9px 11px;
+}
+
+body.theme-dark .approval-stat-card.beneficiaries.male,
+body.theme-dark .approval-stat-card.beneficiaries.female,
+body.theme-dark .clubs-stat{
+  background:rgba(255,255,255,.055)!important;
+  border-color:var(--border)!important;
+}
+
+body.theme-dark .registered-clubs-panel,
+body.theme-dark .approval-rate-card{
+  background:#061c3d!important;
+}
+
+@media(max-width:1280px){
+  .approval-summary-grid{
+    grid-template-columns:repeat(4,minmax(150px,1fr));
+  }
+}
+
+@media(max-width:900px){
+  .approval-summary-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .approval-secondary-grid{
+    grid-template-columns:1fr;
+  }
+
+  .approval-rate-card{
+    min-height:150px;
+  }
+}
+
+@media(max-width:560px){
+  .approval-summary-grid{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .approval-stat-card{
+    min-height:112px!important;
+    padding:14px 12px!important;
+  }
+
+  .approval-stat-card strong{
+    font-size:32px;
+  }
+
+  .approval-stat-card.beneficiaries strong,
+  .clubs-stat strong{
+    font-size:38px;
+  }
+
+  .registered-clubs-header{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .registered-clubs-header .btn{
+    width:100%;
+    justify-content:center;
+  }
+}

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>SAH | منصة الأنشطة الطلابية</title>
-<link rel="stylesheet" href="css/style.css?v=23.2">
+<link rel="stylesheet" href="css/style.css?v=23.3">
 
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
@@ -71,7 +71,7 @@
 </style>
 
 </head>
-<body data-sah-version="23.2" class="login-mode">
+<body data-sah-version="23.3" class="login-mode">
 <section id="login" class="login-page">
   <div class="login-bg"></div>
   <div class="login-card">
@@ -529,7 +529,13 @@
       <button id="submitClubRequest" class="btn primary" type="button">إرسال طلب النادي</button>
     </form></div>
     <div class="card"><h4>تقديم طلب مبادرة / فعالية تابعة للنادي</h4><form class="workflow-form single-column">
-      <label><span>النادي</span><input id="clubEventClub"></label><label><span>اسم الحدث</span><input id="clubEventName"></label>
+      <label>
+      <span>النادي</span>
+      <select id="clubEventClub" required>
+        <option value="">اختر النادي المسجل</option>
+      </select>
+      <small class="field-help">تظهر هنا النوادي المفعلة والنوادي التي تمت الموافقة عليها.</small>
+    </label><label><span>اسم الحدث</span><input id="clubEventName"></label>
       <label><span>تاريخ الحدث</span><input id="clubEventDate" type="date"></label><label><span>مكان الحدث</span><input id="clubEventLocation"></label>
       <label><span>الأفراد المشاركون وبياناتهم</span><textarea id="clubEventParticipants"></textarea></label><label><span>المشرف المسؤول</span><input id="clubEventSupervisor"></label>
       <label><span>الفئة</span><select id="clubEventGender"><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
@@ -542,8 +548,74 @@
   <div class="card table-card"><h4>طلبات الطلبة</h4><div class="table-wrap"><table><thead><tr><th>الحدث</th><th>الاسم</th><th>الرقم الجامعي</th><th>الإيميل</th><th>العمر</th><th>الجنس</th><th>الجوال</th><th>القرار</th></tr></thead><tbody id="clubApplicantRows"></tbody></table></div></div>
 </section><section id="page-approvals" class="page">
   <div class="section-title"><div><h3>صلاحيات عمادة شؤون الطلاب</h3><p>مراجعة واعتماد أو رفض جميع الطلبات.</p></div></div>
-  <div class="grid cols-4"><div class="card stat"><div class="label">إجمالي الطلبات</div><div class="value" id="approvalTotal">0</div></div><div class="card stat"><div class="label">الموافقات</div><div class="value" id="approvalAccepted">0</div></div><div class="card stat burg"><div class="label">الرفض</div><div class="value" id="approvalRejected">0</div></div><div class="card stat"><div class="label">قيد المراجعة</div><div class="value" id="approvalPending">0</div></div></div>
-  <div class="grid cols-2"><div class="card indicator-card"><h4>نسبة الموافقات</h4><div class="donut" id="approvalDonut" style="--p:0"><b id="approvalPercent">0%</b></div></div><div class="card"><h4>المستفيدون</h4><div class="profile-meta"><div class="meta-box"><span>الطلاب</span><b id="approvalMaleBeneficiaries">0</b></div><div class="meta-box"><span>الطالبات</span><b id="approvalFemaleBeneficiaries">0</b></div></div></div></div>
+  <div class="approval-summary-grid">
+    <div class="card approval-stat-card">
+      <span>إجمالي الطلبات</span>
+      <strong id="approvalTotal">0</strong>
+    </div>
+    <div class="card approval-stat-card approved">
+      <span>الموافقات</span>
+      <strong id="approvalAccepted">0</strong>
+    </div>
+    <div class="card approval-stat-card rejected">
+      <span>الرفض</span>
+      <strong id="approvalRejected">0</strong>
+    </div>
+    <div class="card approval-stat-card pending">
+      <span>قيد المراجعة</span>
+      <strong id="approvalPending">0</strong>
+    </div>
+    <div class="card approval-stat-card beneficiaries male">
+      <span>مستفيدو الطلاب</span>
+      <strong id="approvalMaleBeneficiaries">0</strong>
+      <small>إجمالي الطلاب المستفيدين</small>
+    </div>
+    <div class="card approval-stat-card beneficiaries female">
+      <span>مستفيدات الطالبات</span>
+      <strong id="approvalFemaleBeneficiaries">0</strong>
+      <small>إجمالي الطالبات المستفيدات</small>
+    </div>
+    <button class="card approval-stat-card clubs-stat" id="registeredClubsStat" type="button">
+      <span>عدد النوادي المسجلة</span>
+      <strong id="registeredClubsCount">0</strong>
+      <small>اضغط لعرض النوادي وأنشطتها</small>
+    </button>
+  </div>
+
+  <div class="approval-secondary-grid">
+    <div class="card approval-rate-card">
+      <div>
+        <span class="approval-rate-label">نسبة الموافقات</span>
+        <strong id="approvalPercentText">0%</strong>
+      </div>
+      <div class="donut compact-donut" id="approvalDonut" style="--p:0">
+        <b id="approvalPercent">0%</b>
+      </div>
+    </div>
+
+    <div class="card registered-clubs-panel hidden" id="registeredClubsPanel">
+      <div class="registered-clubs-header">
+        <div>
+          <h4>النوادي المسجلة والمفعلة</h4>
+          <p>تتحدث القائمة تلقائيًا عند اعتماد نادي جديد.</p>
+        </div>
+        <button class="btn outline" id="closeRegisteredClubsPanel" type="button">إغلاق</button>
+      </div>
+      <div class="table-wrap">
+        <table class="registered-clubs-table">
+          <thead>
+            <tr>
+              <th>اسم النادي</th>
+              <th>الحالة</th>
+              <th>عدد الأنشطة</th>
+              <th>الأنشطة المرتبطة</th>
+            </tr>
+          </thead>
+          <tbody id="registeredClubsRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
   <div class="card table-card"><div class="table-wrap"><table><thead><tr><th>نوع الطلب</th><th>العنوان</th><th>مقدم الطلب</th><th>التاريخ</th><th>الفئة/السعة</th><th>الحالة</th><th>الإجراء</th></tr></thead><tbody id="approvalRequestRows"></tbody></table></div></div>
 </section><section id="page-calendar" class="page">
       <div class="section-title"><div><h3>التقويم الموحد</h3><p>تقويم واحد مع فلاتر: أكاديمي، مناسبات رسمية، إسلامية، أنشطة، رياضة، تطوع.</p></div><label class="btn outline filebtn">استيراد Calendar<input id="importCalendar" type="file" accept=".xlsx,.xls,.pdf,.ics" hidden></label></div>
@@ -912,6 +984,6 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=23.2"></script>
+<script src="js/app.js?v=23.3"></script>
 </body>
 </html>
