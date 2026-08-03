@@ -3889,3 +3889,179 @@ body.theme-dark #indicatorSettingsModal .modal-actions{
         grid-column:auto!important;
     }
 }
+
+
+/* ==========================================================
+   SAH V22.9 — Center action buttons in all modal dialogs
+   ========================================================== */
+
+/*
+  توسيط أزرار الحفظ والإلغاء والاستعادة في جميع النوافذ المنبثقة،
+  وليس فقط نافذة تعديل حاسبة النقاط.
+*/
+.modal .modal-actions,
+#addActivityModal .modal-actions,
+#fieldPointsCalculatorModal .modal-actions,
+#indicatorFieldsManagerModal .modal-actions,
+#indicatorSettingsModal .modal-actions{
+    display:flex!important;
+    justify-content:center!important;
+    align-items:center!important;
+    align-content:center!important;
+    flex-wrap:wrap!important;
+
+    gap:14px!important;
+    width:100%!important;
+    max-width:100%!important;
+
+    margin:20px auto 0!important;
+    padding:18px 22px!important;
+
+    position:sticky!important;
+    right:auto!important;
+    left:auto!important;
+    bottom:0!important;
+
+    direction:rtl!important;
+    text-align:center!important;
+
+    background:#ffffff!important;
+    border-top:1px solid var(--border)!important;
+    box-shadow:0 -8px 22px rgba(7,44,100,.07)!important;
+}
+
+/*
+  منع أي زر داخل النوافذ من الالتصاق بطرف اليمين أو اليسار.
+*/
+.modal .modal-actions .btn,
+.modal .modal-actions button,
+#addActivityModal .modal-actions .btn,
+#addActivityModal .modal-actions button,
+#fieldPointsCalculatorModal .modal-actions .btn,
+#fieldPointsCalculatorModal .modal-actions button,
+#indicatorFieldsManagerModal .modal-actions .btn,
+#indicatorFieldsManagerModal .modal-actions button{
+    flex:0 0 auto!important;
+    width:auto!important;
+    min-width:0!important;
+
+    margin:0!important;
+    float:none!important;
+
+    position:relative!important;
+    right:auto!important;
+    left:auto!important;
+    transform:none!important;
+
+    justify-content:center!important;
+    text-align:center!important;
+    white-space:nowrap!important;
+}
+
+/*
+  جعل زر الحفظ الأساسي آخر عنصر بصريًا في المجموعة مع الحفاظ
+  على وجوده في المنتصف مع بقية الأزرار.
+*/
+.modal .modal-actions .btn.primary,
+.modal .modal-actions button.btn.primary{
+    order:10!important;
+}
+
+/*
+  أزرار الإلغاء والإغلاق.
+*/
+.modal .modal-actions [data-close-indicator-settings],
+.modal .modal-actions [data-close-field-calculator],
+.modal .modal-actions [data-close-fields-manager],
+.modal .modal-actions [data-close-add-activity],
+.modal .modal-actions .btn.outline{
+    order:5!important;
+}
+
+/* الوضع الليلي */
+body.theme-dark .modal .modal-actions,
+body.theme-dark #addActivityModal .modal-actions,
+body.theme-dark #fieldPointsCalculatorModal .modal-actions,
+body.theme-dark #indicatorFieldsManagerModal .modal-actions,
+body.theme-dark #indicatorSettingsModal .modal-actions{
+    background:#061c3d!important;
+    border-color:var(--border)!important;
+    box-shadow:0 -8px 22px rgba(0,0,0,.18)!important;
+}
+
+/* الشاشات المتوسطة */
+@media(max-width:900px){
+    .modal .modal-actions,
+    #addActivityModal .modal-actions,
+    #fieldPointsCalculatorModal .modal-actions,
+    #indicatorFieldsManagerModal .modal-actions,
+    #indicatorSettingsModal .modal-actions{
+        gap:11px!important;
+        padding:15px 14px!important;
+    }
+
+    .modal .modal-actions .btn,
+    .modal .modal-actions button{
+        font-size:14px!important;
+        padding-inline:16px!important;
+    }
+}
+
+/* الجوال */
+@media(max-width:600px){
+    .modal .modal-actions,
+    #addActivityModal .modal-actions,
+    #fieldPointsCalculatorModal .modal-actions,
+    #indicatorFieldsManagerModal .modal-actions,
+    #indicatorSettingsModal .modal-actions{
+        display:grid!important;
+        grid-template-columns:repeat(2,minmax(0,1fr))!important;
+        justify-content:center!important;
+        align-items:stretch!important;
+
+        gap:9px!important;
+        width:100%!important;
+
+        margin:12px 0 0!important;
+        padding:12px!important;
+    }
+
+    .modal .modal-actions .btn,
+    .modal .modal-actions button{
+        width:100%!important;
+        min-width:0!important;
+        min-height:44px!important;
+
+        padding:10px 8px!important;
+
+        justify-content:center!important;
+        text-align:center!important;
+
+        white-space:normal!important;
+        line-height:1.4!important;
+    }
+
+    /*
+      زر الحفظ الأساسي يأخذ عرض الصف بالكامل على الجوال.
+    */
+    .modal .modal-actions .btn.primary,
+    .modal .modal-actions button.btn.primary{
+        grid-column:1/-1!important;
+    }
+}
+
+/* الهواتف الصغيرة جدًا */
+@media(max-width:390px){
+    .modal .modal-actions,
+    #addActivityModal .modal-actions,
+    #fieldPointsCalculatorModal .modal-actions,
+    #indicatorFieldsManagerModal .modal-actions,
+    #indicatorSettingsModal .modal-actions{
+        grid-template-columns:1fr!important;
+    }
+
+    .modal .modal-actions .btn.primary,
+    .modal .modal-actions button.btn.primary{
+        grid-column:auto!important;
+    }
+}
