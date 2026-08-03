@@ -484,3 +484,7 @@ body.theme-dark .indicator-limit-input{
         height:auto;
     }
 }
+
+.nav-group-title .arrow{
+    display:none !important;
+}
