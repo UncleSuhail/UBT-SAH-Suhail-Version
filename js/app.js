@@ -1443,3 +1443,183 @@ window.addEventListener('DOMContentLoaded',initPreferences);
 
   window.addEventListener('DOMContentLoaded', initializeV15);
 })();
+
+/* ==========================================================
+   SAH V17 — dynamic reports-to-indicator linkage
+   ========================================================== */
+(function(){
+  'use strict';
+
+  const MAIN_FIELD_FALLBACKS = [
+    'البطولات والمنافسات',
+    'البرامج والأنشطة الرياضية',
+    'المشاركة والاستضافة',
+    'المنح والطلاب الرياضيون'
+  ];
+
+  function fieldList(){
+    return window.SAH_DATA?.indicatorFields || [];
+  }
+
+  function mainFieldForRow(row,index){
+    if(row.mainField) return row.mainField;
+    const field = fieldList().find(item =>
+      item.field === (row.indicatorField || row.field || row.subCategory)
+    );
+    if(field?.track) return field.track;
+    return MAIN_FIELD_FALLBACKS[index % MAIN_FIELD_FALLBACKS.length];
+  }
+
+  function assignMainFieldsToExistingRows(){
+    (SAH_DATA.evidenceRecords || []).forEach((row,index)=>{
+      if(!row.mainField) row.mainField = mainFieldForRow(row,index);
+      if(!row.indicatorField){
+        const fields = fieldList();
+        if(fields.length){
+          const selected = fields[index % fields.length];
+          row.indicatorField = selected.field;
+          row.field = selected.field;
+          row.subCategory = selected.field;
+          row.mainField = selected.track || row.mainField;
+        }
+      }
+    });
+  }
+
+  function populateMainFieldOptions(){
+    const select = document.getElementById('activityMainField');
+    if(!select) return;
+    const tracks = [...new Set(fieldList().map(item=>item.track).filter(Boolean))];
+    select.innerHTML = tracks.map(track=>`<option value="${track}">${track}</option>`).join('');
+  }
+
+  function filterLinkedFields(){
+    const main = document.getElementById('activityMainField')?.value;
+    const linked = document.getElementById('activityIndicatorField');
+    if(!linked) return;
+    const rows = fieldList().filter(item=>!main || item.track===main);
+    linked.innerHTML = rows.map(item=>`<option value="${item.field}">${item.field}</option>`).join('');
+    if(typeof updateActivityPointsPreview==='function') updateActivityPointsPreview();
+  }
+
+  function capIndicatorPoints(){
+    fieldList().forEach(field=>{
+      const max = Math.max(0,Number(field.max)||0);
+      field.male = Math.min(max,Math.max(0,Number(field.male)||0));
+      field.female = Math.min(max,Math.max(0,Number(field.female)||0));
+    });
+  }
+
+  function updateAudienceTotals(){
+    const rows = typeof getFilteredEvidence==='function'
+      ? (window.getFilteredEvidence ? window.getFilteredEvidence() : [])
+      : [];
+    const allRows = (window.getFilteredEvidence && typeof window.getFilteredEvidence==='function')
+      ? (()=> {
+          const q=document.getElementById('evidenceSearch');
+          const col=document.getElementById('evidenceColumnFilter');
+          const comp=document.getElementById('evidenceCompletionFilter');
+          const stat=document.getElementById('evidenceStatus');
+          const old=[q?.value,col?.value,comp?.value,stat?.value];
+          if(q) q.value='';
+          if(col) col.value='all';
+          if(comp) comp.value='all';
+          if(stat) stat.value='all';
+          const result=window.getFilteredEvidence();
+          if(q) q.value=old[0]||'';
+          if(col) col.value=old[1]||'all';
+          if(comp) comp.value=old[2]||'all';
+          if(stat) stat.value=old[3]||'all';
+          return result;
+        })()
+      : (SAH_DATA.evidenceRecords||[]);
+
+    const totals = allRows.reduce((acc,row)=>{
+      const key = row.gender==='طالبات'?'female':'male';
+      acc[key].beneficiaries += Number(row.beneficiaries)||0;
+      acc[key].players += Number(row.players)||0;
+      return acc;
+    },{
+      male:{beneficiaries:0,players:0},
+      female:{beneficiaries:0,players:0}
+    });
+
+    setText('#maleBeneficiariesTotal',fmt(totals.male.beneficiaries));
+    setText('#malePlayersTotal',fmt(totals.male.players));
+    setText('#femaleBeneficiariesTotal',fmt(totals.female.beneficiaries));
+    setText('#femalePlayersTotal',fmt(totals.female.players));
+  }
+
+  const originalCalcIndicatorsV17 = window.calcIndicators;
+  window.calcIndicators = function(){
+    capIndicatorPoints();
+    originalCalcIndicatorsV17();
+    updateAudienceTotals();
+  };
+
+  const originalPopulateActivityFieldsV17 = window.populateActivityFields;
+  window.populateActivityFields = function(){
+    populateMainFieldOptions();
+    filterLinkedFields();
+  };
+
+  const originalRenderEvidenceV17 = window.renderEvidence;
+  window.renderEvidence = function(){
+    if(typeof originalRenderEvidenceV17==='function') originalRenderEvidenceV17();
+
+    document.querySelectorAll('#evidenceRows tr').forEach((tr,index)=>{
+      const key = tr.dataset.recordKey;
+      const rows = window.getFilteredEvidence ? window.getFilteredEvidence() : [];
+      const row = rows.find(item=>item.recordKey===key) || rows[index];
+      if(!row) return;
+
+      const cells = tr.children;
+      // Current structure: select,#,activity,date,days,beneficiaries,players,gender,linked...
+      const insertAt = 8;
+      if(cells.length && !tr.querySelector('.main-field-cell')){
+        const td=document.createElement('td');
+        td.className='main-field-cell';
+        td.textContent=row.mainField || mainFieldForRow(row,index);
+        tr.insertBefore(td,cells[insertAt]);
+      }
+    });
+
+    updateAudienceTotals();
+  };
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    assignMainFieldsToExistingRows();
+
+    document.getElementById('activityMainField')
+      ?.addEventListener('change',filterLinkedFields);
+
+    const saveButton=document.getElementById('saveNewActivity');
+    saveButton?.addEventListener('click',()=>{
+      setTimeout(()=>{
+        const main=document.getElementById('activityMainField')?.value;
+        const editKey=document.getElementById('activityEditKey')?.value;
+        const locals=JSON.parse(localStorage.getItem('sah-v15-local-activities')||'[]');
+        if(locals.length){
+          const target=editKey
+            ? locals.find(item=>(item.recordKey||item.localActivityId)===editKey)
+            : locals[locals.length-1];
+          if(target){
+            target.mainField=main||mainFieldForRow(target,0);
+            localStorage.setItem('sah-v15-local-activities',JSON.stringify(locals));
+          }
+        }
+        capIndicatorPoints();
+        window.calcIndicators();
+        window.renderEvidence();
+      },50);
+    });
+
+    setTimeout(()=>{
+      populateMainFieldOptions();
+      filterLinkedFields();
+      capIndicatorPoints();
+      window.calcIndicators();
+      window.renderEvidence();
+    },0);
+  });
+})();

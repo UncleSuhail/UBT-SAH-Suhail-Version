@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>SAH | منصة الأنشطة الطلابية</title>
-<link rel="stylesheet" href="css/style.css?v=16.0">
+<link rel="stylesheet" href="css/style.css?v=17.0">
 </head>
 <body class="login-mode">
 <section id="login" class="login-page">
@@ -297,8 +297,8 @@
       </div>
       <div class="reference-card"><div><h4 data-i18n="indicator.referenceTitle">مرجعية احتساب المؤشر</h4><p data-i18n="indicator.referenceText">يعتمد احتساب المؤشر على دليل مؤشر الأداء الرياضي الصادر من الاتحاد السعودي للرياضة الجامعية.</p></div><img src="assets/logos/susf-logo.png" alt="SUSF"></div>
       <div class="grid cols-2">
-        <div class="card indicator-card"><h4 data-i18n="indicator.male">مؤشر الأداء الرياضي - الطلاب</h4><div class="donut" id="maleDonut"><b id="malePct">0%</b></div><div class="points" id="malePoints">0 / 0 نقطة</div><p>لا يتم جمع هذا المؤشر مع مؤشر الطالبات.</p></div>
-        <div class="card indicator-card burg"><h4 data-i18n="indicator.female">مؤشر الأداء الرياضي - الطالبات</h4><div class="donut burg" id="femaleDonut"><b id="femalePct">0%</b></div><div class="points" id="femalePoints">0 / 0 نقطة</div><p>مؤشر مستقل حسب نفس المجالات والمسارات.</p></div>
+        <div class="card indicator-card"><h4 data-i18n="indicator.male">مؤشر الأداء الرياضي - الطلاب</h4><div class="donut" id="maleDonut"><b id="malePct">0%</b></div><div class="points" id="malePoints">0 / 0 نقطة</div><div class="indicator-audience-summary"><div><span>إجمالي المستفيدين</span><strong id="maleBeneficiariesTotal">0</strong></div><div><span>إجمالي اللاعبين</span><strong id="malePlayersTotal">0</strong></div></div><p>لا يتم جمع هذا المؤشر مع مؤشر الطالبات.</p></div>
+        <div class="card indicator-card burg"><h4 data-i18n="indicator.female">مؤشر الأداء الرياضي - الطالبات</h4><div class="donut burg" id="femaleDonut"><b id="femalePct">0%</b></div><div class="points" id="femalePoints">0 / 0 نقطة</div><div class="indicator-audience-summary burg-summary"><div><span>إجمالي المستفيدين</span><strong id="femaleBeneficiariesTotal">0</strong></div><div><span>إجمالي اللاعبين</span><strong id="femalePlayersTotal">0</strong></div></div><p>مؤشر مستقل حسب نفس المجالات والمسارات.</p></div>
       </div>
       <div class="grid cols-4">
         <div class="card stat"><div class="label">نقاط الطلاب المحققة</div><div class="value" id="maleAchieved">0</div><div class="sub">من أصل نقاط الدليل</div></div>
@@ -581,6 +581,7 @@
                 <th>المستفيدون</th>
                 <th>اللاعبون</th>
                 <th>الفئة</th>
+                <th>المجال الرئيسي</th>
                 <th>المجال المرتبط</th>
                 <th>نوع المشاركة</th>
                 <th>الجامعات المشاركة</th>
@@ -670,6 +671,7 @@
       <label><span>عدد المستفيدين</span><input id="activityBeneficiaries" type="number" min="0" value="0"></label>
       <label><span>عدد اللاعبين المشاركين</span><input id="activityPlayers" type="number" min="0" value="0"></label>
       <label><span>الفئة</span><select id="activityGender"><option value="طلاب">طلاب</option><option value="طالبات">طالبات</option></select></label>
+      <label><span>المجال الرئيسي</span><select id="activityMainField" required></select></label>
       <label><span>المجال المرتبط بالمؤشر</span><select id="activityIndicatorField" required></select></label>
       <label><span>نوع المشاركة</span><select id="activityParticipationType"><option value="guest">ضيف</option><option value="host">مستضيف</option></select></label>
       <label><span>عدد الجامعات المشاركة</span><input id="activityUniversities" type="number" min="0" value="0"></label>
@@ -728,6 +730,6 @@
 </div>
 <script src="js/data.js?v=15.0"></script>
 <script src="js/admin.js?v=15.0"></script>
-<script src="js/app.js?v=16.0"></script>
+<script src="js/app.js?v=17.0"></script>
 </body>
 </html>

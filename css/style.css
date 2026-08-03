@@ -1762,3 +1762,45 @@ body.theme-dark .evidence-status-filter{
   }
 }
 
+/* ==========================================================
+   SAH V17 — dynamic indicator linkage and audience totals
+   ========================================================== */
+
+.indicator-audience-summary{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin:16px 0 4px;
+}
+.indicator-audience-summary>div{
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:#f8fbff;
+}
+.indicator-audience-summary span{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:5px;
+}
+.indicator-audience-summary strong{
+  color:var(--blue);
+  font-size:20px;
+}
+.indicator-audience-summary.burg-summary strong{
+  color:var(--burg);
+}
+body.theme-dark .indicator-audience-summary>div{
+  background:rgba(255,255,255,.06);
+  border-color:var(--border);
+}
+body.theme-dark .indicator-audience-summary strong{
+  color:#fff;
+}
+
+/* account for the new main-field column */
+.evidence-table{
+  min-width:2210px!important;
+}
+
