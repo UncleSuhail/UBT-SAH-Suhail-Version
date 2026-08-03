@@ -867,7 +867,13 @@ window.addEventListener('DOMContentLoaded',initPreferences);
         name,
         mainField:group.mainField,
         guest:0,
-        host:0
+        guestMax:0,
+        host:0,
+        hostMax:0,
+        university:0,
+        universityMax:0,
+        player:0,
+        playerMax:0
       }))
     );
   }
@@ -888,7 +894,13 @@ window.addEventListener('DOMContentLoaded',initPreferences);
         name:String(item.name).trim(),
         mainField:validMain.has(item.mainField) ? item.mainField : '',
         guest:Math.max(0,Number(item.guest)||0),
-        host:Math.max(0,Number(item.host)||0)
+        guestMax:Math.max(0,Number(item.guestMax)||0),
+        host:Math.max(0,Number(item.host)||0),
+        hostMax:Math.max(0,Number(item.hostMax)||0),
+        university:Math.max(0,Number(item.university)||0),
+        universityMax:Math.max(0,Number(item.universityMax)||0),
+        player:Math.max(0,Number(item.player)||0),
+        playerMax:Math.max(0,Number(item.playerMax)||0)
       }));
 
     const keyOf=item=>`${item.mainField}|||${item.name}`;
@@ -929,7 +941,16 @@ window.addEventListener('DOMContentLoaded',initPreferences);
       subfields: Object.fromEntries(
         loadSubFields().map(item => [
           item.name,
-          { guest: Number(item.guest)||0, host: Number(item.host)||0 }
+          {
+            guest:Number(item.guest)||0,
+            guestMax:Number(item.guestMax)||0,
+            host:Number(item.host)||0,
+            hostMax:Number(item.hostMax)||0,
+            university:Number(item.university)||0,
+            universityMax:Number(item.universityMax)||0,
+            player:Number(item.player)||0,
+            playerMax:Number(item.playerMax)||0
+          }
         ])
       )
     };
@@ -980,14 +1001,45 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   function subFieldRow(item,index,calculator){
     const mains=(SAH_DATA.indicatorFields||[]).map(field=>`<option value="${field.field}" ${field.field===item.mainField?'selected':''}>${field.field}</option>`).join('');
     const points=calculator.subfields?.[item.name] || item;
+
+    const pair=(label,valueClass,maxClass,value,maxValue)=>`
+      <div class="points-limit-group">
+        <span class="points-limit-title">${label}</span>
+        <label class="points-limit-field">
+          <span>النقاط</span>
+          <input class="${valueClass}" type="number" min="0"
+                 value="${Math.max(0,Number(value)||0)}">
+        </label>
+        <label class="points-limit-field limit">
+          <span>الحد الأقصى</span>
+          <input class="${maxClass}" type="number" min="0"
+                 value="${Math.max(0,Number(maxValue)||0)}"
+                 title="القيمة 0 تعني بلا حد أقصى">
+        </label>
+      </div>`;
+
     return `<div class="subfield-calculator-row" data-id="${item.id}">
-      <label><span>اسم المجال الفرعي</span><input class="subfield-name" value="${item.name||''}" required></label>
-      <label><span>المجال الرئيسي المرتبط</span><select class="subfield-main"><option value="">غير مرتبط</option>${mains}</select></label>
-      <label><span>نقاط المشاركة كضيف</span><input class="subfield-guest" type="number" min="0" value="${Number(points.guest)||0}"></label>
-      <label><span>نقاط المشاركة كمستضيف</span><input class="subfield-host" type="number" min="0" value="${Number(points.host)||0}"></label>
-      <label><span>نقاط كل جامعة مشاركة</span><input class="subfield-university" type="number" min="0" value="${Number(points.university)||0}"></label>
-      <label><span>نقاط كل لاعب مشارك</span><input class="subfield-player" type="number" min="0" value="${Number(points.player)||0}"></label>
-      <button class="subfield-delete" type="button">🗑</button>
+      <div class="subfield-identity">
+        <label>
+          <span>اسم المجال الفرعي</span>
+          <input class="subfield-name" value="${item.name||''}" required>
+        </label>
+        <label>
+          <span>المجال الرئيسي المرتبط</span>
+          <select class="subfield-main">
+            <option value="">غير مرتبط</option>${mains}
+          </select>
+        </label>
+      </div>
+
+      <div class="subfield-points-limits">
+        ${pair('نقاط المشاركة كضيف','subfield-guest','subfield-guest-max',points.guest,points.guestMax)}
+        ${pair('نقاط المشاركة كمستضيف','subfield-host','subfield-host-max',points.host,points.hostMax)}
+        ${pair('نقاط كل جامعة مشاركة','subfield-university','subfield-university-max',points.university,points.universityMax)}
+        ${pair('نقاط كل لاعب مشارك','subfield-player','subfield-player-max',points.player,points.playerMax)}
+      </div>
+
+      <button class="subfield-delete" type="button" title="حذف المجال الفرعي">🗑</button>
     </div>`;
   }
 
@@ -1034,14 +1086,27 @@ window.addEventListener('DOMContentLoaded',initPreferences);
         name:row.querySelector('.subfield-name')?.value.trim()||'',
         mainField:row.querySelector('.subfield-main')?.value||'',
         guest:Math.max(0,Number(row.querySelector('.subfield-guest')?.value)||0),
+        guestMax:Math.max(0,Number(row.querySelector('.subfield-guest-max')?.value)||0),
         host:Math.max(0,Number(row.querySelector('.subfield-host')?.value)||0),
+        hostMax:Math.max(0,Number(row.querySelector('.subfield-host-max')?.value)||0),
         university:Math.max(0,Number(row.querySelector('.subfield-university')?.value)||0),
-        player:Math.max(0,Number(row.querySelector('.subfield-player')?.value)||0)
+        universityMax:Math.max(0,Number(row.querySelector('.subfield-university-max')?.value)||0),
+        player:Math.max(0,Number(row.querySelector('.subfield-player')?.value)||0),
+        playerMax:Math.max(0,Number(row.querySelector('.subfield-player-max')?.value)||0)
       }))
       .filter(item=>item.name);
 
     subfields.forEach(item=>{
-      calculator.subfields[item.name]={guest:item.guest,host:item.host,university:item.university,player:item.player};
+      calculator.subfields[item.name]={
+        guest:item.guest,
+        guestMax:item.guestMax,
+        host:item.host,
+        hostMax:item.hostMax,
+        university:item.university,
+        universityMax:item.universityMax,
+        player:item.player,
+        playerMax:item.playerMax
+      };
     });
     saveSubFields(subfields);
 
@@ -1084,12 +1149,36 @@ window.addEventListener('DOMContentLoaded',initPreferences);
 
   function calculateActivityPoints(activity) {
     const calculator = loadFieldCalculator();
-    const p = calculator.subfields?.[activity.subField] || {guest:0,host:0,university:0,player:0};
-    const host = activity.participationType === 'host';
+    const p = calculator.subfields?.[activity.subField] || {
+      guest:0,guestMax:0,
+      host:0,hostMax:0,
+      university:0,universityMax:0,
+      player:0,playerMax:0
+    };
+
+    const cap=(value,max)=>{
+      const safeValue=Math.max(0,Number(value)||0);
+      const safeMax=Math.max(0,Number(max)||0);
+      return safeMax>0 ? Math.min(safeValue,safeMax) : safeValue;
+    };
+
+    const isHost=activity.participationType==='host';
+    const participationPoints=isHost
+      ? cap(p.host,p.hostMax)
+      : cap(p.guest,p.guestMax);
+
+    const universityPoints=cap(
+      Number(activity.universities||0)*Number(p.university||0),
+      p.universityMax
+    );
+
+    const playerPoints=cap(
+      Number(activity.players||0)*Number(p.player||0),
+      p.playerMax
+    );
+
     return Math.max(0,Math.round(
-      Number(host?p.host:p.guest) +
-      Number(activity.universities||0)*Number(p.university||0) +
-      Number(activity.players||0)*Number(p.player||0)
+      participationPoints+universityPoints+playerPoints
     ));
   }
 
@@ -4543,4 +4632,11 @@ window.addEventListener('DOMContentLoaded',()=>{
 window.addEventListener('DOMContentLoaded',()=>{
   console.info('SAH build 24.1 loaded');
   document.documentElement.dataset.sahBuild='24.1';
+});
+
+
+/* SAH V24.2 — per-item maximum point limits */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 24.2 loaded');
+  document.documentElement.dataset.sahBuild='24.2';
 });
