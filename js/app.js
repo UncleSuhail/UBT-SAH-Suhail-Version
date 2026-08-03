@@ -4537,3 +4537,10 @@ window.addEventListener('DOMContentLoaded',()=>{
   console.info('SAH build 23.9 loaded');
   document.documentElement.dataset.sahBuild='23.9';
 });
+
+
+/* SAH V24.0 — clubs regulations link */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 24.0 loaded');
+  document.documentElement.dataset.sahBuild='24.0';
+});
