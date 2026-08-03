@@ -3483,3 +3483,23 @@ body{
   cursor:not-allowed;
 }
 
+
+/* SAH V22 */
+.activity-category-menu{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:18px}
+.activity-category-menu button{min-height:54px;border:1px solid var(--border);border-radius:16px;background:#fff;color:var(--blue);font-weight:800;cursor:pointer;padding:10px}
+.activity-category-menu button.active{background:var(--blue);color:#fff}
+.workflow-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.workflow-form.single-column{grid-template-columns:1fr}
+.workflow-form label{display:flex;flex-direction:column;gap:7px}
+.workflow-form label span{color:var(--blue);font-size:12px;font-weight:800}
+.workflow-form input,.workflow-form select,.workflow-form textarea{width:100%;border:1px solid var(--border);border-radius:12px;padding:11px 12px;background:#fff;color:var(--text)}
+.form-submit-row{grid-column:1/-1}
+.calculator-notice{margin-bottom:14px;padding:13px 15px;border:1px solid #bfd0e8;border-radius:14px;background:#f4f8ff;color:var(--blue)}
+.subfield-calculator-row{grid-template-columns:minmax(160px,1fr) minmax(180px,1fr) repeat(4,120px) 44px!important}
+.request-status{display:inline-flex;padding:6px 10px;border-radius:999px;font-weight:800;font-size:12px}
+.request-status.pending{background:#fff7df;color:#946200}.request-status.accepted{background:#e7f8ef;color:#08764e}.request-status.rejected{background:#fff0f4;color:#ad2348}
+.approval-actions{display:flex;gap:6px;flex-wrap:wrap}.approval-actions button{padding:7px 10px;border-radius:9px;border:1px solid var(--border);cursor:pointer}
+.approve-btn{background:#e7f8ef;color:#08764e}.reject-btn{background:#fff0f4;color:#ad2348}
+.student-event-card{display:flex;flex-direction:column}.student-event-card .btn{margin-top:auto}
+@media(max-width:1100px){.activity-category-menu{grid-template-columns:repeat(2,minmax(0,1fr))}.subfield-calculator-row{grid-template-columns:1fr!important}}
+@media(max-width:650px){.activity-category-menu{grid-template-columns:1fr}.workflow-form{grid-template-columns:1fr}.form-submit-row{grid-column:auto}}

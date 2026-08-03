@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>SAH | منصة الأنشطة الطلابية</title>
-<link rel="stylesheet" href="css/style.css?v=21.0">
+<link rel="stylesheet" href="css/style.css?v=22.0">
 
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
@@ -71,7 +71,7 @@
 </style>
 
 </head>
-<body data-sah-version="21.0" class="login-mode">
+<body data-sah-version="22.0" class="login-mode">
 <section id="login" class="login-page">
   <div class="login-bg"></div>
   <div class="login-card">
@@ -137,12 +137,14 @@
                 المستخدم الحالي
             </label>
 
-            <select id="activeRole">
-                <option value="system">مسؤول النظام</option>
-                <option value="indicator">مسؤول مؤشر الأداء الرياضي</option>
-                <option value="sports_manager">مدير النادي الرياضي</option>
-                <option value="dean">عميد شؤون الطلاب</option>
-            </select>
+            <select id="activeRole"><option value="system">مسؤول النظام</option>
+<option value="indicator">مسؤول مؤشر الأداء الرياضي</option>
+<option value="sports_manager">مدير النادي الرياضي</option>
+<option value="dean">عميد شؤون الطلاب</option>
+<option value="coach">مدرب رياضي - كابتن محمد نفار</option>
+<option value="activities_manager">مدير الأنشطة الطلابية - الأستاذ فهد</option>
+<option value="student_account">حساب طالب - فلان الفلاني</option>
+<option value="faculty">عضو هيئة التدريس - د. كريم سليمان</option></select>
 
         </div>
 
@@ -179,12 +181,14 @@
   </div>
 
   <div class="mobile-role-actions">
-    <select id="mobileActiveRole" aria-label="تغيير الصلاحية">
-      <option value="system">مسؤول النظام</option>
-      <option value="indicator">مسؤول مؤشر الأداء الرياضي</option>
-      <option value="sports_manager">مدير النادي الرياضي</option>
-      <option value="dean">عميد شؤون الطلاب</option>
-    </select>
+    <select id="mobileActiveRole" aria-label="تغيير الصلاحية"><option value="system">مسؤول النظام</option>
+<option value="indicator">مسؤول مؤشر الأداء الرياضي</option>
+<option value="sports_manager">مدير النادي الرياضي</option>
+<option value="dean">عميد شؤون الطلاب</option>
+<option value="coach">مدرب رياضي - كابتن محمد نفار</option>
+<option value="activities_manager">مدير الأنشطة الطلابية - الأستاذ فهد</option>
+<option value="student_account">حساب طالب - فلان الفلاني</option>
+<option value="faculty">عضو هيئة التدريس - د. كريم سليمان</option></select>
   </div>
 </div>
 <div id="fixedStackSpacer" class="fixed-stack-spacer" aria-hidden="true"></div>
@@ -208,7 +212,7 @@
         <button class="nav-group-title" type="button" aria-expanded="true">
           <span class="group-left">
             <span class="nav-group-symbol" aria-hidden="true">🏆</span>
-            <span class="nav-group-name">القسم الرياضي</span>
+            <span class="nav-group-name">الشؤون الرياضية</span>
           </span>
         </button>
 
@@ -216,6 +220,10 @@
           <button data-page="sports" type="button">
             <span>الإدارة الرياضية</span>
             <small data-icon="trophy"></small>
+          </button>
+          <button data-page="sports-request" type="button">
+            <span>تقديم طلب تنفيذ بطولة/حدث</span>
+            <small data-icon="calendar"></small>
           </button>
           <button data-page="indicator" type="button">
             <span>مؤشر الأداء الرياضي</span>
@@ -248,7 +256,7 @@
         <button class="nav-group-title" type="button" aria-expanded="false">
           <span class="group-left">
             <span class="nav-group-symbol" aria-hidden="true">👨‍🎓</span>
-            <span class="nav-group-name">قسم الطالب</span>
+            <span class="nav-group-name">خدمات الطلبة</span>
           </span>
         </button>
 
@@ -268,18 +276,26 @@
         <button class="nav-group-title" type="button" aria-expanded="false">
           <span class="group-left">
             <span class="nav-group-symbol" aria-hidden="true">🎓</span>
-            <span class="nav-group-name">عمادة شؤون الطلاب</span>
+            <span class="nav-group-name">الأنشطة الطلابية</span>
           </span>
         </button>
 
         <div class="nav-items">
           <button data-page="activities" type="button">
-            <span>الأنشطة الطلابية العامة</span>
+            <span>الأنشطة والفعاليات</span>
             <small data-icon="activity"></small>
           </button>
           <button data-page="volunteer" type="button">
-            <span>العمل التطوعي</span>
+            <span>الفرص التطوعية</span>
             <small data-icon="heart"></small>
+          </button>
+          <button data-page="clubs" type="button">
+            <span>الأندية الطلابية</span>
+            <small data-icon="users"></small>
+          </button>
+          <button data-page="approvals" type="button">
+            <span>صلاحيات عمادة شؤون الطلاب</span>
+            <small data-icon="award"></small>
           </button>
           <button data-page="admin" type="button">
             <span>إدارة البيانات</span>
@@ -431,49 +447,99 @@
     </section>
 
     <section id="page-activities" class="page">
-      <div class="hero compact">
-        <div class="hero-img" style="background-image:url('assets/images/campus-gate.jpg')"></div>
-        <div class="hero-content"><span class="eyebrow">وحدة الأنشطة الطلابية العامة</span><h2>الأندية، الفعاليات، المبادرات والبرامج</h2><p>إدارة الأنشطة العامة منفصلة عن الإدارة الرياضية، مع استقبال طلبات الطلاب الخاصة بها فقط.</p></div>
-      </div>
-
-      <div class="section-title"><div><h3>مجالات الأنشطة الطلابية</h3><p>تصنيف الأنشطة حسب المجالات المعتمدة داخل عمادة شؤون الطلاب.</p></div></div>
-      <div class="grid cols-4" id="activityCategoryCards">
-        <div class="card service"><span data-icon="activity"></span><h4>الأنشطة التوعوية</h4><p>برامج توعوية موجهة للطلبة.</p></div>
-        <div class="card service"><span data-icon="heart"></span><h4>الأنشطة والبرامج المجتمعية والتطوعية</h4><p>أنشطة ومبادرات تخدم المجتمع وتمنح ساعات تطوعية.</p></div>
-        <div class="card service"><span data-icon="briefcase"></span><h4>الأنشطة الثقافية</h4><p>فعاليات ثقافية ومشاركات طلابية.</p></div>
-        <div class="card service"><span data-icon="chart"></span><h4>الأنشطة العلمية</h4><p>برامج ومسابقات وورش علمية.</p></div>
-        <div class="card service"><span data-icon="pen"></span><h4>الأنشطة الفنية</h4><p>فعاليات فنية وإبداعية.</p></div>
-        <div class="card service"><span data-icon="trophy"></span><h4>الأنشطة الرياضية</h4><p>ترتبط بوحدة الإدارة الرياضية داخل المنصة.</p></div>
-        <div class="card service"><span data-icon="award"></span><h4>البرامج التدريبية</h4><p>دورات وورش لتطوير مهارات الطلبة.</p></div>
-        <div class="card service"><span data-icon="home"></span><h4>برامج عامة على مستوى الجامعة</h4><p>برامج مركزية تشمل جميع الطلبة.</p></div>
-      </div>
-
-      <div class="grid cols-3">
-        <div class="card form-card"><h4>إضافة نادي طلابي</h4><input placeholder="اسم النادي"><select><option>طلاب وطالبات</option><option>طلاب</option><option>طالبات</option></select><input placeholder="مشرف النادي"><button class="btn primary">إضافة نادي</button></div>
-        <div class="card form-card"><h4>إضافة فعالية / مبادرة</h4><input placeholder="اسم الفعالية"><input type="date"><select><option>أنشطة طلابية</option><option>مبادرة</option><option>فعالية</option></select><label class="check"><input type="checkbox"> تمنح ساعات تطوعية</label><button class="btn primary">إضافة فعالية</button></div>
-        <div class="card"><h4>الأندية المسجلة</h4><div id="clubsList" class="mini-list"></div></div>
-      </div>
-    </section>
+  <div class="section-title"><div><h3>الأنشطة والفعاليات</h3><p>تتحدث البيانات مباشرة من جدول التقارير والتحليلات حسب فئة الحدث.</p></div></div>
+  <div class="activity-category-menu" id="activityEventCategoryMenu"><button type="button" data-event-category="الأنشطة التوعوية">الأنشطة التوعوية</button><button type="button" data-event-category="الأنشطة و البرامج المجتمعية و التطوعية">الأنشطة و البرامج المجتمعية و التطوعية</button><button type="button" data-event-category="الأنشطة الثقافية">الأنشطة الثقافية</button><button type="button" data-event-category="الأنشطة العلمية">الأنشطة العلمية</button><button type="button" data-event-category="الأنشطة الفنية">الأنشطة الفنية</button><button type="button" data-event-category="الأنشطة الرياضية">الأنشطة الرياضية</button><button type="button" data-event-category="البرامج التدريبية">البرامج التدريبية</button><button type="button" data-event-category="برامج عامة على مستوى الجامعة">برامج عامة على مستوى الجامعة</button></div>
+  <div class="grid cols-4">
+    <div class="card stat"><div class="label">أنشطة الطلاب</div><div class="value" id="categoryMaleCount">0</div></div>
+    <div class="card stat burg"><div class="label">أنشطة الطالبات</div><div class="value" id="categoryFemaleCount">0</div></div>
+    <div class="card stat"><div class="label">مجموع الأنشطة</div><div class="value" id="categoryTotalCount">0</div></div>
+    <div class="card stat"><div class="label">مجموع المستفيدين</div><div class="value" id="categoryBeneficiaries">0</div></div>
+  </div>
+  <div class="grid cols-2">
+    <div class="card indicator-card"><h4>توزيع الأنشطة</h4><div class="donut" id="categoryGenderDonut" style="--p:0"><b id="categoryGenderPercent">0%</b></div><p id="categoryCurrentName">اختر فئة.</p></div>
+    <div class="card"><h4>المستفيدون</h4><div class="profile-meta"><div class="meta-box"><span>الطلاب</span><b id="categoryMaleBeneficiaries">0</b></div><div class="meta-box"><span>الطالبات</span><b id="categoryFemaleBeneficiaries">0</b></div></div></div>
+  </div>
+  <div class="card table-card"><div class="table-wrap"><table>
+    <thead><tr><th>اسم النشاط</th><th>التاريخ</th><th>الأيام</th><th>المستفيدون</th><th>الفئة</th><th>التوثيق</th></tr></thead>
+    <tbody id="categoryActivityRows"></tbody>
+  </table></div></div>
+</section>
 
     <section id="page-volunteer" class="page">
-      <div class="section-title"><div><h3>العمل التطوعي</h3><p>فرص تطوعية واحتساب ساعات حسب الضوابط اللاصفية وآلية احتساب الساعات التطوعية.</p></div><a class="btn outline" href="assets/docs/volunteer-hours-policy.pdf" target="_blank">عرض الدليل الكامل</a></div>
-      <div class="grid cols-3"><div class="card stat"><div class="label">فرص مفتوحة</div><div class="value" id="volunteerOpps">0</div><div class="sub">في المنصة</div></div><div class="card stat"><div class="label">ساعات مقترحة</div><div class="value">20+</div><div class="sub">حسب الفرص الحالية</div></div><div class="card stat"><div class="label">طلبات تحت المراجعة</div><div class="value" id="volunteerRequests">0</div><div class="sub">مرتبطة بالفرص</div></div></div>
-      <div class="section-title"><div><h3>آلية احتساب الساعات التطوعية</h3><p>تعرض داخل الصفحة حتى يفهمها الطالب والمسؤول بدون الرجوع للملف.</p></div></div>
-      <div class="grid cols-3">
-        <div class="card"><h4>الأنشطة والفعاليات العامة</h4><div class="table-wrap"><table><thead><tr><th>الساعات</th><th>نقاط الحضور</th><th>نقاط التنظيم</th></tr></thead><tbody><tr><td>1 - 3</td><td>3</td><td>5</td></tr><tr><td>4 - 8</td><td>5</td><td>8</td></tr><tr><td>9 - 15</td><td>7</td><td>11</td></tr><tr><td>أكثر من 16</td><td>10</td><td>15</td></tr></tbody></table></div></div>
-        <div class="card"><h4>عضوية اللجان والأندية</h4><div class="table-wrap"><table><thead><tr><th>نسبة المشاركة</th><th>النقاط</th></tr></thead><tbody><tr><td>90% - 100%</td><td>5</td></tr><tr><td>50% - 89%</td><td>3</td></tr><tr><td>10% - 49%</td><td>2</td></tr></tbody></table></div></div>
-        <div class="card"><h4>المسابقات</h4><div class="table-wrap"><table><thead><tr><th>المركز</th><th>داخلية</th><th>محلية</th><th>دولية</th></tr></thead><tbody><tr><td>الأول</td><td>10</td><td>15</td><td>20</td></tr><tr><td>الثاني</td><td>7</td><td>12</td><td>17</td></tr><tr><td>الثالث</td><td>5</td><td>9</td><td>15</td></tr><tr><td>مشاركة فقط</td><td>1</td><td>3</td><td>7</td></tr></tbody></table></div></div>
-      </div>
-    </section>
+  <div class="section-title"><div><h3>الفرص التطوعية</h3><p>إنشاء فرصة تطوعية وإرسالها للاعتماد.</p></div></div>
+  <div class="card"><form id="volunteerOpportunityForm" class="workflow-form">
+    <label><span>نوع العمل التطوعي</span><input id="volunteerType" required></label>
+    <label><span>عدد الأفراد المطلوبين</span><input id="volunteerCapacity" type="number" min="1" required></label>
+    <label><span>اسم الحدث</span><input id="volunteerEventName" required></label>
+    <label><span>تاريخ الحدث</span><input id="volunteerEventDate" type="date" required></label>
+    <label><span>الجهة الراعية</span><input id="volunteerSponsor" required></label>
+    <label><span>الجهة المسؤولة</span><input id="volunteerOwner" required></label>
+    <label><span>مكان الحدث</span><input id="volunteerLocation" required></label>
+    <div class="form-submit-row"><button id="submitVolunteerOpportunity" class="btn primary" type="button">إرسال الطلب</button></div>
+  </form></div>
+  <div class="card table-card"><div class="table-wrap"><table>
+    <thead><tr><th>الحدث</th><th>التاريخ</th><th>السعة</th><th>الجهة المسؤولة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead>
+    <tbody id="volunteerRequestRows"></tbody>
+  </table></div></div>
+</section>
 
     <section id="page-student" class="page">
-      <div class="section-title"><div><h3>بوابة الطالب</h3><p>الطالب يرى كل الفرص التي تهمه في مكان واحد، والإدارة تستقبل الطلب حسب نوع الفرصة.</p></div></div>
-      <div class="grid cols-3"><div class="card stat"><div class="label">فرص رياضية</div><div class="value" id="studentSportsOpps">0</div><div class="sub">تذهب للإدارة الرياضية</div></div><div class="card stat burg"><div class="label">فرص أنشطة</div><div class="value" id="studentActivityOpps">0</div><div class="sub">تذهب للأنشطة الطلابية</div></div><div class="card stat"><div class="label">طلبات الطالب</div><div class="value" id="studentApps">0</div><div class="sub">قيد المراجعة أو مقبولة</div></div></div>
-      <div class="section-title"><div><h3>الفرص المتاحة</h3><p>شواغر، فعاليات، مبادرات، وفرص تطوعية.</p></div><div id="oppFilters" class="filterbar"><button class="active" data-filter="all">الكل</button><button data-filter="sports">رياضية</button><button data-filter="activities">أنشطة</button><button data-filter="volunteer">تطوع</button></div></div>
-      <div class="grid cols-3" id="opportunityCards"></div>
-    </section>
+  <div class="section-title"><div><h3>بوابة الطالب</h3><p>الفعاليات المعتمدة المتاحة للتقديم ومتابعة حالة الطلبات.</p></div></div>
+  <div class="grid cols-2">
+    <div class="card stat"><div class="label">عدد الفعاليات التي شاركت فيها</div><div class="value" id="studentJoinedCount">0</div></div>
+    <div class="card stat burg"><div class="label">عدد الفعاليات التي قدمت إليها</div><div class="value" id="studentAppliedCount">0</div></div>
+  </div>
+  <div class="section-title"><div><h3>الفعاليات المقبولة والمتاحة</h3><p>تختفي الفعالية من القائمة بعد الضغط على قدم الآن.</p></div></div>
+  <div class="grid cols-3" id="studentApprovedOpportunityCards"></div>
+  <div class="card table-card"><div class="table-wrap"><table>
+    <thead><tr><th>الفعالية</th><th>النوع</th><th>تاريخ التقديم</th><th>الحالة</th></tr></thead>
+    <tbody id="studentApplicationRows"></tbody>
+  </table></div></div>
+</section>
 
-    <section id="page-calendar" class="page">
+    <section id="page-sports-request" class="page">
+  <div class="section-title"><div><h3>تقديم طلب تنفيذ بطولة/حدث</h3><p>يشترط ثلاثة أيام على الأقل بين التقديم والحدث.</p></div></div>
+  <div class="card"><form class="workflow-form">
+    <label><span>اسم الحدث/البطولة</span><input id="sportsReqName"></label>
+    <label><span>تاريخ الحدث</span><input id="sportsReqDate" type="date"></label>
+    <label><span>نوع اللعبة</span><select id="sportsReqGame"><option>كرة القدم</option><option>كرة السلة</option><option>الكرة الطائرة</option><option>كرة اليد</option><option>التنس</option><option>تنس الطاولة</option><option>السباحة</option><option>ألعاب القوى</option><option>الكاراتيه</option><option>الجودو</option><option>البلياردو</option><option>الشطرنج</option><option>رياضة أخرى</option></select></label>
+    <label><span>عدد المشاركين</span><input id="sportsReqParticipants" type="number" min="1"></label>
+    <label><span>عدد الفرق المشاركة</span><input id="sportsReqTeams" type="number" min="0" value="0"></label>
+    <label><span>عدد الجامعات المشاركة</span><input id="sportsReqUniversities" type="number" min="0" value="0"></label>
+    <label><span>الحد الأقصى للمتقدمين</span><input id="sportsReqCapacity" type="number" min="1"></label>
+    <label><span>الفئة المستهدفة</span><select id="sportsReqGender"><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
+    <div class="form-submit-row"><button id="submitSportsRequest" class="btn primary" type="button">إرسال الطلب</button></div>
+  </form></div>
+  <div class="card table-card"><div class="table-wrap"><table><thead><tr><th>الحدث</th><th>التاريخ</th><th>اللعبة</th><th>السعة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead><tbody id="sportsRequestRows"></tbody></table></div></div>
+  <div class="card table-card"><h4>طلبات الطلبة</h4><div class="table-wrap"><table><thead><tr><th>الحدث</th><th>الاسم</th><th>الرقم الجامعي</th><th>الإيميل</th><th>العمر</th><th>الجنس</th><th>الجوال</th><th>القرار</th></tr></thead><tbody id="sportsApplicantRows"></tbody></table></div></div>
+</section><section id="page-clubs" class="page">
+  <div class="section-title"><div><h3>الأندية الطلابية</h3><p>تأسيس نادٍ جديد أو تقديم مبادرة/فعالية تابعة لنادٍ.</p></div></div>
+  <div class="grid cols-2">
+    <div class="card"><h4>تقديم طلب تسجيل نادي جديد</h4><form class="workflow-form single-column">
+      <label><span>اسم النادي</span><input id="clubName"></label><label><span>مشرف النادي</span><input id="clubSupervisor"></label>
+      <label><span>مسؤول النادي</span><input id="clubManager"></label><label><span>الأعضاء (10 على الأقل، كل اسم في سطر)</span><textarea id="clubMembers" rows="7"></textarea></label>
+      <label><span>هدف النادي</span><textarea id="clubGoal"></textarea></label><label><span>شعار النادي</span><input id="clubLogo" type="file" accept="image/*"></label>
+      <label><span>الفئة</span><select id="clubGender"><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
+      <button id="submitClubRequest" class="btn primary" type="button">إرسال طلب النادي</button>
+    </form></div>
+    <div class="card"><h4>تقديم طلب مبادرة / فعالية تابعة للنادي</h4><form class="workflow-form single-column">
+      <label><span>النادي</span><input id="clubEventClub"></label><label><span>اسم الحدث</span><input id="clubEventName"></label>
+      <label><span>تاريخ الحدث</span><input id="clubEventDate" type="date"></label><label><span>مكان الحدث</span><input id="clubEventLocation"></label>
+      <label><span>الأفراد المشاركون وبياناتهم</span><textarea id="clubEventParticipants"></textarea></label><label><span>المشرف المسؤول</span><input id="clubEventSupervisor"></label>
+      <label><span>الفئة</span><select id="clubEventGender"><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
+      <label><span>الحد الأقصى للمتقدمين</span><input id="clubEventCapacity" type="number" min="1"></label>
+      <button id="submitClubEventRequest" class="btn primary" type="button">إرسال طلب الفعالية</button>
+    </form></div>
+  </div>
+  <div class="card table-card"><h4>طلبات الأندية</h4><div class="table-wrap"><table><thead><tr><th>النادي</th><th>المشرف</th><th>المسؤول</th><th>الأعضاء</th><th>الفئة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead><tbody id="clubRequestRows"></tbody></table></div></div>
+  <div class="card table-card"><h4>طلبات المبادرات والفعاليات</h4><div class="table-wrap"><table><thead><tr><th>الحدث</th><th>النادي</th><th>التاريخ</th><th>المكان</th><th>السعة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead><tbody id="clubEventRequestRows"></tbody></table></div></div>
+  <div class="card table-card"><h4>طلبات الطلبة</h4><div class="table-wrap"><table><thead><tr><th>الحدث</th><th>الاسم</th><th>الرقم الجامعي</th><th>الإيميل</th><th>العمر</th><th>الجنس</th><th>الجوال</th><th>القرار</th></tr></thead><tbody id="clubApplicantRows"></tbody></table></div></div>
+</section><section id="page-approvals" class="page">
+  <div class="section-title"><div><h3>صلاحيات عمادة شؤون الطلاب</h3><p>مراجعة واعتماد أو رفض جميع الطلبات.</p></div></div>
+  <div class="grid cols-4"><div class="card stat"><div class="label">إجمالي الطلبات</div><div class="value" id="approvalTotal">0</div></div><div class="card stat"><div class="label">الموافقات</div><div class="value" id="approvalAccepted">0</div></div><div class="card stat burg"><div class="label">الرفض</div><div class="value" id="approvalRejected">0</div></div><div class="card stat"><div class="label">قيد المراجعة</div><div class="value" id="approvalPending">0</div></div></div>
+  <div class="grid cols-2"><div class="card indicator-card"><h4>نسبة الموافقات</h4><div class="donut" id="approvalDonut" style="--p:0"><b id="approvalPercent">0%</b></div></div><div class="card"><h4>المستفيدون</h4><div class="profile-meta"><div class="meta-box"><span>الطلاب</span><b id="approvalMaleBeneficiaries">0</b></div><div class="meta-box"><span>الطالبات</span><b id="approvalFemaleBeneficiaries">0</b></div></div></div></div>
+  <div class="card table-card"><div class="table-wrap"><table><thead><tr><th>نوع الطلب</th><th>العنوان</th><th>مقدم الطلب</th><th>التاريخ</th><th>الفئة/السعة</th><th>الحالة</th><th>الإجراء</th></tr></thead><tbody id="approvalRequestRows"></tbody></table></div></div>
+</section><section id="page-calendar" class="page">
       <div class="section-title"><div><h3>التقويم الموحد</h3><p>تقويم واحد مع فلاتر: أكاديمي، مناسبات رسمية، إسلامية، أنشطة، رياضة، تطوع.</p></div><label class="btn outline filebtn">استيراد Calendar<input id="importCalendar" type="file" accept=".xlsx,.xls,.pdf,.ics" hidden></label></div>
       <div id="calFilters" class="filterbar large"><button class="active" data-filter="all">الكل</button><button data-filter="academic">أكاديمي</button><button data-filter="national">مناسبات رسمية</button><button data-filter="islamic">إسلامية</button><button data-filter="activities">أنشطة طلابية</button><button data-filter="sports">رياضية</button><button data-filter="volunteer">تطوع</button></div>
       <div class="card"><div id="eventList" class="event-list"></div></div>
@@ -654,6 +720,7 @@
                 <th>المستفيدون</th>
                 <th>اللاعبون</th>
                 <th>الفئة</th>
+                <th>فئة الحدث</th>
                 <th>المجال الرئيسي</th>
                 <th>المجال الفرعي</th>
                 <th>نوع المشاركة</th>
@@ -778,6 +845,7 @@
       <label><span>عدد المستفيدين</span><input id="activityBeneficiaries" type="number" min="0" value="0"></label>
       <label><span>عدد اللاعبين المشاركين</span><input id="activityPlayers" type="number" min="0" value="0"></label>
       <label><span>الفئة</span><select id="activityGender"><option value="طلاب">طلاب</option><option value="طالبات">طالبات</option></select></label>
+      <label><span>فئة الحدث</span><select id="activityEventCategory" required><option value="الأنشطة التوعوية">الأنشطة التوعوية</option><option value="الأنشطة و البرامج المجتمعية و التطوعية">الأنشطة و البرامج المجتمعية و التطوعية</option><option value="الأنشطة الثقافية">الأنشطة الثقافية</option><option value="الأنشطة العلمية">الأنشطة العلمية</option><option value="الأنشطة الفنية">الأنشطة الفنية</option><option value="الأنشطة الرياضية">الأنشطة الرياضية</option><option value="البرامج التدريبية">البرامج التدريبية</option><option value="برامج عامة على مستوى الجامعة">برامج عامة على مستوى الجامعة</option></select></label>
       <label><span>المجال الرئيسي</span><select id="activityIndicatorField" required></select></label>
       <label><span>المجال الفرعي</span><select id="activitySubField" required></select></label>
       <label><span>نوع المشاركة</span><select id="activityParticipationType"><option value="guest">ضيف</option><option value="host">مستضيف</option></select></label>
@@ -809,40 +877,14 @@
       <button class="btn outline" type="button" data-close-field-calculator>إغلاق</button>
     </div>
 
-    <div class="calculator-base-grid">
-      <label><span>نقاط المشاركة كضيف</span><input id="guestParticipationPoints" type="number" min="0"></label>
-      <label><span>نقاط المشاركة كمستضيف</span><input id="hostParticipationPoints" type="number" min="0"></label>
-      <label><span>نقاط كل جامعة مشاركة</span><input id="universityParticipationPoints" type="number" min="0"></label>
-      <label><span>نقاط كل لاعب مشارك</span><input id="playerParticipationPoints" type="number" min="0"></label>
+    <div class="calculator-notice">
+      يتم ضبط آلية احتساب كل مجال فرعي بشكل مستقل: نقاط المشاركة كضيف، نقاط المشاركة كمستضيف،
+      نقاط كل جامعة مشاركة، ونقاط كل لاعب مشارك.
     </div>
-
-    <div class="calculator-scope-tabs">
-      <button class="btn primary active" id="showMainFieldCalculator" type="button">
-        حاسبة المجالات الرئيسية
-      </button>
-      <button class="btn outline" id="showSubFieldCalculator" type="button">
-        حاسبة المجالات الفرعية
-      </button>
+    <div class="subfield-calculator-toolbar">
+      <button id="addSubFieldCalculatorRow" class="btn outline" type="button">＋ إضافة مجال فرعي</button>
     </div>
-
-    <div id="mainFieldCalculatorPanel" class="calculator-scope-panel active">
-      <div class="field-calculator-table-wrap">
-        <table class="field-calculator-table">
-          <thead><tr><th>المسار</th><th>المجال الرئيسي</th><th>نقاط الضيف</th><th>نقاط المستضيف</th></tr></thead>
-          <tbody id="fieldPointsRows"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div id="subFieldCalculatorPanel" class="calculator-scope-panel hidden">
-      <div class="subfield-calculator-toolbar">
-        <button id="addSubFieldCalculatorRow" class="btn outline" type="button">
-          ＋ إضافة مجال فرعي
-        </button>
-      </div>
-      <div id="subFieldPointsRows" class="subfield-calculator-list"></div>
-    </div>
-
+    <div id="subFieldPointsRows" class="subfield-calculator-list"></div>
     <div class="modal-actions">
       <button class="btn outline" id="restorePreviousFieldPointsCalculator" type="button">استعادة الإعدادات السابقة</button>
       <button class="btn outline" id="resetFieldPointsCalculator" type="button">استعادة الإعدادات الافتراضية</button>
@@ -855,8 +897,8 @@
 <div id="adminModal" class="modal hidden" role="dialog" aria-modal="true"><div class="modal-backdrop" data-close-admin></div><div class="modal-card"><div class="section-title compact-title"><div><h3 id="adminModalTitle">إضافة سجل</h3><p>عدّل الحقول ثم اضغط حفظ.</p></div><button class="btn outline" data-close-admin>إغلاق</button></div><form id="adminForm" class="dynamic-form"></form><div class="modal-actions"><button class="btn outline" type="button" data-close-admin>إلغاء</button><button class="btn primary" id="adminSave" type="button">حفظ التعديلات</button></div></div></div>
 <div id="toast" class="toast"></div>
 </div>
-<script src="js/data.js?v=21.0"></script>
-<script src="js/admin.js?v=21.0"></script>
-<script src="js/app.js?v=21.0"></script>
+<script src="js/data.js?v=22.0"></script>
+<script src="js/admin.js?v=22.0"></script>
+<script src="js/app.js?v=22.0"></script>
 </body>
 </html>

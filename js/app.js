@@ -452,26 +452,14 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   };
 
   const ROLE_META = {
-    system: {
-      name: 'حسام الحسين',
-      description: 'مسؤول النظام',
-      avatar: 'ح'
-    },
-    indicator: {
-      name: 'سهيل الكعكي',
-      description: 'مسؤول المؤشر',
-      avatar: 'س'
-    },
-    sports_manager: {
-      name: 'مجدي البلوشي',
-      description: 'مدير النادي الرياضي',
-      avatar: 'م'
-    },
-    dean: {
-      name: 'د. محمد المقدم',
-      description: 'عميد شؤون الطلاب',
-      avatar: 'د'
-    }
+    system:{name:'حسام الحسين',description:'مسؤول النظام',avatar:'ح'},
+    indicator:{name:'سهيل الكعكي',description:'مسؤول مؤشر الأداء الرياضي',avatar:'س'},
+    sports_manager:{name:'مجدي البلوشي',description:'مدير النادي الرياضي',avatar:'م'},
+    dean:{name:'د. محمد المقدم',description:'عميد شؤون الطلاب',avatar:'د'},
+    coach:{name:'كابتن محمد نفار',description:'مدرب رياضي',avatar:'ن'},
+    activities_manager:{name:'الأستاذ فهد',description:'مدير الأنشطة الطلابية',avatar:'ف'},
+    student_account:{name:'فلان الفلاني',description:'حساب طالب',avatar:'ط'},
+    faculty:{name:'د. كريم سليمان',description:'عضو هيئة التدريس',avatar:'ك'}
   };
 
   const SPORTS_MANAGER_PAGES = new Set([
@@ -990,27 +978,16 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   }
 
   function subFieldRow(item,index,calculator){
-    const mains=(SAH_DATA.indicatorFields||[]).map(field=>
-      `<option value="${field.field}" ${field.field===item.mainField?'selected':''}>${field.field}</option>`
-    ).join('');
+    const mains=(SAH_DATA.indicatorFields||[]).map(field=>`<option value="${field.field}" ${field.field===item.mainField?'selected':''}>${field.field}</option>`).join('');
     const points=calculator.subfields?.[item.name] || item;
     return `<div class="subfield-calculator-row" data-id="${item.id}">
-      <label><span>اسم المجال الفرعي</span>
-        <input class="subfield-name" value="${item.name||''}" required>
-      </label>
-      <label><span>المجال الرئيسي المرتبط</span>
-        <select class="subfield-main">
-          <option value="">غير مرتبط حاليًا</option>
-          ${mains}
-        </select>
-      </label>
-      <label><span>نقاط الضيف</span>
-        <input class="subfield-guest" type="number" min="0" value="${Number(points.guest)||0}">
-      </label>
-      <label><span>نقاط المستضيف</span>
-        <input class="subfield-host" type="number" min="0" value="${Number(points.host)||0}">
-      </label>
-      <button class="subfield-delete" type="button" title="حذف المجال الفرعي">🗑</button>
+      <label><span>اسم المجال الفرعي</span><input class="subfield-name" value="${item.name||''}" required></label>
+      <label><span>المجال الرئيسي المرتبط</span><select class="subfield-main"><option value="">غير مرتبط</option>${mains}</select></label>
+      <label><span>نقاط المشاركة كضيف</span><input class="subfield-guest" type="number" min="0" value="${Number(points.guest)||0}"></label>
+      <label><span>نقاط المشاركة كمستضيف</span><input class="subfield-host" type="number" min="0" value="${Number(points.host)||0}"></label>
+      <label><span>نقاط كل جامعة مشاركة</span><input class="subfield-university" type="number" min="0" value="${Number(points.university)||0}"></label>
+      <label><span>نقاط كل لاعب مشارك</span><input class="subfield-player" type="number" min="0" value="${Number(points.player)||0}"></label>
+      <button class="subfield-delete" type="button">🗑</button>
     </div>`;
   }
 
@@ -1057,12 +1034,14 @@ window.addEventListener('DOMContentLoaded',initPreferences);
         name:row.querySelector('.subfield-name')?.value.trim()||'',
         mainField:row.querySelector('.subfield-main')?.value||'',
         guest:Math.max(0,Number(row.querySelector('.subfield-guest')?.value)||0),
-        host:Math.max(0,Number(row.querySelector('.subfield-host')?.value)||0)
+        host:Math.max(0,Number(row.querySelector('.subfield-host')?.value)||0),
+        university:Math.max(0,Number(row.querySelector('.subfield-university')?.value)||0),
+        player:Math.max(0,Number(row.querySelector('.subfield-player')?.value)||0)
       }))
       .filter(item=>item.name);
 
     subfields.forEach(item=>{
-      calculator.subfields[item.name]={guest:item.guest,host:item.host};
+      calculator.subfields[item.name]={guest:item.guest,host:item.host,university:item.university,player:item.player};
     });
     saveSubFields(subfields);
 
@@ -1105,99 +1084,13 @@ window.addEventListener('DOMContentLoaded',initPreferences);
 
   function calculateActivityPoints(activity) {
     const calculator = loadFieldCalculator();
-    const fieldPoints = calculator.fields[activity.indicatorField] ||
-      { guest: 0, host: 0 };
-    const subPoints = calculator.subfields?.[activity.subField] ||
-      { guest: 0, host: 0 };
+    const p = calculator.subfields?.[activity.subField] || {guest:0,host:0,university:0,player:0};
     const host = activity.participationType === 'host';
-
-    return Math.max(0, Math.round(
-      Number(host ? calculator.hostParticipation : calculator.guestParticipation) +
-      Number(activity.universities || 0) * Number(calculator.university || 0) +
-      Number(activity.players || 0) * Number(calculator.player || 0) +
-      Number(host ? fieldPoints.host : fieldPoints.guest) +
-      Number(host ? subPoints.host : subPoints.guest)
+    return Math.max(0,Math.round(
+      Number(host?p.host:p.guest) +
+      Number(activity.universities||0)*Number(p.university||0) +
+      Number(activity.players||0)*Number(p.player||0)
     ));
-  }
-
-
-  function validFieldNames(){
-    return new Set((SAH_DATA.indicatorFields || []).map(field => field.field));
-  }
-
-  function fieldForIndex(index){
-    const fields = SAH_DATA.indicatorFields || [];
-    return fields.length ? fields[index % fields.length] : null;
-  }
-
-  function normalizeRowField(row,index,force=false){
-    const valid = validFieldNames();
-    const current = row.mainField ||
-      row.indicatorField || row.field || row.subCategory;
-    const assigned = fieldForIndex(index);
-
-    if(force || !valid.has(current)){
-      const next = assigned?.field || '';
-      row.mainField = next;
-      row.indicatorField = next;
-      row.field = next;
-      row.subCategory = next;
-    }else{
-      row.mainField = current;
-      row.indicatorField = current;
-      row.field = current;
-      row.subCategory = current;
-    }
-    return row;
-  }
-
-  function migrateExistingEvidenceFields(){
-    if(localStorage.getItem(KEYS.fieldMigration)==='done') return;
-
-    const locals = readJson(KEYS.activities,[]);
-    locals.forEach((row,index)=>normalizeRowField(row,index,true));
-    writeJson(KEYS.activities,locals);
-
-    const overrides = readJson(KEYS.overrides,{});
-    const source = SAH_DATA.evidenceRecords || [];
-    source.forEach((row,index)=>{
-      const key = recordKey(row,index);
-      const merged = {...row,...(overrides[key]||{})};
-      overrides[key] = normalizeRowField(merged,index,true);
-    });
-    writeJson(KEYS.overrides,overrides);
-
-    localStorage.setItem(KEYS.fieldMigration,'done');
-  }
-
-  function refreshStoredActivityPoints(){
-    const locals = readJson(KEYS.activities,[]);
-    locals.forEach((row,index)=>{
-      normalizeRowField(row,index,false);
-      row.points = calculateActivityPoints(row);
-    });
-    writeJson(KEYS.activities,locals);
-
-    const overrides = readJson(KEYS.overrides,{});
-    const source = SAH_DATA.evidenceRecords || [];
-    source.forEach((row,index)=>{
-      const key = recordKey(row,index);
-      const merged = normalizeRowField(
-        {...row,...(overrides[key]||{})},
-        index,
-        false
-      );
-      merged.points = calculateActivityPoints(merged);
-      overrides[key] = merged;
-    });
-    writeJson(KEYS.overrides,overrides);
-  }
-
-  function recalculateAllExistingActivities(){
-    refreshStoredActivityPoints();
-    recalculateIndicator();
-    renderEvidenceStats();
-    renderEvidence();
   }
 
   /* ---------- Evidence data ---------- */
@@ -1258,6 +1151,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
       hasValue(row.beneficiaries, true),
       hasValue(row.players, true),
       hasValue(row.gender),
+      hasValue(row.eventCategory),
       hasValue(row.indicatorField || row.field || row.subCategory),
       hasValue(row.subField),
       hasValue(row.participationType),
@@ -1388,6 +1282,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
         <td>${fmt(row.beneficiaries || 0)}</td>
         <td>${fmt(row.players || 0)}</td>
         <td>${row.gender || '—'}</td>
+        <td>${row.eventCategory || 'الأنشطة الرياضية'}</td>
         <td>${row.mainField || row.indicatorField || row.field || row.subCategory || '—'}</td>
         <td>${row.subField || '—'}</td>
         <td>${participation}</td>
@@ -1536,6 +1431,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     setInput('activityBeneficiaries', row.beneficiaries);
     setInput('activityPlayers', row.players);
     setInput('activityGender', row.gender);
+    setInput('activityEventCategory', row.eventCategory || 'الأنشطة الرياضية');
     setInput('activityIndicatorField',
       row.mainField || row.indicatorField || row.field || row.subCategory);
     populateActivitySubFields(row.subField||'');
@@ -1565,6 +1461,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
       beneficiaries: Number(document.getElementById('activityBeneficiaries')?.value || 0),
       players: Number(document.getElementById('activityPlayers')?.value || 0),
       gender: document.getElementById('activityGender')?.value || 'طلاب',
+      eventCategory: document.getElementById('activityEventCategory')?.value || 'الأنشطة الرياضية',
       mainField: document.getElementById('activityIndicatorField')?.value || '',
       indicatorField: document.getElementById('activityIndicatorField')?.value || '',
       subField: document.getElementById('activitySubField')?.value || '',
@@ -2736,4 +2633,73 @@ window.addEventListener('DOMContentLoaded',initPreferences);
       if(typeof window.calcIndicators==='function') window.calcIndicators();
     },80);
   });
+})();
+
+(function(){
+'use strict';
+const CAT=["الأنشطة التوعوية","الأنشطة و البرامج المجتمعية و التطوعية","الأنشطة الثقافية","الأنشطة العلمية","الأنشطة الفنية","الأنشطة الرياضية","البرامج التدريبية","برامج عامة على مستوى الجامعة"];
+const K={sports:'sah-v22-sports',clubs:'sah-v22-clubs',clubEvents:'sah-v22-club-events',vol:'sah-v22-vol',apps:'sah-v22-apps'};
+const R=(k,f=[])=>{try{return JSON.parse(localStorage.getItem(k)||'null')??f}catch{return f}};
+const W=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const id=p=>p+'-'+Date.now()+'-'+Math.random().toString(36).slice(2,6);
+const td=()=>new Date().toISOString().slice(0,10);
+const badge=s=>`<span class="request-status ${s==='مقبول'?'accepted':s==='مرفوض'?'rejected':'pending'}">${s}</span>`;
+const later3=d=>{const x=new Date(d+'T00:00:00'),m=new Date();m.setHours(0,0,0,0);m.setDate(m.getDate()+3);return x>=m};
+
+function allReq(){return[
+ ...R(K.sports).map(x=>({...x,store:K.sports,kind:'بطولة/حدث رياضي'})),
+ ...R(K.clubs).map(x=>({...x,store:K.clubs,kind:'تسجيل نادي جديد'})),
+ ...R(K.clubEvents).map(x=>({...x,store:K.clubEvents,kind:'مبادرة/فعالية نادي'})),
+ ...R(K.vol).map(x=>({...x,store:K.vol,kind:'فرصة تطوعية'}))
+]}
+function push(k,o){const a=R(k);a.push(o);W(k,a);renderAll();showToast?.('تم إرسال الطلب وحالته تحت المراجعة.')}
+function evidence(){return window.getFilteredEvidence?window.getFilteredEvidence():(window.SAH_DATA?.evidenceRecords||[])}
+
+function renderCategory(c){
+ const rows=evidence().filter(r=>(r.eventCategory||'الأنشطة الرياضية')===c),m=rows.filter(r=>r.gender==='طلاب'),f=rows.filter(r=>r.gender==='طالبات');
+ const sb=(i,v)=>{const e=document.getElementById(i);if(e)e.textContent=v};
+ sb('categoryMaleCount',m.length);sb('categoryFemaleCount',f.length);sb('categoryTotalCount',rows.length);
+ sb('categoryBeneficiaries',rows.reduce((s,r)=>s+(+r.beneficiaries||0),0));
+ sb('categoryMaleBeneficiaries',m.reduce((s,r)=>s+(+r.beneficiaries||0),0));
+ sb('categoryFemaleBeneficiaries',f.reduce((s,r)=>s+(+r.beneficiaries||0),0));
+ const p=rows.length?Math.round(m.length/rows.length*100):0;sb('categoryGenderPercent',p+'%');sb('categoryCurrentName',c);
+ document.getElementById('categoryGenderDonut')?.style.setProperty('--p',p);
+ const b=document.getElementById('categoryActivityRows');if(b)b.innerHTML=rows.length?rows.map(r=>`<tr><td>${r.activity||'—'}</td><td>${r.date||'—'}</td><td>${r.days??'—'}</td><td>${r.beneficiaries??0}</td><td>${r.gender||'—'}</td><td>${/^https?:/.test(r.documentationUrl||'')?`<a href="${r.documentationUrl}" target="_blank">فتح</a>`:'غير متوفر'}</td></tr>`).join(''):'<tr><td colspan="6">لا توجد أنشطة.</td></tr>';
+}
+function tables(){
+ const put=(i,a,f)=>{const b=document.getElementById(i);if(b)b.innerHTML=a.length?a.map(f).join(''):'<tr><td colspan="9">لا توجد بيانات.</td></tr>'};
+ put('sportsRequestRows',R(K.sports),r=>`<tr><td>${r.name}</td><td>${r.date}</td><td>${r.game}</td><td>${r.capacity}</td><td>${badge(r.status)}</td><td>${r.reason||'—'}</td></tr>`);
+ put('clubRequestRows',R(K.clubs),r=>`<tr><td>${r.name}</td><td>${r.supervisor}</td><td>${r.manager}</td><td>${r.members.length}</td><td>${r.gender}</td><td>${badge(r.status)}</td><td>${r.reason||'—'}</td></tr>`);
+ put('clubEventRequestRows',R(K.clubEvents),r=>`<tr><td>${r.name}</td><td>${r.club}</td><td>${r.date}</td><td>${r.location}</td><td>${r.capacity}</td><td>${badge(r.status)}</td><td>${r.reason||'—'}</td></tr>`);
+ put('volunteerRequestRows',R(K.vol),r=>`<tr><td>${r.name}</td><td>${r.date}</td><td>${r.capacity}</td><td>${r.owner}</td><td>${badge(r.status)}</td><td>${r.reason||'—'}</td></tr>`);
+}
+function student(){
+ const a=R(K.apps),used=new Set(a.map(x=>x.requestId)),ops=allReq().filter(r=>r.status==='مقبول'&&r.kind!=='تسجيل نادي جديد'&&!used.has(r.id));
+ const c=document.getElementById('studentApprovedOpportunityCards');if(c)c.innerHTML=ops.length?ops.map(r=>`<div class="card student-event-card"><span class="pill">${r.kind}</span><h4>${r.name}</h4><p>${r.date||'—'}</p><button class="btn primary apply-event" data-id="${r.id}">قدم الآن</button></div>`).join(''):'<div class="card">لا توجد فعاليات متاحة.</div>';
+ document.querySelectorAll('.apply-event').forEach(b=>b.onclick=()=>{const r=allReq().find(x=>x.id===b.dataset.id),x=R(K.apps);x.push({id:id('app'),requestId:r.id,eventName:r.name,kind:r.kind,appliedAt:td(),status:'تحت المراجعة',student:{name:'فلان الفلاني',studentId:'20260001',email:'student@ubt.edu.sa',age:21,gender:'ذكر',phone:'0500000000'}});W(K.apps,x);renderAll()});
+ const body=document.getElementById('studentApplicationRows');if(body)body.innerHTML=a.length?a.map(x=>`<tr><td>${x.eventName}</td><td>${x.kind}</td><td>${x.appliedAt}</td><td>${badge(x.status)}</td></tr>`).join(''):'<tr><td colspan="4">لا توجد طلبات.</td></tr>';
+ document.getElementById('studentAppliedCount').textContent=a.length;document.getElementById('studentJoinedCount').textContent=a.filter(x=>x.status==='مقبول').length;
+}
+function applicants(){
+ const a=R(K.apps),q=allReq(),draw=(i,k)=>{const b=document.getElementById(i);if(!b)return;const rows=a.filter(x=>q.find(r=>r.id===x.requestId)?.kind===k);b.innerHTML=rows.length?rows.map(x=>`<tr><td>${x.eventName}</td><td>${x.student.name}</td><td>${x.student.studentId}</td><td>${x.student.email}</td><td>${x.student.age}</td><td>${x.student.gender}</td><td>${x.student.phone}</td><td><button class="approve-app" data-id="${x.id}">قبول</button> <button class="reject-app" data-id="${x.id}">رفض</button></td></tr>`).join(''):'<tr><td colspan="8">لا توجد طلبات.</td></tr>'};
+ draw('sportsApplicantRows','بطولة/حدث رياضي');draw('clubApplicantRows','مبادرة/فعالية نادي');
+ document.querySelectorAll('.approve-app,.reject-app').forEach(b=>b.onclick=()=>{const x=R(K.apps),r=x.find(y=>y.id===b.dataset.id);r.status=b.classList.contains('approve-app')?'مقبول':'مرفوض';W(K.apps,x);renderAll()})
+}
+function approvals(){
+ const a=allReq(),b=document.getElementById('approvalRequestRows');if(b)b.innerHTML=a.length?a.map(r=>`<tr><td>${r.kind}</td><td>${r.name}</td><td>${r.submittedBy||'المستخدم الحالي'}</td><td>${r.date||r.submittedAt}</td><td>${r.gender||r.capacity||'—'}</td><td>${badge(r.status)}</td><td><button class="approve-req" data-store="${r.store}" data-id="${r.id}">موافقة</button> <button class="reject-req" data-store="${r.store}" data-id="${r.id}">رفض</button></td></tr>`).join(''):'<tr><td colspan="7">لا توجد طلبات.</td></tr>';
+ document.querySelectorAll('.approve-req,.reject-req').forEach(x=>x.onclick=()=>{const a=R(x.dataset.store),r=a.find(y=>y.id===x.dataset.id);r.status=x.classList.contains('approve-req')?'مقبول':'مرفوض';if(r.status==='مرفوض')r.reason=prompt('سبب الرفض:')||'لم يذكر';W(x.dataset.store,a);renderAll()});
+ const ac=a.filter(x=>x.status==='مقبول').length,re=a.filter(x=>x.status==='مرفوض').length,pe=a.length-ac-re,p=a.length?Math.round(ac/a.length*100):0;
+ [['approvalTotal',a.length],['approvalAccepted',ac],['approvalRejected',re],['approvalPending',pe],['approvalPercent',p+'%']].forEach(([i,v])=>{const e=document.getElementById(i);if(e)e.textContent=v});document.getElementById('approvalDonut')?.style.setProperty('--p',p);
+}
+function renderAll(){tables();student();applicants();approvals();const b=document.querySelector('[data-event-category].active');if(b)renderCategory(b.dataset.eventCategory)}
+function bind(id,fn){const o=document.getElementById(id);if(!o)return;const n=o.cloneNode(true);o.replaceWith(n);n.onclick=fn}
+window.addEventListener('DOMContentLoaded',()=>{
+ document.querySelectorAll('[data-event-category]').forEach((b,i)=>b.onclick=()=>{document.querySelectorAll('[data-event-category]').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderCategory(b.dataset.eventCategory);if(i===0||true){}});
+ const first=document.querySelector('[data-event-category]');if(first){first.classList.add('active');renderCategory(first.dataset.eventCategory)}
+ bind('submitSportsRequest',()=>{const d=document.getElementById('sportsReqDate').value;if(!later3(d))return alert('يجب أن يكون الحدث بعد 3 أيام على الأقل.');push(K.sports,{id:id('sp'),name:document.getElementById('sportsReqName').value,date:d,game:document.getElementById('sportsReqGame').value,participants:+document.getElementById('sportsReqParticipants').value,teams:+document.getElementById('sportsReqTeams').value,universities:+document.getElementById('sportsReqUniversities').value,capacity:+document.getElementById('sportsReqCapacity').value,gender:document.getElementById('sportsReqGender').value,status:'تحت المراجعة',submittedAt:td(),submittedBy:'مدير النادي الرياضي'})});
+ bind('submitClubRequest',()=>{const m=document.getElementById('clubMembers').value.split(/\n|,/).map(x=>x.trim()).filter(Boolean);if(m.length<10)return alert('يلزم 10 أعضاء على الأقل.');if(!document.getElementById('clubLogo').files[0])return alert('ارفع شعار النادي.');push(K.clubs,{id:id('cl'),name:document.getElementById('clubName').value,supervisor:document.getElementById('clubSupervisor').value,manager:document.getElementById('clubManager').value,members:m,goal:document.getElementById('clubGoal').value,gender:document.getElementById('clubGender').value,status:'تحت المراجعة',submittedAt:td(),submittedBy:'حساب طالب'})});
+ bind('submitClubEventRequest',()=>{const d=document.getElementById('clubEventDate').value;if(!later3(d))return alert('يجب أن يكون الحدث بعد 3 أيام على الأقل.');push(K.clubEvents,{id:id('ce'),club:document.getElementById('clubEventClub').value,name:document.getElementById('clubEventName').value,date:d,location:document.getElementById('clubEventLocation').value,participants:document.getElementById('clubEventParticipants').value,supervisor:document.getElementById('clubEventSupervisor').value,gender:document.getElementById('clubEventGender').value,capacity:+document.getElementById('clubEventCapacity').value,status:'تحت المراجعة',submittedAt:td(),submittedBy:'مسؤول النادي'})});
+ bind('submitVolunteerOpportunity',()=>push(K.vol,{id:id('vo'),type:document.getElementById('volunteerType').value,capacity:+document.getElementById('volunteerCapacity').value,name:document.getElementById('volunteerEventName').value,date:document.getElementById('volunteerEventDate').value,sponsor:document.getElementById('volunteerSponsor').value,owner:document.getElementById('volunteerOwner').value,location:document.getElementById('volunteerLocation').value,gender:'الاثنان معًا',status:'تحت المراجعة',submittedAt:td(),submittedBy:'مدير الأنشطة الطلابية'}));
+ renderAll();
+});
 })();
