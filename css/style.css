@@ -5859,122 +5859,42 @@ body.theme-dark .approval-export-btn.pdf{
 
 
 /* ==========================================================
-   SAH V24.0 — Student clubs regulations link
+   SAH V24.1 - Center submit buttons
    ========================================================== */
 
-.clubs-regulations-card{
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:14px;
-  width:100%;
-  margin:0 0 18px;
-  padding:14px 16px;
-  border:1px solid #c9d8ec;
-  border-radius:16px;
-  background:
-    linear-gradient(135deg,rgba(237,244,255,.98),rgba(255,255,255,.98));
-  color:var(--blue);
-  text-decoration:none;
-  box-shadow:0 10px 26px rgba(7,44,100,.08);
-  overflow:hidden;
-  transition:
-    transform .18s ease,
-    box-shadow .18s ease,
-    border-color .18s ease;
-}
-
-.clubs-regulations-card::before{
-  content:"";
-  position:absolute;
-  inset-inline-start:0;
-  top:0;
-  bottom:0;
-  width:5px;
-  background:linear-gradient(180deg,#0b55d9,#17a7bd);
-}
-
-.clubs-regulations-card:hover{
-  transform:translateY(-2px);
-  border-color:#9db8dc;
-  box-shadow:0 15px 32px rgba(7,44,100,.13);
-}
-
-.clubs-regulations-icon{
-  width:42px;
-  height:42px;
-  min-width:42px;
-  display:grid;
-  place-items:center;
-  border-radius:12px;
-  background:#e4eefc;
-  font-size:22px;
-}
-
-.clubs-regulations-content{
-  flex:1 1 auto;
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  gap:3px;
-}
-
-.clubs-regulations-content strong{
-  color:var(--blue);
-  font-size:14px;
-  line-height:1.5;
-}
-
-.clubs-regulations-content small{
-  color:var(--muted);
-  font-size:10px;
-}
-
-.clubs-regulations-action{
-  flex:0 0 auto;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:34px;
-  padding:7px 11px;
-  border-radius:10px;
-  background:var(--blue);
-  color:#fff;
-  font-size:10px;
-  font-weight:900;
-  white-space:nowrap;
-}
-
-body.theme-dark .clubs-regulations-card{
-  background:linear-gradient(135deg,rgba(13,53,105,.96),rgba(6,28,61,.96));
-  border-color:var(--border);
-}
-
-body.theme-dark .clubs-regulations-content strong{
-  color:#fff;
-}
-
-body.theme-dark .clubs-regulations-icon{
-  background:rgba(255,255,255,.09);
-}
-
-body.theme-dark .clubs-regulations-action{
-  background:#0b55d9;
-}
-
-@media(max-width:650px){
-  .clubs-regulations-card{
-    align-items:flex-start;
-    flex-wrap:wrap;
-    padding:13px 14px;
-  }
-
-  .clubs-regulations-content{
-    flex:1 1 calc(100% - 56px);
-  }
-
-  .clubs-regulations-action{
+button[type="submit"],
+.club-submit-btn,
+.event-submit-btn,
+.submit-btn,
+.btn-submit,
+.btn.primary.wide{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    text-align:center !important;
     width:100%;
-  }
+    min-height:56px;
+    padding:0 24px !important;
+    direction:rtl;
+    gap:0 !important;
+}
+
+button[type="submit"] *,
+.club-submit-btn *,
+.event-submit-btn *,
+.submit-btn *,
+.btn-submit *,
+.btn.primary.wide *{
+    margin:0 auto !important;
+    text-align:center !important;
+    flex:none !important;
+}
+
+button[type="submit"]::before,
+button[type="submit"]::after,
+.club-submit-btn::before,
+.club-submit-btn::after,
+.event-submit-btn::before,
+.event-submit-btn::after{
+    display:none !important;
 }
