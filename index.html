@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>SAH | منصة الأنشطة الطلابية</title>
-<link rel="stylesheet" href="css/style.css?v=23.6">
+<link rel="stylesheet" href="css/style.css?v=23.8">
 
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
@@ -71,7 +71,7 @@
 </style>
 
 </head>
-<body data-sah-version="23.6" class="login-mode">
+<body data-sah-version="23.8" class="login-mode">
 <section id="login" class="login-page">
   <div class="login-bg"></div>
   <div class="login-card">
@@ -547,7 +547,24 @@
   <div class="card table-card"><h4>طلبات المبادرات والفعاليات</h4><div class="table-wrap"><table><thead><tr><th>الحدث</th><th>النادي</th><th>التاريخ</th><th>المكان</th><th>السعة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead><tbody id="clubEventRequestRows"></tbody></table></div></div>
   <div class="card table-card"><h4>طلبات الطلبة</h4><div class="table-wrap"><table><thead><tr><th>الحدث</th><th>الاسم</th><th>الرقم الجامعي</th><th>الإيميل</th><th>العمر</th><th>الجنس</th><th>الجوال</th><th>القرار</th></tr></thead><tbody id="clubApplicantRows"></tbody></table></div></div>
 </section><section id="page-approvals" class="page">
-  <div class="section-title"><div><h3>صلاحيات عمادة شؤون الطلاب</h3><p>مراجعة واعتماد أو رفض جميع الطلبات.</p></div></div>
+  <div class="section-title approvals-page-heading">
+    <div>
+      <h3>صلاحيات عمادة شؤون الطلاب</h3>
+      <p>مراجعة واعتماد أو رفض جميع الطلبات.</p>
+    </div>
+    <div class="approvals-export-actions">
+      <button id="exportApprovalsExcel" class="approval-export-btn excel" type="button"
+              title="تصدير الطلبات والأندية وأنشطتها إلى Excel">
+        <span class="approval-export-icon">X</span>
+        <span>Excel</span>
+      </button>
+      <button id="exportApprovalsPdf" class="approval-export-btn pdf" type="button"
+              title="تصدير تقرير الطلبات والأندية وأنشطتها بصيغة PDF">
+        <span class="approval-export-icon">PDF</span>
+        <span>PDF</span>
+      </button>
+    </div>
+  </div>
   <div class="approval-summary-grid">
     <div class="card approval-stat-card">
       <span>إجمالي الطلبات</span>
@@ -1078,6 +1095,6 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=23.6"></script>
+<script src="js/app.js?v=23.8"></script>
 </body>
 </html>

@@ -3457,9 +3457,325 @@ function approvals(){
  renderRegisteredClubs();
  populateClubEventSelect();
 }
+
+function approvalExportRows(){
+ return allReq().map((request,index)=>({
+   sequence:index+1,
+   type:request.kind||'—',
+   title:request.name||'—',
+   submittedBy:request.submittedBy||'المستخدم الحالي',
+   date:request.date||request.submittedAt||'—',
+   genderOrCapacity:request.gender||request.capacity||'—',
+   status:request.status||'تحت المراجعة',
+   reason:request.reason||'—'
+ }));
+}
+
+
+function clubExportData(){
+ return clubRegistry().map((club,index)=>{
+   const request=R(K.clubs).find(item=>item.name===club.name&&item.status==='مقبول')||{};
+   const activities=clubActivityRowsForDetails(club);
+
+   return {
+     sequence:index+1,
+     name:club.name,
+     status:club.status||'مفعل',
+     supervisor:request.supervisor||'—',
+     manager:request.manager||'—',
+     members:Array.isArray(request.members)?request.members.length:'—',
+     activityCount:activities.length,
+     activities
+   };
+ });
+}
+
+function exportDashboardSummary(){
+ const requests=approvalExportRows();
+ const clubs=clubExportData();
+ const activities=clubs.flatMap(club=>club.activities);
+
+ return {
+   requests:requests.length,
+   approvedRequests:requests.filter(row=>row.status==='مقبول').length,
+   rejectedRequests:requests.filter(row=>row.status==='مرفوض').length,
+   pendingRequests:requests.filter(row=>row.status==='تحت المراجعة').length,
+   clubs:clubs.length,
+   clubActivities:activities.length,
+   approvedActivities:activities.filter(item=>item.status==='مقبول').length,
+   rejectedActivities:activities.filter(item=>item.status==='مرفوض').length,
+   pendingActivities:activities.filter(item=>item.status==='تحت المراجعة').length
+ };
+}
+
+function csvCell(value){
+ const text=String(value??'').replace(/"/g,'""');
+ return `"${text}"`;
+}
+
+function downloadTextFile(filename,content,type){
+ const blob=new Blob(['\ufeff'+content],{type});
+ const url=URL.createObjectURL(blob);
+ const link=document.createElement('a');
+ link.href=url;
+ link.download=filename;
+ document.body.appendChild(link);
+ link.click();
+ link.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+function exportApprovalsExcel(){
+ const requests=approvalExportRows();
+ const clubs=clubExportData();
+ const summary=exportDashboardSummary();
+ const lines=[];
+
+ lines.push([csvCell('ملخص التقرير'),csvCell('القيمة')].join(','));
+ [
+   ['إجمالي الطلبات',summary.requests],
+   ['الموافقات',summary.approvedRequests],
+   ['الرفض',summary.rejectedRequests],
+   ['قيد المراجعة',summary.pendingRequests],
+   ['عدد الأندية المسجلة',summary.clubs],
+   ['إجمالي أنشطة الأندية',summary.clubActivities],
+   ['الأنشطة المعتمدة',summary.approvedActivities],
+   ['الأنشطة المرفوضة',summary.rejectedActivities],
+   ['الأنشطة قيد المراجعة',summary.pendingActivities]
+ ].forEach(row=>lines.push(row.map(csvCell).join(',')));
+
+ lines.push('');
+ lines.push([
+   '#','نوع الطلب','العنوان','مقدم الطلب','التاريخ',
+   'الفئة/السعة','الحالة','سبب الرفض'
+ ].map(csvCell).join(','));
+
+ requests.forEach(row=>{
+   lines.push([
+     row.sequence,row.type,row.title,row.submittedBy,row.date,
+     row.genderOrCapacity,row.status,row.reason
+   ].map(csvCell).join(','));
+ });
+
+ lines.push('');
+ lines.push(csvCell('الأندية الطلابية المسجلة'));
+ lines.push([
+   '#','اسم النادي','المشرف','المسؤول',
+   'عدد الأعضاء','عدد الأنشطة','الحالة'
+ ].map(csvCell).join(','));
+
+ clubs.forEach(club=>{
+   lines.push([
+     club.sequence,club.name,club.supervisor,club.manager,
+     club.members,club.activityCount,club.status
+   ].map(csvCell).join(','));
+ });
+
+ clubs.forEach(club=>{
+   lines.push('');
+   lines.push(csvCell(`تفاصيل أنشطة ${club.name}`));
+   lines.push([
+     '#','اسم النشاط','النوع','التاريخ','المكان',
+     'الفئة','السعة','الحالة','نوع السجل'
+   ].map(csvCell).join(','));
+
+   if(club.activities.length){
+     club.activities.forEach((activity,index)=>{
+       lines.push([
+         index+1,activity.name,activity.type,activity.date,
+         activity.location,activity.gender,activity.capacity,
+         activity.status,activity.demo?'تجريبي':'فعلي'
+       ].map(csvCell).join(','));
+     });
+   }else{
+     lines.push([
+       '—','لا توجد أنشطة مسجلة','—','—','—','—','—','—','—'
+     ].map(csvCell).join(','));
+   }
+ });
+
+ downloadTextFile(
+   `تقرير-الطلبات-والأندية-${new Date().toISOString().slice(0,10)}.csv`,
+   lines.join('\\r\\n'),
+   'text/csv;charset=utf-8'
+ );
+
+ window.showToast?.('تم تجهيز ملف Excel شامل الطلبات والأندية والأنشطة.');
+}
+
+function escapeHtml(value){
+ return String(value??'')
+   .replace(/&/g,'&amp;')
+   .replace(/</g,'&lt;')
+   .replace(/>/g,'&gt;')
+   .replace(/"/g,'&quot;')
+   .replace(/'/g,'&#039;');
+}
+
+function exportApprovalsPdf(){
+ const rows=approvalExportRows();
+ const clubs=clubExportData();
+ const summary=exportDashboardSummary();
+ const generatedAt=new Date().toLocaleString('ar-SA');
+
+ const reportWindow=window.open('','_blank','width=1280,height=900');
+ if(!reportWindow){
+   window.showToast?.('اسمح بفتح النوافذ المنبثقة لتصدير PDF.');
+   return;
+ }
+
+ const requestRows=rows.map(row=>`
+   <tr>
+     <td>${row.sequence}</td>
+     <td>${escapeHtml(row.type)}</td>
+     <td class="title-cell">${escapeHtml(row.title)}</td>
+     <td>${escapeHtml(row.submittedBy)}</td>
+     <td>${escapeHtml(row.date)}</td>
+     <td>${escapeHtml(row.genderOrCapacity)}</td>
+     <td><span class="status ${row.status==='مقبول'?'accepted':row.status==='مرفوض'?'rejected':'pending'}">${escapeHtml(row.status)}</span></td>
+     <td>${escapeHtml(row.reason)}</td>
+   </tr>`).join('');
+
+ const clubRows=clubs.map(club=>`
+   <tr>
+     <td>${club.sequence}</td>
+     <td class="title-cell">${escapeHtml(club.name)}</td>
+     <td>${escapeHtml(club.supervisor)}</td>
+     <td>${escapeHtml(club.manager)}</td>
+     <td>${escapeHtml(club.members)}</td>
+     <td>${club.activityCount}</td>
+     <td><span class="status accepted">${escapeHtml(club.status)}</span></td>
+   </tr>`).join('');
+
+ const clubSections=clubs.map(club=>{
+   const activities=club.activities.map((activity,index)=>`
+     <tr>
+       <td>${index+1}</td>
+       <td class="title-cell">${escapeHtml(activity.name)}</td>
+       <td>${escapeHtml(activity.type)}</td>
+       <td>${escapeHtml(activity.date)}</td>
+       <td>${escapeHtml(activity.location)}</td>
+       <td>${escapeHtml(activity.gender)}</td>
+       <td>${escapeHtml(activity.capacity)}</td>
+       <td><span class="status ${activity.status==='مقبول'?'accepted':activity.status==='مرفوض'?'rejected':'pending'}">${escapeHtml(activity.status)}</span></td>
+       <td>${activity.demo?'تجريبي':'فعلي'}</td>
+     </tr>`).join('');
+
+   return `
+     <section class="club-section">
+       <div class="section-heading">
+         <div>
+           <h2>${escapeHtml(club.name)}</h2>
+           <p>عدد الأنشطة: ${club.activityCount}</p>
+         </div>
+         <span class="club-badge">${escapeHtml(club.status)}</span>
+       </div>
+       <table>
+         <thead>
+           <tr>
+             <th>#</th><th>اسم النشاط</th><th>النوع</th><th>التاريخ</th>
+             <th>المكان</th><th>الفئة</th><th>السعة</th><th>الحالة</th><th>السجل</th>
+           </tr>
+         </thead>
+         <tbody>${activities||'<tr><td colspan="9">لا توجد أنشطة مسجلة</td></tr>'}</tbody>
+       </table>
+     </section>`;
+ }).join('');
+
+ reportWindow.document.write(`<!doctype html>
+ <html lang="ar" dir="rtl">
+ <head>
+   <meta charset="utf-8">
+   <title>تقرير الطلبات والأندية الطلابية</title>
+   <style>
+     *{box-sizing:border-box}
+     body{margin:0;padding:26px;color:#0a346d;background:#fff;font-family:Tahoma,Arial,sans-serif}
+     .report-header{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding-bottom:18px;border-bottom:3px solid #0a3b78}
+     h1{margin:0;font-size:25px} h2{margin:0;font-size:18px}
+     .subtitle{margin:7px 0 0;color:#64748b;font-size:12px}
+     .date-box{padding:10px 14px;border:1px solid #cdd9e9;border-radius:12px;color:#475569;font-size:11px}
+     .summary{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin:18px 0}
+     .summary div{padding:12px;border:1px solid #dbe5f1;border-radius:12px;background:#f7faff}
+     .summary span{display:block;color:#64748b;font-size:9px}
+     .summary strong{display:block;margin-top:4px;font-size:21px}
+     .report-section{margin-top:24px}
+     .report-section>h2{margin-bottom:10px;padding-bottom:7px;border-bottom:2px solid #dbe5f1}
+     table{width:100%;border-collapse:collapse;font-size:9px}
+     th{padding:9px 6px;color:#fff;background:#0a3b78;border:1px solid #0a3b78}
+     td{padding:8px 6px;border:1px solid #dce5f0;vertical-align:middle}
+     tbody tr:nth-child(even){background:#f8fafc}
+     .title-cell{font-weight:700}
+     .status{display:inline-block;padding:4px 8px;border-radius:999px;font-weight:700}
+     .status.accepted{color:#08764e;background:#e6f8ef}
+     .status.rejected{color:#ad2348;background:#fff0f4}
+     .status.pending{color:#946200;background:#fff7df}
+     .club-section{margin-top:22px;page-break-inside:avoid}
+     .section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;padding:10px 12px;border:1px solid #dbe5f1;border-radius:10px;background:#f7faff}
+     .section-heading p{margin:3px 0 0;color:#64748b;font-size:9px}
+     .club-badge{padding:5px 9px;border-radius:999px;color:#08764e;background:#e6f8ef;font-size:9px;font-weight:700}
+     .footer{margin-top:20px;padding-top:10px;border-top:1px solid #dbe5f1;color:#64748b;font-size:9px;text-align:center}
+     @media print{body{padding:8mm}@page{size:A4 landscape;margin:7mm}}
+   </style>
+ </head>
+ <body>
+   <div class="report-header">
+     <div>
+       <h1>تقرير الطلبات والأندية الطلابية</h1>
+       <p class="subtitle">تقرير شامل للطلبات، الأندية المسجلة، وتفاصيل الأنشطة المرتبطة بكل نادٍ</p>
+     </div>
+     <div class="date-box">تاريخ الإصدار: ${escapeHtml(generatedAt)}</div>
+   </div>
+
+   <div class="summary">
+     <div><span>إجمالي الطلبات</span><strong>${summary.requests}</strong></div>
+     <div><span>الموافقات</span><strong>${summary.approvedRequests}</strong></div>
+     <div><span>الرفض</span><strong>${summary.rejectedRequests}</strong></div>
+     <div><span>الأندية المسجلة</span><strong>${summary.clubs}</strong></div>
+     <div><span>أنشطة الأندية</span><strong>${summary.clubActivities}</strong></div>
+     <div><span>الأنشطة المعتمدة</span><strong>${summary.approvedActivities}</strong></div>
+     <div><span>الأنشطة المرفوضة</span><strong>${summary.rejectedActivities}</strong></div>
+     <div><span>الأنشطة قيد المراجعة</span><strong>${summary.pendingActivities}</strong></div>
+   </div>
+
+   <section class="report-section">
+     <h2>أولًا: الطلبات والقرارات</h2>
+     <table>
+       <thead><tr><th>#</th><th>نوع الطلب</th><th>العنوان</th><th>مقدم الطلب</th><th>التاريخ</th><th>الفئة/السعة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead>
+       <tbody>${requestRows||'<tr><td colspan="8">لا توجد بيانات</td></tr>'}</tbody>
+     </table>
+   </section>
+
+   <section class="report-section">
+     <h2>ثانيًا: الأندية الطلابية المسجلة</h2>
+     <table>
+       <thead><tr><th>#</th><th>اسم النادي</th><th>المشرف</th><th>المسؤول</th><th>عدد الأعضاء</th><th>عدد الأنشطة</th><th>الحالة</th></tr></thead>
+       <tbody>${clubRows||'<tr><td colspan="7">لا توجد أندية مسجلة</td></tr>'}</tbody>
+     </table>
+   </section>
+
+   <section class="report-section">
+     <h2>ثالثًا: تفاصيل أنشطة الأندية</h2>
+     ${clubSections||'<p>لا توجد أنشطة أندية مسجلة.</p>'}
+   </section>
+
+   <div class="footer">Student Activities Hub — منصة الأنشطة الطلابية</div>
+   <script>window.onload=()=>setTimeout(()=>window.print(),400);<\/script>
+ </body>
+ </html>`);
+
+ reportWindow.document.close();
+ window.showToast?.('تم فتح التقرير الشامل؛ اختر حفظ بصيغة PDF.');
+}
+
 function renderAll(){tables();student();applicants();approvals();populateClubEventSelect();renderRegisteredClubs();const b=document.querySelector('[data-event-category].active');if(b)renderCategory(b.dataset.eventCategory)}
 function bind(id,fn){const o=document.getElementById(id);if(!o)return;const n=o.cloneNode(true);o.replaceWith(n);n.onclick=fn}
 window.addEventListener('DOMContentLoaded',()=>{
+ document.getElementById('exportApprovalsExcel')
+   ?.addEventListener('click',exportApprovalsExcel);
+
+ document.getElementById('exportApprovalsPdf')
+   ?.addEventListener('click',exportApprovalsPdf);
+
  populateClubEventSelect();
  renderRegisteredClubs();
 
@@ -4198,4 +4514,18 @@ window.addEventListener('DOMContentLoaded',()=>{
 window.addEventListener('DOMContentLoaded',()=>{
   console.info('SAH build 23.6 loaded');
   document.documentElement.dataset.sahBuild='23.6';
+});
+
+
+/* SAH V23.7 — approvals Excel and PDF export */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 23.7 loaded');
+  document.documentElement.dataset.sahBuild='23.7';
+});
+
+
+/* SAH V23.8 — comprehensive clubs and activities export */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 23.8 loaded');
+  document.documentElement.dataset.sahBuild='23.8';
 });

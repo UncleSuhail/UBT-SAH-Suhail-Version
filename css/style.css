@@ -5681,3 +5681,136 @@ body.theme-dark .club-activity-details-stats>div{
     min-height:72px;
   }
 }
+
+
+/* ==========================================================
+   SAH V23.7 — approvals export buttons
+   ========================================================== */
+
+.approvals-page-heading{
+  display:flex!important;
+  align-items:flex-start!important;
+  justify-content:space-between!important;
+  gap:16px!important;
+}
+
+.approvals-export-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:0 0 auto;
+}
+
+.approval-export-btn{
+  min-height:38px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:7px 11px;
+  border:1px solid transparent;
+  border-radius:11px;
+  font-family:inherit;
+  font-size:11px;
+  font-weight:900;
+  cursor:pointer;
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    background .18s ease;
+}
+
+.approval-export-btn:hover{
+  transform:translateY(-2px);
+}
+
+.approval-export-btn.excel{
+  color:#08764e;
+  background:linear-gradient(180deg,#effbf5,#e3f7ed);
+  border-color:#b3dfc8;
+  box-shadow:0 6px 14px rgba(8,118,78,.09);
+}
+
+.approval-export-btn.excel:hover{
+  color:#fff;
+  background:#08764e;
+  box-shadow:0 9px 20px rgba(8,118,78,.18);
+}
+
+.approval-export-btn.pdf{
+  color:#ad2348;
+  background:linear-gradient(180deg,#fff6f8,#ffecef);
+  border-color:#efbdca;
+  box-shadow:0 6px 14px rgba(173,35,72,.08);
+}
+
+.approval-export-btn.pdf:hover{
+  color:#fff;
+  background:#ad2348;
+  box-shadow:0 9px 20px rgba(173,35,72,.18);
+}
+
+.approval-export-icon{
+  min-width:25px;
+  height:25px;
+  display:grid;
+  place-items:center;
+  padding-inline:4px;
+  border-radius:7px;
+  background:rgba(255,255,255,.82);
+  font-family:Arial,sans-serif;
+  font-size:9px;
+  font-weight:900;
+  line-height:1;
+}
+
+body.theme-dark .approval-export-btn.excel{
+  color:#9ce3c2;
+  background:rgba(8,118,78,.17);
+  border-color:rgba(156,227,194,.28);
+}
+
+body.theme-dark .approval-export-btn.pdf{
+  color:#ffb9ca;
+  background:rgba(173,35,72,.17);
+  border-color:rgba(255,185,202,.28);
+}
+
+@media(max-width:700px){
+  .approvals-page-heading{
+    align-items:stretch!important;
+    flex-direction:column!important;
+  }
+
+  .approvals-export-actions{
+    width:100%;
+    justify-content:flex-start;
+  }
+
+  .approval-export-btn{
+    flex:1;
+  }
+}
+
+
+/* SAH V23.8 — comprehensive export hint */
+.approval-export-btn{position:relative}
+.approval-export-btn::after{
+  content:"يشمل الأندية والأنشطة";
+  position:absolute;
+  inset-inline-end:0;
+  top:calc(100% + 7px);
+  z-index:20;
+  min-width:135px;
+  padding:6px 8px;
+  border-radius:8px;
+  color:#fff;
+  background:#0a356f;
+  font-size:8px;
+  font-weight:700;
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(-3px);
+  transition:opacity .18s ease,transform .18s ease;
+}
+.approval-export-btn:hover::after{opacity:1;transform:translateY(0)}
