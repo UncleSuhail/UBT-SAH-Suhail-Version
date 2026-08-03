@@ -23,99 +23,44 @@
 
 <div id="app" class="app hidden">
 <header class="topbar">
+  <div class="topbar-brand" aria-label="هوية الجامعة والعمادة">
+    <img class="ubt" src="assets/logos/ubt-logo.png" alt="UBT">
+    <span class="topbar-brand-divider" aria-hidden="true"></span>
+    <img class="dsa" src="assets/logos/dsa-logo.png" alt="DSA">
+  </div>
 
-    <button id="mobileMenu" class="mobile-menu">
-        <span data-icon="menu"></span>
+  <div class="brand-title">
+    <h1>Student Activities Hub</h1>
+    <p>منصة الأنشطة الطلابية</p>
+  </div>
+
+  <div class="topbar-actions">
+    <button id="mobileMenu" class="mobile-menu" type="button" aria-label="فتح القائمة">
+      <span data-icon="menu"></span>
     </button>
 
-    <!-- الشعارات -->
-    <div class="brand-left">
-
-        <img class="ubt"
-             src="assets/logos/ubt-logo.png"
-             alt="UBT">
-
-        <img class="dsa"
-             src="assets/logos/dsa-logo.png"
-             alt="DSA">
-
+    <div class="app-controls">
+      <button id="themeToggle" class="control-btn" type="button" title="Theme" aria-label="Switch to dark mode">🌙</button>
+      <button id="langToggle" class="control-btn" type="button" title="Switch to English">EN</button>
     </div>
 
-    <!-- عنوان المنصة -->
-    <div class="brand-title">
-
-        <h1>Student Activities Hub</h1>
-
-        <p>منصة الأنشطة الطلابية</p>
-
+    <div class="role-switcher">
+      <label for="activeRole">المستخدم الحالي</label>
+      <select id="activeRole">
+        <option value="system">حسام الحسين — مسؤول النظام</option>
+        <option value="indicator">مسؤول مؤشر الأداء الرياضي</option>
+        <option value="dean">العميد</option>
+      </select>
     </div>
 
-    <!-- أدوات النظام -->
-    <div class="topbar-right">
-
-        <div class="app-controls">
-
-            <button id="themeToggle"
-                    class="control-btn">
-                🌙
-            </button>
-
-            <button id="langToggle"
-                    class="control-btn">
-                EN
-            </button>
-
-        </div>
-
-        <div class="role-switcher">
-
-            <label for="activeRole">
-                المستخدم الحالي
-            </label>
-
-            <select id="activeRole">
-
-                <option value="system">
-                    حسام الحسين — مسؤول النظام
-                </option>
-
-                <option value="indicator">
-                    مسؤول مؤشر الأداء الرياضي
-                </option>
-
-                <option value="dean">
-                    العميد
-                </option>
-
-            </select>
-
-        </div>
-
-        <div class="user-chip">
-
-            <div>
-
-                <strong id="activeUserName">
-                    حسام الحسين
-                </strong>
-
-                <span id="activeUserRole">
-                    مسؤول النظام — صلاحية كاملة
-                </span>
-
-            </div>
-
-            <div class="avatar"
-                 id="activeUserAvatar">
-
-                ح
-
-            </div>
-
-        </div>
-
+    <div class="user-chip">
+      <div class="avatar" id="activeUserAvatar">ح</div>
+      <div class="user-chip-details">
+        <strong id="activeUserName">حسام الحسين</strong>
+        <span id="activeUserRole">مسؤول النظام — صلاحية كاملة</span>
+      </div>
     </div>
-
+  </div>
 </header>
 <div class="layout">
   <aside class="sidebar">
@@ -138,7 +83,6 @@
             <span class="nav-group-symbol" aria-hidden="true">🏆</span>
             <span class="nav-group-name">القسم الرياضي</span>
           </span>
-          <span class="arrow" aria-hidden="true">⌄</span>
         </button>
 
         <div class="nav-items">
@@ -179,7 +123,6 @@
             <span class="nav-group-symbol" aria-hidden="true">👨‍🎓</span>
             <span class="nav-group-name">قسم الطالب</span>
           </span>
-          <span class="arrow" aria-hidden="true">⌄</span>
         </button>
 
         <div class="nav-items">
@@ -200,7 +143,6 @@
             <span class="nav-group-symbol" aria-hidden="true">🎓</span>
             <span class="nav-group-name">عمادة شؤون الطلاب</span>
           </span>
-          <span class="arrow" aria-hidden="true">⌄</span>
         </button>
 
         <div class="nav-items">

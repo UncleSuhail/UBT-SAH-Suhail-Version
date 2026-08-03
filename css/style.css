@@ -450,41 +450,279 @@ body.theme-dark .indicator-limit-input{
     }
 }
 
+/* ==========================================================
+   SAH FINAL HEADER — Attached, responsive, conflict-safe
+   ========================================================== */
+:root{
+  --sah-header-height:88px;
+}
+
 .topbar{
-    position:sticky;
-    top:14px;
-    z-index:50;
-
-    height:96px;
-    margin:14px 24px 20px;
-    padding:14px 20px;
-
-    border-radius:24px;
+  position:sticky !important;
+  inset-block-start:0 !important;
+  z-index:500 !important;
+  width:100% !important;
+  min-height:var(--sah-header-height) !important;
+  height:auto !important;
+  margin:0 !important;
+  padding:12px clamp(16px,2.2vw,34px) !important;
+  display:grid !important;
+  grid-template-columns:minmax(250px,auto) minmax(280px,1fr) minmax(430px,auto) !important;
+  align-items:center !important;
+  gap:clamp(16px,2vw,34px) !important;
+  border:0 !important;
+  border-bottom:1px solid var(--border) !important;
+  border-radius:0 !important;
+  background:#fff !important;
+  box-shadow:0 8px 24px rgba(7,44,100,.07) !important;
+  direction:ltr !important;
 }
 
-.brand-left .ubt{
-    height:58px;
+.topbar-brand{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:16px;
+  direction:ltr;
 }
 
-.brand-left .dsa{
-    height:40px;
+.topbar-brand .ubt{
+  width:auto;
+  height:54px;
+  max-width:150px;
+  object-fit:contain;
+  flex:0 1 auto;
 }
 
-.brand-title h1{
-    font-size:27px;
+.topbar-brand .dsa{
+  width:auto;
+  height:42px;
+  max-width:190px;
+  object-fit:contain;
+  flex:0 1 auto;
 }
 
-.avatar{
-    width:44px;
-    height:44px;
+.topbar-brand-divider{
+  width:1px;
+  height:44px;
+  background:var(--border);
+  flex:0 0 1px;
 }
 
-@media(max-width:1100px){
-    .topbar{
-        height:auto;
-    }
+.topbar .brand-title{
+  min-width:0;
+  margin:0 !important;
+  text-align:center !important;
+  direction:rtl;
 }
 
+.topbar .brand-title h1{
+  margin:0 !important;
+  color:var(--blue);
+  font-size:clamp(21px,2vw,31px) !important;
+  line-height:1.15;
+  white-space:normal;
+}
+
+.topbar .brand-title p{
+  margin:5px 0 0 !important;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.topbar-actions{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:clamp(10px,1.2vw,18px);
+  direction:ltr;
+}
+
+.topbar .app-controls{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex:0 0 auto;
+}
+
+.topbar .control-btn{
+  width:44px;
+  min-width:44px;
+  height:42px;
+  padding:0;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  box-shadow:none;
+}
+
+.topbar .role-switcher{
+  min-width:220px;
+  max-width:270px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  direction:rtl;
+  text-align:right;
+}
+
+.topbar .role-switcher label{
+  font-size:11px;
+  color:var(--muted);
+}
+
+.topbar .role-switcher select{
+  width:100%;
+  height:40px;
+  padding-inline:12px !important;
+  border:1px solid var(--border);
+  border-radius:11px;
+  background:#fff !important;
+  color:var(--text);
+}
+
+.topbar .user-chip{
+  min-width:205px;
+  display:flex !important;
+  align-items:center;
+  justify-content:flex-start;
+  gap:14px !important;
+  direction:ltr;
+  text-align:right;
+}
+
+.topbar .avatar{
+  width:48px !important;
+  height:48px !important;
+  flex:0 0 48px;
+}
+
+.user-chip-details{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  direction:rtl;
+}
+
+.user-chip-details strong,
+.user-chip-details span{
+  max-width:210px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.user-chip-details strong{
+  color:var(--text);
+  font-size:15px;
+}
+
+.user-chip-details span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* The header is attached, so the sidebar starts directly below it. */
+.sidebar{
+  top:calc(var(--sah-header-height) + 16px) !important;
+  max-height:calc(100vh - var(--sah-header-height) - 32px) !important;
+}
+
+/* Remove accordion arrows visually and from layout without affecting clicks. */
 .nav-group-title .arrow{
-    display:none !important;
+  display:none !important;
+  visibility:hidden !important;
+  width:0 !important;
+  min-width:0 !important;
+  margin:0 !important;
+  padding:0 !important;
 }
+
+.nav-group-title{
+  justify-content:flex-start !important;
+}
+
+body.theme-dark .topbar{
+  background:rgba(6,28,61,.94) !important;
+  border-bottom-color:var(--border) !important;
+}
+
+body.theme-dark .topbar-brand-divider{
+  background:rgba(255,255,255,.16);
+}
+
+body.theme-dark .topbar .role-switcher select{
+  background:#10284b !important;
+  color:#fff;
+  border-color:#2f4e78;
+}
+
+@media (max-width:1280px){
+  .topbar{
+    grid-template-columns:minmax(215px,auto) minmax(240px,1fr) minmax(360px,auto) !important;
+    gap:14px !important;
+    padding-inline:18px !important;
+  }
+
+  .topbar-brand .ubt{height:46px;max-width:125px}
+  .topbar-brand .dsa{height:36px;max-width:155px}
+  .topbar-brand-divider{height:38px}
+  .topbar .role-switcher{min-width:190px;max-width:225px}
+  .topbar .user-chip{min-width:175px}
+  .user-chip-details span{max-width:170px}
+}
+
+@media (max-width:1050px){
+  :root{--sah-header-height:76px}
+
+  .topbar{
+    grid-template-columns:auto 1fr auto !important;
+    min-height:76px !important;
+  }
+
+  .topbar .role-switcher,
+  .topbar .user-chip{
+    display:none !important;
+  }
+
+  .topbar-actions{
+    gap:8px;
+  }
+
+  .mobile-menu{
+    display:grid !important;
+    place-items:center;
+    order:-1;
+  }
+
+  .topbar-brand .ubt{height:42px}
+  .topbar-brand .dsa{height:32px}
+}
+
+@media (max-width:700px){
+  :root{--sah-header-height:68px}
+
+  .topbar{
+    min-height:68px !important;
+    grid-template-columns:1fr auto !important;
+    padding:9px 12px !important;
+    gap:10px !important;
+  }
+
+  .topbar-brand{
+    gap:9px;
+  }
+
+  .topbar-brand .ubt{height:34px;max-width:92px}
+  .topbar-brand .dsa{height:27px;max-width:112px}
+  .topbar-brand-divider{height:30px}
+  .topbar .brand-title{display:none}
+  .topbar .control-btn{width:38px;min-width:38px;height:38px}
+  .topbar .app-controls{gap:5px}
+}
+
