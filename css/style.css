@@ -50,3 +50,695 @@ html[dir="ltr"] .event .date{direction:ltr;}
 .theme-dark .btn.danger{background:#431b27;color:#ffdce4;border-color:#7b3347}.theme-dark .role-switcher select,.theme-dark .dynamic-field input,.theme-dark .dynamic-field textarea{background:#10284b;color:#fff;border-color:#2f4e78}
 @media(max-width:900px){.role-switcher{display:none}.admin-toolbar{grid-template-columns:1fr}.dynamic-form{grid-template-columns:1fr}.admin-summary{grid-template-columns:1fr 1fr!important}}
 @media(max-width:580px){.admin-summary{grid-template-columns:1fr!important}.modal{padding:8px}.modal-card{padding:15px;border-radius:16px}}
+
+/*==================================================
+ SAH V2 - Sidebar Upgrade
+==================================================*/
+
+.layout{
+    grid-template-columns:250px 1fr;
+    gap:28px;
+}
+
+.sidebar{
+
+    width:250px;
+
+    padding:18px;
+
+    border-radius:22px;
+
+    position:sticky;
+
+    top:18px;
+
+    height:calc(100vh - 36px);
+
+    overflow-y:auto;
+
+    background:linear-gradient(180deg,#072c64,#041f49);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,.18);
+
+}
+
+/* Logo */
+
+.side-logo{
+
+    margin-bottom:18px;
+
+}
+
+/* Navigation */
+
+.nav{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+/* Group */
+
+.nav-group{
+
+    background:rgba(255,255,255,.05);
+
+    border-radius:18px;
+
+    padding:12px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+}
+
+/* Group title */
+
+.nav-group-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    color:white;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    margin-bottom:12px;
+
+    padding-bottom:10px;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+/* Buttons */
+
+.nav button{
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:12px 14px;
+
+    margin-bottom:6px;
+
+    border-radius:12px;
+
+    transition:.25s;
+
+}
+
+/* Hover */
+
+.nav button:hover{
+
+    transform:translateX(-3px);
+
+    background:white;
+
+}
+
+/* Active */
+
+.nav button.active{
+
+    background:white;
+
+    color:#072c64;
+
+    font-weight:700;
+
+}
+
+/* Scroll */
+
+.sidebar::-webkit-scrollbar{
+
+    width:6px;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+
+    background:#2e6cd6;
+
+    border-radius:10px;
+
+}
+
+/*==================================================
+ SAH V2 - Professional Sidebar
+==================================================*/
+
+.layout{
+    grid-template-columns:260px 1fr;
+    gap:30px;
+}
+
+.sidebar{
+
+    width:260px;
+
+    height:calc(100vh - 40px);
+
+    position:sticky;
+
+    top:20px;
+
+    overflow-y:auto;
+
+    padding:18px;
+
+    border-radius:24px;
+
+    background:linear-gradient(180deg,#072c64,#041f49);
+
+    box-shadow:0 18px 45px rgba(0,0,0,.22);
+
+}
+
+.sidebar::-webkit-scrollbar{
+
+    width:6px;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+
+    background:#2f70dc;
+
+    border-radius:20px;
+
+}
+
+/*----------------------------*/
+
+.nav{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:16px;
+
+}
+
+/*----------------------------*/
+
+.nav-group{
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    transition:.25s;
+
+}
+
+/*----------------------------*/
+
+.nav-group:hover{
+
+    background:rgba(255,255,255,.07);
+
+}
+
+/*----------------------------*/
+
+.nav-group-title{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:14px 16px;
+
+    cursor:pointer;
+
+    color:#fff;
+
+    font-weight:700;
+
+    user-select:none;
+
+}
+
+/*----------------------------*/
+
+.group-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+/*----------------------------*/
+
+.arrow{
+
+    font-size:14px;
+
+    transition:.30s;
+
+}
+
+/*----------------------------*/
+
+.nav-items{
+
+    max-height:0;
+
+    overflow:hidden;
+
+    transition:max-height .35s ease;
+
+}
+
+/*----------------------------*/
+
+.nav-group.open .nav-items{
+
+    max-height:650px;
+
+}
+
+/*----------------------------*/
+
+.nav-group.open .arrow{
+
+    transform:rotate(180deg);
+
+}
+
+/*----------------------------*/
+
+.nav button{
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border:0;
+
+    background:transparent;
+
+    color:#dbe8ff;
+
+    padding:12px 16px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+/*----------------------------*/
+
+.nav button:hover{
+
+    background:#fff;
+
+    color:#072c64;
+
+    transform:translateX(-4px);
+
+}
+
+/*----------------------------*/
+
+.nav button.active{
+
+    background:#fff;
+
+    color:#072c64;
+
+    font-weight:700;
+
+}
+
+/* ==========================================================
+   SAH V10 — Compact professional navigation and indicator limits
+   ========================================================== */
+.layout{
+  grid-template-columns:260px minmax(0,1fr);
+  gap:24px;
+}
+
+.sidebar{
+  width:260px;
+  max-height:calc(100vh - 174px);
+  min-height:0;
+  overflow-y:auto;
+  padding:16px;
+  border-radius:24px;
+  top:150px;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,255,255,.28) transparent;
+  transition:width .28s ease,padding .28s ease,transform .25s ease;
+}
+
+.sidebar::-webkit-scrollbar{width:6px}
+.sidebar::-webkit-scrollbar-track{background:transparent}
+.sidebar::-webkit-scrollbar-thumb{
+  background:rgba(255,255,255,.28);
+  border-radius:999px;
+}
+
+.side-logo.identity-card{margin-bottom:14px}
+.side-logo.identity-card img{max-height:94px}
+
+.sidebar-toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:14px;
+  padding:4px;
+}
+
+.sidebar-title{
+  color:#fff;
+  font-weight:900;
+  font-size:15px;
+  letter-spacing:1.4px;
+}
+
+.sidebar-toggle{
+  width:38px;
+  height:38px;
+  flex:0 0 38px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:12px;
+  background:rgba(255,255,255,.09);
+  color:#fff;
+  cursor:pointer;
+  transition:.2s ease;
+}
+
+.sidebar-toggle:hover{
+  background:#fff;
+  color:#072c64;
+  transform:translateY(-1px);
+}
+
+.nav{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.nav-group{
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:16px;
+  background:rgba(255,255,255,.045);
+}
+
+.nav-group-title{
+  width:100%;
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:11px 12px;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+  text-align:right;
+}
+
+.nav-group-title:hover{
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  box-shadow:none;
+}
+
+.group-left{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.nav-group-symbol{
+  width:24px;
+  flex:0 0 24px;
+  text-align:center;
+}
+
+.nav-group-name{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.arrow{
+  font-size:16px;
+  line-height:1;
+  transition:transform .25s ease;
+}
+
+.nav-group.open .arrow{transform:rotate(180deg)}
+
+.nav-items{
+  display:grid;
+  grid-template-rows:0fr;
+  transition:grid-template-rows .28s ease;
+}
+
+.nav-items::before{content:"";display:none}
+
+.nav-items > *{min-height:0}
+
+.nav-group.open .nav-items{
+  grid-template-rows:1fr;
+  padding:0 7px 8px;
+}
+
+/* wrapper behavior without changing current HTML */
+.nav-group:not(.open) .nav-items{
+  display:none;
+}
+
+.nav-items button{
+  width:100%;
+  min-height:42px;
+  margin:3px 0;
+  padding:9px 11px;
+  border-radius:11px;
+  font-size:13px;
+}
+
+.nav-items button:hover{
+  transform:none;
+  box-shadow:none;
+}
+
+.layout.sidebar-mini{
+  grid-template-columns:78px minmax(0,1fr);
+}
+
+.sidebar.collapsed{
+  width:78px;
+  padding:12px 10px;
+}
+
+.sidebar.collapsed .side-logo,
+.sidebar.collapsed .sidebar-title,
+.sidebar.collapsed .nav-group-name,
+.sidebar.collapsed .arrow,
+.sidebar.collapsed .nav-items{
+  display:none!important;
+}
+
+.sidebar.collapsed .sidebar-toolbar{
+  justify-content:center;
+  margin-bottom:10px;
+}
+
+.sidebar.collapsed .nav-group-title{
+  justify-content:center;
+  padding:11px 6px;
+}
+
+.sidebar.collapsed .nav-group{
+  overflow:visible;
+}
+
+.permission-settings-btn{
+  background:linear-gradient(135deg,#072c64,#0b55d9);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 10px 24px rgba(7,44,100,.18);
+}
+
+.permission-settings-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 14px 30px rgba(7,44,100,.24);
+}
+
+.indicator-heading-actions{
+  justify-content:flex-end;
+  align-items:center;
+}
+
+.indicator-settings-card{
+  width:min(980px,96vw);
+}
+
+.indicator-modal-heading{
+  align-items:flex-start;
+  margin-bottom:12px;
+}
+
+.indicator-settings-note{
+  margin-bottom:16px;
+  padding:12px 14px;
+  border:1px solid #dce7f8;
+  border-radius:14px;
+  background:#f4f8ff;
+  color:var(--muted);
+  line-height:1.7;
+  font-size:13px;
+}
+
+.indicator-settings-form{
+  display:grid;
+  gap:10px;
+}
+
+.indicator-limit-row{
+  display:grid;
+  grid-template-columns:minmax(120px,.8fr) minmax(240px,1.6fr) minmax(130px,.55fr);
+  gap:12px;
+  align-items:center;
+  padding:12px 14px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:#fff;
+}
+
+.indicator-limit-row .limit-track{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:700;
+}
+
+.indicator-limit-row .limit-field{
+  color:var(--text);
+  font-weight:900;
+}
+
+.indicator-limit-row label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.indicator-limit-row input{
+  width:100%;
+  min-width:0;
+  padding:10px 11px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#fff;
+  color:var(--text);
+  text-align:center;
+  direction:ltr;
+  font-weight:900;
+}
+
+.indicator-settings-actions{
+  position:sticky;
+  bottom:-22px;
+  padding:14px 0 2px;
+  background:linear-gradient(180deg,rgba(255,255,255,0),#fff 30%);
+}
+
+body.theme-dark .nav-group{
+  background:rgba(255,255,255,.045);
+  border-color:rgba(255,255,255,.10);
+}
+
+body.theme-dark .nav-group-title:hover{background:rgba(255,255,255,.08)}
+body.theme-dark .indicator-settings-note{
+  background:rgba(255,255,255,.05);
+  border-color:var(--border);
+}
+body.theme-dark .indicator-limit-row{
+  background:rgba(255,255,255,.04);
+  border-color:var(--border);
+}
+body.theme-dark .indicator-limit-row input{
+  background:#10284b;
+  color:#fff;
+  border-color:#2f4e78;
+}
+body.theme-dark .indicator-settings-actions{
+  background:linear-gradient(180deg,rgba(6,28,61,0),rgba(6,28,61,.98) 30%);
+}
+
+html[dir="ltr"] .nav-group-title{text-align:left}
+html[dir="ltr"] .nav-items button{flex-direction:row-reverse;text-align:left}
+
+@media(max-width:1100px){
+  .layout,.layout.sidebar-mini{grid-template-columns:1fr}
+  .sidebar,.sidebar.collapsed{
+    width:300px;
+    max-height:none;
+    padding:18px;
+    border-radius:0;
+  }
+  .sidebar.collapsed .side-logo,
+  .sidebar.collapsed .sidebar-title,
+  .sidebar.collapsed .nav-group-name,
+  .sidebar.collapsed .arrow{
+    display:initial!important;
+  }
+  .sidebar.collapsed .nav-items{display:none!important}
+  .sidebar.collapsed .sidebar-toolbar{justify-content:space-between}
+  .indicator-limit-row{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:700px){
+  .indicator-page-heading{align-items:stretch}
+  .indicator-heading-actions{width:100%;justify-content:stretch}
+  .indicator-heading-actions .btn{flex:1;justify-content:center}
+}
+

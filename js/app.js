@@ -429,3 +429,676 @@ function initPreferences(){
   observeDynamicTranslations();
 }
 window.addEventListener('DOMContentLoaded',initPreferences);
+/* ==========================================================
+   SAH V10
+   القائمة الجانبية + تعديل الحدود العليا حسب الصلاحية
+   ========================================================== */
+
+(function () {
+
+    const INDICATOR_LIMITS_KEY = "sah-indicator-max-limits-v1";
+    const SIDEBAR_STATE_KEY = "sah-sidebar-collapsed";
+
+    let originalIndicatorLimits = [];
+
+    /* ======================================================
+       تشغيل القائمة الجانبية
+       ====================================================== */
+
+    function initProfessionalSidebar() {
+
+        const sidebar = document.querySelector(".sidebar");
+        const layout = document.querySelector(".layout");
+        const toggleButton = document.getElementById("toggleSidebar");
+
+        /* فتح قسم واحد وإغلاق الأقسام الأخرى */
+
+        document.querySelectorAll(".nav-group-title").forEach(title => {
+
+            title.addEventListener("click", () => {
+
+                const selectedGroup = title.closest(".nav-group");
+
+                if (!selectedGroup) {
+                    return;
+                }
+
+                const shouldOpen =
+                    !selectedGroup.classList.contains("open");
+
+                document.querySelectorAll(".nav-group").forEach(group => {
+
+                    const isSelected =
+                        group === selectedGroup && shouldOpen;
+
+                    group.classList.toggle("open", isSelected);
+
+                    const groupTitle =
+                        group.querySelector(".nav-group-title");
+
+                    if (groupTitle) {
+
+                        groupTitle.setAttribute(
+                            "aria-expanded",
+                            String(isSelected)
+                        );
+
+                    }
+
+                });
+
+            });
+
+        });
+
+        /* إبقاء مجموعة الصفحة المختارة مفتوحة */
+
+        document
+            .querySelectorAll(".nav-items button[data-page]")
+            .forEach(button => {
+
+                button.addEventListener("click", () => {
+
+                    const currentGroup =
+                        button.closest(".nav-group");
+
+                    if (!currentGroup) {
+                        return;
+                    }
+
+                    document.querySelectorAll(".nav-group")
+                        .forEach(group => {
+
+                            const isCurrent =
+                                group === currentGroup;
+
+                            group.classList.toggle(
+                                "open",
+                                isCurrent
+                            );
+
+                            const groupTitle =
+                                group.querySelector(
+                                    ".nav-group-title"
+                                );
+
+                            if (groupTitle) {
+
+                                groupTitle.setAttribute(
+                                    "aria-expanded",
+                                    String(isCurrent)
+                                );
+
+                            }
+
+                        });
+
+                });
+
+            });
+
+        /* تصغير وتوسيع القائمة */
+
+        if (!sidebar || !layout || !toggleButton) {
+            return;
+        }
+
+        function applySidebarState(collapsed) {
+
+            sidebar.classList.toggle(
+                "collapsed",
+                collapsed
+            );
+
+            layout.classList.toggle(
+                "sidebar-mini",
+                collapsed
+            );
+
+            toggleButton.setAttribute(
+                "aria-expanded",
+                String(!collapsed)
+            );
+
+            toggleButton.title =
+                collapsed
+                    ? "توسيع القائمة"
+                    : "تصغير القائمة";
+
+            localStorage.setItem(
+                SIDEBAR_STATE_KEY,
+                collapsed ? "1" : "0"
+            );
+
+        }
+
+        const savedCollapsedState =
+            localStorage.getItem(SIDEBAR_STATE_KEY) === "1";
+
+        const isDesktop =
+            window.matchMedia("(min-width:1101px)").matches;
+
+        applySidebarState(
+            savedCollapsedState && isDesktop
+        );
+
+        toggleButton.addEventListener("click", () => {
+
+            const isMobile =
+                window.matchMedia("(max-width:1100px)").matches;
+
+            if (isMobile) {
+
+                sidebar.classList.toggle("open");
+                return;
+
+            }
+
+            const shouldCollapse =
+                !sidebar.classList.contains("collapsed");
+
+            applySidebarState(shouldCollapse);
+
+        });
+
+    }
+
+    /* ======================================================
+       معرفة دور المستخدم
+       ====================================================== */
+
+    function getCurrentRole() {
+
+        const roleSelect =
+            document.getElementById("activeRole");
+
+        return roleSelect
+            ? roleSelect.value
+            : "system";
+
+    }
+
+    function canEditIndicatorLimits() {
+
+        const role = getCurrentRole();
+
+        return (
+            role === "system" ||
+            role === "indicator"
+        );
+
+    }
+
+    function refreshIndicatorPermissionButton() {
+
+        const settingsButton =
+            document.getElementById(
+                "indicatorPermissionSettings"
+            );
+
+        if (!settingsButton) {
+            return;
+        }
+
+        settingsButton.classList.toggle(
+            "hidden",
+            !canEditIndicatorLimits()
+        );
+
+    }
+
+    /* ======================================================
+       حفظ القيم الأصلية
+       ====================================================== */
+
+    function captureOriginalIndicatorLimits() {
+
+        if (
+            typeof SAH_DATA === "undefined" ||
+            !Array.isArray(SAH_DATA.indicatorFields)
+        ) {
+            return;
+        }
+
+        if (originalIndicatorLimits.length > 0) {
+            return;
+        }
+
+        originalIndicatorLimits =
+            SAH_DATA.indicatorFields.map(field => {
+
+                return Number(field.max) || 0;
+
+            });
+
+    }
+
+    /* ======================================================
+       تطبيق القيم المحفوظة
+       ====================================================== */
+
+    function applyStoredIndicatorLimits() {
+
+        captureOriginalIndicatorLimits();
+
+        if (
+            typeof SAH_DATA === "undefined" ||
+            !Array.isArray(SAH_DATA.indicatorFields)
+        ) {
+            return;
+        }
+
+        try {
+
+            const storedValue =
+                localStorage.getItem(
+                    INDICATOR_LIMITS_KEY
+                );
+
+            if (!storedValue) {
+                return;
+            }
+
+            const storedLimits =
+                JSON.parse(storedValue);
+
+            if (
+                !Array.isArray(storedLimits) ||
+                storedLimits.length !==
+                    SAH_DATA.indicatorFields.length
+            ) {
+                return;
+            }
+
+            SAH_DATA.indicatorFields.forEach(
+                (field, index) => {
+
+                    const value =
+                        Number(storedLimits[index]);
+
+                    if (
+                        Number.isFinite(value) &&
+                        value >= 0
+                    ) {
+
+                        field.max = value;
+
+                    }
+
+                }
+            );
+
+        } catch (error) {
+
+            console.warn(
+                "تعذر قراءة الحدود العليا المحفوظة:",
+                error
+            );
+
+        }
+
+    }
+
+    /* ======================================================
+       إنشاء حقول التعديل
+       ====================================================== */
+
+    function renderIndicatorLimitFields() {
+
+        const form =
+            document.getElementById(
+                "indicatorSettingsForm"
+            );
+
+        if (
+            !form ||
+            typeof SAH_DATA === "undefined"
+        ) {
+            return;
+        }
+
+        form.innerHTML = "";
+
+        SAH_DATA.indicatorFields.forEach(
+            (field, index) => {
+
+                const row =
+                    document.createElement("div");
+
+                row.className =
+                    "indicator-limit-row";
+
+                row.innerHTML = `
+                    <div class="limit-track">
+                        ${field.track || "—"}
+                    </div>
+
+                    <div class="limit-field">
+                        ${field.field || "—"}
+                    </div>
+
+                    <label>
+                        <span class="hidden">
+                            الحد الأعلى
+                        </span>
+
+                        <input
+                            class="indicator-limit-input"
+                            type="number"
+                            min="0"
+                            step="1"
+                            inputmode="numeric"
+                            data-index="${index}"
+                            value="${Number(field.max) || 0}"
+                            aria-label="الحد الأعلى لـ ${field.field || "المجال"}"
+                        >
+                    </label>
+                `;
+
+                form.appendChild(row);
+
+            }
+        );
+
+    }
+
+    /* ======================================================
+       فتح وإغلاق النافذة
+       ====================================================== */
+
+    function openIndicatorSettings() {
+
+        if (!canEditIndicatorLimits()) {
+
+            if (typeof showToast === "function") {
+
+                showToast(
+                    "لا تملك صلاحية تعديل الحدود العليا."
+                );
+
+            }
+
+            return;
+
+        }
+
+        renderIndicatorLimitFields();
+
+        const modal =
+            document.getElementById(
+                "indicatorSettingsModal"
+            );
+
+        if (modal) {
+
+            modal.classList.remove("hidden");
+            document.body.style.overflow = "hidden";
+
+        }
+
+    }
+
+    function closeIndicatorSettings() {
+
+        const modal =
+            document.getElementById(
+                "indicatorSettingsModal"
+            );
+
+        if (modal) {
+
+            modal.classList.add("hidden");
+
+        }
+
+        document.body.style.overflow = "";
+
+    }
+
+    /* ======================================================
+       حفظ الحدود العليا
+       ====================================================== */
+
+    function saveIndicatorLimits() {
+
+        if (!canEditIndicatorLimits()) {
+            return;
+        }
+
+        const inputs = [
+            ...document.querySelectorAll(
+                ".indicator-limit-input"
+            )
+        ];
+
+        const newLimits =
+            inputs.map(input => Number(input.value));
+
+        const hasInvalidValue =
+            newLimits.some(value => {
+
+                return (
+                    !Number.isFinite(value) ||
+                    value < 0
+                );
+
+            });
+
+        if (hasInvalidValue) {
+
+            if (typeof showToast === "function") {
+
+                showToast(
+                    "أدخل أرقامًا صحيحة غير سالبة."
+                );
+
+            }
+
+            return;
+
+        }
+
+        newLimits.forEach((value, index) => {
+
+            if (SAH_DATA.indicatorFields[index]) {
+
+                SAH_DATA.indicatorFields[index].max =
+                    value;
+
+            }
+
+        });
+
+        localStorage.setItem(
+            INDICATOR_LIMITS_KEY,
+            JSON.stringify(newLimits)
+        );
+
+        if (typeof calcIndicators === "function") {
+
+            calcIndicators();
+
+        }
+
+        closeIndicatorSettings();
+
+        if (typeof showToast === "function") {
+
+            showToast(
+                "تم حفظ الحدود العليا وتحديث المؤشر."
+            );
+
+        }
+
+    }
+
+    /* ======================================================
+       استعادة القيم الأصلية
+       ====================================================== */
+
+    function resetIndicatorLimits() {
+
+        captureOriginalIndicatorLimits();
+
+        if (originalIndicatorLimits.length === 0) {
+            return;
+        }
+
+        originalIndicatorLimits.forEach(
+            (value, index) => {
+
+                if (SAH_DATA.indicatorFields[index]) {
+
+                    SAH_DATA.indicatorFields[index].max =
+                        value;
+
+                }
+
+            }
+        );
+
+        localStorage.removeItem(
+            INDICATOR_LIMITS_KEY
+        );
+
+        renderIndicatorLimitFields();
+
+        if (typeof calcIndicators === "function") {
+
+            calcIndicators();
+
+        }
+
+        if (typeof showToast === "function") {
+
+            showToast(
+                "تمت استعادة الحدود العليا الأصلية."
+            );
+
+        }
+
+    }
+
+    /* ======================================================
+       ربط الأزرار
+       ====================================================== */
+
+    function initIndicatorLimitSettings() {
+
+        applyStoredIndicatorLimits();
+
+        refreshIndicatorPermissionButton();
+
+        const settingsButton =
+            document.getElementById(
+                "indicatorPermissionSettings"
+            );
+
+        if (settingsButton) {
+
+            settingsButton.addEventListener(
+                "click",
+                openIndicatorSettings
+            );
+
+        }
+
+        document
+            .querySelectorAll(
+                "[data-close-indicator-settings]"
+            )
+            .forEach(element => {
+
+                element.addEventListener(
+                    "click",
+                    closeIndicatorSettings
+                );
+
+            });
+
+        const saveButton =
+            document.getElementById(
+                "indicatorSaveLimits"
+            );
+
+        if (saveButton) {
+
+            saveButton.addEventListener(
+                "click",
+                saveIndicatorLimits
+            );
+
+        }
+
+        const resetButton =
+            document.getElementById(
+                "indicatorResetLimits"
+            );
+
+        if (resetButton) {
+
+            resetButton.addEventListener(
+                "click",
+                resetIndicatorLimits
+            );
+
+        }
+
+        const roleSelect =
+            document.getElementById("activeRole");
+
+        if (roleSelect) {
+
+            roleSelect.addEventListener(
+                "change",
+                () => {
+
+                    refreshIndicatorPermissionButton();
+
+                    if (!canEditIndicatorLimits()) {
+
+                        closeIndicatorSettings();
+
+                    }
+
+                }
+            );
+
+        }
+
+        document.addEventListener(
+            "keydown",
+            event => {
+
+                if (event.key === "Escape") {
+
+                    closeIndicatorSettings();
+
+                }
+
+            }
+        );
+
+    }
+
+    /* ======================================================
+       بدء التشغيل
+       ====================================================== */
+
+    window.addEventListener(
+        "DOMContentLoaded",
+        () => {
+
+            initProfessionalSidebar();
+            initIndicatorLimitSettings();
+
+            if (typeof calcIndicators === "function") {
+
+                calcIndicators();
+
+            }
+
+        }
+    );
+
+})();

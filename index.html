@@ -41,23 +41,109 @@
 </header>
 <div class="layout">
   <aside class="sidebar">
-    <div class="side-logo identity-card"><img src="assets/images/sah-identity-card.png" alt="Student Activities Hub"></div>
-    <nav class="nav">
-      <button data-page="home"><span data-i18n="nav.home">الرئيسية</span><small data-icon="home"></small></button>
-      <button data-page="sports"><span data-i18n="nav.sports" data-i18n="sports.title">الإدارة الرياضية</span><small data-icon="trophy"></small></button>
-      <button data-page="indicator"><span data-i18n="nav.indicator" data-i18n="indicator.title">مؤشر الأداء الرياضي</span><small data-icon="chart"></small></button>
-      <button data-page="scholarships"><span data-i18n="nav.scholarships">المنح الرياضية</span><small data-icon="award"></small></button>
-      <button data-page="agreement"><span data-i18n="nav.agreement">الإقرار الإلكتروني للمنح</span><small data-icon="pen"></small></button>
-      <button data-page="championships"><span data-i18n="nav.championships">البطولات الرياضية</span><small data-icon="calendar"></small></button>
-      <button data-page="athletes"><span data-i18n="nav.athletes">ملف الطالب الرياضي</span><small data-icon="users"></small></button>
-      <button data-page="activities"><span data-i18n="nav.activities">الأنشطة الطلابية العامة</span><small data-icon="activity"></small></button>
-      <button data-page="volunteer"><span data-i18n="nav.volunteer">العمل التطوعي</span><small data-icon="heart"></small></button>
-      <button data-page="student"><span data-i18n="nav.student">بوابة الطالب</span><small data-icon="student"></small></button>
-      <button data-page="calendar"><span data-i18n="nav.calendar">التقويم الموحد</span><small data-icon="calendar"></small></button>
-      <button data-page="requests"><span data-i18n="nav.requests">طلبات التسجيل</span><small data-icon="inbox"></small></button>
-      <button data-page="reports"><span data-i18n="nav.reports">التقارير والتحليلات</span><small data-icon="briefcase"></small></button>
-      <button data-page="admin"><span>إدارة البيانات</span><small data-icon="pen"></small></button>
-      <button data-page="audit"><span data-i18n="nav.audit">سجل العمليات</span><small data-icon="log"></small></button>
+    <div class="side-logo identity-card">
+      <img src="assets/images/sah-identity-card.png" alt="Student Activities Hub">
+    </div>
+
+    <div class="sidebar-toolbar">
+      <span class="sidebar-title">SAH</span>
+      <button id="toggleSidebar" class="sidebar-toggle" type="button"
+              title="تصغير القائمة" aria-label="تصغير أو توسيع القائمة">
+        ☰
+      </button>
+    </div>
+
+    <nav class="nav" aria-label="التنقل الرئيسي">
+      <div class="nav-group open">
+        <button class="nav-group-title" type="button" aria-expanded="true">
+          <span class="group-left">
+            <span class="nav-group-symbol" aria-hidden="true">🏆</span>
+            <span class="nav-group-name">القسم الرياضي</span>
+          </span>
+          <span class="arrow" aria-hidden="true">⌄</span>
+        </button>
+
+        <div class="nav-items">
+          <button data-page="sports" type="button">
+            <span>الإدارة الرياضية</span>
+            <small data-icon="trophy"></small>
+          </button>
+          <button data-page="indicator" type="button">
+            <span>مؤشر الأداء الرياضي</span>
+            <small data-icon="chart"></small>
+          </button>
+          <button data-page="scholarships" type="button">
+            <span>المنح الرياضية</span>
+            <small data-icon="award"></small>
+          </button>
+          <button data-page="championships" type="button">
+            <span>البطولات الرياضية</span>
+            <small data-icon="calendar"></small>
+          </button>
+          <button data-page="athletes" type="button">
+            <span>ملف الطالب الرياضي</span>
+            <small data-icon="users"></small>
+          </button>
+          <button data-page="reports" type="button">
+            <span>التقارير والتحليلات</span>
+            <small data-icon="briefcase"></small>
+          </button>
+          <button data-page="calendar" type="button">
+            <span>التقويم الموحد</span>
+            <small data-icon="calendar"></small>
+          </button>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <button class="nav-group-title" type="button" aria-expanded="false">
+          <span class="group-left">
+            <span class="nav-group-symbol" aria-hidden="true">👨‍🎓</span>
+            <span class="nav-group-name">قسم الطالب</span>
+          </span>
+          <span class="arrow" aria-hidden="true">⌄</span>
+        </button>
+
+        <div class="nav-items">
+          <button data-page="agreement" type="button">
+            <span>الإقرار الإلكتروني للمنح</span>
+            <small data-icon="pen"></small>
+          </button>
+          <button data-page="student" type="button">
+            <span>بوابة الطالب</span>
+            <small data-icon="student"></small>
+          </button>
+        </div>
+      </div>
+
+      <div class="nav-group">
+        <button class="nav-group-title" type="button" aria-expanded="false">
+          <span class="group-left">
+            <span class="nav-group-symbol" aria-hidden="true">🎓</span>
+            <span class="nav-group-name">عمادة شؤون الطلاب</span>
+          </span>
+          <span class="arrow" aria-hidden="true">⌄</span>
+        </button>
+
+        <div class="nav-items">
+          <button data-page="activities" type="button">
+            <span>الأنشطة الطلابية العامة</span>
+            <small data-icon="activity"></small>
+          </button>
+          <button data-page="volunteer" type="button">
+            <span>العمل التطوعي</span>
+            <small data-icon="heart"></small>
+          </button>
+          <button data-page="admin" type="button">
+            <span>إدارة البيانات</span>
+            <small data-icon="pen"></small>
+          </button>
+          <button data-page="audit" type="button">
+            <span>سجل العمليات</span>
+            <small data-icon="log"></small>
+          </button>
+        </div>
+      </div>
     </nav>
   </aside>
   <main class="main">
@@ -115,7 +201,21 @@
     </section>
 
     <section id="page-indicator" class="page">
-      <div class="section-title"><div><h3>مؤشر الأداء الرياضي</h3><p>الاحتساب مبني على دليل مؤشر الأداء الرياضي فقط.</p></div><a class="btn outline" href="assets/docs/sports-performance-indicator-guide.pdf" target="_blank">عرض الدليل</a></div>
+      <div class="section-title indicator-page-heading">
+        <div>
+          <h3>مؤشر الأداء الرياضي</h3>
+          <p>الاحتساب مبني على دليل مؤشر الأداء الرياضي فقط.</p>
+        </div>
+        <div class="btns indicator-heading-actions">
+          <button id="indicatorPermissionSettings" class="btn permission-settings-btn hidden"
+                  type="button" title="تعديل الحدود العليا وفق صلاحية المستخدم">
+            <span aria-hidden="true">⚙</span>
+            حسب الصلاحية
+          </button>
+          <a class="btn outline" href="assets/docs/sports-performance-indicator-guide.pdf"
+             target="_blank" rel="noopener">عرض الدليل</a>
+        </div>
+      </div>
       <div class="reference-card"><div><h4 data-i18n="indicator.referenceTitle">مرجعية احتساب المؤشر</h4><p data-i18n="indicator.referenceText">يعتمد احتساب المؤشر على دليل مؤشر الأداء الرياضي الصادر من الاتحاد السعودي للرياضة الجامعية.</p></div><img src="assets/logos/susf-logo.png" alt="SUSF"></div>
       <div class="grid cols-2">
         <div class="card indicator-card"><h4 data-i18n="indicator.male">مؤشر الأداء الرياضي - الطلاب</h4><div class="donut" id="maleDonut"><b id="malePct">0%</b></div><div class="points" id="malePoints">0 / 0 نقطة</div><p>لا يتم جمع هذا المؤشر مع مؤشر الطالبات.</p></div>
@@ -272,6 +372,34 @@
 
   </main>
 </div>
+
+<div id="indicatorSettingsModal" class="modal hidden" role="dialog"
+     aria-modal="true" aria-labelledby="indicatorSettingsTitle">
+  <div class="modal-backdrop" data-close-indicator-settings></div>
+  <div class="modal-card indicator-settings-card">
+    <div class="section-title compact-title indicator-modal-heading">
+      <div>
+        <h3 id="indicatorSettingsTitle">إعداد الحدود العليا للمؤشر</h3>
+        <p>عدّل الحد الأعلى لكل مجال. يُعاد احتساب الإجمالي والنسب والرسوم مباشرة بعد الحفظ.</p>
+      </div>
+      <button class="btn outline" type="button" data-close-indicator-settings>إغلاق</button>
+    </div>
+
+    <div class="indicator-settings-note">
+      هذه الصلاحية متاحة لمسؤول النظام ومسؤول مؤشر الأداء الرياضي فقط.
+      تحفظ القيم في المتصفح لهذه النسخة التجريبية.
+    </div>
+
+    <form id="indicatorSettingsForm" class="indicator-settings-form"></form>
+
+    <div class="modal-actions indicator-settings-actions">
+      <button id="indicatorResetLimits" class="btn outline" type="button">استعادة القيم الأصلية</button>
+      <button class="btn outline" type="button" data-close-indicator-settings>إلغاء</button>
+      <button id="indicatorSaveLimits" class="btn primary" type="button">حفظ وتحديث المؤشر</button>
+    </div>
+  </div>
+</div>
+
 <div id="adminModal" class="modal hidden" role="dialog" aria-modal="true"><div class="modal-backdrop" data-close-admin></div><div class="modal-card"><div class="section-title compact-title"><div><h3 id="adminModalTitle">إضافة سجل</h3><p>عدّل الحقول ثم اضغط حفظ.</p></div><button class="btn outline" data-close-admin>إغلاق</button></div><form id="adminForm" class="dynamic-form"></form><div class="modal-actions"><button class="btn outline" type="button" data-close-admin>إلغاء</button><button class="btn primary" id="adminSave" type="button">حفظ التعديلات</button></div></div></div>
 <div id="toast" class="toast"></div>
 </div>
