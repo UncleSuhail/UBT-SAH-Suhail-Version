@@ -1077,3 +1077,462 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   window.addEventListener('DOMContentLoaded',initV11);
 })();
 
+/* ==========================================================
+   SAH V14 — indicator permission repair and evidence CRUD
+   ========================================================== */
+(function(){
+  const ACTIVITIES_KEY_V14='sah-added-sports-activities-v1';
+  const OVERRIDES_KEY='sah-evidence-overrides-v1';
+  const DELETED_KEY='sah-evidence-deleted-v1';
+  const FILE_URLS=new Map();
+
+  function safeJson(key,fallback){
+    try{return JSON.parse(localStorage.getItem(key)||'null') ?? fallback}
+    catch{return fallback}
+  }
+
+  function recordKey(row,index=0){
+    return String(
+      row.localActivityId ||
+      row.recordKey ||
+      `source-${row.id ?? index}-${row.activity || 'activity'}-${row.date || 'date'}`
+    );
+  }
+
+  function deletedKeys(){
+    return new Set(safeJson(DELETED_KEY,[]));
+  }
+
+  function overrideMap(){
+    return safeJson(OVERRIDES_KEY,{});
+  }
+
+  function persistOverrides(map){
+    localStorage.setItem(OVERRIDES_KEY,JSON.stringify(map));
+  }
+
+  function persistDeleted(set){
+    localStorage.setItem(DELETED_KEY,JSON.stringify([...set]));
+  }
+
+  function allEvidenceRows(){
+    const deleted=deletedKeys();
+    const overrides=overrideMap();
+    return (SAH_DATA.evidenceRecords||[])
+      .map((row,index)=>{
+        const key=recordKey(row,index);
+        return {...row,...(overrides[key]||{}),recordKey:key};
+      })
+      .filter(row=>!deleted.has(row.recordKey));
+  }
+
+  function hasValue(value,allowZero=false){
+    if(value===0 && allowZero) return true;
+    return value!==undefined && value!==null && String(value).trim()!=='' &&
+      String(value).trim()!=='—' && String(value).trim()!=='-';
+  }
+
+  function rowCompleteness(row){
+    const checks=[
+      hasValue(row.activity),
+      hasValue(row.date),
+      hasValue(row.days,true),
+      hasValue(row.beneficiaries,true),
+      hasValue(row.players,true),
+      hasValue(row.gender),
+      hasValue(row.indicatorField||row.field||row.subCategory),
+      hasValue(row.participationType),
+      hasValue(row.universities,true),
+      hasValue(row.gameType),
+      hasValue(row.federationReportName||row.newsDocumentation),
+      hasValue(row.scheduleFileName),
+      hasValue(row.documentationUrl||row.publishLink||row.newsLink)
+    ];
+    const filled=checks.filter(Boolean).length;
+    return Math.round((filled/checks.length)*100);
+  }
+
+  function completionCategory(percent){
+    if(percent===100) return 'complete';
+    if(percent===0) return 'missing';
+    return 'incomplete';
+  }
+
+  function selectedGender(){
+    return document.querySelector('#evidenceGender button.active')?.dataset.gender||'all';
+  }
+
+  function filteredRows(){
+    const q=(document.getElementById('evidenceSearch')?.value||'').trim().toLowerCase();
+    const column=document.getElementById('evidenceColumnFilter')?.value||'all';
+    const completion=document.getElementById('evidenceCompletionFilter')?.value||'all';
+    const gender=selectedGender();
+    const status=document.getElementById('evidenceStatus')?.value||'all';
+
+    return allEvidenceRows().filter(row=>{
+      if(gender!=='all' && row.gender!==gender) return false;
+      if(status!=='all' && row.status!==status) return false;
+
+      const percent=rowCompleteness(row);
+      const category=completionCategory(percent);
+      if(completion==='complete' && category!=='complete') return false;
+      if(completion==='incomplete' && category==='complete') return false;
+      if(completion==='missing' && category!=='missing') return false;
+
+      if(!q) return true;
+      const values={
+        activity:row.activity,
+        date:row.date,
+        gender:row.gender,
+        indicatorField:row.indicatorField||row.field||row.subCategory,
+        participationType:row.participationType==='host'?'مستضيف':row.participationType==='guest'?'ضيف':row.participationType,
+        status:row.status,
+        documentation:row.documentationUrl||row.publishLink||row.newsLink
+      };
+      if(column!=='all') return String(values[column]||'').toLowerCase().includes(q);
+      return Object.values({...row,...values}).some(value=>String(value??'').toLowerCase().includes(q));
+    });
+  }
+
+  function fileCellV14(row,type){
+    const name=type==='report'
+      ? (row.federationReportName||row.newsDocumentation||'')
+      : (row.scheduleFileName||'');
+    const sessionUrl=FILE_URLS.get(`${row.recordKey}:${type}`);
+    if(sessionUrl) return `<a class="file-link" href="${sessionUrl}" target="_blank" download="${name}">${name}</a>`;
+    if(/^https?:\/\//i.test(String(name))) return `<a class="file-link" href="${name}" target="_blank" rel="noopener">فتح الملف</a>`;
+    if(hasValue(name)) return `<span class="file-name">${name}</span>`;
+    return `<span class="file-name missing">غير مرفوع</span>`;
+  }
+
+  function documentationCell(row){
+    const url=row.documentationUrl||row.publishLink||row.newsLink||'';
+    return /^https?:\/\//i.test(String(url))
+      ? `<a class="file-link" href="${url}" target="_blank" rel="noopener">فتح التوثيق</a>`
+      : `<span class="file-name missing">غير متوفر</span>`;
+  }
+
+  window.getFilteredEvidence=filteredRows;
+
+  window.renderEvidenceStats=function(){
+    const rows=allEvidenceRows();
+    const complete=rows.filter(row=>rowCompleteness(row)===100).length;
+    const missing=rows.filter(row=>rowCompleteness(row)===0).length;
+    const partial=rows.length-complete-missing;
+    const average=rows.length
+      ? Math.round(rows.reduce((sum,row)=>sum+rowCompleteness(row),0)/rows.length)
+      : 0;
+
+    setText('#evidenceTotal',fmt(rows.length));
+    setText('#evidenceComplete',fmt(complete));
+    setText('#evidencePartial',fmt(partial));
+    setText('#evidenceMissing',fmt(missing));
+    setText('#documentationCompletionPercent',`${average}%`);
+    setText('#documentationCompletionText',`${complete} نشاط مكتمل من أصل ${rows.length}`);
+    const bar=document.getElementById('documentationCompletionBar');
+    if(bar) bar.style.width=`${average}%`;
+  };
+
+  window.renderEvidence=function(){
+    const tbody=document.getElementById('evidenceRows');
+    if(!tbody) return;
+    const rows=filteredRows();
+    tbody.innerHTML='';
+
+    rows.forEach((row,index)=>{
+      const percent=rowCompleteness(row);
+      const category=completionCategory(percent);
+      const participation=row.participationType==='host'?'مستضيف':
+        row.participationType==='guest'?'ضيف':'—';
+      const tr=document.createElement('tr');
+      tr.dataset.recordKey=row.recordKey;
+      tr.innerHTML=`
+        <td class="select-column"><input class="evidence-row-select" type="checkbox" value="${row.recordKey}" aria-label="تحديد ${row.activity||'النشاط'}"></td>
+        <td>${row.id||index+1}</td>
+        <td><b>${row.activity||'—'}</b></td>
+        <td class="ltr-cell">${row.date||'—'}</td>
+        <td>${row.days??'—'}</td>
+        <td>${fmt(row.beneficiaries||0)}</td>
+        <td>${fmt(row.players||0)}</td>
+        <td>${row.gender||'—'}</td>
+        <td>${row.indicatorField||row.field||row.subCategory||'—'}</td>
+        <td>${participation}</td>
+        <td>${fmt(row.universities||0)}</td>
+        <td>${fmt(row.points||0)}</td>
+        <td><span class="pill evidence-status ${evidenceStatusClass(row.status)}">${row.status||'ناقص'}</span></td>
+        <td>${fileCellV14(row,'report')}</td>
+        <td>${fileCellV14(row,'schedule')}</td>
+        <td>${documentationCell(row)}</td>
+        <td>
+          <div class="event-completion ${category==='missing'?'missing':''}">
+            <div class="event-completion-value"><span>الاكتمال</span><b>${percent}%</b></div>
+            <div class="event-completion-track"><span style="width:${percent}%"></span></div>
+          </div>
+        </td>
+        <td>
+          <div class="evidence-row-actions">
+            <button class="evidence-action-icon edit" type="button" data-edit-key="${row.recordKey}" title="تعديل النشاط">✎</button>
+            <button class="evidence-action-icon delete" type="button" data-delete-key="${row.recordKey}" title="حذف النشاط">🗑</button>
+          </div>
+        </td>`;
+      tbody.appendChild(tr);
+    });
+
+    tbody.querySelectorAll('.evidence-row-select').forEach(box=>{
+      box.addEventListener('change',updateBulkState);
+    });
+    tbody.querySelectorAll('[data-edit-key]').forEach(button=>{
+      button.addEventListener('click',()=>openEditActivity(button.dataset.editKey));
+    });
+    tbody.querySelectorAll('[data-delete-key]').forEach(button=>{
+      button.addEventListener('click',()=>deleteActivities([button.dataset.deleteKey]));
+    });
+
+    updateBulkState();
+    if(typeof relocalizeSoon==='function') relocalizeSoon();
+  };
+
+  function updateBulkState(){
+    const boxes=[...document.querySelectorAll('.evidence-row-select')];
+    const checked=boxes.filter(box=>box.checked);
+    const deleteButton=document.getElementById('deleteSelectedEvidence');
+    if(deleteButton){
+      deleteButton.disabled=checked.length===0;
+      deleteButton.textContent=checked.length ? `حذف المحدد (${checked.length})` : 'حذف المحدد';
+    }
+    const allChecked=boxes.length>0 && checked.length===boxes.length;
+    ['selectAllEvidence','selectAllEvidenceHead'].forEach(id=>{
+      const box=document.getElementById(id);
+      if(box) box.checked=allChecked;
+    });
+  }
+
+  function selectAllVisible(checked){
+    document.querySelectorAll('.evidence-row-select').forEach(box=>box.checked=checked);
+    updateBulkState();
+  }
+
+  function adjustIndicatorForRow(row,multiplier){
+    if(!row || !row.points) return;
+    const field=(SAH_DATA.indicatorFields||[]).find(item=>
+      item.field===(row.indicatorField||row.field||row.subCategory)
+    );
+    if(!field) return;
+    const key=row.gender==='طالبات'?'female':'male';
+    field[key]=Math.max(0,Number(field[key]||0)+(Number(row.points)||0)*multiplier);
+  }
+
+  function deleteActivities(keys){
+    if(!keys.length) return;
+    if(!confirm(`هل تريد حذف ${keys.length} نشاط؟`)) return;
+
+    const rows=allEvidenceRows();
+    const deleted=deletedKeys();
+    const overrides=overrideMap();
+    const localActivities=safeJson(ACTIVITIES_KEY_V14,[]);
+
+    keys.forEach(key=>{
+      const row=rows.find(item=>item.recordKey===key);
+      if(row) adjustIndicatorForRow(row,-1);
+      deleted.add(key);
+      delete overrides[key];
+    });
+
+    const remainingLocal=localActivities.filter(row=>!keys.includes(recordKey(row)));
+    localStorage.setItem(ACTIVITIES_KEY_V14,JSON.stringify(remainingLocal));
+    persistDeleted(deleted);
+    persistOverrides(overrides);
+
+    if(typeof calcIndicators==='function') calcIndicators();
+    renderEvidenceStats();
+    renderEvidence();
+    if(typeof showToast==='function') showToast('تم حذف الأنشطة المحددة.');
+  }
+
+  function setInput(id,value){
+    const el=document.getElementById(id);
+    if(el) el.value=value??'';
+  }
+
+  function openEditActivity(key){
+    const row=allEvidenceRows().find(item=>item.recordKey===key);
+    if(!row) return;
+
+    if(typeof populateActivityFields==='function') populateActivityFields();
+    setInput('activityEditKey',key);
+    setInput('activityName',row.activity);
+    setInput('activityDate',row.date);
+    setInput('activityDays',row.days);
+    setInput('activityBeneficiaries',row.beneficiaries);
+    setInput('activityPlayers',row.players);
+    setInput('activityGender',row.gender);
+    setInput('activityIndicatorField',row.indicatorField||row.field||row.subCategory);
+    setInput('activityParticipationType',row.participationType||'guest');
+    setInput('activityUniversities',row.universities);
+    setInput('activityGameType',row.gameType);
+    setInput('activityDocumentationUrl',row.documentationUrl||row.publishLink||row.newsLink);
+
+    setText('#addActivityTitle','تعديل النشاط');
+    const save=document.getElementById('saveNewActivity');
+    if(save) save.textContent='حفظ تعديلات النشاط';
+    const modal=document.getElementById('addActivityModal');
+    modal?.classList.remove('hidden');
+    document.body.style.overflow='hidden';
+  }
+
+  function resetActivityModal(){
+    document.getElementById('addActivityForm')?.reset();
+    setInput('activityEditKey','');
+    setText('#addActivityTitle','إضافة نشاط جديد');
+    const save=document.getElementById('saveNewActivity');
+    if(save) save.textContent='حفظ النشاط وإضافة النقاط';
+  }
+
+  function collectActivity(existing={}){
+    const reportFile=document.getElementById('activityFederationReport')?.files?.[0];
+    const scheduleFile=document.getElementById('activityScheduleFile')?.files?.[0];
+    const row={
+      ...existing,
+      activity:document.getElementById('activityName')?.value.trim(),
+      date:document.getElementById('activityDate')?.value,
+      days:Number(document.getElementById('activityDays')?.value||0),
+      beneficiaries:Number(document.getElementById('activityBeneficiaries')?.value||0),
+      players:Number(document.getElementById('activityPlayers')?.value||0),
+      gender:document.getElementById('activityGender')?.value||'طلاب',
+      indicatorField:document.getElementById('activityIndicatorField')?.value,
+      field:document.getElementById('activityIndicatorField')?.value,
+      subCategory:document.getElementById('activityIndicatorField')?.value,
+      participationType:document.getElementById('activityParticipationType')?.value||'guest',
+      universities:Number(document.getElementById('activityUniversities')?.value||0),
+      gameType:document.getElementById('activityGameType')?.value||'',
+      documentationUrl:document.getElementById('activityDocumentationUrl')?.value.trim()||'',
+      activityType:'رياضي',
+      federationReportName:reportFile?.name||existing.federationReportName||existing.newsDocumentation||'',
+      scheduleFileName:scheduleFile?.name||existing.scheduleFileName||''
+    };
+
+    if(typeof activityPoints==='function') row.points=activityPoints(row);
+    else row.points=Number(existing.points||0);
+
+    const evidenceFields=[
+      row.activity,row.date,row.days,row.gender,row.indicatorField,row.participationType,
+      row.gameType,row.federationReportName,row.scheduleFileName,row.documentationUrl
+    ];
+    const completed=evidenceFields.filter(value=>hasValue(value,true)).length;
+    row.status=completed===evidenceFields.length?'مكتمل':completed===0?'ناقص':'جزئي';
+
+    return {row,reportFile,scheduleFile};
+  }
+
+  function installSaveOverride(){
+    const oldButton=document.getElementById('saveNewActivity');
+    if(!oldButton) return;
+    const button=oldButton.cloneNode(true);
+    oldButton.replaceWith(button);
+
+    button.addEventListener('click',()=>{
+      const editKey=document.getElementById('activityEditKey')?.value||'';
+      const existing=editKey ? allEvidenceRows().find(row=>row.recordKey===editKey) : null;
+      const {row,reportFile,scheduleFile}=collectActivity(existing||{});
+
+      if(!row.activity || !row.date || !row.indicatorField){
+        showToast('أكمل اسم النشاط والتاريخ والمجال المرتبط.');
+        return;
+      }
+
+      if(existing){
+        adjustIndicatorForRow(existing,-1);
+        row.recordKey=editKey;
+        const overrides=overrideMap();
+        overrides[editKey]=row;
+        persistOverrides(overrides);
+
+        const local=safeJson(ACTIVITIES_KEY_V14,[]);
+        const localIndex=local.findIndex(item=>recordKey(item)===editKey);
+        if(localIndex>=0){
+          local[localIndex]={...local[localIndex],...row};
+          localStorage.setItem(ACTIVITIES_KEY_V14,JSON.stringify(local));
+        }
+      }else{
+        row.localActivityId=`local-${Date.now()}`;
+        row.recordKey=row.localActivityId;
+        row.id=(SAH_DATA.evidenceRecords?.length||0)+1;
+        SAH_DATA.evidenceRecords=SAH_DATA.evidenceRecords||[];
+        SAH_DATA.evidenceRecords.push(row);
+        const local=safeJson(ACTIVITIES_KEY_V14,[]);
+        local.push(row);
+        localStorage.setItem(ACTIVITIES_KEY_V14,JSON.stringify(local));
+      }
+
+      if(reportFile) FILE_URLS.set(`${row.recordKey}:report`,URL.createObjectURL(reportFile));
+      if(scheduleFile) FILE_URLS.set(`${row.recordKey}:schedule`,URL.createObjectURL(scheduleFile));
+
+      adjustIndicatorForRow(row,1);
+      if(typeof calcIndicators==='function') calcIndicators();
+      renderEvidenceStats();
+      renderEvidence();
+
+      document.getElementById('addActivityModal')?.classList.add('hidden');
+      document.body.style.overflow='';
+      resetActivityModal();
+      showToast(existing?'تم تعديل النشاط وتحديث نقاطه.':'تمت إضافة النشاط واحتساب نقاطه.');
+    });
+  }
+
+  function repairIndicatorCalculator(){
+    const button=document.getElementById('indicatorPermissionSettings');
+    if(!button) return;
+
+    button.addEventListener('click',()=>{
+      if(document.getElementById('activeRole')?.value!=='indicator') return;
+      const form=document.getElementById('indicatorSettingsForm');
+      if(!form || typeof SAH_DATA==='undefined') return;
+      form.innerHTML='';
+      (SAH_DATA.indicatorFields||[]).forEach((field,index)=>{
+        const row=document.createElement('div');
+        row.className='indicator-limit-row';
+        row.innerHTML=`
+          <div class="limit-track">${field.track||'—'}</div>
+          <div class="limit-field">${field.field||'—'}</div>
+          <label>
+            <span class="hidden">الحد الأعلى</span>
+            <input class="indicator-limit-input" type="number" min="0" step="1"
+                   data-index="${index}" value="${Number(field.max)||0}">
+          </label>`;
+        form.appendChild(row);
+      });
+    },true);
+  }
+
+  function initV14(){
+    repairIndicatorCalculator();
+    installSaveOverride();
+
+    ['evidenceSearch','evidenceColumnFilter','evidenceCompletionFilter','evidenceStatus']
+      .forEach(id=>document.getElementById(id)?.addEventListener(
+        id==='evidenceSearch'?'input':'change',
+        ()=>renderEvidence()
+      ));
+
+    document.querySelectorAll('#evidenceGender button').forEach(button=>{
+      button.addEventListener('click',()=>setTimeout(renderEvidence,0));
+    });
+
+    document.getElementById('selectAllEvidence')?.addEventListener('change',event=>selectAllVisible(event.target.checked));
+    document.getElementById('selectAllEvidenceHead')?.addEventListener('change',event=>selectAllVisible(event.target.checked));
+    document.getElementById('deleteSelectedEvidence')?.addEventListener('click',()=>{
+      const keys=[...document.querySelectorAll('.evidence-row-select:checked')].map(box=>box.value);
+      deleteActivities(keys);
+    });
+
+    document.querySelectorAll('[data-close-add-activity]').forEach(button=>{
+      button.addEventListener('click',()=>setTimeout(resetActivityModal,300));
+    });
+
+    renderEvidenceStats();
+    renderEvidence();
+  }
+
+  window.addEventListener('DOMContentLoaded',initV14);
+})();
+

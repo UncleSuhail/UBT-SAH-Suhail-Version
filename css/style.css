@@ -1075,3 +1075,239 @@ body.theme-dark .export-square small{
   }
 }
 
+/* ==========================================================
+   SAH V14 — fixed header and complete evidence management
+   ========================================================== */
+
+/* Header remains permanently fixed while the page scrolls */
+.topbar{
+  position:fixed!important;
+  top:0!important;
+  left:0!important;
+  right:0!important;
+  width:100%!important;
+  z-index:1200!important;
+}
+#app{
+  padding-top:92px!important;
+}
+.layout{
+  margin-top:20px!important;
+}
+.sidebar{
+  top:112px!important;
+  max-height:calc(100vh - 130px)!important;
+}
+
+/* Overall documentation completeness */
+.documentation-completion-card{
+  margin:4px 0 18px;
+  padding:18px 20px;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:20px;
+  box-shadow:0 12px 30px rgba(7,44,100,.07);
+}
+.documentation-completion-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:12px;
+}
+.documentation-completion-head>div{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.documentation-completion-head span{
+  color:var(--blue);
+  font-weight:900;
+  font-size:17px;
+}
+.documentation-completion-head strong{
+  color:var(--blue);
+  font-size:26px;
+}
+.documentation-completion-head small{
+  color:var(--muted);
+}
+.documentation-completion-bar{
+  height:14px;
+  overflow:hidden;
+  border-radius:999px;
+  background:#e9eff8;
+}
+.documentation-completion-bar span{
+  display:block;
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--blue2),#17a7bd);
+  transition:width .35s ease;
+}
+
+/* Search, filters, selection and bulk actions */
+.evidence-management-toolbar{
+  display:grid!important;
+  grid-template-columns:minmax(360px,1fr) auto auto auto!important;
+  gap:12px!important;
+  align-items:center!important;
+}
+.evidence-search-group{
+  display:grid;
+  grid-template-columns:minmax(220px,1fr) 170px 190px;
+  gap:8px;
+}
+.evidence-search-group input,
+.evidence-search-group select,
+.evidence-management-toolbar>select{
+  width:100%;
+  min-height:42px;
+  padding:10px 12px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:#fff;
+  color:var(--text);
+}
+.evidence-bulk-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.select-all-evidence{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:var(--blue);
+  white-space:nowrap;
+  font-weight:700;
+}
+.select-all-evidence input,
+.select-column input,
+.evidence-row-select{
+  width:18px;
+  height:18px;
+  accent-color:var(--blue);
+}
+.evidence-table{
+  min-width:2100px!important;
+}
+.select-column{
+  width:54px;
+  text-align:center!important;
+}
+
+/* Event completion */
+.event-completion{
+  min-width:125px;
+}
+.event-completion-value{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:6px;
+  color:var(--blue);
+  font-weight:900;
+  font-size:12px;
+}
+.event-completion-track{
+  height:8px;
+  overflow:hidden;
+  border-radius:999px;
+  background:#e8eef7;
+}
+.event-completion-track span{
+  display:block;
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--blue2),#17a7bd);
+}
+.event-completion.missing .event-completion-track span{
+  background:linear-gradient(90deg,var(--burg),#e68aa0);
+}
+
+/* Row action buttons */
+.evidence-row-actions{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  white-space:nowrap;
+}
+.evidence-action-icon{
+  width:36px;
+  height:36px;
+  display:grid;
+  place-items:center;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:#fff;
+  cursor:pointer;
+  transition:.2s ease;
+  font-size:17px;
+}
+.evidence-action-icon.edit{
+  color:var(--blue);
+  border-color:#b9cdec;
+}
+.evidence-action-icon.delete{
+  color:#b01738;
+  border-color:#efb7c4;
+  background:#fff7f9;
+}
+.evidence-action-icon:hover{
+  transform:translateY(-1px);
+  box-shadow:0 7px 15px rgba(7,44,100,.10);
+}
+.evidence-action-icon.delete:hover{
+  background:#b01738;
+  color:#fff;
+}
+
+/* Modal must scroll internally on smaller screens */
+.indicator-settings-form{
+  max-height:50vh;
+  overflow:auto;
+  padding-inline-end:4px;
+}
+
+body.theme-dark .documentation-completion-card,
+body.theme-dark .evidence-search-group input,
+body.theme-dark .evidence-search-group select,
+body.theme-dark .evidence-management-toolbar>select,
+body.theme-dark .evidence-action-icon{
+  background:rgba(6,28,61,.80);
+  border-color:var(--border);
+  color:#fff;
+}
+body.theme-dark .documentation-completion-head span,
+body.theme-dark .documentation-completion-head strong{
+  color:#fff;
+}
+
+@media(max-width:1250px){
+  .evidence-management-toolbar{
+    grid-template-columns:1fr auto!important;
+  }
+  .evidence-search-group{
+    grid-column:1/-1;
+  }
+}
+@media(max-width:800px){
+  #app{padding-top:76px!important}
+  .evidence-search-group{
+    grid-template-columns:1fr;
+  }
+  .evidence-management-toolbar{
+    grid-template-columns:1fr!important;
+  }
+  .evidence-bulk-actions,
+  .evidence-management-toolbar .filterbar{
+    justify-content:center;
+  }
+  .documentation-completion-head{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+}
+

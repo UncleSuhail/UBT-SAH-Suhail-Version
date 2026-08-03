@@ -452,6 +452,19 @@
         </div>
       </div>
 
+      <div class="documentation-completion-card">
+        <div class="documentation-completion-head">
+          <div>
+            <span>نسبة اكتمال التوثيق</span>
+            <strong id="documentationCompletionPercent">0%</strong>
+          </div>
+          <small id="documentationCompletionText">يتم احتسابها وفق اكتمال بيانات جميع الأنشطة.</small>
+        </div>
+        <div class="documentation-completion-bar">
+          <span id="documentationCompletionBar" style="width:0%"></span>
+        </div>
+      </div>
+
       <div class="grid cols-4 evidence-summary-grid">
         <div class="card stat"><div class="label">إجمالي سجلات الشواهد</div><div class="value" id="evidenceTotal">0</div><div class="sub">سجل نشاط</div></div>
         <div class="card stat"><div class="label">شواهد مكتملة</div><div class="value" id="evidenceComplete">0</div><div class="sub">تحتوي على الملفات المطلوبة</div></div>
@@ -502,13 +515,43 @@
       </div>
 
       <div class="card table-card evidence-card">
-        <div class="table-toolbar evidence-toolbar">
-          <input id="evidenceSearch" placeholder="بحث باسم النشاط أو التاريخ أو نوع النشاط أو المجال">
+        <div class="table-toolbar evidence-toolbar evidence-management-toolbar">
+          <div class="evidence-search-group">
+            <input id="evidenceSearch" placeholder="ابحث داخل بيانات الأنشطة">
+            <select id="evidenceColumnFilter" aria-label="عمود البحث">
+              <option value="all">جميع الأعمدة</option>
+              <option value="activity">اسم النشاط</option>
+              <option value="date">التاريخ</option>
+              <option value="gender">الفئة</option>
+              <option value="indicatorField">المجال المرتبط</option>
+              <option value="participationType">نوع المشاركة</option>
+              <option value="status">الحالة</option>
+              <option value="documentation">التوثيق</option>
+            </select>
+            <select id="evidenceCompletionFilter" aria-label="تصفية اكتمال النشاط">
+              <option value="all">كل مستويات الاكتمال</option>
+              <option value="complete">المعبأة بالكامل فقط</option>
+              <option value="incomplete">البيانات غير المكتملة</option>
+              <option value="missing">ما لم تتم إضافته</option>
+            </select>
+          </div>
+
+          <div class="evidence-bulk-actions">
+            <label class="select-all-evidence">
+              <input id="selectAllEvidence" type="checkbox">
+              تحديد الكل
+            </label>
+            <button id="deleteSelectedEvidence" class="btn danger" type="button" disabled>
+              حذف المحدد
+            </button>
+          </div>
+
           <div class="filterbar" id="evidenceGender">
             <button class="active" data-gender="all">الكل</button>
             <button data-gender="طلاب">طلاب</button>
             <button data-gender="طالبات">طالبات</button>
           </div>
+
           <select id="evidenceStatus">
             <option value="all">كل الحالات</option>
             <option value="مكتمل">مكتمل</option>
@@ -520,6 +563,7 @@
           <table class="evidence-table">
             <thead>
               <tr>
+                <th class="select-column"><input id="selectAllEvidenceHead" type="checkbox" aria-label="تحديد جميع الأنشطة"></th>
                 <th>#</th>
                 <th>اسم النشاط</th>
                 <th>التاريخ</th>
@@ -535,6 +579,8 @@
                 <th>تقرير الاتحاد</th>
                 <th>الجدول الزمني</th>
                 <th>التوثيق</th>
+                <th>نسبة اكتمال الحدث</th>
+                <th>الإجراءات</th>
               </tr>
             </thead>
             <tbody id="evidenceRows"></tbody>
@@ -607,6 +653,7 @@
       <button class="btn outline" type="button" data-close-add-activity>إغلاق</button>
     </div>
     <form id="addActivityForm" class="activity-form">
+      <input id="activityEditKey" type="hidden" value="">
       <label><span>اسم النشاط</span><input id="activityName" required></label>
       <label><span>التاريخ</span><input id="activityDate" type="date" required></label>
       <label><span>عدد الأيام</span><input id="activityDays" type="number" min="1" value="1" required></label>
