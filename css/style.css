@@ -5511,3 +5511,173 @@ body.theme-dark #page-approvals .cancel-rejection-editor{
     padding-inline:8px!important;
   }
 }
+
+
+/* ==========================================================
+   SAH V23.6 — clickable club legend and dynamic activities table
+   ========================================================== */
+
+.club-chart-legend-item{
+  width:100%;
+  appearance:none;
+  border:0;
+  background:transparent;
+  text-align:right;
+  font-family:inherit;
+  cursor:pointer;
+  border-radius:9px;
+  padding:6px 7px!important;
+  transition:
+    background .18s ease,
+    transform .18s ease,
+    box-shadow .18s ease;
+}
+
+.club-chart-legend-item:hover{
+  background:#f0f5fc;
+  transform:translateX(-2px);
+}
+
+.club-chart-legend-item.active{
+  background:#e7f0fd;
+  box-shadow:inset 0 0 0 1px #b9cfea;
+}
+
+.club-chart-legend-item:focus-visible{
+  outline:2px solid #1d67c1;
+  outline-offset:2px;
+}
+
+.club-activity-details-panel{
+  margin-bottom:14px;
+  padding:18px!important;
+  animation:clubDetailsIn .22s ease both;
+}
+
+.club-activity-details-panel.hidden{
+  display:none!important;
+}
+
+@keyframes clubDetailsIn{
+  from{
+    opacity:0;
+    transform:translateY(-8px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.club-activity-details-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:14px;
+}
+
+.club-details-kicker{
+  display:block;
+  color:#1d67c1;
+  font-size:10px;
+  font-weight:900;
+  margin-bottom:3px;
+}
+
+.club-activity-details-header h4{
+  margin:0;
+  color:var(--blue);
+  font-size:22px;
+}
+
+.club-activity-details-header p{
+  margin:5px 0 0;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.club-activity-details-stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:9px;
+  margin-bottom:14px;
+}
+
+.club-activity-details-stats>div{
+  min-height:82px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:4px;
+  padding:12px 14px;
+  border:1px solid #d8e3f1;
+  border-radius:13px;
+  background:#f8fbff;
+}
+
+.club-activity-details-stats span{
+  color:var(--muted);
+  font-size:10px;
+  font-weight:800;
+}
+
+.club-activity-details-stats strong{
+  color:var(--blue);
+  font-size:25px;
+  line-height:1;
+}
+
+.club-activity-details-table{
+  min-width:900px;
+}
+
+.club-detail-activity-name{
+  color:var(--blue);
+}
+
+.demo-activity-tag{
+  display:inline-flex;
+  margin-inline-start:6px;
+  padding:3px 6px;
+  border-radius:999px;
+  background:#eee8ff;
+  color:#6840a6;
+  font-size:8px;
+  font-weight:900;
+}
+
+body.theme-dark .club-chart-legend-item:hover,
+body.theme-dark .club-chart-legend-item.active{
+  background:rgba(255,255,255,.07);
+}
+
+body.theme-dark .club-activity-details-stats>div{
+  background:rgba(255,255,255,.045);
+  border-color:var(--border);
+}
+
+@media(max-width:800px){
+  .club-activity-details-stats{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:560px){
+  .club-activity-details-header{
+    flex-direction:column;
+  }
+
+  .club-activity-details-header .btn{
+    width:100%;
+    justify-content:center;
+  }
+
+  .club-activity-details-stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .club-activity-details-stats>div{
+    min-height:72px;
+  }
+}

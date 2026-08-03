@@ -2906,14 +2906,116 @@ function renderClubShareChart(){
    legend.innerHTML=clubs.map((club,index)=>{
      const count=totals[index];
      const percent=total?Math.round(count/total*100):0;
-     return `<div class="club-chart-legend-item">
+     return `<button class="club-chart-legend-item"
+                     type="button"
+                     data-club-id="${club.id}"
+                     title="عرض أنشطة ${club.name}">
        <i style="background:${clubColor(index)}"></i>
        <span>${club.name}</span>
        <b>${count}</b>
        <small>${percent}%</small>
-     </div>`;
+     </button>`;
    }).join('');
  }
+}
+
+
+let selectedClubDetailsId='';
+
+function clubActivityRowsForDetails(club){
+ const demo=(club.demoActivities||[]).map(item=>({
+   name:item.name||'نشاط تجريبي',
+   type:'نشاط تجريبي',
+   date:'—',
+   location:'—',
+   gender:'الاثنان معًا',
+   capacity:'—',
+   status:item.status||'مقبول',
+   demo:true
+ }));
+
+ const real=realClubActivities(club.name).map(item=>({
+   name:item.name||'فعالية بدون اسم',
+   type:'مبادرة/فعالية نادي',
+   date:item.date||'—',
+   location:item.location||'—',
+   gender:item.gender||'—',
+   capacity:Number(item.capacity)||'—',
+   status:item.status||'تحت المراجعة',
+   demo:false
+ }));
+
+ return [...real,...demo];
+}
+
+function renderClubActivityDetails(clubId,openPanel=true){
+ const registry=clubRegistry();
+ const club=registry.find(item=>item.id===clubId);
+ const panel=document.getElementById('clubActivityDetailsPanel');
+ const rowsBox=document.getElementById('clubActivityDetailsRows');
+
+ if(!club||!panel||!rowsBox)return;
+
+ selectedClubDetailsId=clubId;
+ const activities=clubActivityRowsForDetails(club);
+ const accepted=activities.filter(item=>item.status==='مقبول').length;
+ const pending=activities.filter(item=>item.status==='تحت المراجعة').length;
+ const rejected=activities.filter(item=>item.status==='مرفوض').length;
+
+ const set=(id,value)=>{
+   const element=document.getElementById(id);
+   if(element)element.textContent=value;
+ };
+
+ set('clubActivityDetailsTitle',club.name);
+ set('clubActivityDetailsSummary',
+   `${activities.length} نشاطًا مرتبطًا — تتحدث البيانات تلقائيًا عند إضافة أو تعديل أي فعالية.`);
+ set('clubDetailsTotal',activities.length);
+ set('clubDetailsAccepted',accepted);
+ set('clubDetailsPending',pending);
+ set('clubDetailsRejected',rejected);
+
+ rowsBox.innerHTML=activities.length
+   ? activities.map(item=>`<tr>
+       <td>
+         <strong class="club-detail-activity-name">${item.name}</strong>
+         ${item.demo?'<small class="demo-activity-tag">تجريبي</small>':''}
+       </td>
+       <td>${item.type}</td>
+       <td>${item.date}</td>
+       <td>${item.location}</td>
+       <td>${item.gender}</td>
+       <td>${item.capacity}</td>
+       <td>
+         <span class="request-status ${
+           item.status==='مقبول'?'accepted':
+           item.status==='مرفوض'?'rejected':'pending'
+         }">${item.status}</span>
+       </td>
+     </tr>`).join('')
+   : '<tr><td colspan="7">لا توجد أنشطة مرتبطة بهذا النادي حتى الآن.</td></tr>';
+
+ if(openPanel){
+   panel.classList.remove('hidden');
+   panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+ }
+
+ document.querySelectorAll('.club-chart-legend-item').forEach(button=>{
+   button.classList.toggle('active',button.dataset.clubId===clubId);
+ });
+}
+
+function refreshSelectedClubDetails(){
+ if(!selectedClubDetailsId)return;
+
+ const exists=clubRegistry().some(club=>club.id===selectedClubDetailsId);
+ if(!exists){
+   selectedClubDetailsId='';
+   document.getElementById('clubActivityDetailsPanel')?.classList.add('hidden');
+   return;
+ }
+
+ renderClubActivityDetails(selectedClubDetailsId,false);
 }
 
 function renderRegisteredClubs(){
@@ -2957,6 +3059,7 @@ function renderRegisteredClubs(){
    ?.classList.toggle('club-management-active',clubManagementMode);
 
  renderClubShareChart();
+ refreshSelectedClubDetails();
 }
 
 function renameClub(clubId,newName){
@@ -3394,6 +3497,20 @@ window.addEventListener('DOMContentLoaded',()=>{
    if(deleteButton){
      deleteClub(deleteButton.dataset.clubId);
    }
+ });
+
+
+ document.getElementById('clubShareLegend')?.addEventListener('click',event=>{
+   const button=event.target.closest('.club-chart-legend-item');
+   if(!button)return;
+   renderClubActivityDetails(button.dataset.clubId,true);
+ });
+
+ document.getElementById('closeClubActivityDetails')?.addEventListener('click',()=>{
+   selectedClubDetailsId='';
+   document.getElementById('clubActivityDetailsPanel')?.classList.add('hidden');
+   document.querySelectorAll('.club-chart-legend-item')
+     .forEach(button=>button.classList.remove('active'));
  });
 
  document.querySelectorAll('[data-event-category]').forEach((b,i)=>b.onclick=()=>{document.querySelectorAll('[data-event-category]').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderCategory(b.dataset.eventCategory);if(i===0||true){}});
@@ -4074,4 +4191,11 @@ window.addEventListener('DOMContentLoaded',()=>{
       ?.querySelector('.confirm-reject-req')
       ?.click();
   });
+});
+
+
+/* SAH V23.6 — dynamic clickable club activity details */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 23.6 loaded');
+  document.documentElement.dataset.sahBuild='23.6';
 });

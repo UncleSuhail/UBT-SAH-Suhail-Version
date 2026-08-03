@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>SAH | منصة الأنشطة الطلابية</title>
-<link rel="stylesheet" href="css/style.css?v=23.5">
+<link rel="stylesheet" href="css/style.css?v=23.6">
 
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
@@ -71,7 +71,7 @@
 </style>
 
 </head>
-<body data-sah-version="23.5" class="login-mode">
+<body data-sah-version="23.6" class="login-mode">
 <section id="login" class="login-page">
   <div class="login-bg"></div>
   <div class="login-card">
@@ -631,6 +631,55 @@
     </div>
   </div>
 
+  <div class="card club-activity-details-panel hidden" id="clubActivityDetailsPanel">
+    <div class="club-activity-details-header">
+      <div>
+        <span class="club-details-kicker">تفاصيل أنشطة النادي</span>
+        <h4 id="clubActivityDetailsTitle">اختر ناديًا لعرض أنشطته</h4>
+        <p id="clubActivityDetailsSummary">تظهر الأنشطة القديمة والجديدة تلقائيًا.</p>
+      </div>
+      <button class="btn outline compact-btn" id="closeClubActivityDetails" type="button">
+        إغلاق
+      </button>
+    </div>
+
+    <div class="club-activity-details-stats">
+      <div>
+        <span>إجمالي الأنشطة</span>
+        <strong id="clubDetailsTotal">0</strong>
+      </div>
+      <div>
+        <span>المعتمدة</span>
+        <strong id="clubDetailsAccepted">0</strong>
+      </div>
+      <div>
+        <span>قيد المراجعة</span>
+        <strong id="clubDetailsPending">0</strong>
+      </div>
+      <div>
+        <span>المرفوضة</span>
+        <strong id="clubDetailsRejected">0</strong>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="club-activity-details-table">
+        <thead>
+          <tr>
+            <th>اسم النشاط</th>
+            <th>النوع</th>
+            <th>التاريخ</th>
+            <th>المكان</th>
+            <th>الفئة</th>
+            <th>السعة</th>
+            <th>الحالة</th>
+          </tr>
+        </thead>
+        <tbody id="clubActivityDetailsRows"></tbody>
+      </table>
+    </div>
+  </div>
+
   <div class="card registered-clubs-panel hidden" id="registeredClubsPanel">
     <div class="registered-clubs-header">
       <div>
@@ -1029,6 +1078,6 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=23.5"></script>
+<script src="js/app.js?v=23.6"></script>
 </body>
 </html>
