@@ -3279,3 +3279,137 @@ window.addEventListener('DOMContentLoaded',()=>{
   console.info('SAH build 22.6 loaded');
   document.documentElement.dataset.sahBuild='22.6';
 });
+
+/* ==========================================================
+   SAH V22.7 — restore indicator fields and tracks management
+   ========================================================== */
+(function(){
+  'use strict';
+
+  function currentRole(){
+    return document.getElementById('activeRole')?.value ||
+      document.getElementById('mobileActiveRole')?.value ||
+      'system';
+  }
+
+  function isIndicator(){
+    return currentRole()==='indicator';
+  }
+
+  function showManagerButton(){
+    const allowed=isIndicator();
+
+    [
+      'indicatorFieldsManagerButton',
+      'openFieldsManagerFromCalculator'
+    ].forEach(id=>{
+      const button=document.getElementById(id);
+      if(!button) return;
+
+      button.hidden=!allowed;
+      button.disabled=!allowed;
+      button.classList.toggle('hidden',!allowed);
+      button.classList.toggle('indicator-only',true);
+      button.style.display=allowed?'inline-flex':'none';
+      button.setAttribute('aria-hidden',String(!allowed));
+    });
+  }
+
+  function openManager(){
+    if(!isIndicator()){
+      window.showToast?.('إدارة المجالات والمسارات متاحة لمسؤول مؤشر الأداء الرياضي فقط.');
+      return;
+    }
+
+    const api=window.SAH_POINT_API;
+    if(typeof api?.openFieldsManager!=='function'){
+      console.error('openFieldsManager is unavailable',api);
+      window.showToast?.('تعذر فتح إدارة المجالات.');
+      return;
+    }
+
+    api.openFieldsManager();
+  }
+
+  function invoke(action){
+    if(!isIndicator()){
+      window.showToast?.('إدارة المجالات والمسارات متاحة لمسؤول مؤشر الأداء الرياضي فقط.');
+      return;
+    }
+
+    const fn=window.SAH_POINT_API?.[action];
+    if(typeof fn!=='function'){
+      console.error('Missing fields manager action:',action);
+      window.showToast?.('تعذر تنفيذ العملية.');
+      return;
+    }
+
+    try{
+      fn();
+    }catch(error){
+      console.error(`Fields manager action failed: ${action}`,error);
+      window.showToast?.('حدث خطأ أثناء إدارة المجالات.');
+    }
+  }
+
+  document.addEventListener('click',event=>{
+    const target=event.target.closest(
+      '#indicatorFieldsManagerButton,' +
+      '#openFieldsManagerFromCalculator,' +
+      '#addIndicatorFieldRow,' +
+      '#addIndicatorFieldToExistingTrack,' +
+      '#saveIndicatorFieldsManager'
+    );
+
+    if(!target) return;
+
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    if(
+      target.id==='indicatorFieldsManagerButton' ||
+      target.id==='openFieldsManagerFromCalculator'
+    ){
+      openManager();
+      return;
+    }
+
+    const action={
+      addIndicatorFieldRow:'addFieldManagerRow',
+      addIndicatorFieldToExistingTrack:'addFieldToExistingTrack',
+      saveIndicatorFieldsManager:'saveFieldsManager'
+    }[target.id];
+
+    invoke(action);
+  },true);
+
+  document.addEventListener('change',event=>{
+    const select=event.target.closest('#indicatorFieldsManagerRows .manager-track');
+    if(!select) return;
+
+    const row=select.closest('.field-manager-row');
+    const custom=row?.querySelector('.manager-track-custom');
+    if(!custom) return;
+
+    custom.classList.toggle('hidden',select.value!=='__new__');
+    if(select.value==='__new__'){
+      custom.focus();
+    }
+  },true);
+
+  window.addEventListener('DOMContentLoaded',()=>{
+    console.info('SAH build 22.7 loaded');
+    document.documentElement.dataset.sahBuild='22.7';
+
+    showManagerButton();
+
+    document.getElementById('activeRole')
+      ?.addEventListener('change',()=>setTimeout(showManagerButton,0));
+
+    document.getElementById('mobileActiveRole')
+      ?.addEventListener('change',()=>setTimeout(showManagerButton,0));
+
+    setTimeout(showManagerButton,100);
+    setTimeout(showManagerButton,500);
+  });
+})();

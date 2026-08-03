@@ -3700,3 +3700,62 @@ body.theme-dark .modal-actions{
     border-radius:18px!important;
   }
 }
+
+
+/* ==========================================================
+   SAH V22.7 — fields and tracks manager visibility
+   ========================================================== */
+
+.indicator-modal-header-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+body[data-active-role="indicator"] #indicatorFieldsManagerButton,
+body[data-active-role="indicator"] #openFieldsManagerFromCalculator{
+  display:inline-flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+
+#indicatorFieldsManagerModal .fields-manager-card{
+  width:min(1180px,calc(100vw - 48px))!important;
+  max-width:1180px!important;
+  max-height:calc(100dvh - 48px)!important;
+  overflow:hidden!important;
+  display:flex!important;
+  flex-direction:column!important;
+}
+
+#indicatorFieldsManagerModal .fields-manager-list{
+  flex:1 1 auto!important;
+  min-height:0!important;
+  overflow-y:auto!important;
+  padding-inline-end:8px!important;
+}
+
+#indicatorFieldsManagerModal .fields-manager-toolbar{
+  flex:0 0 auto!important;
+}
+
+#indicatorFieldsManagerModal .modal-actions{
+  flex:0 0 auto!important;
+}
+
+@media(max-width:700px){
+  .indicator-modal-header-actions{
+    width:100%;
+  }
+
+  .indicator-modal-header-actions .btn{
+    flex:1 1 auto;
+    justify-content:center;
+  }
+
+  #indicatorFieldsManagerModal .fields-manager-card{
+    width:calc(100vw - 20px)!important;
+    max-height:calc(100dvh - 20px)!important;
+  }
+}
