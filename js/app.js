@@ -6696,3 +6696,10 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.documentElement.dataset.sahBuild='27.0';
   console.info('SAH build 27.0 loaded');
 });
+
+
+/* SAH V27.1 — final account order and content gap repair */
+window.addEventListener('DOMContentLoaded',()=>{
+  document.documentElement.dataset.sahBuild='27.1';
+  console.info('SAH build 27.1 loaded');
+});

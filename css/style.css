@@ -11315,3 +11315,173 @@ html[lang="en"] .topbar #activeRole{
     max-width:172px!important;
   }
 }
+
+
+/* ==========================================================
+   SAH V27.1 — final account order + blank-gap removal
+   Same physical order in Arabic and English:
+   LEFT logos | CENTER title | RIGHT language, role, name, avatar
+   ========================================================== */
+
+@media(min-width:1101px){
+
+  /* Prevent RTL or old rules from reversing the account controls. */
+  html[lang="ar"] .topbar .topbar-right,
+  html[lang="en"] .topbar .topbar-right,
+  .topbar .topbar-right{
+    display:flex!important;
+    flex-direction:row!important;
+    direction:ltr!important;
+    align-items:center!important;
+    justify-content:flex-end!important;
+  }
+
+  /* Physical order from left to right:
+     language -> role selector -> user name -> avatar.
+     Therefore avatar remains at the far right. */
+  .topbar .app-controls{
+    order:1!important;
+  }
+
+  .topbar .role-switcher{
+    order:2!important;
+  }
+
+  .topbar .user-chip{
+    order:3!important;
+    display:flex!important;
+    flex-direction:row!important;
+    direction:ltr!important;
+    align-items:center!important;
+    justify-content:flex-end!important;
+  }
+
+  .topbar .user-chip>div:first-child{
+    order:1!important;
+  }
+
+  .topbar .user-chip .avatar,
+  .topbar #activeUserAvatar{
+    order:2!important;
+    flex:0 0 56px!important;
+    width:56px!important;
+    height:56px!important;
+    min-width:56px!important;
+    min-height:56px!important;
+    max-width:56px!important;
+    max-height:56px!important;
+    aspect-ratio:1 / 1!important;
+    border-radius:50%!important;
+    margin:0!important;
+    padding:0!important;
+    display:grid!important;
+    place-items:center!important;
+    box-sizing:border-box!important;
+  }
+
+  /* Arabic and English only change the direction of their text. */
+  html[lang="ar"] .topbar .user-chip>div:first-child,
+  html[lang="ar"] .topbar .role-switcher{
+    direction:rtl!important;
+    text-align:right!important;
+  }
+
+  html[lang="en"] .topbar .user-chip>div:first-child,
+  html[lang="en"] .topbar .role-switcher{
+    direction:ltr!important;
+    text-align:left!important;
+  }
+
+  /* Remove every inherited spacer, offset, or transform below the header. */
+  #app{
+    padding-top:108px!important;
+    margin-top:0!important;
+  }
+
+  .fixed-stack-spacer{
+    display:none!important;
+    height:0!important;
+    min-height:0!important;
+    margin:0!important;
+    padding:0!important;
+  }
+
+  .mobile-user-strip{
+    display:none!important;
+    height:0!important;
+    min-height:0!important;
+    margin:0!important;
+    padding:0!important;
+  }
+
+  .layout{
+    position:relative!important;
+    top:auto!important;
+    right:auto!important;
+    left:auto!important;
+    transform:none!important;
+    display:grid!important;
+    grid-template-columns:290px minmax(0,1fr)!important;
+    align-items:start!important;
+    gap:24px!important;
+    width:auto!important;
+    min-height:0!important;
+    margin:0 24px 24px!important;
+    padding:14px 0 0!important;
+  }
+
+  .main{
+    position:relative!important;
+    top:auto!important;
+    transform:none!important;
+    min-width:0!important;
+    margin:0!important;
+    padding:0!important;
+  }
+
+  .main>.page,
+  .page.active{
+    position:relative!important;
+    top:auto!important;
+    transform:none!important;
+    margin:0!important;
+    padding:0!important;
+  }
+
+  .main>.page>.section-title:first-child,
+  .main>.page>.sports-management-heading:first-child,
+  .main>.page>.general-indicator-heading:first-child{
+    margin-top:0!important;
+    padding-top:0!important;
+  }
+
+  .sidebar{
+    position:sticky!important;
+    top:122px!important;
+    align-self:start!important;
+    margin:0!important;
+    padding-top:14px!important;
+    transform:none!important;
+    max-height:calc(100vh - 136px)!important;
+  }
+}
+
+/* Maintain the same account order when the desktop header wraps. */
+@media(min-width:701px) and (max-width:1100px){
+  .topbar .topbar-right{
+    flex-direction:row!important;
+    direction:ltr!important;
+  }
+
+  .topbar .app-controls{order:1!important}
+  .topbar .role-switcher{order:2!important}
+  .topbar .user-chip{
+    order:3!important;
+    flex-direction:row!important;
+    direction:ltr!important;
+  }
+
+  .topbar .user-chip>div:first-child{order:1!important}
+  .topbar .user-chip .avatar,
+  .topbar #activeUserAvatar{order:2!important}
+}
