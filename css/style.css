@@ -9832,3 +9832,59 @@ html[lang="en"] #femalePoints{
     margin:0!important;
   }
 }
+
+
+/* ==========================================================
+   SAH V26.5 — English table search and action controls
+   ========================================================== */
+
+html[lang="en"] .records-search>[data-icon]{
+  inset-inline-start:14px!important;
+  inset-inline-end:auto!important;
+  left:14px!important;
+  right:auto!important;
+}
+
+html[lang="en"] .records-search input{
+  padding-left:46px!important;
+  padding-right:14px!important;
+  direction:ltr!important;
+  text-align:left!important;
+}
+
+html[lang="en"] .records-search input::placeholder{
+  direction:ltr!important;
+  text-align:left!important;
+}
+
+/* Apply the same correction to every other search control
+   that places an icon inside the input. */
+html[lang="en"] .evidence-search-group,
+html[lang="en"] .evidence-search-main,
+html[lang="en"] .table-search-control,
+html[lang="en"] .search-panel{
+  direction:ltr!important;
+}
+
+html[lang="en"] .evidence-search-group input,
+html[lang="en"] .evidence-search-main input,
+html[lang="en"] .table-search-control input,
+html[lang="en"] .search-panel input{
+  padding-left:44px!important;
+  padding-right:13px!important;
+  direction:ltr!important;
+  text-align:left!important;
+}
+
+html[lang="en"] .approval-decision-btn,
+html[lang="en"] .approve-applicant,
+html[lang="en"] .reject-applicant,
+html[lang="en"] button[data-action="approve"],
+html[lang="en"] button[data-action="reject"]{
+  direction:ltr!important;
+  white-space:nowrap!important;
+}
+
+html[lang="en"] .approval-btn-icon{
+  margin:0!important;
+}
