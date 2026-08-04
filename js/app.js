@@ -6675,3 +6675,10 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.documentElement.dataset.sahBuild='26.7';
   console.info('SAH build 26.7 loaded');
 });
+
+
+/* SAH V26.8 — final fixed header positions */
+window.addEventListener('DOMContentLoaded',()=>{
+  document.documentElement.dataset.sahBuild='26.8';
+  console.info('SAH build 26.8 loaded');
+});
