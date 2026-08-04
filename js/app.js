@@ -4342,11 +4342,45 @@ function renderGeneralIndicator(){
     : 0;
 
   const requests=typeof allReq==='function' ? allReq() : [];
-  const accepted=requests.filter(row=>row.status==='مقبول').length;
-  const rejected=requests.filter(row=>row.status==='مرفوض').length;
-  const pending=requests.filter(row=>
-    !row.status||row.status==='تحت المراجعة'
-  ).length;
+
+  const isAcceptedStatus=status=>
+    ['مقبول','معتمد نهائيًا'].includes(String(status||''));
+
+  const isRejectedStatus=status=>
+    ['مرفوض','مرفوض من العمادة'].includes(String(status||''));
+
+  const accepted=requests.filter(row=>isAcceptedStatus(row.status)).length;
+  const rejected=requests.filter(row=>isRejectedStatus(row.status)).length;
+  const pending=Math.max(0,requests.length-accepted-rejected);
+
+  const requestKindCount=matcher=>requests.filter(row=>matcher(row)).length;
+
+  const sportsRequestsCount=requestKindCount(row=>
+    row.kind==='بطولة/حدث رياضي'
+  );
+
+  const clubRequestsCount=requestKindCount(row=>
+    row.kind==='تسجيل نادي جديد'||
+    row.kind==='مبادرة/فعالية نادي'
+  );
+
+  const volunteerRequestsCount=requestKindCount(row=>
+    row.kind==='فرصة تطوعية'
+  );
+
+  const grantRequestsCount=requestKindCount(row=>
+    row.kind==='طلب اعتماد منحة رياضية'
+  );
+
+  const activityRequestsCount=requestKindCount(row=>
+    ![
+      'بطولة/حدث رياضي',
+      'تسجيل نادي جديد',
+      'مبادرة/فعالية نادي',
+      'فرصة تطوعية',
+      'طلب اعتماد منحة رياضية'
+    ].includes(row.kind)
+  );
   const approvalRate=requests.length
     ? Math.round(accepted/requests.length*100)
     : 0;
@@ -4454,18 +4488,34 @@ function renderGeneralIndicator(){
   document.getElementById('generalDocumentationRing')
     ?.style.setProperty('--p',documentationPercent);
 
-  set('generalAcceptedRequests',accepted);
-  set('generalRejectedRequests',rejected);
-  set('generalReviewRequests',pending);
+  set('generalApprovalsTotal',requests.length);
+  set('generalApprovalsAccepted',accepted);
+  set('generalApprovalsRejected',rejected);
+  set('generalApprovalsPending',pending);
+
+  set('generalApprovalSportsCount',sportsRequestsCount);
+  set('generalApprovalClubsCount',clubRequestsCount);
+  set('generalApprovalVolunteerCount',volunteerRequestsCount);
+  set('generalApprovalGrantsCount',grantRequestsCount);
+  set('generalApprovalActivitiesCount',activityRequestsCount);
 
   const requestTotal=Math.max(1,requests.length);
   const acceptedPercent=accepted/requestTotal*100;
   const rejectedPercent=rejected/requestTotal*100;
   const pendingPercent=pending/requestTotal*100;
 
-  const acceptedBar=document.getElementById('generalAcceptedBar');
-  const rejectedBar=document.getElementById('generalRejectedBar');
-  const pendingBar=document.getElementById('generalPendingBar');
+  const approvalsDonut=document.getElementById('generalApprovalsDonut');
+  if(approvalsDonut){
+    const acceptedDeg=accepted/requestTotal*360;
+    const rejectedDeg=rejected/requestTotal*360;
+    approvalsDonut.style.setProperty('--approved',`${acceptedDeg}deg`);
+    approvalsDonut.style.setProperty('--rejected',`${rejectedDeg}deg`);
+  }
+
+  const acceptedBar=document.getElementById('generalApprovalsAcceptedBar');
+  const rejectedBar=document.getElementById('generalApprovalsRejectedBar');
+  const pendingBar=document.getElementById('generalApprovalsPendingBar');
+
   if(acceptedBar)acceptedBar.style.width=`${acceptedPercent}%`;
   if(rejectedBar)rejectedBar.style.width=`${rejectedPercent}%`;
   if(pendingBar)pendingBar.style.width=`${pendingPercent}%`;
@@ -5848,5 +5898,26 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('mobileActiveRole')?.addEventListener('change',()=>{
     renderAgreementSubmissions();
     renderGeneralIndicator();
+  });
+});
+
+
+/* SAH V25.0 — full-width approvals summary in General Indicator */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 25.0 loaded');
+  document.documentElement.dataset.sahBuild='25.0';
+
+  document.addEventListener('click',event=>{
+    const filterButton=event.target.closest('[data-general-approval-filter]');
+    if(!filterButton)return;
+
+    const filter=filterButton.dataset.generalApprovalFilter;
+    setTimeout(()=>{
+      const status=document.getElementById('approvalTableStatus');
+      if(!status)return;
+
+      status.value=filter;
+      status.dispatchEvent(new Event('change',{bubbles:true}));
+    },120);
   });
 });

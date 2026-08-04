@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>Student Activities Platform | UBT</title>
-<link rel="stylesheet" href="css/style.css?v=24.9">
+<link rel="stylesheet" href="css/style.css?v=25.0">
 
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
@@ -71,7 +71,7 @@
 </style>
 
 </head>
-<body data-sah-version="24.9" class="login-mode">
+<body data-sah-version="25.0" class="login-mode">
 <section id="login" class="login-page">
   <div class="login-bg"></div>
   <div class="login-card">
@@ -479,34 +479,116 @@
           </div>
         </article>
 
-        <article class="card general-chart-card general-requests-card">
-          <div class="general-chart-head">
+        <article class="card general-approvals-dashboard">
+          <div class="general-approvals-head">
             <div>
-              <span>حالة الطلبات</span>
-              <h3>الموافقات والقرارات</h3>
+              <span>الملخص التنفيذي للطلبات</span>
+              <h3>موافقات الأنشطة والأندية والطلبات</h3>
+              <p>
+                يشمل طلبات الأنشطة الطلابية، الأندية، البطولات الرياضية،
+                الفرص التطوعية، والمنح الرياضية.
+              </p>
             </div>
-            <button class="general-chart-link" type="button" data-route="approvals">مراجعة الطلبات ←</button>
-          </div>
 
-          <div class="general-requests-summary">
-            <button type="button" data-route="approvals">
-              <span>مقبولة</span>
-              <strong id="generalAcceptedRequests">0</strong>
-            </button>
-            <button type="button" data-route="approvals">
-              <span>مرفوضة</span>
-              <strong id="generalRejectedRequests">0</strong>
-            </button>
-            <button type="button" data-route="approvals">
-              <span>قيد المراجعة</span>
-              <strong id="generalReviewRequests">0</strong>
+            <button class="general-chart-link"
+                    type="button"
+                    data-route="approvals">
+              فتح صفحة الصلاحيات ←
             </button>
           </div>
 
-          <div class="general-requests-bar">
-            <span id="generalAcceptedBar" style="width:0%"></span>
-            <i id="generalRejectedBar" style="width:0%"></i>
-            <b id="generalPendingBar" style="width:0%"></b>
+          <div class="general-approvals-layout">
+            <div class="general-approvals-chart-side">
+              <button class="general-approvals-donut"
+                      id="generalApprovalsDonut"
+                      type="button"
+                      data-route="approvals"
+                      style="--approved:0deg;--rejected:0deg">
+                <span>
+                  <b id="generalApprovalsTotal">0</b>
+                  <small>إجمالي الطلبات</small>
+                </span>
+              </button>
+
+              <div class="general-approvals-legend">
+                <button type="button"
+                        data-route="approvals"
+                        data-general-approval-filter="مقبول">
+                  <i class="approved"></i>
+                  <span>تمت الموافقة</span>
+                  <b id="generalApprovalsAccepted">0</b>
+                </button>
+
+                <button type="button"
+                        data-route="approvals"
+                        data-general-approval-filter="مرفوض">
+                  <i class="rejected"></i>
+                  <span>مرفوضة</span>
+                  <b id="generalApprovalsRejected">0</b>
+                </button>
+
+                <button type="button"
+                        data-route="approvals"
+                        data-general-approval-filter="تحت المراجعة">
+                  <i class="pending"></i>
+                  <span>تحت المراجعة</span>
+                  <b id="generalApprovalsPending">0</b>
+                </button>
+              </div>
+            </div>
+
+            <div class="general-approval-types">
+              <button type="button" data-route="sports-request">
+                <span class="general-approval-type-icon">🏆</span>
+                <div>
+                  <strong>البطولات والأحداث الرياضية</strong>
+                  <small>طلبات التنفيذ والمشاركة</small>
+                </div>
+                <b id="generalApprovalSportsCount">0</b>
+              </button>
+
+              <button type="button" data-route="clubs">
+                <span class="general-approval-type-icon">👥</span>
+                <div>
+                  <strong>الأندية الطلابية</strong>
+                  <small>تسجيل الأندية والمبادرات</small>
+                </div>
+                <b id="generalApprovalClubsCount">0</b>
+              </button>
+
+              <button type="button" data-route="volunteer">
+                <span class="general-approval-type-icon">🤝</span>
+                <div>
+                  <strong>الفرص التطوعية</strong>
+                  <small>الفرص والطلبات التطوعية</small>
+                </div>
+                <b id="generalApprovalVolunteerCount">0</b>
+              </button>
+
+              <button type="button" data-route="scholarships">
+                <span class="general-approval-type-icon">🎓</span>
+                <div>
+                  <strong>المنح الرياضية</strong>
+                  <small>إقرارات وطلبات اعتماد المنح</small>
+                </div>
+                <b id="generalApprovalGrantsCount">0</b>
+              </button>
+
+              <button type="button" data-route="activities">
+                <span class="general-approval-type-icon">📅</span>
+                <div>
+                  <strong>الأنشطة والفعاليات</strong>
+                  <small>الطلبات المرتبطة بالأنشطة العامة</small>
+                </div>
+                <b id="generalApprovalActivitiesCount">0</b>
+              </button>
+            </div>
+          </div>
+
+          <div class="general-approvals-progress">
+            <span id="generalApprovalsAcceptedBar" style="width:0%"></span>
+            <i id="generalApprovalsRejectedBar" style="width:0%"></i>
+            <b id="generalApprovalsPendingBar" style="width:0%"></b>
           </div>
         </article>
       </div>
@@ -1790,6 +1872,6 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=24.9"></script>
+<script src="js/app.js?v=25.0"></script>
 </body>
 </html>

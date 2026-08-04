@@ -8339,3 +8339,313 @@ body.theme-dark .general-grants-legend button{
     grid-template-columns:1fr;
   }
 }
+
+
+/* ==========================================================
+   SAH V25.0 — full-width approvals dashboard
+   ========================================================== */
+
+.general-approvals-dashboard{
+  grid-column:1/-1;
+  min-height:350px;
+  padding:22px!important;
+  overflow:hidden;
+}
+
+.general-approvals-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:20px;
+}
+
+.general-approvals-head>div>span{
+  display:block;
+  color:#1d67c1;
+  font-size:10px;
+  font-weight:900;
+}
+
+.general-approvals-head h3{
+  margin:4px 0 0;
+  color:var(--blue);
+  font-size:24px;
+}
+
+.general-approvals-head p{
+  max-width:760px;
+  margin:6px 0 0;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.7;
+}
+
+.general-approvals-layout{
+  display:grid;
+  grid-template-columns:minmax(370px,.9fr) minmax(500px,1.4fr);
+  align-items:stretch;
+  gap:18px;
+}
+
+.general-approvals-chart-side{
+  display:grid;
+  grid-template-columns:210px minmax(0,1fr);
+  align-items:center;
+  gap:18px;
+  padding:17px;
+  border:1px solid #dbe5f1;
+  border-radius:17px;
+  background:linear-gradient(145deg,#f8fbff,#fff);
+}
+
+.general-approvals-donut{
+  --approved:0deg;
+  --rejected:0deg;
+  position:relative;
+  width:200px;
+  height:200px;
+  display:grid;
+  place-items:center;
+  border:0;
+  border-radius:50%;
+  background:
+    conic-gradient(
+      #08764e 0 var(--approved),
+      #ad2348 var(--approved) calc(var(--approved) + var(--rejected)),
+      #e2ad39 calc(var(--approved) + var(--rejected)) 360deg
+    );
+  cursor:pointer;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+
+.general-approvals-donut:hover{
+  transform:scale(1.025);
+  box-shadow:0 16px 34px rgba(7,44,100,.13);
+}
+
+.general-approvals-donut::after{
+  content:"";
+  position:absolute;
+  inset:29px;
+  border-radius:50%;
+  background:#fff;
+}
+
+.general-approvals-donut>span{
+  position:relative;
+  z-index:1;
+  display:grid;
+  text-align:center;
+}
+
+.general-approvals-donut b{
+  color:var(--blue);
+  font-size:35px;
+  line-height:1;
+}
+
+.general-approvals-donut small{
+  margin-top:6px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.general-approvals-legend{
+  display:grid;
+  gap:9px;
+}
+
+.general-approvals-legend button{
+  display:grid;
+  grid-template-columns:11px minmax(0,1fr) auto;
+  align-items:center;
+  gap:8px;
+  min-height:48px;
+  padding:9px 11px;
+  border:1px solid #dce5ef;
+  border-radius:12px;
+  background:#fff;
+  color:var(--blue);
+  font-family:inherit;
+  text-align:right;
+  cursor:pointer;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+
+.general-approvals-legend button:hover{
+  transform:translateX(-3px);
+  border-color:#9eb9df;
+  box-shadow:0 8px 17px rgba(7,44,100,.08);
+}
+
+.general-approvals-legend i{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+}
+
+.general-approvals-legend i.approved{background:#08764e}
+.general-approvals-legend i.rejected{background:#ad2348}
+.general-approvals-legend i.pending{background:#e2ad39}
+
+.general-approvals-legend span{
+  color:var(--muted);
+  font-size:10px;
+  font-weight:800;
+}
+
+.general-approvals-legend b{
+  font-size:18px;
+}
+
+.general-approval-types{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+
+.general-approval-types>button{
+  display:grid;
+  grid-template-columns:45px minmax(0,1fr) auto;
+  align-items:center;
+  gap:11px;
+  min-height:92px;
+  padding:13px;
+  border:1px solid #dce5ef;
+  border-radius:15px;
+  background:#fff;
+  color:var(--blue);
+  font-family:inherit;
+  text-align:right;
+  cursor:pointer;
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+
+.general-approval-types>button:last-child{
+  grid-column:1/-1;
+}
+
+.general-approval-types>button:hover{
+  transform:translateY(-3px);
+  border-color:#9fbadf;
+  box-shadow:0 12px 24px rgba(7,44,100,.10);
+}
+
+.general-approval-type-icon{
+  width:43px;
+  height:43px;
+  display:grid;
+  place-items:center;
+  border-radius:12px;
+  background:#edf4fd;
+  font-size:21px;
+}
+
+.general-approval-types strong{
+  display:block;
+  color:var(--blue);
+  font-size:12px;
+}
+
+.general-approval-types small{
+  display:block;
+  margin-top:4px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.general-approval-types>button>b{
+  min-width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border-radius:11px;
+  background:#eaf2fd;
+  color:#0b55aa;
+  font-size:17px;
+}
+
+.general-approvals-progress{
+  display:flex;
+  height:14px;
+  overflow:hidden;
+  margin-top:17px;
+  border-radius:999px;
+  background:#edf1f6;
+}
+
+.general-approvals-progress span,
+.general-approvals-progress i,
+.general-approvals-progress b{
+  display:block;
+  height:100%;
+  transition:width .35s ease;
+}
+
+.general-approvals-progress span{background:#08764e}
+.general-approvals-progress i{background:#ad2348}
+.general-approvals-progress b{background:#e2ad39}
+
+body.theme-dark .general-approvals-chart-side,
+body.theme-dark .general-approvals-legend button,
+body.theme-dark .general-approval-types>button{
+  background:rgba(255,255,255,.05);
+  border-color:var(--border);
+}
+
+body.theme-dark .general-approvals-donut::after{
+  background:#061c3d;
+}
+
+body.theme-dark .general-approval-type-icon,
+body.theme-dark .general-approval-types>button>b{
+  background:rgba(255,255,255,.08);
+}
+
+@media(max-width:1150px){
+  .general-approvals-layout{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:760px){
+  .general-approvals-head{
+    flex-direction:column;
+  }
+
+  .general-approvals-head .general-chart-link{
+    width:100%;
+  }
+
+  .general-approvals-chart-side{
+    grid-template-columns:1fr;
+  }
+
+  .general-approvals-donut{
+    justify-self:center;
+  }
+
+  .general-approval-types{
+    grid-template-columns:1fr;
+  }
+
+  .general-approval-types>button:last-child{
+    grid-column:auto;
+  }
+}
+
+@media(max-width:480px){
+  .general-approvals-dashboard{
+    padding:15px!important;
+  }
+
+  .general-approvals-donut{
+    width:175px;
+    height:175px;
+  }
+
+  .general-approvals-donut::after{
+    inset:26px;
+  }
+}
