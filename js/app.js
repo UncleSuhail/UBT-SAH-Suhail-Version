@@ -6624,3 +6624,10 @@ window.addEventListener('DOMContentLoaded',()=>{
 
   console.info('SAH build 26.3 loaded');
 });
+
+
+/* SAH V26.4 — header layout repair */
+window.addEventListener('DOMContentLoaded',()=>{
+  document.documentElement.dataset.sahBuild='26.4';
+  console.info('SAH build 26.4 loaded');
+});
