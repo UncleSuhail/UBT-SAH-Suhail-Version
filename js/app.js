@@ -63,11 +63,40 @@ function initSummary(){
  setText('#studentApps', fmt((SAH_DATA.applications||[]).length));
 }
 
+
+function currentUiLanguage(){
+  return document.documentElement.lang==='en' ? 'en' : 'ar';
+}
+
+function formatPointValue(value){
+  const number=typeof value==='number'
+    ? value.toLocaleString('en-US')
+    : String(value??'');
+
+  return currentUiLanguage()==='en'
+    ? `${number} points`
+    : `${number} نقطة`;
+}
+
+function formatPointRatio(achieved,maximum){
+  const achievedText=typeof achieved==='number'
+    ? achieved.toLocaleString('en-US')
+    : String(achieved??'');
+
+  const maximumText=typeof maximum==='number'
+    ? maximum.toLocaleString('en-US')
+    : String(maximum??'');
+
+  return currentUiLanguage()==='en'
+    ? `${achievedText} / ${maximumText} points`
+    : `${achievedText} / ${maximumText} نقطة`;
+}
+
 function calcIndicators(){
  const fields=SAH_DATA.indicatorFields||[];
  const max=fields.reduce((a,b)=>a+(+b.max||0),0), male=fields.reduce((a,b)=>a+(+b.male||0),0), female=fields.reduce((a,b)=>a+(+b.female||0),0);
  const mp=pct(male,max), fp=pct(female,max);
- setText('#malePoints', `${fmt(male)} / ${fmt(max)} نقطة`); setText('#femalePoints', `${fmt(female)} / ${fmt(max)} نقطة`);
+ setText('#malePoints', formatPointRatio(male,max)); setText('#femalePoints', formatPointRatio(female,max));
  setText('#malePct', `${mp}%`); setText('#femalePct', `${fp}%`);
  $('#maleDonut')?.style.setProperty('--p', mp); $('#femaleDonut')?.style.setProperty('--p', fp);
  setText('#maleAchieved', fmt(male)); setText('#femaleAchieved', fmt(female)); setText('#maleRemaining', fmt(max-male)); setText('#femaleRemaining', fmt(max-female));
@@ -350,6 +379,7 @@ function translateLoose(text,lang){
     [/^(\d[\d,]*)\s*نشاط نادي$/,'$1 club activities'],
     [/^(\d[\d,]*)\s*طلب$/,'$1 requests'],
     [/^(\d[\d,]*)\s*طلب منحة$/,'$1 scholarship applications'],
+    [/^(\d[\d,]*)\s*\/\s*(\d[\d,]*)\s*نقطة$/,'$1 / $2 points'],
     [/^(\d[\d,]*)\s*نقطة$/,'$1 points'],
     [/^(\d[\d,]*)\s*مقعد$/,'$1 seats'],
     [/^(\d[\d,]*)\s*عضو$/,'$1 members'],
@@ -4982,7 +5012,7 @@ function renderGeneralIndicator(){
 
   set('generalSportsIndicatorPercent',`${indicatorCombined}%`);
   set('generalSportsIndicatorPoints',
-      `${(indicatorMale+indicatorFemale).toLocaleString('en-US')} / ${(indicatorMax*2).toLocaleString('en-US')} نقطة`
+      formatPointRatio(indicatorMale+indicatorFemale,indicatorMax*2)
   );
 
   set('generalClubsCount',clubs.length);
@@ -5065,10 +5095,10 @@ function renderGeneralIndicator(){
   set('generalMaleIndicator',`${maleIndicatorPercent}%`);
   set('generalFemaleIndicator',`${femaleIndicatorPercent}%`);
   set('generalMaleIndicatorPoints',
-      `${indicatorMale.toLocaleString('en-US')} نقطة`
+      formatPointValue(indicatorMale)
   );
   set('generalFemaleIndicatorPoints',
-      `${indicatorFemale.toLocaleString('en-US')} نقطة`
+      formatPointValue(indicatorFemale)
   );
 
   const maleBar=document.getElementById('generalMaleIndicatorBar');
@@ -6580,4 +6610,17 @@ window.addEventListener('DOMContentLoaded',()=>{
 window.addEventListener('DOMContentLoaded',()=>{
   document.documentElement.dataset.sahBuild='26.2';
   console.info('SAH build 26.2 loaded');
+});
+
+
+/* SAH V26.3 — English layout and point-unit fixes */
+window.addEventListener('DOMContentLoaded',()=>{
+  document.documentElement.dataset.sahBuild='26.3';
+
+  setTimeout(()=>{
+    if(typeof calcIndicators==='function')calcIndicators();
+    if(typeof renderGeneralIndicator==='function')renderGeneralIndicator();
+  },40);
+
+  console.info('SAH build 26.3 loaded');
 });

@@ -9491,3 +9491,169 @@ html[lang="en"] .indicator-table td:first-child{
     max-width:100%;
   }
 }
+
+
+/* ==========================================================
+   SAH V26.3 — English header, navigation spacing, point text
+   ========================================================== */
+
+html[lang="en"] .topbar{
+  grid-template-columns:auto minmax(270px,1fr) minmax(650px,auto)!important;
+  column-gap:22px!important;
+}
+
+html[lang="en"] .topbar .topbar-right{
+  display:grid!important;
+  grid-template-columns:minmax(340px,1fr) minmax(245px,auto) 48px!important;
+  align-items:center!important;
+  gap:14px!important;
+  min-width:650px!important;
+  direction:ltr!important;
+}
+
+html[lang="en"] .topbar .user-chip{
+  grid-column:1!important;
+  min-width:0!important;
+  width:100%!important;
+  direction:ltr!important;
+  text-align:left!important;
+  overflow:visible!important;
+}
+
+html[lang="en"] .topbar .user-chip>div:first-child{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  flex-wrap:nowrap!important;
+  gap:8px!important;
+  min-width:0!important;
+  direction:ltr!important;
+}
+
+html[lang="en"] .topbar .user-chip strong,
+html[lang="en"] .topbar .user-chip span{
+  white-space:nowrap!important;
+}
+
+html[lang="en"] .topbar .role-switcher{
+  grid-column:2!important;
+  width:100%!important;
+  min-width:245px!important;
+  max-width:none!important;
+  direction:ltr!important;
+}
+
+html[lang="en"] .topbar .role-switcher label{
+  text-align:left!important;
+}
+
+html[lang="en"] .topbar #activeRole{
+  display:block!important;
+  width:100%!important;
+  min-width:245px!important;
+  max-width:none!important;
+  height:44px!important;
+  padding:9px 38px 9px 14px!important;
+  overflow:visible!important;
+  text-overflow:ellipsis!important;
+  direction:ltr!important;
+}
+
+html[lang="en"] .topbar .app-controls{
+  grid-column:3!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  flex:0 0 48px!important;
+  min-width:48px!important;
+  margin:0!important;
+}
+
+html[lang="en"] .topbar #langToggle{
+  position:static!important;
+  inset:auto!important;
+  margin:0!important;
+  transform:none!important;
+  z-index:auto!important;
+  flex:0 0 48px!important;
+}
+
+html[lang="en"] .points{
+  direction:ltr!important;
+  unicode-bidi:isolate!important;
+  white-space:nowrap!important;
+}
+
+/* Navigation: create a clear, consistent distance between icon and label. */
+html[lang="en"] .nav-items button{
+  display:grid!important;
+  grid-template-columns:28px minmax(0,1fr)!important;
+  align-items:center!important;
+  justify-content:initial!important;
+  column-gap:15px!important;
+  padding:10px 13px!important;
+  text-align:left!important;
+  direction:ltr!important;
+}
+
+html[lang="en"] .nav-items button span{
+  grid-column:2!important;
+  min-width:0!important;
+  line-height:1.35!important;
+  text-align:left!important;
+}
+
+html[lang="en"] .nav-items button small{
+  grid-column:1!important;
+  grid-row:1!important;
+  width:24px!important;
+  min-width:24px!important;
+  margin:0!important;
+  justify-self:center!important;
+}
+
+html[lang="en"] .nav-group-title{
+  justify-content:flex-start!important;
+  gap:14px!important;
+  padding:11px 14px!important;
+  direction:ltr!important;
+}
+
+html[lang="en"] .nav-group-title .group-left{
+  gap:13px!important;
+  direction:ltr!important;
+}
+
+html[lang="en"] .nav-group-symbol{
+  width:24px!important;
+  flex:0 0 24px!important;
+  margin:0!important;
+}
+
+html[lang="en"] .nav-group-name{
+  text-align:left!important;
+  line-height:1.3!important;
+}
+
+/* Keep the selected English role readable at medium desktop widths. */
+@media(max-width:1350px){
+  html[lang="en"] .topbar{
+    grid-template-columns:auto minmax(220px,1fr) minmax(560px,auto)!important;
+  }
+
+  html[lang="en"] .topbar .topbar-right{
+    grid-template-columns:minmax(260px,1fr) minmax(230px,auto) 46px!important;
+    min-width:560px!important;
+    gap:10px!important;
+  }
+
+  html[lang="en"] .topbar #activeRole{
+    min-width:230px!important;
+  }
+}
+
+@media(max-width:1100px){
+  html[lang="en"] .topbar .topbar-right{
+    min-width:0!important;
+  }
+}
