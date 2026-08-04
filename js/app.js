@@ -6703,3 +6703,10 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.documentElement.dataset.sahBuild='27.1';
   console.info('SAH build 27.1 loaded');
 });
+
+
+/* SAH V27.2 — avatar order and title spacing */
+window.addEventListener('DOMContentLoaded',()=>{
+  document.documentElement.dataset.sahBuild='27.2';
+  console.info('SAH build 27.2 loaded');
+});

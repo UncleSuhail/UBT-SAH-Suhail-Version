@@ -11485,3 +11485,279 @@ html[lang="en"] .topbar #activeRole{
   .topbar .user-chip .avatar,
   .topbar #activeUserAvatar{order:2!important}
 }
+
+
+/* ==========================================================
+   SAH V27.2 — fixed account order and protected title spacing
+   Desktop physical order from the far right:
+   Avatar → user name → role selector → language button
+   ========================================================== */
+
+@media(min-width:1101px){
+
+  /* Protect the centered platform title from the account controls. */
+  .topbar .brand-title{
+    width:430px!important;
+    min-width:430px!important;
+    max-width:430px!important;
+    left:50%!important;
+    right:auto!important;
+    transform:translate(-50%,-50%)!important;
+    overflow:hidden!important;
+    z-index:1!important;
+  }
+
+  .topbar .brand-title h1{
+    max-width:430px!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    white-space:nowrap!important;
+  }
+
+  /* A fixed account zone on the physical right. */
+  .topbar .topbar-right{
+    position:absolute!important;
+    top:50%!important;
+    right:24px!important;
+    left:auto!important;
+    transform:translateY(-50%)!important;
+    display:block!important;
+    width:650px!important;
+    min-width:650px!important;
+    max-width:650px!important;
+    height:76px!important;
+    margin:0!important;
+    padding:0!important;
+    direction:ltr!important;
+    overflow:visible!important;
+    z-index:3!important;
+  }
+
+  /* Far right: circular avatar. */
+  .topbar .user-chip{
+    position:absolute!important;
+    top:10px!important;
+    right:0!important;
+    left:auto!important;
+    display:block!important;
+    width:270px!important;
+    min-width:270px!important;
+    max-width:270px!important;
+    height:56px!important;
+    margin:0!important;
+    padding:0!important;
+    direction:ltr!important;
+    overflow:visible!important;
+  }
+
+  .topbar .user-chip .avatar,
+  .topbar #activeUserAvatar{
+    position:absolute!important;
+    top:0!important;
+    right:0!important;
+    left:auto!important;
+    display:grid!important;
+    place-items:center!important;
+    width:56px!important;
+    height:56px!important;
+    min-width:56px!important;
+    min-height:56px!important;
+    max-width:56px!important;
+    max-height:56px!important;
+    aspect-ratio:1 / 1!important;
+    border-radius:50%!important;
+    margin:0!important;
+    padding:0!important;
+    line-height:1!important;
+    box-sizing:border-box!important;
+    overflow:hidden!important;
+  }
+
+  /* User name immediately to the left of the avatar. */
+  .topbar .user-chip>div:first-child{
+    position:absolute!important;
+    top:4px!important;
+    right:68px!important;
+    left:auto!important;
+    width:194px!important;
+    min-width:194px!important;
+    max-width:194px!important;
+    height:48px!important;
+    margin:0!important;
+    overflow:hidden!important;
+    display:flex!important;
+    align-items:center!important;
+    flex-wrap:wrap!important;
+    column-gap:6px!important;
+    row-gap:2px!important;
+  }
+
+  .topbar .user-chip strong,
+  .topbar .user-chip span{
+    max-width:100%!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    white-space:nowrap!important;
+  }
+
+  /* Role selector to the left of the user name. */
+  .topbar .role-switcher{
+    position:absolute!important;
+    top:4px!important;
+    right:286px!important;
+    left:auto!important;
+    display:grid!important;
+    width:292px!important;
+    min-width:292px!important;
+    max-width:292px!important;
+    gap:4px!important;
+    margin:0!important;
+  }
+
+  .topbar #activeRole{
+    width:292px!important;
+    min-width:292px!important;
+    max-width:292px!important;
+    height:48px!important;
+  }
+
+  /* Language button at the left edge of the account zone. */
+  .topbar .app-controls{
+    position:absolute!important;
+    top:12px!important;
+    right:594px!important;
+    left:auto!important;
+    display:block!important;
+    width:52px!important;
+    min-width:52px!important;
+    max-width:52px!important;
+    height:52px!important;
+    margin:0!important;
+  }
+
+  .topbar #langToggle{
+    position:static!important;
+    width:52px!important;
+    height:52px!important;
+    min-width:52px!important;
+    min-height:52px!important;
+    max-width:52px!important;
+    max-height:52px!important;
+    margin:0!important;
+    transform:none!important;
+  }
+
+  /* Only the internal text direction changes between languages. */
+  html[lang="ar"] .topbar .user-chip>div:first-child,
+  html[lang="ar"] .topbar .role-switcher{
+    direction:rtl!important;
+    text-align:right!important;
+    justify-content:flex-start!important;
+  }
+
+  html[lang="en"] .topbar .user-chip>div:first-child,
+  html[lang="en"] .topbar .role-switcher{
+    direction:ltr!important;
+    text-align:left!important;
+    justify-content:flex-start!important;
+  }
+
+  /* Definitively remove inherited empty space below the fixed header. */
+  html body #app{
+    padding-top:108px!important;
+    margin-top:0!important;
+  }
+
+  html body #fixedStackSpacer,
+  html body .fixed-stack-spacer,
+  html body #mobileUserStrip,
+  html body .mobile-user-strip{
+    display:none!important;
+    position:absolute!important;
+    width:0!important;
+    height:0!important;
+    min-width:0!important;
+    min-height:0!important;
+    margin:0!important;
+    padding:0!important;
+    overflow:hidden!important;
+  }
+
+  html body #app>.layout{
+    position:relative!important;
+    top:0!important;
+    right:auto!important;
+    left:auto!important;
+    transform:none!important;
+    margin:0 24px 24px!important;
+    padding:8px 0 0!important;
+    min-height:0!important;
+  }
+
+  html body #app>.layout>.main,
+  html body #app>.layout>.main>.page,
+  html body #app>.layout>.main>.page.active{
+    top:0!important;
+    transform:none!important;
+    margin-top:0!important;
+    padding-top:0!important;
+  }
+
+  html body #app>.layout>.sidebar{
+    top:116px!important;
+    margin-top:0!important;
+    padding-top:8px!important;
+    max-height:calc(100vh - 124px)!important;
+  }
+}
+
+/* Maintain the same physical avatar/name/role order on medium widths. */
+@media(min-width:1101px) and (max-width:1500px){
+  .topbar .brand-title{
+    width:370px!important;
+    min-width:370px!important;
+    max-width:370px!important;
+  }
+
+  .topbar .brand-title h1{
+    max-width:370px!important;
+    font-size:26px!important;
+  }
+
+  .topbar .topbar-right{
+    right:18px!important;
+    width:570px!important;
+    min-width:570px!important;
+    max-width:570px!important;
+  }
+
+  .topbar .user-chip{
+    width:230px!important;
+    min-width:230px!important;
+    max-width:230px!important;
+  }
+
+  .topbar .user-chip>div:first-child{
+    right:66px!important;
+    width:156px!important;
+    min-width:156px!important;
+    max-width:156px!important;
+  }
+
+  .topbar .role-switcher{
+    right:242px!important;
+    width:260px!important;
+    min-width:260px!important;
+    max-width:260px!important;
+  }
+
+  .topbar #activeRole{
+    width:260px!important;
+    min-width:260px!important;
+    max-width:260px!important;
+  }
+
+  .topbar .app-controls{
+    right:514px!important;
+  }
+}
