@@ -6689,3 +6689,10 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.documentElement.dataset.sahBuild='26.9';
   console.info('SAH build 26.9 loaded');
 });
+
+
+/* SAH V27.0 — definitive header and content-gap repair */
+window.addEventListener('DOMContentLoaded',()=>{
+  document.documentElement.dataset.sahBuild='27.0';
+  console.info('SAH build 27.0 loaded');
+});
