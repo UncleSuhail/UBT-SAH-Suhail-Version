@@ -10297,3 +10297,157 @@ html[lang="en"] .approval-btn-icon{
     padding-top:76px !important;
   }
 }
+
+
+/* ==========================================================
+   SAH HEADER PATCH V2
+   Fixes desktop-only mobile controls, role select styling,
+   and the user avatar.
+   ========================================================== */
+
+/* Hide mobile-only controls on desktop */
+@media (min-width:1101px){
+
+  .mobile-menu,
+  .mobile-user-strip,
+  #mobileUserStrip,
+  .mobile-role-switcher,
+  #mobileActiveRole,
+  .mobile-header-actions{
+    display:none!important;
+  }
+
+  /* Ensure only the real desktop header controls are visible */
+  .topbar .app-controls,
+  .topbar .role-switcher,
+  .topbar .user-chip{
+    visibility:visible!important;
+    opacity:1!important;
+  }
+
+  /* Desktop language button */
+  .topbar #langToggle,
+  .topbar .control-btn{
+    border:1px solid var(--border)!important;
+    background:#fff!important;
+    color:var(--blue)!important;
+    box-shadow:0 8px 20px rgba(7,44,100,.08)!important;
+    font-weight:900!important;
+    cursor:pointer!important;
+  }
+
+  /* Restore professional role selector appearance */
+  .topbar .role-switcher select,
+  .topbar #activeRole{
+    appearance:none!important;
+    -webkit-appearance:none!important;
+    -moz-appearance:none!important;
+
+    border:1px solid var(--border)!important;
+    border-radius:12px!important;
+
+    background-color:#fff!important;
+    color:var(--text)!important;
+
+    font-family:inherit!important;
+    font-size:15px!important;
+    font-weight:700!important;
+
+    outline:none!important;
+    box-shadow:none!important;
+  }
+
+  html[lang="ar"] .topbar #activeRole{
+    background-image:
+      linear-gradient(45deg,transparent 50%,#072c64 50%),
+      linear-gradient(135deg,#072c64 50%,transparent 50%)!important;
+    background-position:
+      18px calc(50% - 2px),
+      13px calc(50% - 2px)!important;
+    background-size:5px 5px,5px 5px!important;
+    background-repeat:no-repeat!important;
+  }
+
+  html[lang="en"] .topbar #activeRole{
+    background-image:
+      linear-gradient(45deg,transparent 50%,#072c64 50%),
+      linear-gradient(135deg,#072c64 50%,transparent 50%)!important;
+    background-position:
+      calc(100% - 13px) calc(50% - 2px),
+      calc(100% - 18px) calc(50% - 2px)!important;
+    background-size:5px 5px,5px 5px!important;
+    background-repeat:no-repeat!important;
+  }
+
+  /* Force a real circular avatar even if markup differs slightly */
+  .topbar .avatar,
+  .topbar #activeUserAvatar,
+  .topbar [data-user-avatar],
+  .topbar .user-avatar{
+    display:grid!important;
+    place-items:center!important;
+
+    width:56px!important;
+    min-width:56px!important;
+    max-width:56px!important;
+    height:56px!important;
+    min-height:56px!important;
+    max-height:56px!important;
+
+    flex:0 0 56px!important;
+
+    margin:0!important;
+    padding:0!important;
+
+    border-radius:50%!important;
+    background:#072c64!important;
+    color:#fff!important;
+
+    font-size:20px!important;
+    font-weight:900!important;
+    line-height:1!important;
+
+    aspect-ratio:1 / 1!important;
+    box-sizing:border-box!important;
+    overflow:hidden!important;
+  }
+
+  /* Remove any duplicate desktop hamburger row */
+  .topbar + .mobile-menu,
+  #app > .mobile-menu,
+  .layout > .mobile-menu{
+    display:none!important;
+  }
+}
+
+/* Mobile menu remains compact on smaller screens */
+@media (max-width:1100px){
+
+  .mobile-menu{
+    display:grid!important;
+    place-items:center!important;
+
+    width:46px!important;
+    min-width:46px!important;
+    max-width:46px!important;
+    height:46px!important;
+
+    padding:0!important;
+    margin:0!important;
+
+    border:0!important;
+    border-radius:14px!important;
+
+    background:#072c64!important;
+    color:#fff!important;
+
+    font-size:0!important;
+    cursor:pointer!important;
+  }
+
+  .mobile-menu::before{
+    content:"☰";
+    font-size:24px!important;
+    line-height:1!important;
+  }
+}
