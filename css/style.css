@@ -9420,3 +9420,74 @@ body.theme-dark th{
 body.theme-dark td{
   color:#26364d!important;
 }
+
+
+/* ==========================================================
+   SAH V26.2 — stable bilingual layout
+   ========================================================== */
+
+html[lang="en"] body{
+  direction:ltr;
+}
+
+html[lang="en"] .sidebar{
+  direction:ltr;
+  text-align:left;
+}
+
+html[lang="en"] .nav button,
+html[lang="en"] .nav-group-title{
+  text-align:left;
+}
+
+html[lang="en"] .topbar,
+html[lang="en"] .rolebar{
+  direction:ltr;
+}
+
+html[lang="en"] .role-switcher,
+html[lang="en"] .current-user{
+  min-width:0;
+}
+
+html[lang="en"] #activeRole,
+html[lang="en"] #mobileActiveRole{
+  min-width:300px;
+  width:auto;
+  max-width:420px;
+  padding-inline:14px 38px;
+  white-space:nowrap;
+}
+
+html[lang="en"] .rolebar{
+  gap:16px;
+}
+
+html[lang="en"] table{
+  direction:ltr;
+}
+
+html[lang="en"] th,
+html[lang="en"] td{
+  text-align:left;
+}
+
+html[lang="en"] .indicator-track-title,
+html[lang="en"] .field-name,
+html[lang="en"] .reports-main-field-name{
+  direction:ltr;
+  unicode-bidi:plaintext;
+}
+
+html[lang="en"] .indicator-track-title,
+html[lang="en"] .indicator-table td:first-child{
+  text-align:left!important;
+}
+
+@media(max-width:900px){
+  html[lang="en"] #activeRole,
+  html[lang="en"] #mobileActiveRole{
+    min-width:220px;
+    max-width:100%;
+  }
+}
