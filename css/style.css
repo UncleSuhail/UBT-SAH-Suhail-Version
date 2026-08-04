@@ -8798,3 +8798,318 @@ body.theme-dark .activity-form::before{
   background:rgba(255,255,255,.05);
   border-color:var(--border);
 }
+
+
+/* ==========================================================
+   SAH V25.4 — Sports management dashboard redesign
+   ========================================================== */
+
+.sports-management-dashboard{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin-bottom:18px;
+}
+
+.sports-status-card{
+  min-height:285px;
+  padding:19px!important;
+}
+
+.sports-status-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.sports-status-head span{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:800;
+}
+
+.sports-status-head h3{
+  margin:4px 0 0;
+  color:var(--blue);
+  font-size:20px;
+}
+
+.sports-status-head button{
+  padding:7px 10px;
+  border:1px solid #d7e2ef;
+  border-radius:10px;
+  background:#fff;
+  color:var(--blue);
+  font-family:inherit;
+  font-size:9px;
+  font-weight:850;
+  cursor:pointer;
+}
+
+.sports-status-layout{
+  display:grid;
+  grid-template-columns:150px minmax(0,1fr);
+  align-items:center;
+  gap:17px;
+}
+
+.sports-status-donut{
+  --approved:0deg;
+  --rejected:0deg;
+  position:relative;
+  width:145px;
+  height:145px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:
+    conic-gradient(
+      #08764e 0 var(--approved),
+      #ad2348 var(--approved) calc(var(--approved) + var(--rejected)),
+      #e2ad39 calc(var(--approved) + var(--rejected)) 360deg
+    );
+}
+
+.sports-status-donut::after{
+  content:"";
+  position:absolute;
+  inset:22px;
+  border-radius:50%;
+  background:#fff;
+}
+
+.sports-status-donut>span{
+  position:relative;
+  z-index:1;
+  display:grid;
+  text-align:center;
+}
+
+.sports-status-donut b{
+  color:var(--blue);
+  font-size:29px;
+  line-height:1;
+}
+
+.sports-status-donut small{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:8px;
+}
+
+.sports-status-legend{
+  display:grid;
+  gap:9px;
+}
+
+.sports-status-legend span{
+  display:grid;
+  grid-template-columns:10px 1fr auto;
+  align-items:center;
+  gap:7px;
+  min-height:39px;
+  padding:7px 9px;
+  border:1px solid #dce5ef;
+  border-radius:10px;
+  background:#f8fbff;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.sports-status-legend i{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+}
+
+.sports-status-legend i.approved{background:#08764e}
+.sports-status-legend i.rejected{background:#ad2348}
+.sports-status-legend i.pending{background:#e2ad39}
+
+.sports-status-legend b{
+  color:var(--blue);
+  font-size:14px;
+}
+
+.sports-documentation-card{
+  min-height:285px;
+}
+
+.sports-documentation-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.sports-gender-doc{
+  display:grid;
+  gap:11px;
+  justify-items:center;
+  padding:11px;
+  border:1px solid #dce5ef;
+  border-radius:14px;
+  background:#f8fbff;
+}
+
+.sports-gender-doc.female{
+  background:#fff6f8;
+  border-color:#efcbd4;
+}
+
+.sports-doc-donut{
+  --p:0;
+  position:relative;
+  width:112px;
+  height:112px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:
+    conic-gradient(
+      #1769c2 calc(var(--p)*1%),
+      #e9eef6 0
+    );
+}
+
+.sports-doc-donut.female{
+  background:
+    conic-gradient(
+      #ad2348 calc(var(--p)*1%),
+      #f2e7eb 0
+    );
+}
+
+.sports-doc-donut::after{
+  content:"";
+  position:absolute;
+  inset:17px;
+  border-radius:50%;
+  background:#fff;
+}
+
+.sports-doc-donut span{
+  position:relative;
+  z-index:1;
+  display:grid;
+  text-align:center;
+}
+
+.sports-doc-donut b{
+  color:var(--blue);
+  font-size:23px;
+  line-height:1;
+}
+
+.sports-doc-donut small{
+  color:var(--muted);
+  font-size:8px;
+  margin-top:4px;
+}
+
+.sports-gender-doc>div:last-child{
+  width:100%;
+  display:grid;
+  gap:6px;
+}
+
+.sports-gender-doc>div:last-child span{
+  display:flex;
+  justify-content:space-between;
+  gap:7px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.sports-gender-doc>div:last-child b{
+  color:var(--blue);
+}
+
+#page-sports .service-grid{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(150px,1fr))!important;
+  gap:10px!important;
+}
+
+#page-sports .card.service{
+  min-height:132px!important;
+  padding:15px!important;
+  border-radius:15px!important;
+}
+
+#page-sports .card.service>span{
+  width:34px!important;
+  height:34px!important;
+  margin-bottom:8px!important;
+}
+
+#page-sports .card.service h4{
+  margin:0 0 5px!important;
+  font-size:14px!important;
+}
+
+#page-sports .card.service p{
+  margin:0!important;
+  font-size:9px!important;
+  line-height:1.5!important;
+}
+
+body.theme-dark .sports-status-head button,
+body.theme-dark .sports-status-legend span,
+body.theme-dark .sports-gender-doc{
+  background:rgba(255,255,255,.05);
+  border-color:var(--border);
+}
+
+body.theme-dark .sports-status-donut::after,
+body.theme-dark .sports-doc-donut::after{
+  background:#061c3d;
+}
+
+@media(max-width:1150px){
+  .sports-management-dashboard{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .sports-documentation-card{
+    grid-column:1/-1;
+  }
+
+  #page-sports .service-grid{
+    grid-template-columns:repeat(3,minmax(150px,1fr))!important;
+  }
+}
+
+@media(max-width:760px){
+  .sports-management-dashboard{
+    grid-template-columns:1fr;
+  }
+
+  .sports-documentation-card{
+    grid-column:auto;
+  }
+
+  .sports-status-layout{
+    grid-template-columns:1fr;
+  }
+
+  .sports-status-donut{
+    justify-self:center;
+  }
+
+  #page-sports .service-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+
+@media(max-width:480px){
+  .sports-documentation-grid{
+    grid-template-columns:1fr;
+  }
+
+  #page-sports .service-grid{
+    grid-template-columns:1fr!important;
+  }
+}

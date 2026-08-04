@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>Student Activities Platform | UBT</title>
-<link rel="stylesheet" href="css/style.css?v=25.3">
+<link rel="stylesheet" href="css/style.css?v=25.4">
 
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
@@ -71,7 +71,7 @@
 </style>
 
 </head>
-<body data-sah-version="25.3" class="login-mode">
+<body data-sah-version="25.4" class="login-mode">
 <section id="login" class="login-page">
   <div class="login-bg"></div>
   <div class="login-card">
@@ -245,10 +245,6 @@
             <span>المنح الرياضية</span>
             <small data-icon="award"></small>
           </button>
-          <button data-page="championships" type="button">
-            <span>البطولات الرياضية</span>
-            <small data-icon="calendar"></small>
-          </button>
           <button data-page="athletes" type="button">
             <span>ملف الطالب الرياضي</span>
             <small data-icon="users"></small>
@@ -308,10 +304,6 @@
           <button data-page="approvals" type="button">
             <span>صلاحيات عمادة شؤون الطلاب</span>
             <small data-icon="award"></small>
-          </button>
-          <button data-page="admin" type="button">
-            <span>إدارة البيانات</span>
-            <small data-icon="pen"></small>
           </button>
         </div>
       </div>
@@ -678,18 +670,92 @@
         <div class="hero-img" style="background-image:url('assets/images/basketball-match.jpg')"></div>
         <div class="hero-content"><span class="eyebrow" data-i18n="sports.eyebrow">وحدة الإدارة الرياضية</span><h2 data-i18n="sports.heroTitle">كل ما يخص الرياضة في صفحة واحدة</h2><p>المؤشر، المنح، الإقرار الإلكتروني، البطولات، ملفات الطلاب الرياضيين، والتقارير والتحليلات داخل وحدة الإدارة الرياضية.</p><div class="btns"><button class="btn primary" data-route="indicator">مؤشر الأداء الرياضي</button><button class="btn secondary" data-route="athletes">ملف الطالب الرياضي</button></div></div>
       </div>
-      <div class="grid cols-4">
-        <div class="card stat"><div class="label">طلاب المنح</div><div class="value" id="sportsMale">0</div><div class="sub">من ملف الطلاب</div></div>
-        <div class="card stat burg"><div class="label">طالبات المنح</div><div class="value" id="sportsFemale">0</div><div class="sub">من ملف الطالبات</div></div>
-        <div class="card stat"><div class="label">بطولات الاتحاد المدرجة</div><div class="value" id="sportsEventsCount">0</div><div class="sub">من روزنامة الاتحاد</div></div>
-        <div class="card stat"><div class="label">ملفات رياضيين</div><div class="value" id="profilesCount">0</div><div class="sub">طلاب وطالبات</div></div>
+<div class="value" id="profilesCount">0</div><div class="sub">طلاب وطالبات</div></div>
       </div>
-      <div class="section-title"><div><h3>خدمات الإدارة الرياضية</h3><p>كل عنصر يفتح صفحة متخصصة بنفس البيانات والصلاحيات.</p></div></div>
+      
+  <div class="sports-management-dashboard">
+    <article class="card sports-status-card">
+      <div class="sports-status-head">
+        <div>
+          <span>طلبات البطولات والأحداث</span>
+          <h3>حالة طلبات البطولات</h3>
+        </div>
+        <button type="button" data-route="sports-request">عرض الطلبات ←</button>
+      </div>
+
+      <div class="sports-status-layout">
+        <div class="sports-status-donut" id="sportsRequestsDonut"
+             style="--approved:0deg;--rejected:0deg">
+          <span><b id="sportsRequestsTotal">0</b><small>طلب</small></span>
+        </div>
+        <div class="sports-status-legend">
+          <span><i class="approved"></i>مقبولة <b id="sportsRequestsAccepted">0</b></span>
+          <span><i class="rejected"></i>مرفوضة <b id="sportsRequestsRejected">0</b></span>
+          <span><i class="pending"></i>تحت المراجعة <b id="sportsRequestsPending">0</b></span>
+        </div>
+      </div>
+    </article>
+
+    <article class="card sports-status-card">
+      <div class="sports-status-head">
+        <div>
+          <span>المنح الرياضية</span>
+          <h3>حالة المنح الرياضية</h3>
+        </div>
+        <button type="button" data-route="scholarships">عرض المنح ←</button>
+      </div>
+
+      <div class="sports-status-layout">
+        <div class="sports-status-donut" id="sportsGrantsDonut"
+             style="--approved:0deg;--rejected:0deg">
+          <span><b id="sportsGrantsTotal">0</b><small>طلب منحة</small></span>
+        </div>
+        <div class="sports-status-legend">
+          <span><i class="approved"></i>موافق عليها <b id="sportsGrantsAccepted">0</b></span>
+          <span><i class="rejected"></i>مرفوضة <b id="sportsGrantsRejected">0</b></span>
+          <span><i class="pending"></i>تحت المراجعة <b id="sportsGrantsPending">0</b></span>
+        </div>
+      </div>
+    </article>
+
+    <article class="card sports-status-card sports-documentation-card">
+      <div class="sports-status-head">
+        <div>
+          <span>التقارير والشواهد</span>
+          <h3>اكتمال التقارير</h3>
+        </div>
+        <button type="button" data-route="reports">فتح التقارير ←</button>
+      </div>
+
+      <div class="sports-documentation-grid">
+        <div class="sports-gender-doc male">
+          <div class="sports-doc-donut" id="sportsMaleDocsDonut" style="--p:0">
+            <span><b id="sportsMaleDocsPercent">0%</b><small>طلاب</small></span>
+          </div>
+          <div>
+            <span>مكتملة <b id="sportsMaleDocsComplete">0</b></span>
+            <span>غير مكتملة <b id="sportsMaleDocsIncomplete">0</b></span>
+          </div>
+        </div>
+
+        <div class="sports-gender-doc female">
+          <div class="sports-doc-donut female" id="sportsFemaleDocsDonut" style="--p:0">
+            <span><b id="sportsFemaleDocsPercent">0%</b><small>طالبات</small></span>
+          </div>
+          <div>
+            <span>مكتملة <b id="sportsFemaleDocsComplete">0</b></span>
+            <span>غير مكتملة <b id="sportsFemaleDocsIncomplete">0</b></span>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+
+<div class="section-title"><div><h3>خدمات الإدارة الرياضية</h3><p>كل عنصر يفتح صفحة متخصصة بنفس البيانات والصلاحيات.</p></div></div>
       <div class="grid cols-3">
         <div class="card service" data-route="indicator"><span data-icon="chart"></span><h4>مؤشر الأداء الرياضي</h4><p>مؤشر الطلاب والطالبات مستقلين حسب دليل المؤشر.</p></div>
         <div class="card service" data-route="scholarships"><span data-icon="award"></span><h4>المنح الرياضية</h4><p>إحصائيات وقوائم المنح ونسب الخصم.</p></div>
         <div class="card service" data-route="agreement"><span data-icon="pen"></span><h4>الإقرار الإلكتروني للمنح</h4><p>متابعة التوقيع والاعتماد.</p></div>
-        <div class="card service" data-route="championships"><span data-icon="calendar"></span><h4>البطولات الرياضية</h4><p>روزنامة الاتحاد والبطولات المستضافة.</p></div>
         <div class="card service" data-route="athletes"><span data-icon="users"></span><h4>ملف الطالب الرياضي</h4><p>بيانات الطالب ومشاركاته وسجل بطولاته.</p></div>
       </div>
       <div class="section-title"><div><h3>مركز القرار التنفيذي</h3><p>تحليل ومقارنة بدون دمج مؤشر الطلاب مع الطالبات.</p></div><div id="decisionBtns" class="filterbar"><button class="active" data-mode="general">نظرة عامة</button><button data-mode="male">تحليل الطلاب</button><button data-mode="female">تحليل الطالبات</button></div></div>
@@ -1893,6 +1959,6 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=25.3"></script>
+<script src="js/app.js?v=25.4"></script>
 </body>
 </html>

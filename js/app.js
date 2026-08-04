@@ -4430,6 +4430,99 @@ function exportApprovalsPdf(){
 }
 
 
+
+function renderSportsManagementDashboard(){
+  const set=(id,value)=>{
+    const element=document.getElementById(id);
+    if(element)element.textContent=value;
+  };
+
+  const setDecisionDonut=(id,total,accepted,rejected)=>{
+    const donut=document.getElementById(id);
+    if(!donut)return;
+
+    const safeTotal=Math.max(1,total);
+    const approvedDeg=accepted/safeTotal*360;
+    const rejectedDeg=rejected/safeTotal*360;
+
+    donut.style.setProperty('--approved',`${approvedDeg}deg`);
+    donut.style.setProperty('--rejected',`${rejectedDeg}deg`);
+  };
+
+  const sportsRequests=typeof R==='function'&&typeof K!=='undefined'
+    ? R(K.sports)
+    : [];
+  const sportsAccepted=sportsRequests.filter(row=>row.status==='مقبول').length;
+  const sportsRejected=sportsRequests.filter(row=>row.status==='مرفوض').length;
+  const sportsPending=Math.max(
+    0,
+    sportsRequests.length-sportsAccepted-sportsRejected
+  );
+
+  set('sportsRequestsTotal',sportsRequests.length);
+  set('sportsRequestsAccepted',sportsAccepted);
+  set('sportsRequestsRejected',sportsRejected);
+  set('sportsRequestsPending',sportsPending);
+  setDecisionDonut(
+    'sportsRequestsDonut',
+    sportsRequests.length,
+    sportsAccepted,
+    sportsRejected
+  );
+
+  const grants=typeof grantRows==='function' ? grantRows() : [];
+  const grantsAccepted=grants.filter(row=>row.status==='معتمد نهائيًا').length;
+  const grantsRejected=grants.filter(row=>
+    row.status==='مرفوض'||row.status==='مرفوض من العمادة'
+  ).length;
+  const grantsPending=Math.max(
+    0,
+    grants.length-grantsAccepted-grantsRejected
+  );
+
+  set('sportsGrantsTotal',grants.length);
+  set('sportsGrantsAccepted',grantsAccepted);
+  set('sportsGrantsRejected',grantsRejected);
+  set('sportsGrantsPending',grantsPending);
+  setDecisionDonut(
+    'sportsGrantsDonut',
+    grants.length,
+    grantsAccepted,
+    grantsRejected
+  );
+
+  const rows=typeof evidence==='function' ? evidence() : [];
+  const genderStats=gender=>{
+    const genderRows=rows.filter(row=>row.gender===gender);
+    const complete=genderRows.filter(row=>
+      typeof completionPercent==='function'
+        ? completionPercent(row)===100
+        : Boolean(row.reportFile&&row.scheduleFile)
+    ).length;
+    const incomplete=Math.max(0,genderRows.length-complete);
+    const percent=genderRows.length
+      ? Math.round(complete/genderRows.length*100)
+      : 0;
+
+    return {complete,incomplete,percent};
+  };
+
+  const male=genderStats('طلاب');
+  const female=genderStats('طالبات');
+
+  set('sportsMaleDocsPercent',`${male.percent}%`);
+  set('sportsMaleDocsComplete',male.complete);
+  set('sportsMaleDocsIncomplete',male.incomplete);
+  set('sportsFemaleDocsPercent',`${female.percent}%`);
+  set('sportsFemaleDocsComplete',female.complete);
+  set('sportsFemaleDocsIncomplete',female.incomplete);
+
+  document.getElementById('sportsMaleDocsDonut')
+    ?.style.setProperty('--p',male.percent);
+  document.getElementById('sportsFemaleDocsDonut')
+    ?.style.setProperty('--p',female.percent);
+}
+
 function renderGeneralIndicator(){
   const set=(id,value)=>{
     const element=document.getElementById(id);
@@ -5110,7 +5203,7 @@ function initGrantWorkflow(){
  renderGrantWorkflow();
 }
 
-function renderAll(){tables();student();applicants();approvals();populateClubEventSelect();renderRegisteredClubs();renderGeneralIndicator();renderGrantWorkflow();const b=document.querySelector('[data-event-category].active');if(b)renderCategory(b.dataset.eventCategory)}
+function renderAll(){tables();student();applicants();approvals();populateClubEventSelect();renderRegisteredClubs();renderGeneralIndicator();renderGrantWorkflow();renderSportsManagementDashboard();const b=document.querySelector('[data-event-category].active');if(b)renderCategory(b.dataset.eventCategory)}
 function bind(id,fn){const o=document.getElementById(id);if(!o)return;const n=o.cloneNode(true);o.replaceWith(n);n.onclick=fn}
 window.addEventListener('DOMContentLoaded',()=>{
  document.getElementById('exportApprovalsExcel')
@@ -5244,8 +5337,8 @@ window.addEventListener('DOMContentLoaded',()=>{
 
   const ALL=new Set([
     'home','general-indicator','sports','sports-request','indicator','scholarships',
-    'championships','athletes','reports','calendar',
-    'activities','volunteer','clubs','approvals','admin','general-indicator'
+    'athletes','reports','calendar',
+    'activities','volunteer','clubs','approvals','general-indicator'
   ]);
 
   const ROLE_PAGES={
@@ -5256,7 +5349,7 @@ window.addEventListener('DOMContentLoaded',()=>{
       'home','sports','sports-request','scholarships','championships',
       'athletes','reports','calendar'
     ]),
-    coach:new Set(['home','sports-request','championships','athletes','reports']),
+    coach:new Set(['home','sports-request','athletes','reports']),
     activities_manager:new Set([
       'home','athletes','reports','activities','volunteer','approvals'
     ]),
@@ -6121,4 +6214,12 @@ window.addEventListener('DOMContentLoaded',()=>{
 
   document.addEventListener('input',resetRequiredErrorOnInput);
   document.addEventListener('change',resetRequiredErrorOnInput);
+});
+
+
+/* SAH V25.4 — Sports management dashboard redesign */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 25.4 loaded');
+  document.documentElement.dataset.sahBuild='25.4';
+  setTimeout(()=>renderSportsManagementDashboard?.(),0);
 });
