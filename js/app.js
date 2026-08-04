@@ -6661,3 +6661,10 @@ window.addEventListener('DOMContentLoaded',()=>{
   setTimeout(relocalizeTables,80);
   console.info('SAH build 26.5 loaded');
 });
+
+
+/* SAH V26.6 — Arabic header RTL restoration */
+window.addEventListener('DOMContentLoaded',()=>{
+  document.documentElement.dataset.sahBuild='26.6';
+  console.info('SAH build 26.6 loaded');
+});

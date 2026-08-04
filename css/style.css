@@ -9888,3 +9888,122 @@ html[lang="en"] button[data-action="reject"]{
 html[lang="en"] .approval-btn-icon{
   margin:0!important;
 }
+
+
+/* ==========================================================
+   SAH V26.6 — restore Arabic header order and RTL layout
+   ========================================================== */
+
+html[lang="ar"] .topbar{
+  direction:rtl!important;
+  grid-template-columns:minmax(420px,1fr) auto!important;
+}
+
+html[lang="ar"] .topbar .brand{
+  grid-column:1!important;
+  justify-self:end!important;
+  direction:rtl!important;
+  text-align:right!important;
+}
+
+html[lang="ar"] .topbar .topbar-right{
+  grid-column:2!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  flex-direction:row!important;
+  gap:12px!important;
+  direction:rtl!important;
+}
+
+html[lang="ar"] .topbar .current-user,
+html[lang="ar"] .topbar .user-chip{
+  order:3!important;
+  direction:rtl!important;
+  text-align:right!important;
+}
+
+html[lang="ar"] .topbar .role-switcher{
+  order:2!important;
+  direction:rtl!important;
+  text-align:right!important;
+}
+
+html[lang="ar"] .topbar .app-controls{
+  order:1!important;
+  direction:rtl!important;
+}
+
+html[lang="ar"] .topbar #activeRole{
+  direction:rtl!important;
+  text-align:right!important;
+  padding:9px 13px 9px 38px!important;
+}
+
+html[lang="ar"] .topbar .role-switcher label{
+  text-align:right!important;
+}
+
+html[lang="ar"] .topbar .current-user>div,
+html[lang="ar"] .topbar .user-chip>div{
+  direction:rtl!important;
+  text-align:right!important;
+}
+
+html[lang="ar"] .topbar #langToggle{
+  margin:0!important;
+}
+
+/* Medium screens: keep brand on the right and account controls on the left. */
+@media(max-width:1320px){
+  html[lang="ar"] .topbar{
+    grid-template-columns:minmax(330px,1fr) auto!important;
+  }
+
+  html[lang="ar"] .topbar .topbar-right{
+    gap:9px!important;
+  }
+}
+
+/* Mobile/tablet stacking remains RTL and ordered. */
+@media(max-width:1050px){
+  html[lang="ar"] .topbar{
+    grid-template-columns:1fr!important;
+  }
+
+  html[lang="ar"] .topbar .brand{
+    grid-column:1!important;
+    justify-self:stretch!important;
+  }
+
+  html[lang="ar"] .topbar .topbar-right{
+    grid-column:1!important;
+    width:100%!important;
+    justify-content:space-between!important;
+    flex-wrap:wrap!important;
+  }
+}
+
+@media(max-width:640px){
+  html[lang="ar"] .topbar .topbar-right{
+    display:grid!important;
+    grid-template-columns:50px 1fr!important;
+    gap:10px!important;
+  }
+
+  html[lang="ar"] .topbar .current-user,
+  html[lang="ar"] .topbar .user-chip{
+    grid-column:1/-1!important;
+    order:initial!important;
+  }
+
+  html[lang="ar"] .topbar .role-switcher{
+    grid-column:2!important;
+    order:initial!important;
+  }
+
+  html[lang="ar"] .topbar .app-controls{
+    grid-column:1!important;
+    order:initial!important;
+  }
+}
