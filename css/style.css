@@ -10451,3 +10451,34 @@ html[lang="en"] .approval-btn-icon{
     line-height:1!important;
   }
 }
+
+/* ==========================================================
+   إزالة المنصب أسفل اسم المستخدم
+   ========================================================== */
+
+/* السطر الثاني (المنصب) */
+.topbar .user-chip small,
+.topbar .user-chip .user-role,
+.topbar .user-chip .role,
+.topbar .user-chip span:last-child{
+    display:none !important;
+}
+
+/* المحافظة على الاسم فقط */
+.topbar .user-chip strong,
+.topbar .user-chip .user-name{
+    display:block !important;
+    margin:0 !important;
+    padding:0 !important;
+
+    font-size:17px !important;
+    font-weight:800 !important;
+    line-height:1.2 !important;
+}
+
+/* تصغير ارتفاع منطقة الاسم بعد إزالة المنصب */
+.topbar .user-chip > div:first-child{
+    height:auto !important;
+    justify-content:center !important;
+    gap:0 !important;
+}
