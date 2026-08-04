@@ -10482,3 +10482,46 @@ html[lang="en"] .approval-btn-icon{
     justify-content:center !important;
     gap:0 !important;
 }
+
+/* إزالة الفاصل / وتوسيط اسم المستخدم */
+.topbar .user-chip > div:first-child{
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+
+    width:100% !important;
+    height:56px !important;
+
+    margin:0 !important;
+    padding:0 !important;
+
+    text-align:center !important;
+
+    /* يخفي النص الحر مثل علامة / */
+    font-size:0 !important;
+    line-height:0 !important;
+}
+
+/* إظهار الاسم فقط بحجمه الطبيعي */
+.topbar .user-chip > div:first-child strong,
+.topbar .user-chip .user-name{
+    display:block !important;
+
+    width:100% !important;
+    margin:0 !important;
+    padding:0 !important;
+
+    font-size:17px !important;
+    line-height:1.3 !important;
+    font-weight:900 !important;
+
+    text-align:center !important;
+    white-space:nowrap !important;
+}
+
+/* إخفاء المنصب المكرر نهائيًا */
+.topbar .user-chip > div:first-child span,
+.topbar .user-chip > div:first-child small,
+.topbar .user-chip .user-role{
+    display:none !important;
+}
