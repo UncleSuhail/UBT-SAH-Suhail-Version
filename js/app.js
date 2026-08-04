@@ -6668,3 +6668,10 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.documentElement.dataset.sahBuild='26.6';
   console.info('SAH build 26.6 loaded');
 });
+
+
+/* SAH V26.7 — fixed three-column header */
+window.addEventListener('DOMContentLoaded',()=>{
+  document.documentElement.dataset.sahBuild='26.7';
+  console.info('SAH build 26.7 loaded');
+});

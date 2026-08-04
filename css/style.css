@@ -9890,70 +9890,6 @@ html[lang="en"] .approval-btn-icon{
 }
 
 
-/* ==========================================================
-   SAH V26.6 — restore Arabic header order and RTL layout
-   ========================================================== */
-
-html[lang="ar"] .topbar{
-  direction:rtl!important;
-  grid-template-columns:minmax(420px,1fr) auto!important;
-}
-
-html[lang="ar"] .topbar .brand{
-  grid-column:1!important;
-  justify-self:end!important;
-  direction:rtl!important;
-  text-align:right!important;
-}
-
-html[lang="ar"] .topbar .topbar-right{
-  grid-column:2!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:flex-start!important;
-  flex-direction:row!important;
-  gap:12px!important;
-  direction:rtl!important;
-}
-
-html[lang="ar"] .topbar .current-user,
-html[lang="ar"] .topbar .user-chip{
-  order:3!important;
-  direction:rtl!important;
-  text-align:right!important;
-}
-
-html[lang="ar"] .topbar .role-switcher{
-  order:2!important;
-  direction:rtl!important;
-  text-align:right!important;
-}
-
-html[lang="ar"] .topbar .app-controls{
-  order:1!important;
-  direction:rtl!important;
-}
-
-html[lang="ar"] .topbar #activeRole{
-  direction:rtl!important;
-  text-align:right!important;
-  padding:9px 13px 9px 38px!important;
-}
-
-html[lang="ar"] .topbar .role-switcher label{
-  text-align:right!important;
-}
-
-html[lang="ar"] .topbar .current-user>div,
-html[lang="ar"] .topbar .user-chip>div{
-  direction:rtl!important;
-  text-align:right!important;
-}
-
-html[lang="ar"] .topbar #langToggle{
-  margin:0!important;
-}
-
 /* Medium screens: keep brand on the right and account controls on the left. */
 @media(max-width:1320px){
   html[lang="ar"] .topbar{
@@ -10005,5 +9941,289 @@ html[lang="ar"] .topbar #langToggle{
   html[lang="ar"] .topbar .app-controls{
     grid-column:1!important;
     order:initial!important;
+  }
+}
+
+
+/* ==========================================================
+   SAH V26.7 — fixed three-column header for both languages
+   Left: logos | Center: platform title | Right: account controls
+   ========================================================== */
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:60;
+  display:grid!important;
+  grid-template-columns:minmax(280px,1fr) minmax(360px,1.15fr) minmax(520px,1.45fr)!important;
+  grid-template-areas:"logos title account"!important;
+  align-items:center!important;
+  gap:20px!important;
+  min-height:112px!important;
+  padding:14px 24px!important;
+  direction:ltr!important;
+  overflow:visible!important;
+}
+
+/* Left: UBT / DSA logos */
+.topbar .brand{
+  grid-area:logos!important;
+  justify-self:start!important;
+  min-width:0!important;
+  width:auto!important;
+  direction:ltr!important;
+  text-align:left!important;
+}
+
+/* Center: Student Activities Platform title */
+.topbar .brand-copy,
+.topbar .platform-brand,
+.topbar .platform-title-wrap{
+  grid-area:title!important;
+  justify-self:center!important;
+  text-align:center!important;
+  direction:ltr!important;
+  min-width:0!important;
+}
+
+/* If logo and title are inside the same .brand container,
+   visually split them into fixed left and centered content. */
+.topbar .brand{
+  display:contents!important;
+}
+
+.topbar .brand-logos,
+.topbar .brand-logo,
+.topbar .logos,
+.topbar .ubt-dsa-logos{
+  grid-area:logos!important;
+  justify-self:start!important;
+  align-self:center!important;
+}
+
+.topbar .brand-text,
+.topbar .brand-copy{
+  grid-area:title!important;
+  justify-self:center!important;
+  align-self:center!important;
+  text-align:center!important;
+}
+
+.topbar .brand-text h1,
+.topbar .brand-copy h1,
+.topbar .brand-title{
+  margin:0!important;
+  text-align:center!important;
+}
+
+.topbar .brand-text p,
+.topbar .brand-copy p,
+.topbar .brand-subtitle{
+  margin:4px 0 0!important;
+  text-align:center!important;
+}
+
+/* Right: current account, role selector, and language button */
+.topbar .topbar-right{
+  grid-area:account!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:12px!important;
+  min-width:0!important;
+  width:100%!important;
+  direction:ltr!important;
+}
+
+.topbar .current-user,
+.topbar .user-chip{
+  order:1!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:10px!important;
+  min-width:0!important;
+  max-width:330px!important;
+  direction:inherit!important;
+}
+
+.topbar .role-switcher{
+  order:2!important;
+  display:grid!important;
+  gap:4px!important;
+  min-width:275px!important;
+  width:300px!important;
+  max-width:330px!important;
+  margin:0!important;
+}
+
+.topbar .app-controls{
+  order:3!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  min-width:50px!important;
+  margin:0!important;
+}
+
+.topbar #langToggle{
+  position:static!important;
+  inset:auto!important;
+  transform:none!important;
+  width:50px!important;
+  min-width:50px!important;
+  height:50px!important;
+  margin:0!important;
+  flex:0 0 50px!important;
+}
+
+/* Arabic account area remains RTL while staying in the fixed right column. */
+html[lang="ar"] .topbar .topbar-right{
+  direction:rtl!important;
+}
+
+html[lang="ar"] .topbar .current-user,
+html[lang="ar"] .topbar .user-chip,
+html[lang="ar"] .topbar .role-switcher{
+  direction:rtl!important;
+  text-align:right!important;
+}
+
+html[lang="ar"] .topbar #activeRole{
+  direction:rtl!important;
+  text-align:right!important;
+  padding:9px 13px 9px 38px!important;
+}
+
+html[lang="ar"] .topbar .role-switcher label{
+  text-align:right!important;
+}
+
+/* English account area stays LTR. */
+html[lang="en"] .topbar .topbar-right,
+html[lang="en"] .topbar .current-user,
+html[lang="en"] .topbar .user-chip,
+html[lang="en"] .topbar .role-switcher{
+  direction:ltr!important;
+  text-align:left!important;
+}
+
+html[lang="en"] .topbar #activeRole{
+  direction:ltr!important;
+  text-align:left!important;
+  padding:9px 38px 9px 13px!important;
+}
+
+/* Hide overflow safely without moving columns. */
+.topbar .current-user strong,
+.topbar .current-user span,
+.topbar .user-chip strong,
+.topbar .user-chip span{
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
+
+/* Medium screens */
+@media(max-width:1350px){
+  .topbar{
+    grid-template-columns:minmax(230px,.9fr) minmax(310px,1fr) minmax(460px,1.35fr)!important;
+    gap:14px!important;
+    padding-inline:18px!important;
+  }
+
+  .topbar .current-user,
+  .topbar .user-chip{
+    max-width:260px!important;
+  }
+
+  .topbar .role-switcher{
+    min-width:240px!important;
+    width:260px!important;
+  }
+}
+
+/* Tablet: title remains centered, account drops below cleanly */
+@media(max-width:1050px){
+  .topbar{
+    grid-template-columns:1fr 1fr!important;
+    grid-template-areas:
+      "logos title"
+      "account account"!important;
+    row-gap:12px!important;
+  }
+
+  .topbar .brand-logos,
+  .topbar .brand-logo,
+  .topbar .logos,
+  .topbar .ubt-dsa-logos{
+    justify-self:start!important;
+  }
+
+  .topbar .brand-text,
+  .topbar .brand-copy{
+    justify-self:end!important;
+    text-align:right!important;
+  }
+
+  .topbar .topbar-right{
+    justify-content:space-between!important;
+    flex-wrap:wrap!important;
+  }
+
+  .topbar .current-user,
+  .topbar .user-chip{
+    flex:1 1 260px!important;
+    max-width:none!important;
+  }
+
+  .topbar .role-switcher{
+    flex:1 1 280px!important;
+    width:auto!important;
+    max-width:none!important;
+  }
+}
+
+/* Mobile */
+@media(max-width:640px){
+  .topbar{
+    grid-template-columns:1fr!important;
+    grid-template-areas:
+      "logos"
+      "title"
+      "account"!important;
+    min-height:auto!important;
+    padding:10px 12px!important;
+  }
+
+  .topbar .brand-logos,
+  .topbar .brand-logo,
+  .topbar .logos,
+  .topbar .ubt-dsa-logos,
+  .topbar .brand-text,
+  .topbar .brand-copy{
+    justify-self:center!important;
+    text-align:center!important;
+  }
+
+  .topbar .topbar-right{
+    display:grid!important;
+    grid-template-columns:1fr 50px!important;
+    gap:10px!important;
+  }
+
+  .topbar .current-user,
+  .topbar .user-chip{
+    grid-column:1/-1!important;
+    max-width:none!important;
+  }
+
+  .topbar .role-switcher{
+    grid-column:1!important;
+    min-width:0!important;
+    width:100%!important;
+  }
+
+  .topbar .app-controls{
+    grid-column:2!important;
   }
 }
