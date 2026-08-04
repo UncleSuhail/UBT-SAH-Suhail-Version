@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>Student Activities Platform | UBT</title>
-<link rel="stylesheet" href="css/style.css?v=25.4">
+<link rel="stylesheet" href="css/style.css?v=25.5">
 
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
@@ -71,7 +71,7 @@
 </style>
 
 </head>
-<body data-sah-version="25.4" class="login-mode">
+<body data-sah-version="25.5" class="login-mode">
 <section id="login" class="login-page">
   <div class="login-bg"></div>
   <div class="login-card">
@@ -666,102 +666,227 @@
     </section>
 
     <section id="page-sports" class="page">
-      <div class="hero">
-        <div class="hero-img" style="background-image:url('assets/images/basketball-match.jpg')"></div>
-        <div class="hero-content"><span class="eyebrow" data-i18n="sports.eyebrow">وحدة الإدارة الرياضية</span><h2 data-i18n="sports.heroTitle">كل ما يخص الرياضة في صفحة واحدة</h2><p>المؤشر، المنح، الإقرار الإلكتروني، البطولات، ملفات الطلاب الرياضيين، والتقارير والتحليلات داخل وحدة الإدارة الرياضية.</p><div class="btns"><button class="btn primary" data-route="indicator">مؤشر الأداء الرياضي</button><button class="btn secondary" data-route="athletes">ملف الطالب الرياضي</button></div></div>
-      </div>
-<div class="value" id="profilesCount">0</div><div class="sub">طلاب وطالبات</div></div>
-      </div>
-      
-  <div class="sports-management-dashboard">
-    <article class="card sports-status-card">
-      <div class="sports-status-head">
+      <div class="section-title sports-management-heading">
         <div>
-          <span>طلبات البطولات والأحداث</span>
-          <h3>حالة طلبات البطولات</h3>
-        </div>
-        <button type="button" data-route="sports-request">عرض الطلبات ←</button>
-      </div>
-
-      <div class="sports-status-layout">
-        <div class="sports-status-donut" id="sportsRequestsDonut"
-             style="--approved:0deg;--rejected:0deg">
-          <span><b id="sportsRequestsTotal">0</b><small>طلب</small></span>
-        </div>
-        <div class="sports-status-legend">
-          <span><i class="approved"></i>مقبولة <b id="sportsRequestsAccepted">0</b></span>
-          <span><i class="rejected"></i>مرفوضة <b id="sportsRequestsRejected">0</b></span>
-          <span><i class="pending"></i>تحت المراجعة <b id="sportsRequestsPending">0</b></span>
+          <h3>الإدارة الرياضية</h3>
+          <p>ملخص إحصائي مباشر لطلبات البطولات والمنح والتقارير، مع إمكانية عرض البيانات المرتبطة بكل نتيجة.</p>
         </div>
       </div>
-    </article>
 
-    <article class="card sports-status-card">
-      <div class="sports-status-head">
-        <div>
-          <span>المنح الرياضية</span>
-          <h3>حالة المنح الرياضية</h3>
-        </div>
-        <button type="button" data-route="scholarships">عرض المنح ←</button>
-      </div>
-
-      <div class="sports-status-layout">
-        <div class="sports-status-donut" id="sportsGrantsDonut"
-             style="--approved:0deg;--rejected:0deg">
-          <span><b id="sportsGrantsTotal">0</b><small>طلب منحة</small></span>
-        </div>
-        <div class="sports-status-legend">
-          <span><i class="approved"></i>موافق عليها <b id="sportsGrantsAccepted">0</b></span>
-          <span><i class="rejected"></i>مرفوضة <b id="sportsGrantsRejected">0</b></span>
-          <span><i class="pending"></i>تحت المراجعة <b id="sportsGrantsPending">0</b></span>
-        </div>
-      </div>
-    </article>
-
-    <article class="card sports-status-card sports-documentation-card">
-      <div class="sports-status-head">
-        <div>
-          <span>التقارير والشواهد</span>
-          <h3>اكتمال التقارير</h3>
-        </div>
-        <button type="button" data-route="reports">فتح التقارير ←</button>
-      </div>
-
-      <div class="sports-documentation-grid">
-        <div class="sports-gender-doc male">
-          <div class="sports-doc-donut" id="sportsMaleDocsDonut" style="--p:0">
-            <span><b id="sportsMaleDocsPercent">0%</b><small>طلاب</small></span>
+      <div class="sports-management-dashboard">
+        <article class="card sports-status-card">
+          <div class="sports-status-head">
+            <div>
+              <span>طلبات البطولات والأحداث</span>
+              <h3>حالة طلبات البطولات</h3>
+            </div>
+            <button type="button" data-route="sports-request">عرض الطلبات ←</button>
           </div>
+
+          <div class="sports-status-layout">
+            <button class="sports-status-donut sports-dashboard-filter"
+                    id="sportsRequestsDonut"
+                    type="button"
+                    data-sports-dashboard-type="sports"
+                    data-sports-dashboard-status="all"
+                    style="--approved:0deg;--rejected:0deg">
+              <span><b id="sportsRequestsTotal">0</b><small>طلب</small></span>
+            </button>
+
+            <div class="sports-status-legend">
+              <button type="button"
+                      data-sports-dashboard-type="sports"
+                      data-sports-dashboard-status="مقبول">
+                <i class="approved"></i>مقبولة <b id="sportsRequestsAccepted">0</b>
+              </button>
+              <button type="button"
+                      data-sports-dashboard-type="sports"
+                      data-sports-dashboard-status="مرفوض">
+                <i class="rejected"></i>مرفوضة <b id="sportsRequestsRejected">0</b>
+              </button>
+              <button type="button"
+                      data-sports-dashboard-type="sports"
+                      data-sports-dashboard-status="تحت المراجعة">
+                <i class="pending"></i>تحت المراجعة <b id="sportsRequestsPending">0</b>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card sports-status-card">
+          <div class="sports-status-head">
+            <div>
+              <span>المنح الرياضية</span>
+              <h3>حالة المنح الرياضية</h3>
+            </div>
+            <button type="button" data-route="scholarships">عرض المنح ←</button>
+          </div>
+
+          <div class="sports-status-layout">
+            <button class="sports-status-donut sports-dashboard-filter"
+                    id="sportsGrantsDonut"
+                    type="button"
+                    data-sports-dashboard-type="grants"
+                    data-sports-dashboard-status="all"
+                    style="--approved:0deg;--rejected:0deg">
+              <span><b id="sportsGrantsTotal">0</b><small>طلب منحة</small></span>
+            </button>
+
+            <div class="sports-status-legend">
+              <button type="button"
+                      data-sports-dashboard-type="grants"
+                      data-sports-dashboard-status="approved">
+                <i class="approved"></i>موافق عليها <b id="sportsGrantsAccepted">0</b>
+              </button>
+              <button type="button"
+                      data-sports-dashboard-type="grants"
+                      data-sports-dashboard-status="rejected">
+                <i class="rejected"></i>مرفوضة <b id="sportsGrantsRejected">0</b>
+              </button>
+              <button type="button"
+                      data-sports-dashboard-type="grants"
+                      data-sports-dashboard-status="pending">
+                <i class="pending"></i>تحت المراجعة <b id="sportsGrantsPending">0</b>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="card sports-status-card sports-documentation-card">
+          <div class="sports-status-head">
+            <div>
+              <span>التقارير والشواهد</span>
+              <h3>اكتمال التقارير</h3>
+            </div>
+            <button type="button" data-route="reports">فتح التقارير ←</button>
+          </div>
+
+          <div class="sports-documentation-grid">
+            <div class="sports-gender-doc male">
+              <button class="sports-doc-donut"
+                      id="sportsMaleDocsDonut"
+                      type="button"
+                      data-sports-dashboard-type="reports"
+                      data-sports-dashboard-gender="طلاب"
+                      data-sports-dashboard-status="all"
+                      style="--p:0">
+                <span><b id="sportsMaleDocsPercent">0%</b><small>طلاب</small></span>
+              </button>
+
+              <div>
+                <button type="button"
+                        data-sports-dashboard-type="reports"
+                        data-sports-dashboard-gender="طلاب"
+                        data-sports-dashboard-status="complete">
+                  مكتملة <b id="sportsMaleDocsComplete">0</b>
+                </button>
+                <button type="button"
+                        data-sports-dashboard-type="reports"
+                        data-sports-dashboard-gender="طلاب"
+                        data-sports-dashboard-status="incomplete">
+                  غير مكتملة <b id="sportsMaleDocsIncomplete">0</b>
+                </button>
+              </div>
+            </div>
+
+            <div class="sports-gender-doc female">
+              <button class="sports-doc-donut female"
+                      id="sportsFemaleDocsDonut"
+                      type="button"
+                      data-sports-dashboard-type="reports"
+                      data-sports-dashboard-gender="طالبات"
+                      data-sports-dashboard-status="all"
+                      style="--p:0">
+                <span><b id="sportsFemaleDocsPercent">0%</b><small>طالبات</small></span>
+              </button>
+
+              <div>
+                <button type="button"
+                        data-sports-dashboard-type="reports"
+                        data-sports-dashboard-gender="طالبات"
+                        data-sports-dashboard-status="complete">
+                  مكتملة <b id="sportsFemaleDocsComplete">0</b>
+                </button>
+                <button type="button"
+                        data-sports-dashboard-type="reports"
+                        data-sports-dashboard-gender="طالبات"
+                        data-sports-dashboard-status="incomplete">
+                  غير مكتملة <b id="sportsFemaleDocsIncomplete">0</b>
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="card table-card sports-dashboard-results-card">
+        <div class="sports-dashboard-results-head">
           <div>
-            <span>مكتملة <b id="sportsMaleDocsComplete">0</b></span>
-            <span>غير مكتملة <b id="sportsMaleDocsIncomplete">0</b></span>
+            <span>البيانات المرتبطة بالإحصائية</span>
+            <h3 id="sportsDashboardResultsTitle">جميع طلبات البطولات</h3>
+            <p id="sportsDashboardResultsDescription">
+              اضغط على أي جزء من الرسوم أو النتائج أعلاه لعرض السجلات المرتبطة مباشرة.
+            </p>
           </div>
+
+          <button id="sportsDashboardClearFilter"
+                  class="btn outline"
+                  type="button">
+            عرض الكل
+          </button>
         </div>
 
-        <div class="sports-gender-doc female">
-          <div class="sports-doc-donut female" id="sportsFemaleDocsDonut" style="--p:0">
-            <span><b id="sportsFemaleDocsPercent">0%</b><small>طالبات</small></span>
-          </div>
-          <div>
-            <span>مكتملة <b id="sportsFemaleDocsComplete">0</b></span>
-            <span>غير مكتملة <b id="sportsFemaleDocsIncomplete">0</b></span>
-          </div>
+        <div class="table-wrap">
+          <table>
+            <thead id="sportsDashboardResultsHead"></thead>
+            <tbody id="sportsDashboardResultsRows"></tbody>
+          </table>
         </div>
       </div>
-    </article>
-  </div>
 
-<div class="section-title"><div><h3>خدمات الإدارة الرياضية</h3><p>كل عنصر يفتح صفحة متخصصة بنفس البيانات والصلاحيات.</p></div></div>
-      <div class="grid cols-3">
-        <div class="card service" data-route="indicator"><span data-icon="chart"></span><h4>مؤشر الأداء الرياضي</h4><p>مؤشر الطلاب والطالبات مستقلين حسب دليل المؤشر.</p></div>
-        <div class="card service" data-route="scholarships"><span data-icon="award"></span><h4>المنح الرياضية</h4><p>إحصائيات وقوائم المنح ونسب الخصم.</p></div>
-        <div class="card service" data-route="agreement"><span data-icon="pen"></span><h4>الإقرار الإلكتروني للمنح</h4><p>متابعة التوقيع والاعتماد.</p></div>
-        <div class="card service" data-route="athletes"><span data-icon="users"></span><h4>ملف الطالب الرياضي</h4><p>بيانات الطالب ومشاركاته وسجل بطولاته.</p></div>
+      <div class="section-title sports-services-title">
+        <div>
+          <h3>خدمات الإدارة الرياضية</h3>
+          <p>وصول سريع إلى الصفحات المتخصصة.</p>
+        </div>
       </div>
-      <div class="section-title"><div><h3>مركز القرار التنفيذي</h3><p>تحليل ومقارنة بدون دمج مؤشر الطلاب مع الطالبات.</p></div><div id="decisionBtns" class="filterbar"><button class="active" data-mode="general">نظرة عامة</button><button data-mode="male">تحليل الطلاب</button><button data-mode="female">تحليل الطالبات</button></div></div>
-      <div class="grid cols-2">
-        <div class="card analytics"><h3 id="decisionTitle">ملخص الأداء الحالي</h3><p id="decisionText">يعرض النظام مؤشرين مستقلين للطلاب والطالبات وفق دليل مؤشر الأداء الرياضي. لا يتم جمع المؤشرين في رقم واحد، ويتم تحليل كل فرع حسب مساراته ومجالاته الـ16.</p><button class="btn secondary" data-route="indicator">فتح صفحة المؤشر</button></div>
-        <div class="image-card" style="background-image:url('assets/images/football-field-night.jpg')"><div class="caption"><h3>المنشآت الرياضية</h3><p>إدارة البطولات والفعاليات الرياضية من داخل المنصة.</p></div></div>
+
+      <div class="sports-services-grid">
+        <button class="card sports-service-card" type="button" data-route="indicator">
+          <span data-icon="chart"></span>
+          <div><h4>مؤشر الأداء الرياضي</h4><p>مؤشرات الطلاب والطالبات ونقاط المجالات.</p></div>
+          <b>←</b>
+        </button>
+
+        <button class="card sports-service-card" type="button" data-route="scholarships">
+          <span data-icon="award"></span>
+          <div><h4>المنح الرياضية</h4><p>طلبات المنح ونسب الاستحقاق والاعتمادات.</p></div>
+          <b>←</b>
+        </button>
+
+        <button class="card sports-service-card" type="button" data-route="agreement">
+          <span data-icon="pen"></span>
+          <div><h4>الإقرار الإلكتروني للمنح</h4><p>تقديم الإقرار ومتابعة حالته.</p></div>
+          <b>←</b>
+        </button>
+
+        <button class="card sports-service-card" type="button" data-route="athletes">
+          <span data-icon="users"></span>
+          <div><h4>ملف الطالب الرياضي</h4><p>بيانات الرياضيين والمشاركات والسجل الرياضي.</p></div>
+          <b>←</b>
+        </button>
+
+        <button class="card sports-service-card" type="button" data-route="reports">
+          <span data-icon="briefcase"></span>
+          <div><h4>التقارير والتحليلات</h4><p>الشواهد والتوثيق وتحليل الأنشطة الرياضية.</p></div>
+          <b>←</b>
+        </button>
+
+        <button class="card sports-service-card" type="button" data-route="sports-request">
+          <span data-icon="calendar"></span>
+          <div><h4>طلب تنفيذ بطولة / حدث</h4><p>تقديم الطلبات ومتابعة حالات الاعتماد.</p></div>
+          <b>←</b>
+        </button>
       </div>
     </section>
 
@@ -1959,6 +2084,6 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=25.4"></script>
+<script src="js/app.js?v=25.5"></script>
 </body>
 </html>

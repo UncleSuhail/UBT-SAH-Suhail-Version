@@ -4431,6 +4431,190 @@ function exportApprovalsPdf(){
 
 
 
+
+let sportsDashboardFilter={
+  type:'sports',
+  status:'all',
+  gender:'all'
+};
+
+function sportsDashboardStatusLabel(type,status){
+  if(status==='all')return 'جميع السجلات';
+
+  if(type==='grants'){
+    return {
+      approved:'الموافق عليها',
+      rejected:'المرفوضة',
+      pending:'تحت المراجعة'
+    }[status]||status;
+  }
+
+  if(type==='reports'){
+    return {
+      complete:'المكتملة',
+      incomplete:'غير المكتملة'
+    }[status]||status;
+  }
+
+  return status;
+}
+
+function sportsDashboardGrantMatches(row,status){
+  if(status==='all')return true;
+
+  if(status==='approved'){
+    return row.status==='معتمد نهائيًا';
+  }
+
+  if(status==='rejected'){
+    return row.status==='مرفوض'||row.status==='مرفوض من العمادة';
+  }
+
+  if(status==='pending'){
+    return ![
+      'معتمد نهائيًا',
+      'مرفوض',
+      'مرفوض من العمادة'
+    ].includes(row.status);
+  }
+
+  return true;
+}
+
+function renderSportsDashboardResults(){
+  const head=document.getElementById('sportsDashboardResultsHead');
+  const body=document.getElementById('sportsDashboardResultsRows');
+  const title=document.getElementById('sportsDashboardResultsTitle');
+  const description=document.getElementById('sportsDashboardResultsDescription');
+
+  if(!head||!body)return;
+
+  const {type,status,gender}=sportsDashboardFilter;
+  let rows=[];
+
+  if(type==='sports'){
+    rows=(typeof R==='function'&&typeof K!=='undefined' ? R(K.sports) : [])
+      .filter(row=>status==='all'||String(row.status||'تحت المراجعة')===status);
+
+    head.innerHTML=`<tr>
+      <th>اسم الحدث</th>
+      <th>التاريخ</th>
+      <th>اللعبة</th>
+      <th>الفئة</th>
+      <th>السعة</th>
+      <th>الحالة</th>
+    </tr>`;
+
+    body.innerHTML=rows.length
+      ? rows.map(row=>`<tr>
+          <td><strong>${row.name||'—'}</strong></td>
+          <td>${row.date||'—'}</td>
+          <td>${row.game||'—'}</td>
+          <td>${row.gender||'—'}</td>
+          <td>${row.capacity??'—'}</td>
+          <td>${typeof badge==='function' ? badge(row.status) : (row.status||'تحت المراجعة')}</td>
+        </tr>`).join('')
+      : '<tr><td colspan="6">لا توجد طلبات مطابقة.</td></tr>';
+
+    if(title)title.textContent=`طلبات البطولات — ${sportsDashboardStatusLabel(type,status)}`;
+    if(description)description.textContent='طلبات تنفيذ البطولات والأحداث الرياضية وفق حالة الاعتماد المحددة.';
+  }
+
+  if(type==='grants'){
+    rows=(typeof grantRows==='function' ? grantRows() : [])
+      .filter(row=>sportsDashboardGrantMatches(row,status));
+
+    head.innerHTML=`<tr>
+      <th>الطالب / الطالبة</th>
+      <th>الرقم الجامعي</th>
+      <th>الفئة</th>
+      <th>الكلية</th>
+      <th>النسبة</th>
+      <th>الحالة</th>
+    </tr>`;
+
+    body.innerHTML=rows.length
+      ? rows.map(row=>`<tr>
+          <td><strong>${row.name||'—'}</strong></td>
+          <td>${row.studentId||'—'}</td>
+          <td>${row.gender||'—'}</td>
+          <td>${row.college||'—'}</td>
+          <td>${row.rate ? row.rate+'%' : 'غير محددة'}</td>
+          <td>${typeof grantStatusBadge==='function'
+            ? grantStatusBadge(row.status)
+            : (row.status||'تحت المراجعة')}</td>
+        </tr>`).join('')
+      : '<tr><td colspan="6">لا توجد طلبات منح مطابقة.</td></tr>';
+
+    if(title)title.textContent=`المنح الرياضية — ${sportsDashboardStatusLabel(type,status)}`;
+    if(description)description.textContent='طلبات المنح الرياضية والإقرارات حسب حالة المراجعة والاعتماد.';
+  }
+
+  if(type==='reports'){
+    rows=(typeof evidence==='function' ? evidence() : [])
+      .filter(row=>gender==='all'||row.gender===gender)
+      .filter(row=>{
+        if(status==='all')return true;
+        const percent=typeof completionPercent==='function'
+          ? completionPercent(row)
+          : (row.reportFile&&row.scheduleFile ? 100 : 0);
+
+        return status==='complete' ? percent===100 : percent<100;
+      });
+
+    head.innerHTML=`<tr>
+      <th>اسم النشاط</th>
+      <th>التاريخ</th>
+      <th>الفئة</th>
+      <th>المجال الرئيسي</th>
+      <th>نسبة الاكتمال</th>
+      <th>حالة التوثيق</th>
+    </tr>`;
+
+    body.innerHTML=rows.length
+      ? rows.map(row=>{
+          const percent=typeof completionPercent==='function'
+            ? completionPercent(row)
+            : (row.reportFile&&row.scheduleFile ? 100 : 0);
+
+          return `<tr>
+            <td><strong>${row.activity||'—'}</strong></td>
+            <td>${row.date||'—'}</td>
+            <td>${row.gender||'—'}</td>
+            <td>${row.mainField||row.indicatorField||'—'}</td>
+            <td>${percent}%</td>
+            <td>
+              <span class="sports-doc-status ${percent===100?'complete':'incomplete'}">
+                ${percent===100?'مكتمل':'غير مكتمل'}
+              </span>
+            </td>
+          </tr>`;
+        }).join('')
+      : '<tr><td colspan="6">لا توجد تقارير مطابقة.</td></tr>';
+
+    const genderLabel=gender==='all'?'الطلاب والطالبات':gender;
+    if(title)title.textContent=`تقارير ${genderLabel} — ${sportsDashboardStatusLabel(type,status)}`;
+    if(description)description.textContent='سجلات الشواهد والتقارير حسب الفئة وحالة اكتمال التوثيق.';
+  }
+
+  document.querySelectorAll('[data-sports-dashboard-type]').forEach(button=>{
+    const active=
+      button.dataset.sportsDashboardType===type &&
+      (button.dataset.sportsDashboardStatus||'all')===status &&
+      (button.dataset.sportsDashboardGender||'all')===gender;
+
+    button.classList.toggle('active-dashboard-filter',active);
+  });
+}
+
+function setSportsDashboardFilter(type,status='all',gender='all'){
+  sportsDashboardFilter={type,status,gender};
+  renderSportsDashboardResults();
+
+  document.querySelector('.sports-dashboard-results-card')
+    ?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
 function renderSportsManagementDashboard(){
   const set=(id,value)=>{
     const element=document.getElementById(id);
@@ -4452,6 +4636,7 @@ function renderSportsManagementDashboard(){
   const sportsRequests=typeof R==='function'&&typeof K!=='undefined'
     ? R(K.sports)
     : [];
+
   const sportsAccepted=sportsRequests.filter(row=>row.status==='مقبول').length;
   const sportsRejected=sportsRequests.filter(row=>row.status==='مرفوض').length;
   const sportsPending=Math.max(
@@ -4492,6 +4677,7 @@ function renderSportsManagementDashboard(){
   );
 
   const rows=typeof evidence==='function' ? evidence() : [];
+
   const genderStats=gender=>{
     const genderRows=rows.filter(row=>row.gender===gender);
     const complete=genderRows.filter(row=>
@@ -4519,8 +4705,11 @@ function renderSportsManagementDashboard(){
 
   document.getElementById('sportsMaleDocsDonut')
     ?.style.setProperty('--p',male.percent);
+
   document.getElementById('sportsFemaleDocsDonut')
     ?.style.setProperty('--p',female.percent);
+
+  renderSportsDashboardResults();
 }
 
 function renderGeneralIndicator(){
@@ -6222,4 +6411,28 @@ window.addEventListener('DOMContentLoaded',()=>{
   console.info('SAH build 25.4 loaded');
   document.documentElement.dataset.sahBuild='25.4';
   setTimeout(()=>renderSportsManagementDashboard?.(),0);
+});
+
+
+/* SAH V25.5 — clean interactive Sports Management dashboard */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 25.5 loaded');
+  document.documentElement.dataset.sahBuild='25.5';
+
+  document.addEventListener('click',event=>{
+    const filter=event.target.closest('[data-sports-dashboard-type]');
+
+    if(filter){
+      setSportsDashboardFilter(
+        filter.dataset.sportsDashboardType,
+        filter.dataset.sportsDashboardStatus||'all',
+        filter.dataset.sportsDashboardGender||'all'
+      );
+      return;
+    }
+
+    if(event.target.closest('#sportsDashboardClearFilter')){
+      setSportsDashboardFilter('sports','all','all');
+    }
+  });
 });
