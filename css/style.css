@@ -8093,3 +8093,249 @@ body.theme-dark .agreement-table-head input{
   .scholarship-criteria-banner{align-items:flex-start;flex-wrap:wrap}
   .scholarship-criteria-banner>b{width:100%;text-align:center}
 }
+
+
+/* ==========================================================
+   SAH V24.9 — scholarship pies, full agreement form, grant KPI
+   ========================================================== */
+
+.agreement-layout{
+  grid-template-columns:1fr!important;
+}
+
+.scholarship-agreement-form{
+  width:100%;
+  max-width:none;
+}
+
+.agreement-form-grid{
+  grid-template-columns:repeat(4,minmax(0,1fr));
+}
+
+.agreement-file-field{
+  grid-column:auto;
+}
+
+.scholarship-pie-card{
+  min-height:300px!important;
+}
+
+.scholarship-pie-layout{
+  display:grid;
+  grid-template-columns:155px minmax(0,1fr);
+  align-items:center;
+  gap:15px;
+  margin-top:12px;
+}
+
+.scholarship-dynamic-pie{
+  position:relative;
+  width:150px;
+  height:150px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:conic-gradient(#e9eef6 0deg 360deg);
+}
+
+.scholarship-dynamic-pie::after{
+  content:"";
+  position:absolute;
+  inset:23px;
+  border-radius:50%;
+  background:#fff;
+}
+
+.scholarship-dynamic-pie>span{
+  position:relative;
+  z-index:1;
+  display:grid;
+  text-align:center;
+}
+
+.scholarship-dynamic-pie b{
+  color:var(--blue);
+  font-size:29px;
+  line-height:1;
+}
+
+.scholarship-dynamic-pie small{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.scholarship-pie-legend{
+  display:grid;
+  gap:7px;
+}
+
+.scholarship-pie-legend button{
+  display:grid;
+  grid-template-columns:10px minmax(55px,1fr) 32px 37px;
+  align-items:center;
+  gap:7px;
+  width:100%;
+  min-height:38px;
+  padding:7px 8px;
+  border:1px solid transparent;
+  border-radius:9px;
+  background:transparent;
+  color:var(--blue);
+  font-family:inherit;
+  text-align:right;
+  cursor:pointer;
+  transition:background .18s ease,border-color .18s ease;
+}
+
+.scholarship-pie-legend button:hover{
+  background:#f6f9fd;
+  border-color:#d8e3f0;
+}
+
+.scholarship-pie-legend i{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+}
+
+.scholarship-pie-legend span{
+  font-size:10px;
+  font-weight:800;
+}
+
+.scholarship-pie-legend b{
+  font-size:13px;
+}
+
+.scholarship-pie-legend small{
+  color:var(--muted);
+  font-size:9px;
+  text-align:left;
+}
+
+.general-grants-card{
+  min-height:275px;
+}
+
+.general-grants-layout{
+  display:grid;
+  grid-template-columns:145px minmax(0,1fr);
+  align-items:center;
+  gap:17px;
+  margin-top:16px;
+}
+
+.general-grants-donut{
+  position:relative;
+  width:140px;
+  height:140px;
+  display:grid;
+  place-items:center;
+  border:0;
+  border-radius:50%;
+  background:conic-gradient(#e2ad39 0deg 360deg);
+  cursor:pointer;
+}
+
+.general-grants-donut::after{
+  content:"";
+  position:absolute;
+  inset:21px;
+  border-radius:50%;
+  background:#fff;
+}
+
+.general-grants-donut>span{
+  position:relative;
+  z-index:1;
+  display:grid;
+  text-align:center;
+}
+
+.general-grants-donut b{
+  color:var(--blue);
+  font-size:28px;
+  line-height:1;
+}
+
+.general-grants-donut small{
+  margin-top:4px;
+  color:var(--muted);
+  font-size:8px;
+}
+
+.general-grants-legend{
+  display:grid;
+  gap:8px;
+}
+
+.general-grants-legend button{
+  display:grid;
+  grid-template-columns:10px 1fr auto;
+  align-items:center;
+  gap:7px;
+  min-height:41px;
+  padding:8px 10px;
+  border:1px solid #dce5ef;
+  border-radius:11px;
+  background:#f8fbff;
+  color:var(--blue);
+  font-family:inherit;
+  text-align:right;
+  cursor:pointer;
+}
+
+.general-grants-legend i{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+}
+
+.general-grants-legend i.accepted{background:#08764e}
+.general-grants-legend i.rejected{background:#ad2348}
+.general-grants-legend i.pending{background:#e2ad39}
+
+.general-grants-legend span{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.general-grants-legend b{
+  font-size:15px;
+}
+
+body.theme-dark .scholarship-dynamic-pie::after,
+body.theme-dark .general-grants-donut::after{
+  background:#061c3d;
+}
+
+body.theme-dark .scholarship-pie-legend button:hover,
+body.theme-dark .general-grants-legend button{
+  background:rgba(255,255,255,.05);
+  border-color:var(--border);
+}
+
+@media(max-width:1150px){
+  .agreement-form-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:760px){
+  .scholarship-pie-layout,
+  .general-grants-layout{
+    grid-template-columns:1fr;
+  }
+
+  .scholarship-dynamic-pie,
+  .general-grants-donut{
+    justify-self:center;
+  }
+}
+
+@media(max-width:560px){
+  .agreement-form-grid{
+    grid-template-columns:1fr;
+  }
+}

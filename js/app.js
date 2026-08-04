@@ -4366,6 +4366,20 @@ function renderGeneralIndicator(){
     row=>row.status==='مقبول'
   ).length;
 
+  const grantApplications=typeof grantRows==='function'
+    ? grantRows()
+    : [];
+  const grantsAccepted=grantApplications.filter(
+    row=>row.status==='معتمد نهائيًا'
+  ).length;
+  const grantsRejected=grantApplications.filter(
+    row=>row.status==='مرفوض'||row.status==='مرفوض من العمادة'
+  ).length;
+  const grantsPending=Math.max(
+    0,
+    grantApplications.length-grantsAccepted-grantsRejected
+  );
+
   const stats=window.SAH_DATA?.stats||{};
   const championships=(window.SAH_DATA?.championships||[]).length;
 
@@ -4400,6 +4414,24 @@ function renderGeneralIndicator(){
 
   set('generalVolunteerCount',volunteerRows.length);
   set('generalVolunteerApproved',`${volunteerApproved} معتمدة`);
+
+  set('generalGrantsTotal',grantApplications.length);
+  set('generalGrantsAccepted',grantsAccepted);
+  set('generalGrantsRejected',grantsRejected);
+  set('generalGrantsPending',grantsPending);
+
+  const generalGrantsDonut=document.getElementById('generalGrantsDonut');
+  if(generalGrantsDonut){
+    const total=Math.max(1,grantApplications.length);
+    const acceptedDeg=grantsAccepted/total*360;
+    const rejectedDeg=grantsRejected/total*360;
+    generalGrantsDonut.style.background=`
+      conic-gradient(
+        #08764e 0 ${acceptedDeg}deg,
+        #ad2348 ${acceptedDeg}deg ${acceptedDeg+rejectedDeg}deg,
+        #e2ad39 ${acceptedDeg+rejectedDeg}deg 360deg
+      )`;
+  }
 
   set('generalPendingRequests',pending);
   set('generalApprovalRate',`${approvalRate}% نسبة الموافقة`);
@@ -4502,24 +4534,53 @@ function renderGeneralIndicator(){
 
 
 const GRANT_DEMO_ROWS=[
- {id:'grant-demo-1',name:'أحمد خالد العتيبي',nationalId:'1098765432',nationality:'سعودي',studentId:'20261001',mobile:'0501112233',gender:'طلاب',college:'CBA',identityFile:'identity-ahmed.pdf',signature:'أحمد خالد العتيبي',agreementStatus:'مكتمل',rate:20,status:'تحت المراجعة',submittedAt:'2026-08-01'},
- {id:'grant-demo-2',name:'سارة محمد الحربي',nationalId:'1087654321',nationality:'سعودية',studentId:'20261002',mobile:'0502223344',gender:'طالبات',college:'JCA',identityFile:'identity-sarah.pdf',signature:'سارة محمد الحربي',agreementStatus:'مكتمل',rate:30,status:'محال للعمادة',submittedAt:'2026-08-02'},
- {id:'grant-demo-3',name:'عمر فهد الزهراني',nationalId:'1076543210',nationality:'سعودي',studentId:'20261003',mobile:'0503334455',gender:'طلاب',college:'JCE',identityFile:'identity-omar.pdf',signature:'عمر فهد الزهراني',agreementStatus:'مكتمل',rate:10,status:'معتمد نهائيًا',submittedAt:'2026-08-02'},
- {id:'grant-demo-4',name:'نورة عبدالله القحطاني',nationalId:'1065432109',nationality:'سعودية',studentId:'20261004',mobile:'0504445566',gender:'طالبات',college:'JCL',identityFile:'identity-noura.pdf',signature:'نورة عبدالله القحطاني',agreementStatus:'مكتمل',rate:20,status:'مرفوض',reason:'عدم اكتمال أحد شروط الاستحقاق',submittedAt:'2026-08-03'},
- {id:'grant-demo-5',name:'خالد سعد الغامدي',nationalId:'1054321098',nationality:'سعودي',studentId:'20261005',mobile:'0505556677',gender:'طلاب',college:'CBA',identityFile:'identity-khaled.pdf',signature:'خالد سعد الغامدي',agreementStatus:'مكتمل',rate:0,status:'تحت المراجعة',submittedAt:'2026-08-03'},
- {id:'grant-demo-6',name:'ريم علي الشريف',nationalId:'1043210987',nationality:'سعودية',studentId:'20261006',mobile:'0506667788',gender:'طالبات',college:'JCA',identityFile:'identity-reem.pdf',signature:'ريم علي الشريف',agreementStatus:'مكتمل',rate:30,status:'مرفوض من العمادة',reason:'النسبة المقترحة تحتاج مراجعة إضافية',submittedAt:'2026-08-04'}
+ {id:'grant-demo-1',name:'فلان الفلاني',nationalId:'1098765432',nationality:'سعودي',studentId:'20260001',mobile:'0501112233',gender:'طلاب',college:'CBA',identityFile:'identity-ahmed.pdf',signature:'أحمد خالد العتيبي',agreementStatus:'مكتمل',rate:20,status:'تحت المراجعة',submittedAt:'2026-08-01',ownerRole:'student_account'},
+ {id:'grant-demo-2',name:'سارة محمد الحربي',nationalId:'1087654321',nationality:'سعودية',studentId:'20261002',mobile:'0502223344',gender:'طالبات',college:'JCA',identityFile:'identity-sarah.pdf',signature:'سارة محمد الحربي',agreementStatus:'مكتمل',rate:30,status:'محال للعمادة',submittedAt:'2026-08-02',ownerRole:'sports_manager'},
+ {id:'grant-demo-3',name:'عمر فهد الزهراني',nationalId:'1076543210',nationality:'سعودي',studentId:'20261003',mobile:'0503334455',gender:'طلاب',college:'JCE',identityFile:'identity-omar.pdf',signature:'عمر فهد الزهراني',agreementStatus:'مكتمل',rate:10,status:'معتمد نهائيًا',submittedAt:'2026-08-02',ownerRole:'coach'},
+ {id:'grant-demo-4',name:'نورة عبدالله القحطاني',nationalId:'1065432109',nationality:'سعودية',studentId:'20261004',mobile:'0504445566',gender:'طالبات',college:'JCL',identityFile:'identity-noura.pdf',signature:'نورة عبدالله القحطاني',agreementStatus:'مكتمل',rate:20,status:'مرفوض',reason:'عدم اكتمال أحد شروط الاستحقاق',submittedAt:'2026-08-03',ownerRole:'faculty'},
+ {id:'grant-demo-5',name:'خالد سعد الغامدي',nationalId:'1054321098',nationality:'سعودي',studentId:'20261005',mobile:'0505556677',gender:'طلاب',college:'CBA',identityFile:'identity-khaled.pdf',signature:'خالد سعد الغامدي',agreementStatus:'مكتمل',rate:0,status:'تحت المراجعة',submittedAt:'2026-08-03',ownerRole:'activities_manager'},
+ {id:'grant-demo-6',name:'ريم علي الشريف',nationalId:'1043210987',nationality:'سعودية',studentId:'20261006',mobile:'0506667788',gender:'طالبات',college:'JCA',identityFile:'identity-reem.pdf',signature:'ريم علي الشريف',agreementStatus:'مكتمل',rate:30,status:'مرفوض من العمادة',reason:'النسبة المقترحة تحتاج مراجعة إضافية',submittedAt:'2026-08-04',ownerRole:'dean'}
 ];
 
 function seedGrantApplications(){
  const current=R(K.grants);
- if(current.length)return current;
+
+ if(current.length){
+   const roleCycle=[
+     'student_account','sports_manager','coach',
+     'faculty','activities_manager','dean'
+   ];
+   let changed=false;
+
+   current.forEach((row,index)=>{
+     if(!row.ownerRole){
+       row.ownerRole=roleCycle[index%roleCycle.length];
+       changed=true;
+     }
+   });
+
+   if(changed)W(K.grants,current);
+   return current;
+ }
+
  W(K.grants,GRANT_DEMO_ROWS);
  return GRANT_DEMO_ROWS;
+}
+
+function currentGrantAccountRole(){
+ return document.getElementById('activeRole')?.value ||
+   localStorage.getItem('sah-v15-role') ||
+   'system';
 }
 
 function grantRows(){
  seedGrantApplications();
  return R(K.grants);
+}
+
+function accountGrantRows(){
+ const role=currentGrantAccountRole();
+ return grantRows().filter(row=>row.ownerRole===role);
 }
 
 function grantStatusBadge(status){
@@ -4550,36 +4611,68 @@ function renderGrantDashboard(){
    '--male',`${total?males.length/total*360:0}deg`
  );
 
+ const chartColors=['#1769c2','#18a7bd','#7a4bc5','#d28a19','#ad2348'];
+
+ const renderPie=(pieId,totalId,legendId,entries,filterAttribute)=>{
+   const total=entries.reduce((sum,[,count])=>sum+count,0);
+   const pie=document.getElementById(pieId);
+   const totalElement=document.getElementById(totalId);
+   const legend=document.getElementById(legendId);
+
+   if(totalElement)totalElement.textContent=total;
+
+   if(pie){
+     if(!total){
+       pie.style.background='conic-gradient(#e9eef6 0deg 360deg)';
+     }else{
+       let start=0;
+       const segments=entries.map(([,count],index)=>{
+         const end=start+(count/total*360);
+         const segment=`${chartColors[index%chartColors.length]} ${start.toFixed(2)}deg ${end.toFixed(2)}deg`;
+         start=end;
+         return segment;
+       });
+       pie.style.background=`conic-gradient(${segments.join(',')})`;
+     }
+   }
+
+   if(legend){
+     legend.innerHTML=entries.map(([label,count],index)=>{
+       const percent=total?Math.round(count/total*100):0;
+       return `<button type="button" ${filterAttribute}="${label}">
+         <i style="background:${chartColors[index%chartColors.length]}"></i>
+         <span>${label}${filterAttribute.includes('rate')?'%':''}</span>
+         <b>${count}</b>
+         <small>${percent}%</small>
+       </button>`;
+     }).join('');
+   }
+ };
+
  const discountCounts={10:0,20:0,30:0};
  rows.forEach(row=>{
    const rate=Number(row.rate)||0;
    if(rate in discountCounts)discountCounts[rate]++;
  });
- const maxDiscount=Math.max(1,...Object.values(discountCounts));
- const discountChart=document.getElementById('scholarDiscountChart');
- if(discountChart){
-   discountChart.innerHTML=Object.entries(discountCounts).map(([rate,count])=>`
-     <button type="button" data-scholar-filter-rate="${rate}">
-       <span>${rate}%</span>
-       <i><b style="width:${Math.round(count/maxDiscount*100)}%"></b></i>
-       <strong>${count}</strong>
-     </button>`).join('');
- }
+ renderPie(
+   'scholarDiscountPie',
+   'scholarDiscountPieTotal',
+   'scholarDiscountChart',
+   Object.entries(discountCounts),
+   'data-scholar-filter-rate'
+ );
 
  const collegeCounts={JCA:0,CBA:0,JCE:0,JCL:0};
  rows.forEach(row=>{
    if(row.college in collegeCounts)collegeCounts[row.college]++;
  });
- const maxCollege=Math.max(1,...Object.values(collegeCounts));
- const collegeChart=document.getElementById('scholarCollegeChart');
- if(collegeChart){
-   collegeChart.innerHTML=Object.entries(collegeCounts).map(([college,count])=>`
-     <button type="button" data-scholar-filter-college="${college}">
-       <span>${college}</span>
-       <i><b style="width:${Math.round(count/maxCollege*100)}%"></b></i>
-       <strong>${count}</strong>
-     </button>`).join('');
- }
+ renderPie(
+   'scholarCollegePie',
+   'scholarCollegePieTotal',
+   'scholarCollegeChart',
+   Object.entries(collegeCounts),
+   'data-scholar-filter-college'
+ );
 }
 
 let grantGenderFilter='all';
@@ -4690,7 +4783,7 @@ function renderAgreementSubmissions(){
  const body=document.getElementById('agreementRows');
  if(!body)return;
  const query=document.getElementById('agreementSearch')?.value||'';
- const rows=grantRows().filter(row=>match(row,query));
+ const rows=accountGrantRows().filter(row=>match(row,query));
  body.innerHTML=rows.length?rows.map(row=>`<tr>
    <td>${row.name}</td><td>${row.nationalId}</td><td>${row.nationality}</td>
    <td>${row.studentId}</td><td>${row.mobile}</td><td>${row.gender}</td>
@@ -4809,7 +4902,8 @@ function initGrantWorkflow(){
      rate:0,
      status:'تحت المراجعة',
      reason:'',
-     submittedAt:new Date().toISOString().slice(0,10)
+     submittedAt:new Date().toISOString().slice(0,10),
+     ownerRole:currentGrantAccountRole()
    };
    const rows=grantRows(); rows.unshift(row); W(K.grants,rows);
    event.currentTarget.reset();
@@ -5738,4 +5832,21 @@ window.addEventListener('DOMContentLoaded',()=>{
   console.info('SAH build 24.8 loaded');
   document.documentElement.dataset.sahBuild='24.8';
   initGrantWorkflow();
+});
+
+
+/* SAH V24.9 — account-scoped agreements and scholarship pies */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 24.9 loaded');
+  document.documentElement.dataset.sahBuild='24.9';
+
+  document.getElementById('activeRole')?.addEventListener('change',()=>{
+    renderAgreementSubmissions();
+    renderGeneralIndicator();
+  });
+
+  document.getElementById('mobileActiveRole')?.addEventListener('change',()=>{
+    renderAgreementSubmissions();
+    renderGeneralIndicator();
+  });
 });

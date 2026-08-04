@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>Student Activities Platform | UBT</title>
-<link rel="stylesheet" href="css/style.css?v=24.8">
+<link rel="stylesheet" href="css/style.css?v=24.9">
 
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
@@ -71,7 +71,7 @@
 </style>
 
 </head>
-<body data-sah-version="24.8" class="login-mode">
+<body data-sah-version="24.9" class="login-mode">
 <section id="login" class="login-page">
   <div class="login-bg"></div>
   <div class="login-card">
@@ -437,6 +437,48 @@
           </div>
         </article>
 
+        <article class="card general-chart-card general-grants-card">
+          <div class="general-chart-head">
+            <div>
+              <span>طلبات المنح الرياضية</span>
+              <h3>حالة المنح المقدمة</h3>
+            </div>
+            <button class="general-chart-link" type="button" data-route="scholarships">
+              إدارة المنح ←
+            </button>
+          </div>
+
+          <div class="general-grants-layout">
+            <button class="general-grants-donut"
+                    id="generalGrantsDonut"
+                    type="button"
+                    data-route="scholarships">
+              <span>
+                <b id="generalGrantsTotal">0</b>
+                <small>طلب منحة</small>
+              </span>
+            </button>
+
+            <div class="general-grants-legend">
+              <button type="button" data-route="scholarships">
+                <i class="accepted"></i>
+                <span>موافق عليها</span>
+                <b id="generalGrantsAccepted">0</b>
+              </button>
+              <button type="button" data-route="scholarships">
+                <i class="rejected"></i>
+                <span>مرفوضة</span>
+                <b id="generalGrantsRejected">0</b>
+              </button>
+              <button type="button" data-route="scholarships">
+                <i class="pending"></i>
+                <span>تحت المراجعة</span>
+                <b id="generalGrantsPending">0</b>
+              </button>
+            </div>
+          </div>
+        </article>
+
         <article class="card general-chart-card general-requests-card">
           <div class="general-chart-head">
             <div>
@@ -644,18 +686,28 @@
           </div>
         </article>
 
-        <article class="card scholarship-discount-card">
+        <article class="card scholarship-discount-card scholarship-pie-card">
           <div class="scholarship-card-head">
             <div><span>توزيع المنح</span><h4>حسب النسبة المستحقة</h4></div>
           </div>
-          <div id="scholarDiscountChart" class="scholarship-click-bars"></div>
+          <div class="scholarship-pie-layout">
+            <div class="scholarship-dynamic-pie" id="scholarDiscountPie">
+              <span><b id="scholarDiscountPieTotal">0</b><small>طلب</small></span>
+            </div>
+            <div id="scholarDiscountChart" class="scholarship-pie-legend"></div>
+          </div>
         </article>
 
-        <article class="card scholarship-college-card">
+        <article class="card scholarship-college-card scholarship-pie-card">
           <div class="scholarship-card-head">
             <div><span>التوزيع الأكاديمي</span><h4>حسب الكلية</h4></div>
           </div>
-          <div id="scholarCollegeChart" class="scholarship-click-bars"></div>
+          <div class="scholarship-pie-layout">
+            <div class="scholarship-dynamic-pie" id="scholarCollegePie">
+              <span><b id="scholarCollegePieTotal">0</b><small>طلب</small></span>
+            </div>
+            <div id="scholarCollegeChart" class="scholarship-pie-legend"></div>
+          </div>
         </article>
       </div>
 
@@ -759,17 +811,7 @@
             إرسال الإقرار للمراجعة
           </button>
         </form>
-
-        <article class="card agreement-preview-card">
-          <div class="agreement-preview-head">
-            <div><span>المرفق الرسمي</span><h3>نموذج الإقرار والتعهد</h3></div>
-            <a class="btn outline" href="assets/docs/scholarship-agreement.pdf" target="_blank">
-              فتح كامل
-            </a>
-          </div>
-          <iframe class="pdf-frame criteria-frame" src="assets/docs/scholarship-agreement.pdf"></iframe>
-        </article>
-      </div>
+</div>
 
       <div class="card table-card agreement-submissions-card">
         <div class="agreement-table-head">
@@ -1748,6 +1790,6 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=24.8"></script>
+<script src="js/app.js?v=24.9"></script>
 </body>
 </html>
