@@ -6682,3 +6682,10 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.documentElement.dataset.sahBuild='26.8';
   console.info('SAH build 26.8 loaded');
 });
+
+
+/* SAH V26.9 — identical header positions in both languages */
+window.addEventListener('DOMContentLoaded',()=>{
+  document.documentElement.dataset.sahBuild='26.9';
+  console.info('SAH build 26.9 loaded');
+});

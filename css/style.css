@@ -10209,32 +10209,6 @@ html[lang="en"] .topbar #activeRole{
 }
 
 
-/* ==========================================================
-   SAH V26.8 — final fixed header positions
-   Left: UBT + DSA logos
-   Center: platform title
-   Right: language + role + user name + avatar
-   Same physical positions in Arabic and English
-   ========================================================== */
-
-.topbar{
-  position:sticky!important;
-  top:0!important;
-  z-index:60!important;
-  display:grid!important;
-  grid-template-columns:360px minmax(360px,1fr) minmax(620px,auto)!important;
-  grid-template-areas:"logos title account"!important;
-  align-items:center!important;
-  gap:22px!important;
-  min-height:118px!important;
-  height:auto!important;
-  margin:0!important;
-  padding:16px 24px!important;
-  border-radius:0!important;
-  direction:ltr!important;
-  overflow:visible!important;
-}
-
 /* LEFT: fixed-size logos */
 .topbar .brand-left{
   grid-area:logos!important;
@@ -10591,5 +10565,431 @@ html[lang="en"] .topbar #activeRole{
     width:100%!important;
     min-width:0!important;
     max-width:none!important;
+  }
+}
+
+
+/* ==========================================================
+   SAH V26.9 — identical physical header in Arabic and English
+   Physical order is always:
+   LEFT logos | CENTER platform title | RIGHT controls + avatar
+   ========================================================== */
+
+.topbar{
+  position:sticky!important;
+  top:0!important;
+  z-index:60!important;
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:22px!important;
+  min-height:118px!important;
+  width:100%!important;
+  padding:16px 24px!important;
+  margin:0!important;
+  direction:ltr!important;
+  overflow:visible!important;
+  box-sizing:border-box!important;
+}
+
+/* LEFT — UBT + DSA, always physically left */
+.topbar .brand-left{
+  order:1!important;
+  display:flex!important;
+  flex:0 0 360px!important;
+  width:360px!important;
+  min-width:360px!important;
+  max-width:360px!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:18px!important;
+  margin:0!important;
+  direction:ltr!important;
+}
+
+.topbar .brand-left .ubt{
+  display:block!important;
+  width:150px!important;
+  height:68px!important;
+  min-width:150px!important;
+  max-width:150px!important;
+  flex:0 0 150px!important;
+  object-fit:contain!important;
+}
+
+.topbar .brand-left .dsa{
+  display:block!important;
+  width:176px!important;
+  height:58px!important;
+  min-width:176px!important;
+  max-width:176px!important;
+  flex:0 0 176px!important;
+  object-fit:contain!important;
+}
+
+/* CENTER — platform title, always physically centered */
+.topbar .brand-title{
+  order:2!important;
+  flex:1 1 auto!important;
+  min-width:340px!important;
+  max-width:none!important;
+  margin:0!important;
+  text-align:center!important;
+  align-self:center!important;
+  direction:ltr!important;
+}
+
+.topbar .brand-title h1{
+  margin:0!important;
+  color:var(--blue)!important;
+  font-size:32px!important;
+  line-height:1.15!important;
+  white-space:nowrap!important;
+  text-align:center!important;
+}
+
+.topbar .brand-title p{
+  margin:5px 0 0!important;
+  color:var(--muted)!important;
+  font-size:14px!important;
+  white-space:nowrap!important;
+  text-align:center!important;
+}
+
+/* RIGHT — language, role selector, user identity, avatar */
+.topbar .topbar-right{
+  order:3!important;
+  display:flex!important;
+  flex-direction:row!important;
+  flex:0 0 650px!important;
+  width:650px!important;
+  min-width:650px!important;
+  max-width:650px!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:12px!important;
+  margin:0!important;
+  direction:ltr!important;
+  overflow:visible!important;
+}
+
+.topbar .app-controls{
+  order:1!important;
+  display:flex!important;
+  flex:0 0 52px!important;
+  width:52px!important;
+  min-width:52px!important;
+  max-width:52px!important;
+  align-items:center!important;
+  justify-content:center!important;
+  margin:0!important;
+}
+
+.topbar #langToggle{
+  position:static!important;
+  inset:auto!important;
+  transform:none!important;
+  display:grid!important;
+  place-items:center!important;
+  width:52px!important;
+  height:52px!important;
+  min-width:52px!important;
+  min-height:52px!important;
+  max-width:52px!important;
+  max-height:52px!important;
+  flex:0 0 52px!important;
+  margin:0!important;
+  border-radius:16px!important;
+  box-sizing:border-box!important;
+}
+
+.topbar .role-switcher{
+  order:2!important;
+  display:grid!important;
+  flex:0 0 300px!important;
+  width:300px!important;
+  min-width:300px!important;
+  max-width:300px!important;
+  gap:4px!important;
+  margin:0!important;
+}
+
+.topbar .role-switcher label{
+  margin:0!important;
+  font-size:10px!important;
+  line-height:1.2!important;
+  color:var(--muted)!important;
+}
+
+.topbar #activeRole{
+  display:block!important;
+  width:300px!important;
+  min-width:300px!important;
+  max-width:300px!important;
+  height:48px!important;
+  margin:0!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+  box-sizing:border-box!important;
+}
+
+.topbar .user-chip{
+  order:3!important;
+  display:flex!important;
+  flex-direction:row!important;
+  flex:0 0 262px!important;
+  width:262px!important;
+  min-width:262px!important;
+  max-width:262px!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:11px!important;
+  margin:0!important;
+  direction:ltr!important;
+  overflow:visible!important;
+}
+
+.topbar .user-chip>div:first-child{
+  flex:1 1 auto!important;
+  min-width:0!important;
+  max-width:195px!important;
+  overflow:hidden!important;
+}
+
+.topbar .user-chip strong,
+.topbar .user-chip span{
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+  white-space:nowrap!important;
+}
+
+/* Avatar is always the far-right element and a true circle */
+.topbar .user-chip .avatar,
+.topbar #activeUserAvatar{
+  order:2!important;
+  display:grid!important;
+  place-items:center!important;
+  flex:0 0 56px!important;
+  width:56px!important;
+  height:56px!important;
+  min-width:56px!important;
+  min-height:56px!important;
+  max-width:56px!important;
+  max-height:56px!important;
+  aspect-ratio:1 / 1!important;
+  padding:0!important;
+  margin:0!important;
+  border-radius:999px!important;
+  line-height:1!important;
+  font-size:20px!important;
+  box-sizing:border-box!important;
+  overflow:hidden!important;
+}
+
+/* Arabic text direction only — physical positions never change */
+html[lang="ar"] .topbar .brand-title p,
+html[lang="ar"] .topbar .role-switcher,
+html[lang="ar"] .topbar .user-chip>div:first-child{
+  direction:rtl!important;
+  text-align:right!important;
+}
+
+html[lang="ar"] .topbar .role-switcher label{
+  text-align:right!important;
+}
+
+html[lang="ar"] .topbar #activeRole{
+  direction:rtl!important;
+  text-align:right!important;
+  padding:10px 14px 10px 38px!important;
+}
+
+/* English text direction only — same physical positions */
+html[lang="en"] .topbar .brand-title p,
+html[lang="en"] .topbar .role-switcher,
+html[lang="en"] .topbar .user-chip>div:first-child{
+  direction:ltr!important;
+  text-align:left!important;
+}
+
+html[lang="en"] .topbar .role-switcher label{
+  text-align:left!important;
+}
+
+html[lang="en"] .topbar #activeRole{
+  direction:ltr!important;
+  text-align:left!important;
+  padding:10px 38px 10px 14px!important;
+}
+
+/* Medium desktop */
+@media(max-width:1450px){
+  .topbar{
+    gap:16px!important;
+    padding-inline:18px!important;
+  }
+
+  .topbar .brand-left{
+    flex-basis:310px!important;
+    width:310px!important;
+    min-width:310px!important;
+    max-width:310px!important;
+    gap:14px!important;
+  }
+
+  .topbar .brand-left .ubt{
+    width:132px!important;
+    height:60px!important;
+    min-width:132px!important;
+    max-width:132px!important;
+    flex-basis:132px!important;
+  }
+
+  .topbar .brand-left .dsa{
+    width:158px!important;
+    height:52px!important;
+    min-width:158px!important;
+    max-width:158px!important;
+    flex-basis:158px!important;
+  }
+
+  .topbar .brand-title h1{
+    font-size:28px!important;
+  }
+
+  .topbar .topbar-right{
+    flex-basis:570px!important;
+    width:570px!important;
+    min-width:570px!important;
+    max-width:570px!important;
+  }
+
+  .topbar .role-switcher,
+  .topbar #activeRole{
+    flex-basis:270px!important;
+    width:270px!important;
+    min-width:270px!important;
+    max-width:270px!important;
+  }
+
+  .topbar .user-chip{
+    flex-basis:224px!important;
+    width:224px!important;
+    min-width:224px!important;
+    max-width:224px!important;
+  }
+
+  .topbar .user-chip>div:first-child{
+    max-width:157px!important;
+  }
+}
+
+/* Tablet — same logical order, controls wrap beneath */
+@media(max-width:1120px){
+  .topbar{
+    flex-wrap:wrap!important;
+  }
+
+  .topbar .brand-left{
+    flex:0 0 310px!important;
+  }
+
+  .topbar .brand-title{
+    flex:1 1 calc(100% - 340px)!important;
+  }
+
+  .topbar .topbar-right{
+    flex:1 1 100%!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:none!important;
+    justify-content:flex-end!important;
+  }
+}
+
+/* Mobile */
+@media(max-width:700px){
+  .topbar{
+    flex-direction:column!important;
+    align-items:stretch!important;
+    min-height:auto!important;
+    padding:12px!important;
+  }
+
+  .topbar .brand-left{
+    order:1!important;
+    flex:0 0 auto!important;
+    width:auto!important;
+    min-width:0!important;
+    max-width:none!important;
+    align-self:flex-start!important;
+  }
+
+  .topbar .brand-left .ubt{
+    width:112px!important;
+    height:50px!important;
+    min-width:112px!important;
+    max-width:112px!important;
+    flex-basis:112px!important;
+  }
+
+  .topbar .brand-left .dsa{
+    width:136px!important;
+    height:46px!important;
+    min-width:136px!important;
+    max-width:136px!important;
+    flex-basis:136px!important;
+  }
+
+  .topbar .brand-title{
+    order:2!important;
+    flex:0 0 auto!important;
+    min-width:0!important;
+    width:100%!important;
+  }
+
+  .topbar .brand-title h1{
+    font-size:23px!important;
+    white-space:normal!important;
+  }
+
+  .topbar .topbar-right{
+    order:3!important;
+    display:grid!important;
+    grid-template-columns:52px 1fr!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:none!important;
+    gap:10px!important;
+  }
+
+  .topbar .user-chip{
+    grid-column:1/-1!important;
+    grid-row:1!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:none!important;
+    justify-self:stretch!important;
+  }
+
+  .topbar .role-switcher{
+    grid-column:2!important;
+    grid-row:2!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:none!important;
+  }
+
+  .topbar #activeRole{
+    width:100%!important;
+    min-width:0!important;
+    max-width:none!important;
+  }
+
+  .topbar .app-controls{
+    grid-column:1!important;
+    grid-row:2!important;
   }
 }
