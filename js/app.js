@@ -6461,3 +6461,12 @@ window.addEventListener('DOMContentLoaded',()=>{
   localStorage.removeItem('sah-theme');
   translateStatic(document.documentElement.lang||'ar');
 });
+
+
+/* SAH V26.1 — layout recovery and permanent light mode */
+window.addEventListener('DOMContentLoaded',()=>{
+  document.body.classList.remove('theme-dark');
+  localStorage.removeItem('sah-theme');
+  document.documentElement.dataset.sahBuild='26.1';
+  console.info('SAH build 26.1 loaded');
+});
