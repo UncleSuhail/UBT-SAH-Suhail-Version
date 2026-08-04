@@ -2977,7 +2977,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
 (function(){
 'use strict';
 const CAT=["الأنشطة التوعوية","الأنشطة و البرامج المجتمعية و التطوعية","الأنشطة الثقافية","الأنشطة العلمية","الأنشطة الفنية","الأنشطة الرياضية","البرامج التدريبية","برامج عامة على مستوى الجامعة"];
-const K={sports:'sah-v22-sports',clubs:'sah-v22-clubs',clubEvents:'sah-v22-club-events',vol:'sah-v22-vol',apps:'sah-v22-apps'};
+const K={sports:'sah-v22-sports',clubs:'sah-v22-clubs',clubEvents:'sah-v22-club-events',vol:'sah-v22-vol',apps:'sah-v22-apps',grants:'sah-v24-8-grant-applications'};
 const CLUB_REGISTRY_KEY='sah-v23-4-club-registry';
 const CLUB_DELETED_KEY='sah-v23-4-deleted-clubs';
 const DEFAULT_CLUB_REGISTRY=[{"name": "نادي الأمن السيبراني", "activities": ["مسابقة التقاط العلم", "ورشة الأمن الرقمي", "معسكر اختبار الاختراق"]}, {"name": "نادي البرمجة", "activities": ["هاكاثون البرمجة", "ورشة تطوير الويب", "تحدي الخوارزميات", "لقاء مطوري التطبيقات"]}, {"name": "نادي التنمية المستدامة", "activities": ["حملة الجامعة الخضراء", "مبادرة إعادة التدوير"]}, {"name": "نادي الهندسة المعمارية", "activities": ["معرض التصاميم المعمارية", "ورشة النمذجة ثلاثية الأبعاد"]}, {"name": "نادي الهندسة المدنية", "activities": ["زيارة مشروع إنشائي", "مسابقة الجسور المصغرة", "محاضرة البنية التحتية"]}, {"name": "نادي ريادة الأعمال", "activities": ["معسكر بناء المشاريع", "لقاء رواد الأعمال", "مسابقة نموذج العمل", "جلسة الاستثمار الجريء"]}, {"name": "نادي إدارة الأعمال", "activities": ["محاكاة إدارة الشركات", "ورشة القيادة الإدارية"]}, {"name": "نادي المالية", "activities": ["تحدي المحفظة الاستثمارية", "ورشة الثقافة المالية", "ملتقى الأسواق المالية"]}, {"name": "نادي المحاسبة", "activities": ["مسابقة المحاسب الواعد", "ورشة المعايير المحاسبية"]}];
@@ -3365,7 +3365,9 @@ function allReq(){return[
  ...R(K.sports).map(x=>({...x,store:K.sports,kind:'بطولة/حدث رياضي'})),
  ...R(K.clubs).map(x=>({...x,store:K.clubs,kind:'تسجيل نادي جديد'})),
  ...R(K.clubEvents).map(x=>({...x,store:K.clubEvents,kind:'مبادرة/فعالية نادي'})),
- ...R(K.vol).map(x=>({...x,store:K.vol,kind:'فرصة تطوعية'}))
+ ...R(K.vol).map(x=>({...x,store:K.vol,kind:'فرصة تطوعية'})),
+ ...R(K.grants).filter(x=>x.status==='محال للعمادة'||x.status==='معتمد نهائيًا'||x.status==='مرفوض من العمادة')
+   .map(x=>({...x,store:K.grants,kind:'طلب اعتماد منحة رياضية',name:x.name,date:x.submittedAt,gender:x.gender}))
 ]}
 function push(k,o){const a=R(k);a.push(o);W(k,a);renderAll();showToast?.('تم إرسال الطلب وحالته تحت المراجعة.')}
 function evidence(){return window.getFilteredEvidence?window.getFilteredEvidence():(window.SAH_DATA?.evidenceRecords||[])}
@@ -4498,7 +4500,339 @@ function renderGeneralIndicator(){
   }
 }
 
-function renderAll(){tables();student();applicants();approvals();populateClubEventSelect();renderRegisteredClubs();renderGeneralIndicator();const b=document.querySelector('[data-event-category].active');if(b)renderCategory(b.dataset.eventCategory)}
+
+const GRANT_DEMO_ROWS=[
+ {id:'grant-demo-1',name:'أحمد خالد العتيبي',nationalId:'1098765432',nationality:'سعودي',studentId:'20261001',mobile:'0501112233',gender:'طلاب',college:'CBA',identityFile:'identity-ahmed.pdf',signature:'أحمد خالد العتيبي',agreementStatus:'مكتمل',rate:20,status:'تحت المراجعة',submittedAt:'2026-08-01'},
+ {id:'grant-demo-2',name:'سارة محمد الحربي',nationalId:'1087654321',nationality:'سعودية',studentId:'20261002',mobile:'0502223344',gender:'طالبات',college:'JCA',identityFile:'identity-sarah.pdf',signature:'سارة محمد الحربي',agreementStatus:'مكتمل',rate:30,status:'محال للعمادة',submittedAt:'2026-08-02'},
+ {id:'grant-demo-3',name:'عمر فهد الزهراني',nationalId:'1076543210',nationality:'سعودي',studentId:'20261003',mobile:'0503334455',gender:'طلاب',college:'JCE',identityFile:'identity-omar.pdf',signature:'عمر فهد الزهراني',agreementStatus:'مكتمل',rate:10,status:'معتمد نهائيًا',submittedAt:'2026-08-02'},
+ {id:'grant-demo-4',name:'نورة عبدالله القحطاني',nationalId:'1065432109',nationality:'سعودية',studentId:'20261004',mobile:'0504445566',gender:'طالبات',college:'JCL',identityFile:'identity-noura.pdf',signature:'نورة عبدالله القحطاني',agreementStatus:'مكتمل',rate:20,status:'مرفوض',reason:'عدم اكتمال أحد شروط الاستحقاق',submittedAt:'2026-08-03'},
+ {id:'grant-demo-5',name:'خالد سعد الغامدي',nationalId:'1054321098',nationality:'سعودي',studentId:'20261005',mobile:'0505556677',gender:'طلاب',college:'CBA',identityFile:'identity-khaled.pdf',signature:'خالد سعد الغامدي',agreementStatus:'مكتمل',rate:0,status:'تحت المراجعة',submittedAt:'2026-08-03'},
+ {id:'grant-demo-6',name:'ريم علي الشريف',nationalId:'1043210987',nationality:'سعودية',studentId:'20261006',mobile:'0506667788',gender:'طالبات',college:'JCA',identityFile:'identity-reem.pdf',signature:'ريم علي الشريف',agreementStatus:'مكتمل',rate:30,status:'مرفوض من العمادة',reason:'النسبة المقترحة تحتاج مراجعة إضافية',submittedAt:'2026-08-04'}
+];
+
+function seedGrantApplications(){
+ const current=R(K.grants);
+ if(current.length)return current;
+ W(K.grants,GRANT_DEMO_ROWS);
+ return GRANT_DEMO_ROWS;
+}
+
+function grantRows(){
+ seedGrantApplications();
+ return R(K.grants);
+}
+
+function grantStatusBadge(status){
+ const cls=status==='معتمد نهائيًا'?'accepted':
+   (status==='مرفوض'||status==='مرفوض من العمادة')?'rejected':
+   status==='محال للعمادة'?'pending':'pending';
+ return `<span class="request-status ${cls}">${status||'تحت المراجعة'}</span>`;
+}
+
+function renderGrantDashboard(){
+ const rows=grantRows();
+ const males=rows.filter(row=>row.gender==='طلاب');
+ const females=rows.filter(row=>row.gender==='طالبات');
+ const total=rows.length;
+ const set=(id,value)=>{
+   const element=document.getElementById(id);
+   if(element)element.textContent=value;
+ };
+
+ set('scholarTotal',total);
+ set('scholarGenderTotal',total);
+ set('scholarBoys',males.length);
+ set('scholarGirls',females.length);
+ set('scholarBoysPercent',`${total?Math.round(males.length/total*100):0}%`);
+ set('scholarGirlsPercent',`${total?Math.round(females.length/total*100):0}%`);
+
+ document.getElementById('scholarGenderDonut')?.style.setProperty(
+   '--male',`${total?males.length/total*360:0}deg`
+ );
+
+ const discountCounts={10:0,20:0,30:0};
+ rows.forEach(row=>{
+   const rate=Number(row.rate)||0;
+   if(rate in discountCounts)discountCounts[rate]++;
+ });
+ const maxDiscount=Math.max(1,...Object.values(discountCounts));
+ const discountChart=document.getElementById('scholarDiscountChart');
+ if(discountChart){
+   discountChart.innerHTML=Object.entries(discountCounts).map(([rate,count])=>`
+     <button type="button" data-scholar-filter-rate="${rate}">
+       <span>${rate}%</span>
+       <i><b style="width:${Math.round(count/maxDiscount*100)}%"></b></i>
+       <strong>${count}</strong>
+     </button>`).join('');
+ }
+
+ const collegeCounts={JCA:0,CBA:0,JCE:0,JCL:0};
+ rows.forEach(row=>{
+   if(row.college in collegeCounts)collegeCounts[row.college]++;
+ });
+ const maxCollege=Math.max(1,...Object.values(collegeCounts));
+ const collegeChart=document.getElementById('scholarCollegeChart');
+ if(collegeChart){
+   collegeChart.innerHTML=Object.entries(collegeCounts).map(([college,count])=>`
+     <button type="button" data-scholar-filter-college="${college}">
+       <span>${college}</span>
+       <i><b style="width:${Math.round(count/maxCollege*100)}%"></b></i>
+       <strong>${count}</strong>
+     </button>`).join('');
+ }
+}
+
+let grantGenderFilter='all';
+let grantRateFilter='all';
+let grantCollegeFilter='all';
+
+function renderGrantReviewTable(){
+ const body=document.getElementById('scholarRows');
+ if(!body)return;
+ const query=document.getElementById('scholarSearch')?.value||'';
+ const status=document.getElementById('scholarStatusFilter')?.value||'all';
+
+ const rows=grantRows().filter(row=>{
+   if(status!=='all'&&row.status!==status)return false;
+   if(grantGenderFilter!=='all'&&row.gender!==grantGenderFilter)return false;
+   if(grantRateFilter!=='all'&&String(row.rate)!==String(grantRateFilter))return false;
+   if(grantCollegeFilter!=='all'&&row.college!==grantCollegeFilter)return false;
+   return match(row,query);
+ });
+
+ body.innerHTML=rows.length?rows.map(row=>{
+   const pending=row.status==='تحت المراجعة'||row.status==='مقبول مبدئيًا';
+   const controls=pending?`
+     <div class="grant-review-controls">
+       <select class="grant-rate-select" data-id="${row.id}">
+         <option value="">حدد النسبة</option>
+         <option value="10" ${Number(row.rate)===10?'selected':''}>10%</option>
+         <option value="20" ${Number(row.rate)===20?'selected':''}>20%</option>
+         <option value="30" ${Number(row.rate)===30?'selected':''}>30%</option>
+       </select>
+       <button class="grant-approve-btn" data-id="${row.id}" type="button">موافقة وإحالة</button>
+       <button class="grant-open-reject-btn" data-id="${row.id}" type="button">رفض</button>
+       <div class="grant-reject-inline" data-id="${row.id}" hidden>
+         <input placeholder="سبب الرفض إلزامي">
+         <button class="grant-confirm-reject-btn" data-id="${row.id}" type="button">تأكيد</button>
+         <button class="grant-cancel-reject-btn" data-id="${row.id}" type="button">إلغاء</button>
+       </div>
+     </div>`:
+     `<div class="grant-final-status">${grantStatusBadge(row.status)}${row.reason?`<small>${row.reason}</small>`:''}</div>`;
+
+   return `<tr>
+     <td><strong>${row.name}</strong></td>
+     <td>${row.studentId}</td>
+     <td>${row.gender}</td>
+     <td>${row.college}</td>
+     <td>${row.agreementStatus||'مكتمل'}</td>
+     <td>${row.rate?row.rate+'%':'غير محددة'}</td>
+     <td>${grantStatusBadge(row.status)}</td>
+     <td>${controls}</td>
+   </tr>`;
+ }).join(''):'<tr><td colspan="8">لا توجد نتائج مطابقة.</td></tr>';
+
+ document.querySelectorAll('.grant-approve-btn').forEach(button=>{
+   button.onclick=()=>{
+     const rows=grantRows();
+     const row=rows.find(item=>item.id===button.dataset.id);
+     const rate=Number(document.querySelector(`.grant-rate-select[data-id="${button.dataset.id}"]`)?.value)||0;
+     if(!rate){
+       showToast('حدد النسبة المستحقة 10% أو 20% أو 30% قبل الموافقة.');
+       return;
+     }
+     row.rate=rate;
+     row.status='محال للعمادة';
+     row.reason='';
+     W(K.grants,rows);
+     renderGrantWorkflow();
+     renderAll();
+     showToast('تمت الموافقة المبدئية وإحالة الطلب إلى عمادة شؤون الطلاب.');
+   };
+ });
+
+ document.querySelectorAll('.grant-open-reject-btn').forEach(button=>{
+   button.onclick=()=>{
+     const wrap=button.closest('.grant-review-controls');
+     wrap.querySelector('.grant-reject-inline').hidden=false;
+     button.hidden=true;
+   };
+ });
+ document.querySelectorAll('.grant-cancel-reject-btn').forEach(button=>{
+   button.onclick=()=>{
+     const inline=button.closest('.grant-reject-inline');
+     inline.hidden=true;
+     inline.closest('.grant-review-controls').querySelector('.grant-open-reject-btn').hidden=false;
+     inline.querySelector('input').value='';
+   };
+ });
+ document.querySelectorAll('.grant-confirm-reject-btn').forEach(button=>{
+   button.onclick=()=>{
+     const inline=button.closest('.grant-reject-inline');
+     const reason=inline.querySelector('input').value.trim();
+     if(!reason){
+       inline.querySelector('input').focus();
+       showToast('سبب الرفض إلزامي.');
+       return;
+     }
+     const rows=grantRows();
+     const row=rows.find(item=>item.id===button.dataset.id);
+     row.status='مرفوض';
+     row.reason=reason;
+     W(K.grants,rows);
+     renderGrantWorkflow();
+     renderAll();
+   };
+ });
+}
+
+function renderAgreementSubmissions(){
+ const body=document.getElementById('agreementRows');
+ if(!body)return;
+ const query=document.getElementById('agreementSearch')?.value||'';
+ const rows=grantRows().filter(row=>match(row,query));
+ body.innerHTML=rows.length?rows.map(row=>`<tr>
+   <td>${row.name}</td><td>${row.nationalId}</td><td>${row.nationality}</td>
+   <td>${row.studentId}</td><td>${row.mobile}</td><td>${row.gender}</td>
+   <td>${row.college}</td><td>${grantStatusBadge(row.status)}</td>
+   <td>${row.rate?row.rate+'%':'—'}</td>
+ </tr>`).join(''):'<tr><td colspan="9">لا توجد إقرارات.</td></tr>';
+}
+
+function renderDeanGrantApprovals(){
+ const rows=grantRows().filter(row=>
+   ['محال للعمادة','معتمد نهائيًا','مرفوض من العمادة'].includes(row.status)
+ );
+ const accepted=rows.filter(row=>row.status==='معتمد نهائيًا').length;
+ const rejected=rows.filter(row=>row.status==='مرفوض من العمادة').length;
+ const pending=rows.filter(row=>row.status==='محال للعمادة').length;
+ const total=rows.length;
+ const set=(id,value)=>{
+   const element=document.getElementById(id);
+   if(element)element.textContent=value;
+ };
+ set('deanGrantAccepted',accepted);
+ set('deanGrantRejected',rejected);
+ set('deanGrantPending',pending);
+ set('deanGrantTotal',total);
+ const donut=document.getElementById('deanGrantDonut');
+ if(donut){
+   donut.style.setProperty('--approved',`${total?accepted/total*360:0}deg`);
+   donut.style.setProperty('--rejected',`${total?rejected/total*360:0}deg`);
+ }
+
+ const body=document.getElementById('deanGrantApprovalRows');
+ if(!body)return;
+ body.innerHTML=rows.length?rows.map(row=>{
+   const pendingDecision=row.status==='محال للعمادة';
+   const action=pendingDecision?`
+     <div class="approval-inline-decision dean-grant-decision">
+       <div class="approval-action-buttons">
+         <button class="dean-grant-approve approval-decision-btn approve" data-id="${row.id}" type="button">
+           <span class="approval-btn-icon">✓</span><span>اعتماد ${row.rate}%</span>
+         </button>
+         <button class="dean-grant-open-reject approval-decision-btn reject" data-id="${row.id}" type="button">
+           <span class="approval-btn-icon">×</span><span>رفض</span>
+         </button>
+       </div>
+       <div class="dean-grant-reject-editor" hidden>
+         <input placeholder="اكتب سبب الرفض">
+         <button class="dean-grant-confirm-reject" data-id="${row.id}" type="button">تأكيد الرفض</button>
+         <button class="dean-grant-cancel-reject" type="button">إلغاء</button>
+       </div>
+     </div>`:
+     `<div class="grant-final-status">${grantStatusBadge(row.status)}${row.reason?`<small>${row.reason}</small>`:''}</div>`;
+   return `<tr>
+     <td><strong>${row.name}</strong></td><td>${row.studentId}</td><td>${row.gender}</td>
+     <td>${row.college}</td><td><strong>${row.rate}%</strong></td>
+     <td>${grantStatusBadge(row.status)}</td><td>${action}</td>
+   </tr>`;
+ }).join(''):'<tr><td colspan="7">لا توجد طلبات منح محالة.</td></tr>';
+
+ document.querySelectorAll('.dean-grant-approve').forEach(button=>button.onclick=()=>{
+   const rows=grantRows();
+   const row=rows.find(item=>item.id===button.dataset.id);
+   row.status='معتمد نهائيًا'; row.reason='';
+   W(K.grants,rows); renderGrantWorkflow(); renderAll();
+ });
+ document.querySelectorAll('.dean-grant-open-reject').forEach(button=>button.onclick=()=>{
+   const decision=button.closest('.dean-grant-decision');
+   decision.querySelector('.approval-action-buttons').hidden=true;
+   decision.querySelector('.dean-grant-reject-editor').hidden=false;
+   decision.querySelector('input').focus();
+ });
+ document.querySelectorAll('.dean-grant-cancel-reject').forEach(button=>button.onclick=()=>{
+   const decision=button.closest('.dean-grant-decision');
+   decision.querySelector('.approval-action-buttons').hidden=false;
+   decision.querySelector('.dean-grant-reject-editor').hidden=true;
+ });
+ document.querySelectorAll('.dean-grant-confirm-reject').forEach(button=>button.onclick=()=>{
+   const editor=button.closest('.dean-grant-reject-editor');
+   const reason=editor.querySelector('input').value.trim();
+   if(!reason){showToast('سبب الرفض إلزامي.');editor.querySelector('input').focus();return;}
+   const rows=grantRows();
+   const row=rows.find(item=>item.id===button.dataset.id);
+   row.status='مرفوض من العمادة'; row.reason=reason;
+   W(K.grants,rows); renderGrantWorkflow(); renderAll();
+ });
+}
+
+function renderGrantWorkflow(){
+ seedGrantApplications();
+ renderGrantDashboard();
+ renderGrantReviewTable();
+ renderAgreementSubmissions();
+ renderDeanGrantApprovals();
+}
+
+function initGrantWorkflow(){
+ seedGrantApplications();
+ document.getElementById('scholarshipAgreementForm')?.addEventListener('submit',event=>{
+   event.preventDefault();
+   const confirmBox=document.getElementById('agreementConfirm');
+   if(!confirmBox?.checked){showToast('يجب الموافقة على الإقرار والشروط قبل الإرسال.');return;}
+   const file=document.getElementById('agreementIdentityFile')?.files?.[0];
+   if(!file){showToast('رفع الهوية إلزامي.');return;}
+
+   const row={
+     id:`grant-${Date.now()}`,
+     name:document.getElementById('agreementName').value.trim(),
+     nationalId:document.getElementById('agreementNationalId').value.trim(),
+     nationality:document.getElementById('agreementNationality').value.trim(),
+     studentId:document.getElementById('agreementStudentId').value.trim(),
+     mobile:document.getElementById('agreementMobile').value.trim(),
+     gender:document.getElementById('agreementGender').value,
+     college:document.getElementById('agreementCollege').value,
+     identityFile:file.name,
+     signature:document.getElementById('agreementSignature').value.trim(),
+     agreementStatus:'مكتمل',
+     rate:0,
+     status:'تحت المراجعة',
+     reason:'',
+     submittedAt:new Date().toISOString().slice(0,10)
+   };
+   const rows=grantRows(); rows.unshift(row); W(K.grants,rows);
+   event.currentTarget.reset();
+   renderGrantWorkflow(); renderAll();
+   showToast('تم إرسال الإقرار للمراجعة بنجاح.');
+ });
+
+ document.getElementById('agreementSearch')?.addEventListener('input',renderAgreementSubmissions);
+ document.getElementById('scholarSearch')?.addEventListener('input',renderGrantReviewTable);
+ document.getElementById('scholarStatusFilter')?.addEventListener('change',renderGrantReviewTable);
+
+ document.addEventListener('click',event=>{
+   const gender=event.target.closest('[data-scholar-filter-gender]');
+   if(gender){grantGenderFilter=gender.dataset.scholarFilterGender;renderGrantReviewTable();return;}
+   const rate=event.target.closest('[data-scholar-filter-rate]');
+   if(rate){grantRateFilter=rate.dataset.scholarFilterRate;renderGrantReviewTable();return;}
+   const college=event.target.closest('[data-scholar-filter-college]');
+   if(college){grantCollegeFilter=college.dataset.scholarFilterCollege;renderGrantReviewTable();}
+ });
+ renderGrantWorkflow();
+}
+
+function renderAll(){tables();student();applicants();approvals();populateClubEventSelect();renderRegisteredClubs();renderGeneralIndicator();renderGrantWorkflow();const b=document.querySelector('[data-event-category].active');if(b)renderCategory(b.dataset.eventCategory)}
 function bind(id,fn){const o=document.getElementById(id);if(!o)return;const n=o.cloneNode(true);o.replaceWith(n);n.onclick=fn}
 window.addEventListener('DOMContentLoaded',()=>{
  document.getElementById('exportApprovalsExcel')
@@ -5396,4 +5730,12 @@ window.addEventListener('DOMContentLoaded',()=>{
   console.info('SAH build 24.7 loaded');
   document.documentElement.dataset.sahBuild='24.7';
   setTimeout(()=>renderGeneralIndicator?.(),0);
+});
+
+
+/* SAH V24.8 — scholarship agreement and approval workflow */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 24.8 loaded');
+  document.documentElement.dataset.sahBuild='24.8';
+  initGrantWorkflow();
 });

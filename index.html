@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>Student Activities Platform | UBT</title>
-<link rel="stylesheet" href="css/style.css?v=24.7">
+<link rel="stylesheet" href="css/style.css?v=24.8">
 
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
@@ -71,7 +71,7 @@
 </style>
 
 </head>
-<body data-sah-version="24.7" class="login-mode">
+<body data-sah-version="24.8" class="login-mode">
 <section id="login" class="login-page">
   <div class="login-bg"></div>
   <div class="login-card">
@@ -612,36 +612,183 @@
     </section>
 
     <section id="page-scholarships" class="page">
-      <div class="section-title"><div><h3>المنح الرياضية</h3><p>الإحصائيات التالية مستخرجة من ملفات الطلاب والطالبات المرفوعة للفصل الدراسي ربيع 2026.</p></div><label class="btn outline filebtn">استيراد Excel<input id="scholarImport" type="file" accept=".xlsx,.xls" hidden></label></div>
-      <div class="grid cols-4">
-        <div class="card stat"><div class="label">إجمالي مستحقي المنح</div><div class="value" id="scholarTotal">0</div><div class="sub">طلاب + طالبات</div></div>
-        <div class="card stat"><div class="label">طلاب</div><div class="value" id="scholarBoys">0</div><div class="sub">ملف الطلاب</div></div>
-        <div class="card stat burg"><div class="label">طالبات</div><div class="value" id="scholarGirls">0</div><div class="sub">ملف الطالبات</div></div>
-        <div class="card stat"><div class="label">أنشطة مختلفة</div><div class="value" id="uniqueActivities">0</div><div class="sub">حسب ملفات المنح</div></div>
+      <div class="section-title scholarships-heading">
+        <div>
+          <h3>المنح الرياضية</h3>
+          <p>مراجعة طلبات الإقرار، تحديد نسبة الاستحقاق، ثم إحالتها إلى صلاحيات عمادة شؤون الطلاب.</p>
+        </div>
+        <button class="btn outline" type="button" data-route="agreement">
+          فتح نموذج الإقرار الإلكتروني
+        </button>
       </div>
-      <div class="grid cols-2">
-        <div class="card"><h4>توزيع المنح حسب نسبة الخصم</h4><div id="scholarBars" class="bars"></div></div>
-        <div class="card"><h4>توزيع الطلاب والطالبات حسب الكلية</h4><div id="collegeBars" class="bars"></div></div>
+
+      <div class="scholarships-dashboard-grid">
+        <article class="card scholarship-gender-chart-card">
+          <div>
+            <span>إجمالي مستحقي المنح</span>
+            <strong id="scholarTotal">0</strong>
+            <small>طلاب وطالبات</small>
+          </div>
+          <div class="scholarship-gender-donut" id="scholarGenderDonut" style="--male:0deg">
+            <span><b id="scholarGenderTotal">0</b><small>طلب</small></span>
+          </div>
+          <div class="scholarship-chart-legend">
+            <button type="button" data-scholar-filter-gender="طلاب">
+              <i class="male"></i><span>طلاب</span><b id="scholarBoys">0</b>
+              <small id="scholarBoysPercent">0%</small>
+            </button>
+            <button type="button" data-scholar-filter-gender="طالبات">
+              <i class="female"></i><span>طالبات</span><b id="scholarGirls">0</b>
+              <small id="scholarGirlsPercent">0%</small>
+            </button>
+          </div>
+        </article>
+
+        <article class="card scholarship-discount-card">
+          <div class="scholarship-card-head">
+            <div><span>توزيع المنح</span><h4>حسب النسبة المستحقة</h4></div>
+          </div>
+          <div id="scholarDiscountChart" class="scholarship-click-bars"></div>
+        </article>
+
+        <article class="card scholarship-college-card">
+          <div class="scholarship-card-head">
+            <div><span>التوزيع الأكاديمي</span><h4>حسب الكلية</h4></div>
+          </div>
+          <div id="scholarCollegeChart" class="scholarship-click-bars"></div>
+        </article>
       </div>
-      <div class="section-title"><div><h3>تحليل المنح الرياضية</h3><p>ملخص ومقارنة وتشخيص سريع مبني على ملفات المنح المرفوعة.</p></div><div id="scholarAnalysisBtns" class="filterbar"><button class="active" data-mode="summary">الملخص</button><button data-mode="compare">المقارنة</button><button data-mode="action">المتابعة</button></div></div>
-      <div id="scholarInsight" class="card analytics"></div>
-      <div class="card table-card"><h4>قائمة المنح</h4><div class="table-toolbar"><input id="scholarSearch" placeholder="بحث بالاسم أو الرقم الجامعي أو الكلية أو النشاط"><div id="scholarGender" class="filterbar"><button class="active" data-gender="all">الكل</button><button data-gender="طلاب">طلاب</button><button data-gender="طالبات">طالبات</button></div></div><div class="table-wrap"><table><thead><tr><th>الاسم</th><th>الرقم الجامعي</th><th>الفئة</th><th>الكلية</th><th>النشاط</th><th>نسبة المنحة</th><th>الإقرار</th></tr></thead><tbody id="scholarRows"></tbody></table></div></div>
+
+      <div class="card table-card scholarship-review-card">
+        <div class="scholarship-table-head">
+          <div>
+            <h4>طلبات الإقرار والمنح</h4>
+            <p>تحديد النسبة شرط أساسي قبل الموافقة، وسبب الرفض إلزامي عند الرفض.</p>
+          </div>
+          <div class="scholarship-table-tools">
+            <input id="scholarSearch" type="search"
+                   placeholder="بحث بالاسم أو الرقم الجامعي أو الكلية أو الحالة">
+            <select id="scholarStatusFilter">
+              <option value="all">كل الحالات</option>
+              <option value="تحت المراجعة">تحت المراجعة</option>
+              <option value="مقبول مبدئيًا">مقبول مبدئيًا</option>
+              <option value="مرفوض">مرفوض</option>
+              <option value="محال للعمادة">محال للعمادة</option>
+              <option value="معتمد نهائيًا">معتمد نهائيًا</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="scholarship-review-table">
+            <thead>
+              <tr>
+                <th>الاسم</th><th>الرقم الجامعي</th><th>الفئة</th><th>الكلية</th>
+                <th>حالة الإقرار</th><th>النسبة المستحقة</th><th>الحالة</th><th>الإجراء</th>
+              </tr>
+            </thead>
+            <tbody id="scholarRows"></tbody>
+          </table>
+        </div>
+      </div>
     </section>
 
     <section id="page-agreement" class="page">
-      <div class="section-title"><div><h3>الإقرار الإلكتروني للمنح الرياضية</h3><p>المقصود: توقيع الطالب/الطالبة على إقرار وشروط المنحة الرياضية ومتابعة حالة الاعتماد.</p></div></div>
-      <div class="grid cols-3">
-        <div class="card stat"><div class="label">إقرارات مكتملة</div><div class="value" id="agreementsDone">0</div><div class="sub">من ملف الطالبات الحالي</div></div>
-        <div class="card stat burg"><div class="label">إقرارات ناقصة</div><div class="value" id="agreementsMissing">0</div><div class="sub">تحتاج متابعة</div></div>
-        <div class="card stat"><div class="label">إقرارات الطلاب</div><div class="value">—</div><div class="sub">غير متوفر في ملف الطلاب الحالي</div></div>
+      <a class="scholarship-criteria-banner"
+         href="assets/docs/scholarship-criteria.pdf"
+         target="_blank" rel="noopener">
+        <span class="criteria-banner-icon">📘</span>
+        <span>
+          <strong>معايير وشروط المنح الجزئية للطلبة الرياضيين</strong>
+          <small>النسخة المحدثة المعتمدة بالعربية والإنجليزية، وتشمل شروط الاستحقاق ونسب المنح 10% و20% و30%.</small>
+        </span>
+        <b>عرض المعايير والشروط ↗</b>
+      </a>
+
+      <div class="agreement-layout">
+        <form class="card scholarship-agreement-form" id="scholarshipAgreementForm">
+          <div class="agreement-form-head">
+            <div><span>النموذج الإلكتروني</span><h3>إقرار المنحة الرياضية</h3></div>
+            <strong>UBT</strong>
+          </div>
+
+          <div class="agreement-form-grid">
+            <label><span>اسم الطالب / الطالبة</span><input id="agreementName" required></label>
+            <label><span>رقم الهوية</span><input id="agreementNationalId" inputmode="numeric" required></label>
+            <label><span>الجنسية</span><input id="agreementNationality" required></label>
+            <label><span>الرقم الجامعي</span><input id="agreementStudentId" required></label>
+            <label><span>رقم الجوال</span><input id="agreementMobile" inputmode="tel" required></label>
+            <label><span>الفئة</span>
+              <select id="agreementGender" required>
+                <option value="">اختر الفئة</option>
+                <option value="طلاب">طلاب</option>
+                <option value="طالبات">طالبات</option>
+              </select>
+            </label>
+            <label><span>الكلية</span>
+              <select id="agreementCollege" required>
+                <option value="">اختر الكلية</option>
+                <option value="JCA">JCA</option>
+                <option value="CBA">CBA</option>
+                <option value="JCE">JCE</option>
+                <option value="JCL">JCL</option>
+              </select>
+            </label>
+            <label class="agreement-file-field">
+              <span>رفع الهوية</span>
+              <input id="agreementIdentityFile" type="file" accept=".pdf,.png,.jpg,.jpeg" required>
+            </label>
+          </div>
+
+          <div class="agreement-signature-box">
+            <label><span>التوقيع</span>
+              <textarea id="agreementSignature"
+                        placeholder="اكتب الاسم الكامل كتوقيع إلكتروني"
+                        required></textarea>
+            </label>
+          </div>
+
+          <label class="agreement-confirmation">
+            <input id="agreementConfirm" type="checkbox" required>
+            <span>بالضغط على الزر فإنني أقر بأنني قرأت الإقرار وأوافق على شروطه.</span>
+            <a href="assets/docs/scholarship-agreement.pdf" target="_blank" rel="noopener">
+              الاطلاع على نموذج الإقرار
+            </a>
+          </label>
+
+          <button class="btn primary agreement-submit-btn" type="submit">
+            إرسال الإقرار للمراجعة
+          </button>
+        </form>
+
+        <article class="card agreement-preview-card">
+          <div class="agreement-preview-head">
+            <div><span>المرفق الرسمي</span><h3>نموذج الإقرار والتعهد</h3></div>
+            <a class="btn outline" href="assets/docs/scholarship-agreement.pdf" target="_blank">
+              فتح كامل
+            </a>
+          </div>
+          <iframe class="pdf-frame criteria-frame" src="assets/docs/scholarship-agreement.pdf"></iframe>
+        </article>
       </div>
-      <div class="grid cols-2">
-        <div class="card form-card"><h4>نموذج الإقرار الإلكتروني</h4><input placeholder="اسم الطالب / الطالبة"><input placeholder="الرقم الجامعي"><input placeholder="رقم الجوال"><select><option>طالب</option><option>طالبة</option></select><select><option>10%</option><option>20%</option><option>30%</option></select><label class="check"><input type="checkbox"> أقر بالاطلاع على معايير وشروط المنحة الرياضية والالتزام بها.</label><div class="signature">توقيع الطالب</div><div class="btns"><button class="btn primary">حفظ الإقرار</button><a class="btn outline" href="assets/docs/scholarship-agreement.pdf" target="_blank">فتح نموذج الإقرار PDF</a><a class="btn outline" href="assets/docs/scholarship-criteria.pdf" target="_blank">فتح معايير وشروط المنح</a></div></div>
-        <div class="card"><h4>النموذج الرسمي للإقرار والتعهد</h4><p>يعرض للطالب نفس نموذج الإقرار الرسمي الخاص بمنح المتميزين رياضيًا.</p><iframe class="pdf-frame" src="assets/docs/scholarship-agreement.pdf"></iframe></div>
+
+      <div class="card table-card agreement-submissions-card">
+        <div class="agreement-table-head">
+          <div><h4>الإقرارات المرسلة</h4><p>تظهر الطلبات فور إرسال النموذج وتتابع حالتها من هنا.</p></div>
+          <input id="agreementSearch" type="search"
+                 placeholder="بحث بالاسم أو الرقم الجامعي أو الكلية أو الحالة">
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>الاسم</th><th>رقم الهوية</th><th>الجنسية</th><th>الرقم الجامعي</th>
+                <th>الجوال</th><th>الفئة</th><th>الكلية</th><th>الحالة</th><th>النسبة المستحقة</th>
+              </tr>
+            </thead>
+            <tbody id="agreementRows"></tbody>
+          </table>
+        </div>
       </div>
-      <div class="section-title"><div><h3>معايير وشروط المنح الجزئية للطلبة الرياضيين</h3><p>النسخة المحدثة المعتمدة بالعربية والإنجليزية، وتشمل شروط الاستحقاق ونسب المنح 10% و20% و30%.</p></div><a class="btn outline" href="assets/docs/scholarship-criteria.pdf" target="_blank">عرض الملف المحدث</a></div>
-      <div class="card"><iframe class="pdf-frame criteria-frame" src="assets/docs/scholarship-criteria.pdf"></iframe></div>
-      <div class="card table-card"><h4>متابعة الإقرارات</h4><div class="table-toolbar"><input id="agreementSearch" placeholder="بحث بالاسم أو الرقم الجامعي أو الكلية أو الحالة"></div><div class="table-wrap"><table><thead><tr><th>الاسم</th><th>الرقم</th><th>الكلية</th><th>الحالة</th></tr></thead><tbody id="agreementRows"></tbody></table></div></div>
     </section>
 
     <section id="page-championships" class="page">
@@ -1133,6 +1280,40 @@
     </div>
     <div class="table-wrap"><table><thead><tr><th>نوع الطلب</th><th>العنوان</th><th>مقدم الطلب</th><th>التاريخ</th><th>الفئة/السعة</th><th>الحالة</th><th>الإجراء</th></tr></thead><tbody id="approvalRequestRows"></tbody></table></div>
   </div>
+
+  <div class="scholarship-approval-dashboard">
+    <div class="section-title">
+      <div>
+        <h3>اعتمادات المنح الرياضية</h3>
+        <p>الطلبات المحالة من صفحة المنح الرياضية لاعتماد النسبة النهائية أو رفضها مع السبب.</p>
+      </div>
+    </div>
+
+    <div class="scholarship-approval-stats">
+      <article class="card approved"><span>منح موافق عليها</span><strong id="deanGrantAccepted">0</strong></article>
+      <article class="card rejected"><span>منح مرفوضة</span><strong id="deanGrantRejected">0</strong></article>
+      <article class="card pending"><span>منح تحت المراجعة</span><strong id="deanGrantPending">0</strong></article>
+      <article class="card grant-pie-card">
+        <div class="grant-decision-donut" id="deanGrantDonut" style="--approved:0deg;--rejected:0deg">
+          <span><b id="deanGrantTotal">0</b><small>طلب منحة</small></span>
+        </div>
+      </article>
+    </div>
+
+    <div class="card table-card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>الطالب</th><th>الرقم الجامعي</th><th>الفئة</th><th>الكلية</th>
+              <th>النسبة المقترحة</th><th>الحالة</th><th>الإجراء</th>
+            </tr>
+          </thead>
+          <tbody id="deanGrantApprovalRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </section><section id="page-calendar" class="page">
       <div class="section-title"><div><h3>التقويم الموحد</h3><p>تقويم واحد مع فلاتر: أكاديمي، مناسبات رسمية، إسلامية، أنشطة، رياضة، تطوع.</p></div><label class="btn outline filebtn">استيراد Calendar<input id="importCalendar" type="file" accept=".xlsx,.xls,.pdf,.ics" hidden></label></div>
       <div id="calFilters" class="filterbar large"><button class="active" data-filter="all">الكل</button><button data-filter="academic">أكاديمي</button><button data-filter="national">مناسبات رسمية</button><button data-filter="islamic">إسلامية</button><button data-filter="activities">أنشطة طلابية</button><button data-filter="sports">رياضية</button><button data-filter="volunteer">تطوع</button></div>
@@ -1567,6 +1748,6 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=24.7"></script>
+<script src="js/app.js?v=24.8"></script>
 </body>
 </html>

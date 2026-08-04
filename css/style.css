@@ -7922,3 +7922,174 @@ body.theme-dark .general-sports-comparison>button>div{
     grid-template-columns:1fr;
   }
 }
+
+
+/* ==========================================================
+   SAH V24.8 — scholarship agreement and approval workflow
+   ========================================================== */
+
+.scholarships-heading{align-items:center}
+.scholarships-dashboard-grid{
+  display:grid;grid-template-columns:1.05fr 1fr 1fr;gap:14px;margin-bottom:18px
+}
+.scholarship-gender-chart-card{
+  min-height:270px;display:grid!important;grid-template-columns:1fr 150px;
+  gap:14px;align-items:center;padding:20px!important
+}
+.scholarship-gender-chart-card>div:first-child span,
+.scholarship-card-head span{display:block;color:var(--muted);font-size:10px;font-weight:800}
+.scholarship-gender-chart-card>div:first-child>strong{display:block;margin-top:5px;color:var(--blue);font-size:38px}
+.scholarship-gender-chart-card>div:first-child small{color:var(--muted);font-size:9px}
+.scholarship-gender-donut{
+  --male:0deg;position:relative;width:145px;height:145px;display:grid;place-items:center;
+  border-radius:50%;background:conic-gradient(#1769c2 0 var(--male),#ad2348 var(--male) 360deg)
+}
+.scholarship-gender-donut::after{
+  content:"";position:absolute;inset:22px;border-radius:50%;background:#fff
+}
+.scholarship-gender-donut span{position:relative;z-index:1;display:grid;text-align:center}
+.scholarship-gender-donut b{color:var(--blue);font-size:28px}
+.scholarship-gender-donut small{color:var(--muted);font-size:9px}
+.scholarship-chart-legend{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.scholarship-chart-legend button{
+  display:grid;grid-template-columns:10px 1fr auto auto;align-items:center;gap:7px;
+  min-height:43px;padding:8px 10px;border:1px solid #dce5f0;border-radius:11px;
+  background:#f8fbff;color:var(--blue);font-family:inherit;cursor:pointer
+}
+.scholarship-chart-legend i{width:9px;height:9px;border-radius:50%}
+.scholarship-chart-legend i.male{background:#1769c2}.scholarship-chart-legend i.female{background:#ad2348}
+.scholarship-chart-legend span{font-size:10px}.scholarship-chart-legend b{font-size:15px}
+.scholarship-chart-legend small{color:var(--muted);font-size:9px}
+.scholarship-discount-card,.scholarship-college-card{padding:20px!important;min-height:270px}
+.scholarship-card-head h4{margin:4px 0 14px;color:var(--blue);font-size:19px}
+.scholarship-click-bars{display:grid;gap:11px}
+.scholarship-click-bars button{
+  display:grid;grid-template-columns:55px minmax(100px,1fr) 35px;align-items:center;gap:8px;
+  border:0;background:transparent;color:var(--blue);font-family:inherit;cursor:pointer;text-align:right
+}
+.scholarship-click-bars button:hover span{color:#1d67c1}
+.scholarship-click-bars i{height:12px;overflow:hidden;border-radius:999px;background:#e9eef6}
+.scholarship-click-bars i b{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#1769c2,#17a7bd)}
+.scholarship-click-bars strong{text-align:center}
+.scholarship-review-card{margin-top:20px!important}
+.scholarship-table-head,.agreement-table-head{
+  display:flex;align-items:center;justify-content:space-between;gap:15px;padding:18px 20px
+}
+.scholarship-table-head h4,.agreement-table-head h4{margin:0;color:var(--blue);font-size:19px}
+.scholarship-table-head p,.agreement-table-head p{margin:4px 0 0;color:var(--muted);font-size:10px}
+.scholarship-table-tools{display:flex;gap:8px}
+.scholarship-table-tools input,.scholarship-table-tools select,.agreement-table-head input{
+  min-height:42px;border:1px solid #cedbec;border-radius:11px;padding:8px 11px;background:#fff;color:var(--blue)
+}
+.scholarship-table-tools input{min-width:300px}
+.grant-review-controls{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:340px}
+.grant-rate-select{min-height:37px;border:1px solid #bcd0e7;border-radius:9px;padding:6px 8px}
+.grant-approve-btn,.grant-open-reject-btn,.grant-confirm-reject-btn,.grant-cancel-reject-btn{
+  min-height:37px;padding:7px 10px;border-radius:9px;border:1px solid transparent;
+  font-family:inherit;font-size:10px;font-weight:900;cursor:pointer
+}
+.grant-approve-btn{background:#e8f8f0;color:#08764e;border-color:#b4e2ca}
+.grant-open-reject-btn,.grant-confirm-reject-btn{background:#fff0f4;color:#ad2348;border-color:#efbdca}
+.grant-cancel-reject-btn{background:#fff;color:var(--blue);border-color:#cbd9ea}
+.grant-reject-inline{display:flex;gap:5px;align-items:center;flex-basis:100%}
+.grant-reject-inline[hidden]{display:none!important}
+.grant-reject-inline input{flex:1;min-height:38px;border:1px solid #efbdca;border-radius:9px;padding:7px 9px}
+.grant-final-status{display:grid;gap:4px}.grant-final-status small{max-width:180px;color:var(--muted);font-size:9px}
+
+.scholarship-criteria-banner{
+  display:flex;align-items:center;gap:14px;margin-bottom:18px;padding:16px 18px;
+  border:1px solid #c9d9ec;border-radius:17px;background:linear-gradient(135deg,#eef5ff,#fff);
+  color:var(--blue);text-decoration:none;box-shadow:var(--shadow)
+}
+.criteria-banner-icon{width:46px;height:46px;display:grid;place-items:center;border-radius:13px;background:#e4eefc;font-size:23px}
+.scholarship-criteria-banner>span:nth-child(2){flex:1;display:grid;gap:3px}
+.scholarship-criteria-banner strong{font-size:15px}
+.scholarship-criteria-banner small{color:var(--muted);font-size:10px}
+.scholarship-criteria-banner>b{padding:8px 11px;border-radius:10px;background:var(--blue);color:#fff;font-size:10px}
+.agreement-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:15px;margin-bottom:18px}
+.scholarship-agreement-form,.agreement-preview-card{padding:21px!important}
+.agreement-form-head,.agreement-preview-head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:17px
+}
+.agreement-form-head span,.agreement-preview-head span{color:#1d67c1;font-size:10px;font-weight:900}
+.agreement-form-head h3,.agreement-preview-head h3{margin:4px 0 0;color:var(--blue);font-size:23px}
+.agreement-form-head>strong{width:55px;height:55px;display:grid;place-items:center;border-radius:15px;background:#e8f1fd;color:#0b55aa;font-size:18px}
+.agreement-form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.agreement-form-grid label,.agreement-signature-box label{display:grid;gap:6px}
+.agreement-form-grid label>span,.agreement-signature-box label>span{color:var(--blue);font-size:10px;font-weight:850}
+.agreement-form-grid input,.agreement-form-grid select,.agreement-signature-box textarea{
+  width:100%;min-height:44px;border:1px solid #c9d8ea;border-radius:11px;padding:9px 11px;background:#fff;color:var(--blue)
+}
+.agreement-file-field{grid-column:1/-1}
+.agreement-signature-box{margin-top:12px}
+.agreement-signature-box textarea{min-height:92px;resize:vertical}
+.agreement-confirmation{
+  display:flex;align-items:center;gap:8px;margin:13px 0;padding:11px 12px;
+  border:1px solid #d8e3ef;border-radius:11px;background:#f8fbff;font-size:10px
+}
+.agreement-confirmation a{margin-inline-start:auto;color:#0b55aa;font-weight:800}
+.agreement-submit-btn{width:100%;justify-content:center!important;min-height:50px}
+.agreement-preview-card .pdf-frame{min-height:550px}
+.agreement-submissions-card{margin-top:18px!important}
+
+.scholarship-approval-dashboard{margin-top:28px}
+.scholarship-approval-stats{
+  display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:11px;margin-bottom:14px
+}
+.scholarship-approval-stats>article{min-height:125px;display:flex!important;flex-direction:column;justify-content:center;gap:5px}
+.scholarship-approval-stats span{color:var(--muted);font-size:11px;font-weight:800}
+.scholarship-approval-stats strong{color:var(--blue);font-size:35px}
+.scholarship-approval-stats .approved strong{color:#08764e}
+.scholarship-approval-stats .rejected strong{color:#ad2348}
+.scholarship-approval-stats .pending strong{color:#a56b00}
+.grant-pie-card{align-items:center!important}
+.grant-decision-donut{
+  --approved:0deg;--rejected:0deg;width:105px;height:105px;position:relative;display:grid;place-items:center;
+  border-radius:50%;background:conic-gradient(#08764e 0 var(--approved),#ad2348 var(--approved) calc(var(--approved) + var(--rejected)),#e2ad39 calc(var(--approved) + var(--rejected)) 360deg)
+}
+.grant-decision-donut::after{content:"";position:absolute;inset:17px;border-radius:50%;background:#fff}
+.grant-decision-donut span{position:relative;z-index:1;display:grid;text-align:center}
+.grant-decision-donut b{font-size:23px;color:var(--blue)}.grant-decision-donut small{font-size:8px;color:var(--muted)}
+.dean-grant-reject-editor{display:flex;gap:5px;align-items:center;margin-top:7px}
+.dean-grant-reject-editor[hidden]{display:none!important}
+.dean-grant-reject-editor input{min-height:38px;border:1px solid #efbdca;border-radius:9px;padding:7px 9px}
+.dean-grant-reject-editor button{min-height:36px;border-radius:9px;border:1px solid #d4dfec;background:#fff;font-family:inherit;font-size:9px;font-weight:800}
+
+body.theme-dark .scholarship-gender-donut::after,
+body.theme-dark .grant-decision-donut::after{background:#061c3d}
+body.theme-dark .scholarship-criteria-banner,
+body.theme-dark .agreement-confirmation,
+body.theme-dark .scholarship-chart-legend button{
+  background:rgba(255,255,255,.055);border-color:var(--border)
+}
+body.theme-dark .agreement-form-grid input,
+body.theme-dark .agreement-form-grid select,
+body.theme-dark .agreement-signature-box textarea,
+body.theme-dark .scholarship-table-tools input,
+body.theme-dark .scholarship-table-tools select,
+body.theme-dark .agreement-table-head input{
+  background:rgba(255,255,255,.06);border-color:var(--border);color:#fff
+}
+
+@media(max-width:1100px){
+  .scholarships-dashboard-grid{grid-template-columns:1fr 1fr}
+  .scholarship-gender-chart-card{grid-column:1/-1}
+  .agreement-layout{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .scholarships-dashboard-grid{grid-template-columns:1fr}
+  .scholarship-gender-chart-card{grid-column:auto}
+  .scholarship-table-head,.agreement-table-head{align-items:stretch;flex-direction:column}
+  .scholarship-table-tools{display:grid;grid-template-columns:1fr}
+  .scholarship-table-tools input{min-width:0}
+  .agreement-form-grid{grid-template-columns:1fr}
+  .agreement-file-field{grid-column:auto}
+  .scholarship-approval-stats{grid-template-columns:1fr 1fr}
+}
+@media(max-width:520px){
+  .scholarship-gender-chart-card{grid-template-columns:1fr}
+  .scholarship-gender-donut{justify-self:center}
+  .scholarship-chart-legend{grid-template-columns:1fr}
+  .scholarship-criteria-banner{align-items:flex-start;flex-wrap:wrap}
+  .scholarship-criteria-banner>b{width:100%;text-align:center}
+}
