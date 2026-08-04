@@ -8649,3 +8649,13 @@ body.theme-dark .general-approval-types>button>b{
     inset:26px;
   }
 }
+
+
+/* ==========================================================
+   SAH V25.1 — Student Services role visibility
+   ========================================================== */
+
+.nav-group[hidden],
+.nav button.role-hidden{
+  display:none!important;
+}

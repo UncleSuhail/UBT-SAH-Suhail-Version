@@ -5095,8 +5095,8 @@ window.addEventListener('DOMContentLoaded',()=>{
 
   const ALL=new Set([
     'home','general-indicator','sports','sports-request','indicator','scholarships',
-    'championships','athletes','reports','calendar','agreement',
-    'student','activities','volunteer','clubs','approvals','admin','general-indicator'
+    'championships','athletes','reports','calendar',
+    'activities','volunteer','clubs','approvals','admin','general-indicator'
   ]);
 
   const ROLE_PAGES={
@@ -5207,6 +5207,22 @@ window.addEventListener('DOMContentLoaded',()=>{
         .some(button=>!button.hidden);
       group.hidden=!visible;
     });
+
+    const activePage=document.querySelector('.page.active');
+    const activePageName=activePage?.id?.replace('page-','')||'home';
+
+    if(!allowed.has(activePageName)){
+      activePage?.classList.remove('active');
+      document.getElementById('page-home')?.classList.add('active');
+
+      document.querySelectorAll('.nav button[data-page]').forEach(button=>{
+        button.classList.toggle('active',button.dataset.page==='home');
+      });
+
+      if(location.hash&&location.hash!=='#home'){
+        history.replaceState(null,'',location.pathname+location.search+'#home');
+      }
+    }
 
     [
       'indicatorPermissionSettings',
@@ -5920,4 +5936,11 @@ window.addEventListener('DOMContentLoaded',()=>{
       status.dispatchEvent(new Event('change',{bubbles:true}));
     },120);
   });
+});
+
+
+/* SAH V25.1 — Student Services visible only to student account */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 25.1 loaded');
+  document.documentElement.dataset.sahBuild='25.1';
 });
