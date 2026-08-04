@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#082b63">
 <title>Student Activities Platform | UBT</title>
-<link rel="stylesheet" href="css/style.css?v=25.1">
+<link rel="stylesheet" href="css/style.css?v=25.3">
 
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
@@ -71,7 +71,7 @@
 </style>
 
 </head>
-<body data-sah-version="25.1" class="login-mode">
+<body data-sah-version="25.3" class="login-mode">
 <section id="login" class="login-page">
   <div class="login-bg"></div>
   <div class="login-card">
@@ -1041,7 +1041,14 @@
   <div class="card"><form id="volunteerOpportunityForm" class="workflow-form">
     <label><span>نوع العمل التطوعي</span><input id="volunteerType" required></label>
     <label><span>عدد الأفراد المطلوبين</span><input id="volunteerCapacity" type="number" min="1" required></label>
-    <label><span>اسم الحدث</span><input id="volunteerEventName" required></label>
+    <label><span>اسم الحدث</span><input id="volunteerEventName" required></label><label class="event-description-field">
+      <span>وصف الحدث</span>
+      <textarea id="volunteerEventDescription" rows="3"
+                data-word-limit="35"
+                data-word-counter="volunteerEventDescriptionCounter"
+                placeholder="اكتب وصفًا مختصرًا للحدث بحد أقصى 35 كلمة" required></textarea>
+      <small class="event-description-counter" id="volunteerEventDescriptionCounter">0 / 35 كلمة</small>
+    </label>
     <label><span>تاريخ الحدث</span><input id="volunteerEventDate" type="date" required></label>
     <label><span>الجهة الراعية</span><input id="volunteerSponsor" required></label>
     <label><span>الجهة المسؤولة</span><input id="volunteerOwner" required></label>
@@ -1083,20 +1090,27 @@
     <section id="page-sports-request" class="page">
   <div class="section-title"><div><h3>تقديم طلب تنفيذ بطولة/حدث</h3><p>يشترط ثلاثة أيام على الأقل بين التقديم والحدث.</p></div></div>
   <div class="card"><form class="workflow-form">
-    <label><span>اسم الحدث/البطولة</span><input id="sportsReqName"></label>
-    <label><span>تاريخ الحدث</span><input id="sportsReqDate" type="date"></label>
-    <label><span>نوع اللعبة</span><select id="sportsReqGame"><option>كرة القدم</option><option>كرة السلة</option><option>الكرة الطائرة</option><option>كرة اليد</option><option>التنس</option><option>تنس الطاولة</option><option>السباحة</option><option>ألعاب القوى</option><option>الكاراتيه</option><option>الجودو</option><option>البلياردو</option><option>الشطرنج</option><option>رياضة أخرى</option></select></label>
+    <label><span>اسم الحدث/البطولة</span><input id="sportsReqName" required></label><label class="event-description-field">
+      <span>وصف الحدث</span>
+      <textarea id="sportsReqDescription" rows="3"
+                data-word-limit="35"
+                data-word-counter="sportsReqDescriptionCounter"
+                placeholder="اكتب وصفًا مختصرًا للحدث بحد أقصى 35 كلمة" required></textarea>
+      <small class="event-description-counter" id="sportsReqDescriptionCounter">0 / 35 كلمة</small>
+    </label>
+    <label><span>تاريخ الحدث</span><input id="sportsReqDate" type="date" required></label>
+    <label><span>نوع اللعبة</span><select id="sportsReqGame" required><option value="" selected disabled>اختر نوع اللعبة</option><option>كرة القدم</option><option>كرة السلة</option><option>الكرة الطائرة</option><option>كرة اليد</option><option>التنس</option><option>تنس الطاولة</option><option>السباحة</option><option>ألعاب القوى</option><option>الكاراتيه</option><option>الجودو</option><option>البلياردو</option><option>الشطرنج</option><option>رياضة أخرى</option></select></label>
     
     <label>
       <span>مكان الحدث</span>
       <input id="sportsReqLocation" type="text"
              placeholder="مثال: الصالة الرياضية الرئيسية" required>
     </label>
-    <label><span>عدد المشاركين</span><input id="sportsReqParticipants" type="number" min="1"></label>
-    <label><span>عدد الفرق المشاركة</span><input id="sportsReqTeams" type="number" min="0" value="0"></label>
-    <label><span>عدد الجامعات المشاركة</span><input id="sportsReqUniversities" type="number" min="0" value="0"></label>
-    <label><span>الحد الأقصى للمتقدمين</span><input id="sportsReqCapacity" type="number" min="1"></label>
-    <label><span>الفئة المستهدفة</span><select id="sportsReqGender"><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
+    <label><span>عدد المشاركين</span><input id="sportsReqParticipants" type="number" min="1" required></label>
+    <label><span>عدد الفرق المشاركة</span><input id="sportsReqTeams" type="number" min="0" value="0" required></label>
+    <label><span>عدد الجامعات المشاركة</span><input id="sportsReqUniversities" type="number" min="0" value="0" required></label>
+    <label><span>الحد الأقصى للمتقدمين</span><input id="sportsReqCapacity" type="number" min="1" required></label>
+    <label><span>الفئة المستهدفة</span><select id="sportsReqGender" required><option value="" selected disabled>اختر الفئة المستهدفة</option><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
     <div class="form-submit-row"><button id="submitSportsRequest" class="btn primary" type="button">إرسال الطلب</button></div>
   </form></div>
   <div class="card table-card records-table-card">
@@ -1141,10 +1155,10 @@
   </a>
   <div class="grid cols-2">
     <div class="card"><h4>تقديم طلب تسجيل نادي جديد</h4><form class="workflow-form single-column">
-      <label><span>اسم النادي</span><input id="clubName"></label><label><span>مشرف النادي</span><input id="clubSupervisor"></label>
-      <label><span>مسؤول النادي</span><input id="clubManager"></label><label><span>الأعضاء (10 على الأقل، كل اسم في سطر)</span><textarea id="clubMembers" rows="7"></textarea></label>
-      <label><span>هدف النادي</span><textarea id="clubGoal"></textarea></label><label><span>شعار النادي</span><input id="clubLogo" type="file" accept="image/*"></label>
-      <label><span>الفئة</span><select id="clubGender"><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
+      <label><span>اسم النادي</span><input id="clubName" required></label><label><span>مشرف النادي</span><input id="clubSupervisor" required></label>
+      <label><span>مسؤول النادي</span><input id="clubManager" required></label><label><span>الأعضاء (10 على الأقل، كل اسم في سطر)</span><textarea id="clubMembers" rows="7" required></textarea></label>
+      <label><span>هدف النادي</span><textarea id="clubGoal" required></textarea></label><label><span>شعار النادي</span><input id="clubLogo" type="file" accept="image/*" required></label>
+      <label><span>الفئة</span><select id="clubGender" required><option value="" selected disabled>اختر الفئة</option><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
       <button id="submitClubRequest" class="btn primary club-form-submit" type="button">إرسال طلب النادي</button>
     </form></div>
     <div class="card"><h4>تقديم طلب مبادرة / فعالية تابعة للنادي</h4><form class="workflow-form single-column">
@@ -1154,11 +1168,18 @@
         <option value="">اختر النادي المسجل</option>
       </select>
       <small class="field-help">تظهر هنا النوادي المفعلة والنوادي التي تمت الموافقة عليها.</small>
-    </label><label><span>اسم الحدث</span><input id="clubEventName"></label>
-      <label><span>تاريخ الحدث</span><input id="clubEventDate" type="date"></label><label><span>مكان الحدث</span><input id="clubEventLocation"></label>
-      <label><span>الأفراد المشاركون وبياناتهم</span><textarea id="clubEventParticipants"></textarea></label><label><span>المشرف المسؤول</span><input id="clubEventSupervisor"></label>
-      <label><span>الفئة</span><select id="clubEventGender"><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
-      <label><span>الحد الأقصى للمتقدمين</span><input id="clubEventCapacity" type="number" min="1"></label>
+    </label><label><span>اسم الحدث</span><input id="clubEventName" required></label><label class="event-description-field">
+      <span>وصف الحدث</span>
+      <textarea id="clubEventDescription" rows="3"
+                data-word-limit="35"
+                data-word-counter="clubEventDescriptionCounter"
+                placeholder="اكتب وصفًا مختصرًا للحدث بحد أقصى 35 كلمة" required></textarea>
+      <small class="event-description-counter" id="clubEventDescriptionCounter">0 / 35 كلمة</small>
+    </label>
+      <label><span>تاريخ الحدث</span><input id="clubEventDate" type="date" required></label><label><span>مكان الحدث</span><input id="clubEventLocation" required></label>
+      <label><span>الأفراد المشاركون وبياناتهم</span><textarea id="clubEventParticipants" required></textarea></label><label><span>المشرف المسؤول</span><input id="clubEventSupervisor" required></label>
+      <label><span>الفئة</span><select id="clubEventGender" required><option value="" selected disabled>اختر الفئة</option><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
+      <label><span>الحد الأقصى للمتقدمين</span><input id="clubEventCapacity" type="number" min="1" required></label>
       <button id="submitClubEventRequest" class="btn primary club-form-submit" type="button">إرسال طلب الفعالية</button>
     </form></div>
   </div>
@@ -1815,18 +1836,18 @@
       <label><span>اسم النشاط</span><input id="activityName" required></label>
       <label><span>التاريخ</span><input id="activityDate" type="date" required></label>
       <label><span>عدد الأيام</span><input id="activityDays" type="number" min="1" value="1" required></label>
-      <label><span>عدد المستفيدين</span><input id="activityBeneficiaries" type="number" min="0" value="0"></label>
-      <label><span>عدد اللاعبين المشاركين</span><input id="activityPlayers" type="number" min="0" value="0"></label>
-      <label><span>الفئة</span><select id="activityGender"><option value="طلاب">طلاب</option><option value="طالبات">طالبات</option></select></label>
-      <label><span>فئة الحدث</span><select id="activityEventCategory" required><option value="الأنشطة التوعوية">الأنشطة التوعوية</option><option value="الأنشطة و البرامج المجتمعية و التطوعية">الأنشطة و البرامج المجتمعية و التطوعية</option><option value="الأنشطة الثقافية">الأنشطة الثقافية</option><option value="الأنشطة العلمية">الأنشطة العلمية</option><option value="الأنشطة الفنية">الأنشطة الفنية</option><option value="الأنشطة الرياضية">الأنشطة الرياضية</option><option value="البرامج التدريبية">البرامج التدريبية</option><option value="برامج عامة على مستوى الجامعة">برامج عامة على مستوى الجامعة</option></select></label>
+      <label><span>عدد المستفيدين</span><input id="activityBeneficiaries" type="number" min="0" value="0" required></label>
+      <label><span>عدد اللاعبين المشاركين</span><input id="activityPlayers" type="number" min="0" value="0" required></label>
+      <label><span>الفئة</span><select id="activityGender" required><option value="" selected disabled>اختر الفئة</option><option value="طلاب">طلاب</option><option value="طالبات">طالبات</option></select></label>
+      <label><span>فئة الحدث</span><select id="activityEventCategory" required><option value="" selected disabled>اختر فئة الحدث</option><option value="الأنشطة التوعوية">الأنشطة التوعوية</option><option value="الأنشطة و البرامج المجتمعية و التطوعية">الأنشطة و البرامج المجتمعية و التطوعية</option><option value="الأنشطة الثقافية">الأنشطة الثقافية</option><option value="الأنشطة العلمية">الأنشطة العلمية</option><option value="الأنشطة الفنية">الأنشطة الفنية</option><option value="الأنشطة الرياضية">الأنشطة الرياضية</option><option value="البرامج التدريبية">البرامج التدريبية</option><option value="برامج عامة على مستوى الجامعة">برامج عامة على مستوى الجامعة</option></select></label>
       <label><span>المجال الرئيسي</span><select id="activityIndicatorField" required></select></label>
       <label><span>المجال الفرعي</span><select id="activitySubField" required></select></label>
-      <label><span>نوع المشاركة</span><select id="activityParticipationType"><option value="guest">ضيف</option><option value="host">مستضيف</option></select></label>
-      <label><span>عدد الجامعات المشاركة</span><input id="activityUniversities" type="number" min="0" value="0"></label>
-      <label><span>نوع اللعبة / النشاط</span><input id="activityGameType"></label>
-      <label><span>رابط التوثيق</span><input id="activityDocumentationUrl" type="url" placeholder="https://..."></label>
-      <label class="file-field"><span>تقرير الاتحاد</span><input id="activityFederationReport" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"></label>
-      <label class="file-field"><span>الجدول الزمني</span><input id="activityScheduleFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"></label>
+      <label><span>نوع المشاركة</span><select id="activityParticipationType" required><option value="" selected disabled>اختر نوع المشاركة</option><option value="guest">ضيف</option><option value="host">مستضيف</option></select></label>
+      <label><span>عدد الجامعات المشاركة</span><input id="activityUniversities" type="number" min="0" value="0" required></label>
+      <label><span>نوع اللعبة / النشاط</span><input id="activityGameType" required></label>
+      <label><span>رابط التوثيق</span><input id="activityDocumentationUrl" type="url" placeholder="https://..." required></label>
+      <label class="file-field"><span>تقرير الاتحاد</span><input id="activityFederationReport" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" required></label>
+      <label class="file-field"><span>الجدول الزمني</span><input id="activityScheduleFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" required></label>
       <div class="activity-points-preview">
         <span>النقاط المحتسبة</span>
         <strong id="activityCalculatedPoints">0</strong>
@@ -1872,6 +1893,6 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=25.1"></script>
+<script src="js/app.js?v=25.3"></script>
 </body>
 </html>

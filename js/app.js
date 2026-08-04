@@ -1767,10 +1767,33 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     const existing = editKey
       ? allEvidenceRows().find(row => row.recordKey === editKey)
       : null;
+
+    const form=document.getElementById('addActivityForm');
+    const valid=validateRequiredContainer(form,{
+      allowExistingFiles:Boolean(existing),
+      existingFileIds:['activityFederationReport','activityScheduleFile'],
+      existingFileNames:{
+        activityFederationReport:existing?.federationReportName||'',
+        activityScheduleFile:existing?.scheduleFileName||''
+      }
+    });
+
+    if(!valid)return;
+
     const { row, report, schedule } = activityFromForm(existing || {});
 
-    if (!row.activity || !row.date || !row.indicatorField || !row.subField) {
-      showToast('أكمل اسم النشاط والتاريخ والمجال الرئيسي والمجال الفرعي.');
+    if (
+      !row.activity || !row.date || !row.days ||
+      row.beneficiaries < 0 || row.players < 0 ||
+      !row.gender || !row.eventCategory ||
+      !row.indicatorField || !row.subField ||
+      !row.participationType ||
+      row.universities < 0 ||
+      !row.gameType || !row.documentationUrl ||
+      (!report && !existing?.federationReportName) ||
+      (!schedule && !existing?.scheduleFileName)
+    ) {
+      showToast('لا يمكن حفظ النشاط قبل تعبئة جميع البيانات المطلوبة.');
       return;
     }
 
@@ -3458,6 +3481,116 @@ function renderCategory(c){
      : '<tr><td colspan="6">لا توجد أنشطة.</td></tr>';
  }
 }
+
+function normalizeEventDescription(value){
+  return String(value||'').replace(/\s+/g,' ').trim();
+}
+
+function eventDescriptionWordCount(value){
+  const normalized=normalizeEventDescription(value);
+  return normalized ? normalized.split(' ').length : 0;
+}
+
+function enforceEventDescriptionLimit(textarea){
+  if(!textarea)return 0;
+  const limit=Number(textarea.dataset.wordLimit)||35;
+  const words=normalizeEventDescription(textarea.value).split(' ').filter(Boolean);
+
+  if(words.length>limit){
+    textarea.value=words.slice(0,limit).join(' ');
+  }
+
+  const count=eventDescriptionWordCount(textarea.value);
+  const counter=document.getElementById(textarea.dataset.wordCounter);
+
+  if(counter){
+    counter.textContent=`${count} / ${limit} كلمة`;
+    counter.classList.toggle('limit-reached',count>=limit);
+  }
+
+  return count;
+}
+
+
+function clearRequiredFieldErrors(container){
+  container?.querySelectorAll('.required-field-error').forEach(element=>{
+    element.classList.remove('required-field-error');
+  });
+}
+
+function requiredFieldHasValue(field){
+  if(!field || field.disabled || field.type==='hidden')return true;
+
+  if(field.type==='checkbox'||field.type==='radio'){
+    return field.checked;
+  }
+
+  if(field.type==='file'){
+    return Boolean(field.files?.length);
+  }
+
+  return String(field.value??'').trim()!=='';
+}
+
+function validateRequiredContainer(container,options={}){
+  if(!container)return false;
+
+  clearRequiredFieldErrors(container);
+
+  const fields=[...container.querySelectorAll(
+    'input[required],select[required],textarea[required]'
+  )];
+
+  const missing=fields.filter(field=>{
+    if(
+      options.allowExistingFiles &&
+      field.type==='file' &&
+      options.existingFileIds?.includes(field.id)
+    ){
+      const existingName=options.existingFileNames?.[field.id];
+      return !field.files?.length && !existingName;
+    }
+
+    return !requiredFieldHasValue(field);
+  });
+
+  if(missing.length){
+    missing.forEach(field=>{
+      field.classList.add('required-field-error');
+      field.closest('label')?.classList.add('required-field-error');
+    });
+
+    missing[0].focus();
+    window.showToast?.(
+      `يرجى تعبئة جميع البيانات المطلوبة. الحقول الناقصة: ${missing.length}`
+    );
+    return false;
+  }
+
+  const invalid=fields.find(field=>!field.checkValidity());
+  if(invalid){
+    invalid.classList.add('required-field-error');
+    invalid.closest('label')?.classList.add('required-field-error');
+    invalid.reportValidity();
+    invalid.focus();
+    return false;
+  }
+
+  return true;
+}
+
+function resetRequiredErrorOnInput(event){
+  const field=event.target.closest(
+    'input[required],select[required],textarea[required]'
+  );
+  if(!field)return;
+
+  if(requiredFieldHasValue(field)){
+    field.classList.remove('required-field-error');
+    field.closest('label')?.classList.remove('required-field-error');
+  }
+}
+
 function tableFilterValue(id,fallback=''){
  const element=document.getElementById(id);
  return element ? String(element.value||fallback) : fallback;
@@ -3534,6 +3667,7 @@ function student(){
      <div class="student-event-main">
        <span class="student-event-label">اسم الحدث</span>
        <h4>${r.name||'فعالية بدون اسم'}</h4>
+       ${r.description?`<p class="student-event-description">${r.description}</p>`:''}
      </div>
 
      <div class="student-event-details">
@@ -5040,11 +5174,20 @@ window.addEventListener('DOMContentLoaded',()=>{
 
  document.querySelectorAll('[data-event-category]').forEach((b,i)=>b.onclick=()=>{document.querySelectorAll('[data-event-category]').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderCategory(b.dataset.eventCategory);if(i===0||true){}});
  const first=document.querySelector('[data-event-category]');if(first){first.classList.add('active');renderCategory(first.dataset.eventCategory)}
- bind('submitSportsRequest',()=>{const d=document.getElementById('sportsReqDate').value;if(!later3(d))return alert('يجب أن يكون الحدث بعد 3 أيام على الأقل.');push(K.sports,{id:id('sp'),name:document.getElementById('sportsReqName').value,date:d,game:document.getElementById('sportsReqGame').value,
+ bind('submitSportsRequest',()=>{
+   const form=document.getElementById('submitSportsRequest')?.closest('form');
+   if(!validateRequiredContainer(form))return;
+   const d=document.getElementById('sportsReqDate').value;if(!later3(d))return alert('يجب أن يكون الحدث بعد 3 أيام على الأقل.');push(K.sports,{id:id('sp'),name:document.getElementById('sportsReqName').value,description:normalizeEventDescription(document.getElementById('sportsReqDescription')?.value),date:d,game:document.getElementById('sportsReqGame').value,
         location:document.getElementById('sportsReqLocation')?.value.trim()||'غير محدد',
         participants:+document.getElementById('sportsReqParticipants').value,teams:+document.getElementById('sportsReqTeams').value,universities:+document.getElementById('sportsReqUniversities').value,capacity:+document.getElementById('sportsReqCapacity').value,gender:document.getElementById('sportsReqGender').value,status:'تحت المراجعة',submittedAt:td(),submittedBy:'مدير النادي الرياضي'})});
- bind('submitClubRequest',()=>{const m=document.getElementById('clubMembers').value.split(/\n|,/).map(x=>x.trim()).filter(Boolean);if(m.length<10)return alert('يلزم 10 أعضاء على الأقل.');if(!document.getElementById('clubLogo').files[0])return alert('ارفع شعار النادي.');push(K.clubs,{id:id('cl'),name:document.getElementById('clubName').value,supervisor:document.getElementById('clubSupervisor').value,manager:document.getElementById('clubManager').value,members:m,goal:document.getElementById('clubGoal').value,gender:document.getElementById('clubGender').value,status:'تحت المراجعة',submittedAt:td(),submittedBy:'حساب طالب'})});
+ bind('submitClubRequest',()=>{
+   const form=document.getElementById('submitClubRequest')?.closest('form');
+   if(!validateRequiredContainer(form))return;
+   const m=document.getElementById('clubMembers').value.split(/\n|,/).map(x=>x.trim()).filter(Boolean);if(m.length<10)return alert('يلزم 10 أعضاء على الأقل.');if(!document.getElementById('clubLogo').files[0])return alert('ارفع شعار النادي.');push(K.clubs,{id:id('cl'),name:document.getElementById('clubName').value,supervisor:document.getElementById('clubSupervisor').value,manager:document.getElementById('clubManager').value,members:m,goal:document.getElementById('clubGoal').value,gender:document.getElementById('clubGender').value,status:'تحت المراجعة',submittedAt:td(),submittedBy:'حساب طالب'})});
  bind('submitClubEventRequest',()=>{
+ const form=document.getElementById('submitClubEventRequest')?.closest('form');
+ if(!validateRequiredContainer(form))return;
+
  const selectedClub=document.getElementById('clubEventClub').value;
  if(!selectedClub)return alert('اختر ناديًا مسجلًا من القائمة.');
  if(!registeredClubs().includes(selectedClub))return alert('النادي المحدد غير مفعل.');
@@ -5056,6 +5199,7 @@ window.addEventListener('DOMContentLoaded',()=>{
    id:id('ce'),
    club:selectedClub,
    name:document.getElementById('clubEventName').value,
+   description:normalizeEventDescription(document.getElementById('clubEventDescription')?.value),
    date:d,
    location:document.getElementById('clubEventLocation').value,
    participants:document.getElementById('clubEventParticipants').value,
@@ -5067,7 +5211,12 @@ window.addEventListener('DOMContentLoaded',()=>{
    submittedBy:'مسؤول النادي'
  });
 });
- bind('submitVolunteerOpportunity',()=>push(K.vol,{id:id('vo'),type:document.getElementById('volunteerType').value,capacity:+document.getElementById('volunteerCapacity').value,name:document.getElementById('volunteerEventName').value,date:document.getElementById('volunteerEventDate').value,sponsor:document.getElementById('volunteerSponsor').value,owner:document.getElementById('volunteerOwner').value,location:document.getElementById('volunteerLocation').value,gender:'الاثنان معًا',status:'تحت المراجعة',submittedAt:td(),submittedBy:'مدير الأنشطة الطلابية'}));
+ bind('submitVolunteerOpportunity',()=>{
+ const form=document.getElementById('submitVolunteerOpportunity')?.closest('form');
+ if(!validateRequiredContainer(form))return;
+
+ push(K.vol,{id:id('vo'),type:document.getElementById('volunteerType').value,capacity:+document.getElementById('volunteerCapacity').value,name:document.getElementById('volunteerEventName').value,description:normalizeEventDescription(document.getElementById('volunteerEventDescription')?.value),date:document.getElementById('volunteerEventDate').value,sponsor:document.getElementById('volunteerSponsor').value,owner:document.getElementById('volunteerOwner').value,location:document.getElementById('volunteerLocation').value,gender:'الاثنان معًا',status:'تحت المراجعة',submittedAt:td(),submittedBy:'مدير الأنشطة الطلابية'});
+});
  renderAll();
 });
 })();
@@ -5943,4 +6092,33 @@ window.addEventListener('DOMContentLoaded',()=>{
 window.addEventListener('DOMContentLoaded',()=>{
   console.info('SAH build 25.1 loaded');
   document.documentElement.dataset.sahBuild='25.1';
+});
+
+
+/* SAH V25.2 — event descriptions limited to 35 words */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 25.2 loaded');
+  document.documentElement.dataset.sahBuild='25.2';
+
+  document.querySelectorAll('textarea[data-word-limit="35"]').forEach(textarea=>{
+    enforceEventDescriptionLimit(textarea);
+
+    textarea.addEventListener('input',()=>{
+      enforceEventDescriptionLimit(textarea);
+    });
+
+    textarea.addEventListener('paste',()=>{
+      setTimeout(()=>enforceEventDescriptionLimit(textarea),0);
+    });
+  });
+});
+
+
+/* SAH V25.3 — all workflow fields are mandatory */
+window.addEventListener('DOMContentLoaded',()=>{
+  console.info('SAH build 25.3 loaded');
+  document.documentElement.dataset.sahBuild='25.3';
+
+  document.addEventListener('input',resetRequiredErrorOnInput);
+  document.addEventListener('change',resetRequiredErrorOnInput);
 });

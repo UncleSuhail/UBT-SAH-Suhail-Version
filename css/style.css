@@ -8659,3 +8659,142 @@ body.theme-dark .general-approval-types>button>b{
 .nav button.role-hidden{
   display:none!important;
 }
+
+
+/* ==========================================================
+   SAH V25.2 — event descriptions
+   ========================================================== */
+
+.event-description-field{
+  display:grid!important;
+  gap:6px!important;
+  grid-column:1/-1;
+}
+
+.event-description-field>span{
+  color:var(--blue);
+  font-size:10px;
+  font-weight:850;
+}
+
+.event-description-field textarea{
+  width:100%;
+  min-height:88px;
+  resize:vertical;
+  padding:10px 12px;
+  border:1px solid #c9d8ea;
+  border-radius:12px;
+  background:#fff;
+  color:var(--blue);
+  font-family:inherit;
+  line-height:1.65;
+  outline:none;
+  transition:border-color .18s ease,box-shadow .18s ease;
+}
+
+.event-description-field textarea:focus{
+  border-color:#1d67c1;
+  box-shadow:0 0 0 3px rgba(29,103,193,.1);
+}
+
+.event-description-counter{
+  justify-self:end;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:750;
+}
+
+.event-description-counter.limit-reached{
+  color:#ad2348;
+}
+
+.student-event-description{
+  display:-webkit-box;
+  margin:7px 0 2px;
+  overflow:hidden;
+  color:#5d6e85;
+  font-size:10px;
+  line-height:1.65;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:3;
+}
+
+body.theme-dark .event-description-field textarea{
+  background:rgba(255,255,255,.06);
+  border-color:var(--border);
+  color:#fff;
+}
+
+body.theme-dark .student-event-description{
+  color:#a9b7c9;
+}
+
+@media(max-width:700px){
+  .event-description-field{
+    grid-column:auto;
+  }
+}
+
+
+/* ==========================================================
+   SAH V25.3 — mandatory workflow fields
+   ========================================================== */
+
+#page-sports-request form label:has([required])>span::after,
+#page-clubs form label:has([required])>span::after,
+#page-volunteer form label:has([required])>span::after,
+#addActivityForm label:has([required])>span::after{
+  content:" *";
+  color:#ad2348;
+  font-weight:950;
+}
+
+.required-field-error{
+  border-color:#c51f4b!important;
+}
+
+input.required-field-error,
+select.required-field-error,
+textarea.required-field-error{
+  background:#fff6f8!important;
+  box-shadow:0 0 0 3px rgba(197,31,75,.10)!important;
+}
+
+label.required-field-error{
+  padding:7px;
+  border:1px solid rgba(197,31,75,.30);
+  border-radius:12px;
+  background:rgba(255,242,246,.55);
+}
+
+label.required-field-error>span{
+  color:#ad2348!important;
+}
+
+body.theme-dark input.required-field-error,
+body.theme-dark select.required-field-error,
+body.theme-dark textarea.required-field-error{
+  background:rgba(197,31,75,.13)!important;
+}
+
+body.theme-dark label.required-field-error{
+  background:rgba(197,31,75,.09);
+}
+
+.activity-form::before{
+  content:"جميع الحقول أدناه إلزامية، بما فيها رابط التوثيق والملفات المرفقة.";
+  grid-column:1/-1;
+  display:block;
+  padding:10px 12px;
+  border:1px solid #cddced;
+  border-radius:11px;
+  background:#f7faff;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.6;
+}
+
+body.theme-dark .activity-form::before{
+  background:rgba(255,255,255,.05);
+  border-color:var(--border);
+}
