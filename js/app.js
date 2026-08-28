@@ -622,7 +622,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   };
 
   const SPORTS_MANAGER_PAGES = new Set([
-    'sports', 'scholarships', 'championships',
+    'sports', 'sports-request', 'scholarships', 'championships',
     'athletes', 'reports', 'calendar'
   ]);
 
@@ -6856,9 +6856,22 @@ function renderBudgetDashboard(){
   const pending=rows.filter(row=>!['مقبول','معتمد نهائيًا','مرفوض','مرفوض من العمادة'].includes(row.status||'تحت المراجعة'));
   const sum=list=>list.reduce((total,row)=>total+(Number(row.budget)||0),0);
   const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
-  set('generalApprovedBudget',money(sum(approved)));
-  set('generalRequestedBudget',money(sum(pending)));
-  set('generalTotalBudget',money(sum(rows)));
+  const approvedSum=sum(approved);
+  const pendingSum=sum(pending);
+  const totalSum=sum(rows);
+
+  set('generalApprovedBudget',money(approvedSum));
+  set('generalRequestedBudget',money(pendingSum));
+  set('generalTotalBudget',money(totalSum));
+
+  const setRing=(selector,percent)=>{
+    const element=document.querySelector(selector);
+    if(element)element.style.setProperty('--ring-p',Math.max(0,Math.min(100,percent||0)));
+  };
+  const denominator=Math.max(1,totalSum);
+  setRing('.general-kpi-card.approved-budget',Math.round(approvedSum/denominator*100));
+  setRing('.general-kpi-card.requested-budget',Math.round(pendingSum/denominator*100));
+  setRing('.general-kpi-card.total-budget',100);
 
   document.querySelectorAll('[data-budget-filter]').forEach(button=>{
     button.onclick=()=>{
@@ -6967,6 +6980,8 @@ function renderSatisfaction(){
   const avg=surveys.length?Math.round(surveys.reduce((s,r)=>s+(Number(r.percent)||0),0)/surveys.length):0;
   const p=document.getElementById('generalSatisfactionPercent');if(p)p.textContent=`${avg}%`;
   const c=document.getElementById('generalSatisfactionCount');if(c)c.textContent=`${surveys.length} استبانة مكتملة`;
+  const satisfactionCard=document.getElementById('generalSatisfactionCard');
+  if(satisfactionCard)satisfactionCard.style.setProperty('--ring-p',Math.max(0,Math.min(100,avg)));
   const body=document.getElementById('generalSatisfactionRows');
   if(body)body.innerHTML=surveys.length?surveys.map(row=>`<tr>
     <td>${row.studentName}</td><td>${row.college||'—'}</td><td>${row.eventName}</td><td>${row.gender||'—'}</td>
@@ -7213,3 +7228,10 @@ window.addEventListener('DOMContentLoaded',()=>{
 });
 
 })();
+
+
+/* SAH V30.1 */
+window.addEventListener('DOMContentLoaded',()=>{
+  document.documentElement.dataset.sahBuild='30.1';
+  console.info('SAH build 30.1 loaded');
+});

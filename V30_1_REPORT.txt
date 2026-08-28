@@ -1,0 +1,9 @@
+SAH V30.1
+=========
+- Sports Club Manager explicitly has access to Submit Championship / Event Request.
+- Budget KPIs on General Dashboard are now circular statistical donuts:
+  spent/approved, requested/pending, and total.
+- Beneficiary Satisfaction KPI is now a circular statistical donut.
+- Ring percentages update dynamically from current data.
+- Existing click-to-view detail behavior remains.
+- JavaScript syntax check passed.
