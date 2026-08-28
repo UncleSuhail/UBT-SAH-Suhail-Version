@@ -7251,3 +7251,24 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.documentElement.dataset.sahBuild='30.2';
   console.info('SAH build 30.2 loaded');
 });
+
+
+/* SAH V30.3 — header cleanup */
+function sahV303HeaderCleanup(){
+  const header=document.querySelector('.topbar');
+  if(!header)return;
+
+  header.querySelectorAll('.header-user-separator,.user-separator,.account-separator,.profile-separator')
+    .forEach(el=>el.remove());
+
+  header.querySelectorAll('span').forEach(el=>{
+    if((el.textContent||'').trim()==='/' &&
+       (el.closest('.userbox,.account-box,.current-user,.user-profile,.user-name,.profile-info') || el.parentElement===header)){
+      el.remove();
+    }
+  });
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  sahV303HeaderCleanup();
+  setTimeout(sahV303HeaderCleanup,100);
+});

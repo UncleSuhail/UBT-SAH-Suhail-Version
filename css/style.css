@@ -12123,3 +12123,65 @@ html[lang="en"] .topbar #activeRole{
     grid-template-columns:1fr!important;
   }
 }
+
+
+/* ==========================================================
+   SAH V30.3 — header overlap correction
+   ========================================================== */
+
+/* Keep the platform identity farther to the left in both languages. */
+.topbar .brand,
+.topbar .platform-brand,
+.topbar .header-brand,
+.topbar .brand-center{
+  transform:translateX(-58px)!important;
+  margin-inline-end:48px!important;
+}
+
+/* Reserve separation between platform identity and account/language controls. */
+.topbar{
+  column-gap:28px!important;
+}
+
+.topbar .brand h1,
+.topbar .platform-brand h1,
+.topbar .header-brand h1,
+.topbar .brand-center h1{
+  white-space:nowrap!important;
+}
+
+/* The username should not contain/show a slash separator. */
+.header-user-separator,
+.user-separator,
+.account-separator,
+.profile-separator{
+  display:none!important;
+}
+
+/* Extra protection for the account area so it does not collide with the title. */
+.topbar .userbox,
+.topbar .account-box,
+.topbar .current-user,
+.topbar .user-profile{
+  flex-shrink:0!important;
+}
+
+@media (max-width:1500px){
+  .topbar .brand,
+  .topbar .platform-brand,
+  .topbar .header-brand,
+  .topbar .brand-center{
+    transform:translateX(-78px)!important;
+    margin-inline-end:58px!important;
+  }
+}
+
+@media (max-width:1150px){
+  .topbar .brand,
+  .topbar .platform-brand,
+  .topbar .header-brand,
+  .topbar .brand-center{
+    transform:none!important;
+    margin-inline-end:20px!important;
+  }
+}
