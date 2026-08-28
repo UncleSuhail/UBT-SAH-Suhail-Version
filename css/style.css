@@ -12003,3 +12003,123 @@ html[lang="en"] .topbar #activeRole{
     max-height:158px!important;
   }
 }
+
+
+/* ==========================================================
+   SAH V30.2 — Student Council summary + 4 circular KPIs row
+   ========================================================== */
+
+.general-council-summary-card{
+  margin-top:18px!important;
+  padding:20px!important;
+  border:1px solid #d8ccf4!important;
+  cursor:pointer!important;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease!important;
+}
+.general-council-summary-card:hover{
+  transform:translateY(-2px)!important;
+  box-shadow:0 14px 30px rgba(7,44,100,.10)!important;
+  border-color:#b5a1e3!important;
+}
+.general-council-summary-head{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:18px!important;
+  margin-bottom:16px!important;
+}
+.general-council-summary-head>div>span{
+  display:block!important;
+  color:#6f57b5!important;
+  font-size:10px!important;
+  font-weight:900!important;
+}
+.general-council-summary-head h3{
+  margin:4px 0 0!important;
+  color:var(--blue)!important;
+  font-size:20px!important;
+}
+.general-council-summary-head p{
+  margin:5px 0 0!important;
+  color:var(--muted)!important;
+  font-size:10px!important;
+}
+.general-council-summary-arrow{
+  display:grid!important;
+  place-items:center!important;
+  width:38px!important;
+  height:38px!important;
+  border-radius:50%!important;
+  background:#f2effb!important;
+  color:#6f57b5!important;
+  font-size:18px!important;
+  font-weight:900!important;
+}
+.general-council-summary-stats{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:12px!important;
+}
+.general-council-summary-stats>div{
+  min-height:108px!important;
+  padding:14px!important;
+  border:1px solid var(--border)!important;
+  border-radius:16px!important;
+  background:#f8fbff!important;
+  text-align:center!important;
+}
+.general-council-summary-stats>div.approved{
+  background:#eef8f3!important;
+  border-color:#c4e4d5!important;
+}
+.general-council-summary-stats>div.rejected{
+  background:#fff3f6!important;
+  border-color:#efcbd4!important;
+}
+.general-council-summary-stats span{
+  display:block!important;
+  color:var(--muted)!important;
+  font-size:10px!important;
+  font-weight:800!important;
+}
+.general-council-summary-stats strong{
+  display:block!important;
+  margin:7px 0 4px!important;
+  color:var(--blue)!important;
+  font-size:30px!important;
+  line-height:1!important;
+}
+.general-council-summary-stats .approved strong{color:#08764e!important}
+.general-council-summary-stats .rejected strong{color:#ad2348!important}
+.general-council-summary-stats small{
+  color:var(--muted)!important;
+  font-size:8px!important;
+}
+
+.general-finance-satisfaction-row{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(180px,1fr))!important;
+  align-items:center!important;
+  justify-items:center!important;
+  gap:16px!important;
+  margin:18px 0 0!important;
+}
+.general-finance-satisfaction-row .general-kpi-card.budget,
+.general-finance-satisfaction-row .general-kpi-card.satisfaction{
+  margin:0!important;
+}
+
+@media(max-width:1250px){
+  .general-council-summary-stats{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .general-finance-satisfaction-row{
+    grid-template-columns:repeat(2,minmax(180px,1fr))!important;
+  }
+}
+@media(max-width:700px){
+  .general-council-summary-stats,
+  .general-finance-satisfaction-row{
+    grid-template-columns:1fr!important;
+  }
+}

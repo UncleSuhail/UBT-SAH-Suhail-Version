@@ -6,7 +6,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="#082b63" name="theme-color"/>
 <title>Student Activities Platform | UBT</title>
-<link href="css/style.css?v=30.1" rel="stylesheet"/>
+<link href="css/style.css?v=30.2" rel="stylesheet"/>
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
   html,body{width:100%;max-width:100%;overflow-x:hidden}
@@ -70,7 +70,7 @@
 }
 </style>
 </head>
-<body class="login-mode" data-sah-version="30.1">
+<body class="login-mode" data-sah-version="30.2">
 <section class="login-page" id="login">
 <div class="login-bg"></div>
 <div class="login-card">
@@ -255,22 +255,12 @@
 <span>صلاحيات عمادة شؤون الطلاب</span>
 <small data-icon="award"></small>
 </button>
-</div>
-</div>
-<div class="nav-group">
-<button aria-expanded="false" class="nav-group-title" type="button">
-<span class="group-left">
-<span aria-hidden="true" class="nav-group-symbol">🗳️</span>
-<span class="nav-group-name">المجلس الطلابي</span>
-</span>
-</button>
-<div class="nav-items">
 <button data-page="student-council" type="button">
-<span>إدارة المجلس الطلابي</span>
+<span>المجلس الطلابي</span>
 <small data-icon="users"></small>
-</button>
+</button></div>
 </div>
-</div>
+
 </nav>
 </aside>
 <main class="main">
@@ -335,7 +325,38 @@
 <small id="generalApprovalRate">0% نسبة الموافقة</small>
 <i class="general-kpi-arrow">←</i>
 </button>
-<button class="card general-kpi-card budget approved-budget" data-budget-filter="approved" type="button">
+</div><div class="card general-council-summary-card" data-route="student-council" role="button" tabindex="0">
+<div class="general-council-summary-head">
+<div>
+<span>المجلس الطلابي</span>
+<h3>ملخص أنشطة المجلس الطلابي</h3>
+<p>عرض سريع لعدد أعضاء المجلس وحالة الأنشطة المقدمة للاعتماد.</p>
+</div>
+<span class="general-council-summary-arrow">←</span>
+</div>
+<div class="general-council-summary-stats">
+<div>
+<span>أنشطة المجلس الطلابي</span>
+<strong id="generalCouncilActivities">0</strong>
+<small>إجمالي الأنشطة المقدمة</small>
+</div>
+<div>
+<span>عدد الأعضاء</span>
+<strong id="generalCouncilMembers">0</strong>
+<small>الأعضاء المفعّلون حاليًا</small>
+</div>
+<div class="approved">
+<span>الأنشطة الموافق عليها</span>
+<strong id="generalCouncilApprovedCount">0</strong>
+<small>أنشطة تم اعتمادها</small>
+</div>
+<div class="rejected">
+<span>الأنشطة المرفوضة</span>
+<strong id="generalCouncilRejectedCount">0</strong>
+<small>أنشطة تم رفضها</small>
+</div>
+</div>
+</div><div class="general-finance-satisfaction-row"><button class="card general-kpi-card budget approved-budget" data-budget-filter="approved" type="button">
 <span>الميزانية المصروفة</span>
 <strong id="generalApprovedBudget">0 ر.س</strong>
 <small>ميزانية الأحداث والأنشطة التي تمت الموافقة عليها.</small>
@@ -349,11 +370,6 @@
 <span>إجمالي الميزانيات المقدمة</span>
 <strong id="generalTotalBudget">0 ر.س</strong>
 <small>إجمالي الميزانيات المصروفة والمطلوبة لجميع الأحداث.</small>
-<i class="general-kpi-arrow">←</i>
-</button><button class="card general-kpi-card council" data-route="student-council" type="button">
-<span>أنشطة المجلس الطلابي</span>
-<strong id="generalCouncilActivities">0</strong>
-<small id="generalCouncilApproved">0 نشاط معتمد</small>
 <i class="general-kpi-arrow">←</i>
 </button><button class="card general-kpi-card satisfaction" id="generalSatisfactionCard" type="button">
 <span>نسبة رضا المستفيدين</span>
@@ -2034,7 +2050,7 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=30.1"></script>
+<script src="js/app.js?v=30.2"></script>
 <div aria-modal="true" class="modal hidden" id="finishEventModal" role="dialog">
 <div class="modal-backdrop" data-close-finish-event=""></div>
 <div class="modal-card university-confirm-modal">

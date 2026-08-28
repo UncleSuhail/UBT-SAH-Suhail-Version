@@ -356,6 +356,7 @@ Object.assign(SAH_TEXT_EN,{"0 / 0 نقطة":"0 / 0 points","0 / 35 كلمة":"0 
 Object.assign(SAH_TEXT_EN,{"مسار البطولات الوطنية":"National Championships Track","مسار الأنشطة المركزية":"Central Activities Track","مسار الأنشطة الرياضية الداخلية":"Internal Sports Activities Track","مسار المشاركات الدولية":"International Participation Track","البطولات الوطنية":"National Championships","استضافة البطولات الوطنية":"Hosting National Championships","البطولات التنشيطية":"Recreational Championships","البرامج التدريبية المركزية":"Central Training Programs","الشراكة المجتمعية":"Community Partnership","اللقاءات والفعاليات الرياضية التبادلية":"Exchange Sports Meetings and Events","تشغيل المرافق":"Facility Operations","النشاط الرياضي التنافسي الداخلي":"Internal Competitive Sports Activity","النشاط البدني والترويحي الداخلي":"Internal Physical and Recreational Activity","الأيام العالمية":"International Days","البرامج التدريبية الداخلية":"Internal Training Programs","البرامج التوعوية":"Awareness Programs","الكوادر العاملة في النشاط الرياضي":"Sports Activity Staff","التطوع":"Volunteering","مشاركة الجامعات في المنتخبات الجامعية في المناسبات الدولية":"University Participation in National University Teams at International Events","استضافة المشاركات الدولية للجامعات":"Hosting International University Participation","بطولة وطنية":"National Championship","استضافة بطولة وطنية":"Hosting a National Championship","تنفيذ بطولة تنشيطية":"Conducting a Recreational Championship","دورة مركزية ( حضورية )":"Central Course (In Person)","ورشة عمل مركزية ( حضورية )":"Central Workshop (In Person)","دورة مركزية ( عن بعد )":"Central Course (Online)","ورشة عمل مركزية ( عن بعد )":"Central Workshop (Online)","شراكة مجتمعية":"Community Partnership","لقاء تبادلي":"Exchange Meeting","تشغيل مرافق":"Facility Operations","جماعية":"Team","فردية":"Individual","ذوي الإعاقة":"Persons with Disabilities","خطة تشغيلية":"Operational Plan","نشاط ترويحي":"Recreational Activity","نشاط بدني":"Physical Activity","يوم عالمي":"International Day","يوم وطني":"National Day","ورشة عمل":"Workshop","دورة تدريبية":"Training Course","محاضرة":"Lecture","نشرة توعوية":"Awareness Bulletin","فيديو توعوي":"Awareness Video","الكوادر":"Staff","متطوع":"Volunteer","فرق متطوعين":"Volunteer Teams","مشاركة اللاعبين في منتخبات المملكة دوليًا":"Players Participating in National Teams Internationally","لقاء ودي بين الجامعات الدولية":"Friendly Match Between International Universities","استضافة بطولة دولية":"Hosting an International Championship","مجال تجريبي":"Test Field","المسار التجريبي":"Test Track","مجال":"Field","مسار":"Track","الحد الأعلى":"Maximum","نقاط الطلاب":"Male Points","إنجاز الطلاب":"Male Achievement","نقاط الطالبات":"Female Points","إنجاز الطالبات":"Female Achievement","المجال الرئيسي المرتبط":"Linked Main Field","اسم المجال الفرعي":"Subfield Name","نقاط المشاركة كضيف":"Guest Participation Points","نقاط المشاركة كمستضيف":"Host Participation Points","نقاط كل جامعة مشاركة":"Points per Participating University","نقاط كل لاعب مشارك":"Points per Participating Player","الحد الأقصى":"Maximum","النقاط":"Points","غير مرتبط":"Not Linked","مجال جديد":"New Field","مسار جديد":"New Track","حفظ المجالات وتحديث الأقسام":"Save Fields and Update Sections","إضافة مجال إلى المسار المحدد":"Add Field to Selected Track","إضافة مجال ومسار جديد":"Add New Field and Track","إضافة مجال فرعي":"Add Subfield"});
 Object.assign(SAH_TEXT_EN,{"قبول":"Approve","رفض":"Reject","قبول الطالب":"Approve Student","رفض الطالب":"Reject Student","اعتماد":"Approve","تأكيد القبول":"Confirm Approval","تم القبول":"Approved","تم الرفض":"Rejected","ابحث باسم الحدث أو الطالب أو الرقم الجامعي أو الإيميل":"Search by event, student, university ID, or email","ابحث باسم الحدث أو الطالب أو الرقم الجامعي أو الإيميل أو الجوال":"Search by event, student, university ID, email, or mobile","ابحث باسم الطالب أو الرقم الجامعي أو الإيميل":"Search by student, university ID, or email","ابحث باسم الحدث أو التاريخ أو اللعبة":"Search by event, date, or sport","ابحث باسم الحدث أو النادي":"Search by event or club","ابحث باسم الحدث أو التاريخ":"Search by event or date","جميع الحالات":"All Statuses"});
 Object.assign(SAH_TEXT_EN,{"المجلس الطلابي":"Student Council","إدارة المجلس الطلابي":"Student Council Management","حساب المجلس الطلابي":"Student Council Account","فئة الرياضة":"Sports Category","نوع الرياضة":"Sport","اختر فئة الرياضة":"Select Sports Category","اختر نوع الرياضة":"Select Sport","بطولة وطنية":"National Championship","بطولة دولية":"International Championship","بطولة إقليمية":"Regional Championship","بطولة خليجية":"Gulf Championship","بطولة تنشيطية":"Recreational Championship","الميزانية المصروفة":"Approved / Spent Budget","الميزانية المطلوبة":"Requested Budget","إجمالي الميزانيات المقدمة":"Total Submitted Budgets","أنشطة المجلس الطلابي":"Student Council Activities","نسبة رضا المستفيدين":"Beneficiary Satisfaction Rate","استبانة رضا المستفيد":"Beneficiary Satisfaction Survey","إنهاء الحدث":"Finish Event","تأكيد إنهاء الحدث":"Confirm Event Completion","المقترحات والملاحظات":"Suggestions & Feedback","تصنيف المقترح":"Suggestion Category","مقترحات وملاحظات الطلبة":"Student Suggestions & Feedback","جدول اجتماعات المجلس":"Student Council Meeting Schedule","أعضاء المجلس الطلابي":"Student Council Members","إيميل المستفيد":"Member Email","الصفة":"Position","رئيس":"President","نائب رئيس":"Vice President","أمين المجلس":"Council Secretary","عضو":"Member","ربط العضو بالمجلس":"Link Member to Council","إنهاء الصلاحية":"Revoke Access","إعادة التفعيل":"Reactivate","تقديم نشاط للمجلس الطلابي":"Submit Student Council Activity","موافقات المجلس الطلابي":"Student Council Approvals","الميزانية":"Budget","حالة التنفيذ":"Execution Status","منتهي":"Finished","التقييم":"Survey","تم التقييم":"Survey Completed"});
+Object.assign(SAH_TEXT_EN,{"ملخص أنشطة المجلس الطلابي":"Student Council Activity Summary","عرض سريع لعدد أعضاء المجلس وحالة الأنشطة المقدمة للاعتماد.":"A quick view of council members and submitted activity statuses.","عدد الأعضاء":"Members","الأنشطة الموافق عليها":"Approved Activities","الأنشطة المرفوضة":"Rejected Activities","إجمالي الأنشطة المقدمة":"Total Submitted Activities","الأعضاء المفعّلون حاليًا":"Currently Active Members","أنشطة تم اعتمادها":"Approved Activities","أنشطة تم رفضها":"Rejected Activities"});
 const SAH_TEXT_AR = Object.fromEntries(Object.entries(SAH_TEXT_EN).map(([ar,en])=>[en,ar]));
 const SAH_PHRASES = Object.entries(SAH_TEXT_EN).sort((a,b)=>b[0].length-a[0].length);
 function translateLoose(text,lang){
@@ -5711,7 +5712,7 @@ window.addEventListener('DOMContentLoaded',()=>{
   const ALL=new Set([
     'home','general-indicator','sports','sports-request','indicator','scholarships',
     'athletes','reports','calendar',
-    'activities','volunteer','clubs','approvals','general-indicator'
+    'activities','volunteer','clubs','approvals','student-council','general-indicator'
   ]);
 
   const ROLE_PAGES={
@@ -6899,12 +6900,20 @@ function renderCouncil(){
   const suggestions=readV30(V30.suggestions,[]);
 
   const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
-  set('councilMembersCount',members.filter(m=>m.active!==false).length);
+  const activeMembers=members.filter(m=>m.active!==false).length;
+  const approvedActivities=activities.filter(a=>a.status==='مقبول').length;
+  const rejectedActivities=activities.filter(a=>a.status==='مرفوض').length;
+  const pendingActivities=activities.filter(a=>a.status==='تحت المراجعة').length;
+
+  set('councilMembersCount',activeMembers);
   set('councilActivitiesTotal',activities.length);
-  set('councilActivitiesApproved',activities.filter(a=>a.status==='مقبول').length);
-  set('councilActivitiesPending',activities.filter(a=>a.status==='تحت المراجعة').length);
+  set('councilActivitiesApproved',approvedActivities);
+  set('councilActivitiesPending',pendingActivities);
+
   set('generalCouncilActivities',activities.length);
-  set('generalCouncilApproved',`${activities.filter(a=>a.status==='مقبول').length} نشاط معتمد`);
+  set('generalCouncilMembers',activeMembers);
+  set('generalCouncilApprovedCount',approvedActivities);
+  set('generalCouncilRejectedCount',rejectedActivities);
 
   const form=document.getElementById('councilMemberForm');
   if(form)form.classList.toggle('permission-disabled',!roleCanManageCouncilMembers());
@@ -7234,4 +7243,11 @@ window.addEventListener('DOMContentLoaded',()=>{
 window.addEventListener('DOMContentLoaded',()=>{
   document.documentElement.dataset.sahBuild='30.1';
   console.info('SAH build 30.1 loaded');
+});
+
+
+/* SAH V30.2 */
+window.addEventListener('DOMContentLoaded',()=>{
+  document.documentElement.dataset.sahBuild='30.2';
+  console.info('SAH build 30.2 loaded');
 });
