@@ -1,0 +1,17 @@
+SAH V30.0 — Student Council, Budgets, Survey & Scholarship Sports
+================================================================
+Implemented:
+- Sports category and detailed sport type in electronic scholarship agreement.
+- Budget fields in sports events, club events, volunteer opportunities, and Add Activity.
+- General dashboard budget cards: spent/approved, requested/pending, and total submitted.
+- New Student Council account/role and page.
+- Council members linking by university email with position-based permissions.
+- Dean-only access revocation/reactivation.
+- Council activity requests with budget and Student Affairs approval workflow.
+- Council meeting schedule with printable/PDF workflow.
+- Student suggestions/feedback in Student Services.
+- Event completion workflow with branded confirmation modal.
+- Beneficiary satisfaction survey for accepted students after event completion.
+- General dashboard beneficiary satisfaction KPI and detailed survey table.
+- Seeded demo council members, activities, and meetings.
+- JavaScript syntax check passed.

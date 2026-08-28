@@ -355,6 +355,7 @@ Object.assign(SAH_TEXT_EN,{"المستخدم الحالي":"Current User","مس�
 Object.assign(SAH_TEXT_EN,{"0 / 0 نقطة":"0 / 0 points","0 / 35 كلمة":"0 / 35 words","0 معتمدة":"0 approved","0 نشاط":"0 activities","0 نشاط نادي":"0 club activities","0 نقطة":"0 points","0% من الأنشطة":"0% of activities","0% نسبة الموافقة":"0% approval rate","أدوات النظام":"System Tools","إجمالي الطالبات المستفيدات":"Total Female Beneficiaries","إدارة البيانات والتعديل اليدوي":"Data Management and Manual Editing","إدارة مجالات مؤشر الأداء الرياضي":"Manage Sports Performance Indicator Fields","إضافة سجل":"Add Record","إضافة نشاط":"Add Activity","إضافة وتعديل وحذف بيانات المنصة من الواجهة دون فتح الكود، مع حفظ التعديلات محليًا في هذه النسخة.":"Add, edit, and delete platform data from the interface without opening the code; changes are saved locally in this version.","إضافة، تعديل، حذف، اعتماد":"Add, Edit, Delete, Approve","إلغاء التعديلات المحلية":"Discard Local Changes","اختر فئة":"Select Category","اختر فئة الحدث":"Select Event Category","اختر من القائمة أدناه":"Select from the list below","اختر ناديًا لعرض أنشطته":"Select a club to view its activities","اختر نوع المشاركة":"Select Participation Type","استعادة الإعدادات الافتراضية":"Restore Default Settings","استعادة الإعدادات السابقة":"Restore Previous Settings","استعادة القيم الأصلية":"Restore Original Values","استيراد نسخة احتياطية":"Import Backup","اضغط على أي نسبة أو بطاقة أو مجال لعرض السجلات المرتبطة مباشرة في الجدول أدناه.":"Select any percentage, card, or field to display the related records in the table below.","اضغط لعرض النوادي وأنشطتها":"Select to view clubs and their activities","اعتمادات المنح الرياضية":"Sports Scholarship Approvals","الأرقام التالية مستخرجة من الملفات المعتمدة المرفوعة: قوائم المنح، روزنامة الاتحاد، ودليل مؤشر الأداء الرياضي.":"The following figures are extracted from the approved uploaded files: scholarship lists, federation calendar, and sports performance indicator guide.","الأعضاء (10 على الأقل، كل اسم في سطر)":"Members (at least 10, one name per line)","الأنشطة حسب المجالات الرئيسية":"Activities by Main Fields","الأنشطة و البرامج المجتمعية و التطوعية":"Community and Volunteer Activities and Programs","الإجراءات":"Actions","الاحتساب مبني على دليل مؤشر الأداء الرياضي فقط.":"Calculation is based only on the Sports Performance Indicator Guide.","البلياردو":"Billiards","البيانات غير المكتملة":"Incomplete Data","التقارير والتحليلات ←":"Reports & Analytics ←","التنس":"Tennis","التوزيع الديناميكي":"Dynamic Distribution","الجامعات المشاركة":"Participating Universities","الجودو":"Judo","الشعارات":"Logos","الصف الأول: البحث + عمود البحث + فلتر الاكتمال + حذف المحدد":"First row: search + search column + completion filter + delete selected","الصف الثاني: تحديد الكل + الفئة + الحالة":"Second row: select all + category + status","الطلبات المحالة من صفحة المنح الرياضية لاعتماد النسبة النهائية أو رفضها مع السبب.":"Requests referred from the Sports Scholarships page to approve the final rate or reject with a reason.","العنوان":"Title","الفئة/السعة":"Category / Capacity","الفعاليات المعتمدة المتاحة للتقديم ومتابعة حالة الطلبات.":"Approved events available for application and request status tracking.","الكرة الطائرة":"Volleyball","المجال المرتبط":"Linked Field","المستخدمون الرئيسيون":"Primary Users","المعبأة بالكامل فقط":"Fully Completed Only","النسبة المقترحة":"Proposed Rate","النوادي المسجلة والمفعلة":"Registered and Active Clubs","بالضغط على الزر فإنني أقر بأنني قرأت الإقرار وأوافق على شروطه.":"By selecting this checkbox, I confirm that I have read the agreement and accept its terms.","بعد البحث والتصفية":"After Search and Filtering","بوابة مؤسسية تجمع الإدارة الرياضية، الأنشطة الطلابية، العمل التطوعي، التقويم، وبوابة الطالب بهوية جامعة الأعمال والتكنولوجيا.":"An institutional portal combining sports administration, student activities, volunteering, calendar, and the student portal under UBT identity.","تتحدث القائمة تلقائيًا عند اعتماد نادي جديد، ويمكن تعديل النادي أو حذفه.":"The list updates automatically when a new club is approved; clubs can be edited or deleted.","تحديث العرض":"Refresh View","تحديد الكل":"Select All","تختفي الفعالية من القائمة بعد الضغط على قدم الآن.":"The event is removed from the list after selecting Apply Now.","تسجيل نادي جديد":"Register New Club","تصدير نسخة احتياطية":"Export Backup","تظهر الأنشطة القديمة والجديدة تلقائيًا.":"Old and new activities appear automatically.","تعديل حاسبة النقاط للمجالات":"Edit Field Points Calculator","تنس الطاولة":"Table Tennis","توثيق أنشطة الطالبات":"Female Student Activity Documentation","توثيق أنشطة الطلاب":"Male Student Activity Documentation","تُحسب النقاط تلقائيًا حسب المجال والفئة ونوع المشاركة، ثم تُضاف مباشرة إلى مؤشر الطلاب أو الطالبات.":"Points are calculated automatically by field, category, and participation type, then added directly to the male or female indicator.","جميع الأعمدة":"All Columns","جميع الأنشطة المسجلة":"All Registered Activities","ح":"H","حدد قيمة كل نوع من النقاط وحده الأقصى لكل مجال فرعي، ثم احفظ لإعادة حساب جميع الأنشطة.":"Set each point value and its maximum for every subfield, then save to recalculate all activities.","حذف المحدد":"Delete Selected","حفظ التعديلات":"Save Changes","حفظ الحاسبة":"Save Calculator","حفظ المجالات وتحديث الأقسام":"Save Fields and Update Sections","حفظ وتحديث المؤشر":"Save and Update Indicator","صلاحية المستخدم":"User Role","ضمن الفئة المحددة":"Within the Selected Category","طلب تنفيذ بطولة / حدث":"Championship / Event Execution Request","عدد الأيام":"Number of Days","عدد السجلات":"Number of Records","عدد اللاعبين المشاركين":"Participating Players","عدّل اسم المجال أو المسار، احذف مجالًا، أو أضف مجالًا جديدًا. تنعكس التغييرات تلقائيًا على التقارير ونموذج إضافة النشاط.":"Edit a field or track name, delete a field, or add a new one. Changes are reflected automatically in reports and the Add Activity form.","عدّل الحد الأعلى لكل مجال. يُعاد احتساب الإجمالي والنسب والرسوم مباشرة بعد الحفظ.":"Edit the maximum for each field. Totals, percentages, and charts are recalculated immediately after saving.","عدّل الحقول ثم اضغط حفظ.":"Edit the fields, then select Save.","عرض التفاصيل ←":"View Details ←","عرض اللائحة ↗":"View Regulations ↗","عرض المعايير والشروط ↗":"View Criteria and Conditions ↗","عنوان المنصة":"Platform Title","فتح صفحة الصلاحيات ←":"Open Approval Center ←","كاملة":"Complete","كرة اليد":"Handball","كل تعديل في هذه النسخة يُحفظ داخل المتصفح عبر Local Storage. عند التنفيذ الرسمي تُستبدل هذه الطبقة بقاعدة بيانات وصلاحيات دخول Microsoft.":"Every change in this version is saved in the browser using Local Storage. In production, this layer will be replaced by a database and Microsoft sign-in permissions.","كل مجال يعرض الحد الأعلى والنقاط المحققة للطلاب والطالبات بشكل منفصل.":"Each field displays its maximum and the points achieved by male and female students separately.","كل مستويات الاكتمال":"All Completion Levels","مؤشر الأداء ←":"Performance Indicator ←","ما لم تتم إضافته":"Not Yet Added","مبادرة/فعالية نادي":"Club Initiative / Event","مجموعة البيانات الحالية":"Current Dataset","مركز الشواهد ←":"Evidence Center ←","مسؤول النظام، مسؤول المؤشر، العميد":"System Administrator, Indicator Officer, Dean","مقدم الطلب":"Submitted By","مكتملة التوثيق":"Fully Documented","منح تحت المراجعة":"Scholarships Under Review","منح مرفوضة":"Rejected Scholarships","منح موافق عليها":"Approved Scholarships","نسبة أنشطة الطالبات من الأنشطة المعتمدة":"Female activity percentage of approved activities","نسبة أنشطة الطلاب من إجمالي أنشطة الفئة":"Male activity percentage of total category activities","نسبة أنشطة الطلاب من جميع الأنشطة المسجلة":"Male activity percentage of all registered activities","نسبة اكتمال الحدث":"Event Completion Rate","نسبة مساهمة كل نادٍ من إجمالي أنشطة النوادي":"Each club's contribution to total club activities","نشاط":"Activity","نموذج التقرير":"Report Template","نموذج الجدول الزمني":"Schedule Template","نوع الطلب":"Request Type","نوع اللعبة / النشاط":"Sport / Activity Type","هذه الصلاحية متاحة لمسؤول مؤشر الأداء الرياضي فقط. تحفظ القيم في المتصفح لهذه النسخة التجريبية.":"This permission is available only to the Sports Performance Indicator Officer. Values are stored in the browser for this demo version.","يتحدث المخطط تلقائيًا عند إضافة مجال رئيسي جديد أو تعديل المجالات الحالية.":"The chart updates automatically when a new main field is added or existing fields are edited.","يتم ضبط كل بند على شكل قيمتين: قيمة النقاط، والحد الأقصى الذي لا يمكن تجاوزه. اجعل الحد الأقصى (0) إذا أردت عدم تطبيق حد على ذلك البند.":"Each item has two values: points and a maximum cap. Set the maximum to 0 to apply no cap.","✎ إدارة المجالات والمسارات":"✎ Manage Fields and Tracks","✎ تعديل النوادي":"✎ Edit Clubs","＋ إضافة مجال إلى المسار المحدد":"＋ Add Field to Selected Track","＋ إضافة مجال فرعي":"＋ Add Subfield","＋ إضافة مجال ومسار جديد":"＋ Add New Field and Track"});
 Object.assign(SAH_TEXT_EN,{"مسار البطولات الوطنية":"National Championships Track","مسار الأنشطة المركزية":"Central Activities Track","مسار الأنشطة الرياضية الداخلية":"Internal Sports Activities Track","مسار المشاركات الدولية":"International Participation Track","البطولات الوطنية":"National Championships","استضافة البطولات الوطنية":"Hosting National Championships","البطولات التنشيطية":"Recreational Championships","البرامج التدريبية المركزية":"Central Training Programs","الشراكة المجتمعية":"Community Partnership","اللقاءات والفعاليات الرياضية التبادلية":"Exchange Sports Meetings and Events","تشغيل المرافق":"Facility Operations","النشاط الرياضي التنافسي الداخلي":"Internal Competitive Sports Activity","النشاط البدني والترويحي الداخلي":"Internal Physical and Recreational Activity","الأيام العالمية":"International Days","البرامج التدريبية الداخلية":"Internal Training Programs","البرامج التوعوية":"Awareness Programs","الكوادر العاملة في النشاط الرياضي":"Sports Activity Staff","التطوع":"Volunteering","مشاركة الجامعات في المنتخبات الجامعية في المناسبات الدولية":"University Participation in National University Teams at International Events","استضافة المشاركات الدولية للجامعات":"Hosting International University Participation","بطولة وطنية":"National Championship","استضافة بطولة وطنية":"Hosting a National Championship","تنفيذ بطولة تنشيطية":"Conducting a Recreational Championship","دورة مركزية ( حضورية )":"Central Course (In Person)","ورشة عمل مركزية ( حضورية )":"Central Workshop (In Person)","دورة مركزية ( عن بعد )":"Central Course (Online)","ورشة عمل مركزية ( عن بعد )":"Central Workshop (Online)","شراكة مجتمعية":"Community Partnership","لقاء تبادلي":"Exchange Meeting","تشغيل مرافق":"Facility Operations","جماعية":"Team","فردية":"Individual","ذوي الإعاقة":"Persons with Disabilities","خطة تشغيلية":"Operational Plan","نشاط ترويحي":"Recreational Activity","نشاط بدني":"Physical Activity","يوم عالمي":"International Day","يوم وطني":"National Day","ورشة عمل":"Workshop","دورة تدريبية":"Training Course","محاضرة":"Lecture","نشرة توعوية":"Awareness Bulletin","فيديو توعوي":"Awareness Video","الكوادر":"Staff","متطوع":"Volunteer","فرق متطوعين":"Volunteer Teams","مشاركة اللاعبين في منتخبات المملكة دوليًا":"Players Participating in National Teams Internationally","لقاء ودي بين الجامعات الدولية":"Friendly Match Between International Universities","استضافة بطولة دولية":"Hosting an International Championship","مجال تجريبي":"Test Field","المسار التجريبي":"Test Track","مجال":"Field","مسار":"Track","الحد الأعلى":"Maximum","نقاط الطلاب":"Male Points","إنجاز الطلاب":"Male Achievement","نقاط الطالبات":"Female Points","إنجاز الطالبات":"Female Achievement","المجال الرئيسي المرتبط":"Linked Main Field","اسم المجال الفرعي":"Subfield Name","نقاط المشاركة كضيف":"Guest Participation Points","نقاط المشاركة كمستضيف":"Host Participation Points","نقاط كل جامعة مشاركة":"Points per Participating University","نقاط كل لاعب مشارك":"Points per Participating Player","الحد الأقصى":"Maximum","النقاط":"Points","غير مرتبط":"Not Linked","مجال جديد":"New Field","مسار جديد":"New Track","حفظ المجالات وتحديث الأقسام":"Save Fields and Update Sections","إضافة مجال إلى المسار المحدد":"Add Field to Selected Track","إضافة مجال ومسار جديد":"Add New Field and Track","إضافة مجال فرعي":"Add Subfield"});
 Object.assign(SAH_TEXT_EN,{"قبول":"Approve","رفض":"Reject","قبول الطالب":"Approve Student","رفض الطالب":"Reject Student","اعتماد":"Approve","تأكيد القبول":"Confirm Approval","تم القبول":"Approved","تم الرفض":"Rejected","ابحث باسم الحدث أو الطالب أو الرقم الجامعي أو الإيميل":"Search by event, student, university ID, or email","ابحث باسم الحدث أو الطالب أو الرقم الجامعي أو الإيميل أو الجوال":"Search by event, student, university ID, email, or mobile","ابحث باسم الطالب أو الرقم الجامعي أو الإيميل":"Search by student, university ID, or email","ابحث باسم الحدث أو التاريخ أو اللعبة":"Search by event, date, or sport","ابحث باسم الحدث أو النادي":"Search by event or club","ابحث باسم الحدث أو التاريخ":"Search by event or date","جميع الحالات":"All Statuses"});
+Object.assign(SAH_TEXT_EN,{"المجلس الطلابي":"Student Council","إدارة المجلس الطلابي":"Student Council Management","حساب المجلس الطلابي":"Student Council Account","فئة الرياضة":"Sports Category","نوع الرياضة":"Sport","اختر فئة الرياضة":"Select Sports Category","اختر نوع الرياضة":"Select Sport","بطولة وطنية":"National Championship","بطولة دولية":"International Championship","بطولة إقليمية":"Regional Championship","بطولة خليجية":"Gulf Championship","بطولة تنشيطية":"Recreational Championship","الميزانية المصروفة":"Approved / Spent Budget","الميزانية المطلوبة":"Requested Budget","إجمالي الميزانيات المقدمة":"Total Submitted Budgets","أنشطة المجلس الطلابي":"Student Council Activities","نسبة رضا المستفيدين":"Beneficiary Satisfaction Rate","استبانة رضا المستفيد":"Beneficiary Satisfaction Survey","إنهاء الحدث":"Finish Event","تأكيد إنهاء الحدث":"Confirm Event Completion","المقترحات والملاحظات":"Suggestions & Feedback","تصنيف المقترح":"Suggestion Category","مقترحات وملاحظات الطلبة":"Student Suggestions & Feedback","جدول اجتماعات المجلس":"Student Council Meeting Schedule","أعضاء المجلس الطلابي":"Student Council Members","إيميل المستفيد":"Member Email","الصفة":"Position","رئيس":"President","نائب رئيس":"Vice President","أمين المجلس":"Council Secretary","عضو":"Member","ربط العضو بالمجلس":"Link Member to Council","إنهاء الصلاحية":"Revoke Access","إعادة التفعيل":"Reactivate","تقديم نشاط للمجلس الطلابي":"Submit Student Council Activity","موافقات المجلس الطلابي":"Student Council Approvals","الميزانية":"Budget","حالة التنفيذ":"Execution Status","منتهي":"Finished","التقييم":"Survey","تم التقييم":"Survey Completed"});
 const SAH_TEXT_AR = Object.fromEntries(Object.entries(SAH_TEXT_EN).map(([ar,en])=>[en,ar]));
 const SAH_PHRASES = Object.entries(SAH_TEXT_EN).sort((a,b)=>b[0].length-a[0].length);
 function translateLoose(text,lang){
@@ -616,7 +617,8 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     coach:{name:'كابتن محمد نفار',description:'مدرب رياضي',avatar:'ن'},
     activities_manager:{name:'الأستاذ فهد',description:'مدير الأنشطة الطلابية',avatar:'ف'},
     student_account:{name:'فلان الفلاني',description:'حساب طالب',avatar:'ط'},
-    faculty:{name:'د. كريم سليمان',description:'عضو هيئة التدريس',avatar:'ك'}
+    faculty:{name:'د. كريم سليمان',description:'عضو هيئة التدريس',avatar:'ك'},
+    student_council:{name:'المجلس الطلابي',description:'حساب المجلس الطلابي',avatar:'م'}
   };
 
   const SPORTS_MANAGER_PAGES = new Set([
@@ -1875,6 +1877,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
     setInput('activityParticipationType', row.participationType || 'guest');
     setInput('activityUniversities', row.universities);
     setInput('activityGameType', row.gameType);
+    setInput('activityBudget', row.budget ?? 0);
     setInput('activityDocumentationUrl',
       row.documentationUrl || row.publishLink || row.newsLink);
 
@@ -1904,6 +1907,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
       participationType: document.getElementById('activityParticipationType')?.value || 'guest',
       universities: Number(document.getElementById('activityUniversities')?.value || 0),
       gameType: document.getElementById('activityGameType')?.value.trim() || '',
+      budget: Number(document.getElementById('activityBudget')?.value || 0),
       documentationUrl: document.getElementById('activityDocumentationUrl')
         ?.value.trim() || '',
       federationReportName: report?.name || existing.federationReportName || '',
@@ -3157,7 +3161,7 @@ window.addEventListener('DOMContentLoaded',initPreferences);
 (function(){
 'use strict';
 const CAT=["الأنشطة التوعوية","الأنشطة و البرامج المجتمعية و التطوعية","الأنشطة الثقافية","الأنشطة العلمية","الأنشطة الفنية","الأنشطة الرياضية","البرامج التدريبية","برامج عامة على مستوى الجامعة"];
-const K={sports:'sah-v22-sports',clubs:'sah-v22-clubs',clubEvents:'sah-v22-club-events',vol:'sah-v22-vol',apps:'sah-v22-apps',grants:'sah-v24-8-grant-applications'};
+const K={sports:'sah-v22-sports',clubs:'sah-v22-clubs',clubEvents:'sah-v22-club-events',vol:'sah-v22-vol',apps:'sah-v22-apps',grants:'sah-v24-8-grant-applications',council:'sah-v30-council-activities'};
 const CLUB_REGISTRY_KEY='sah-v23-4-club-registry';
 const CLUB_DELETED_KEY='sah-v23-4-deleted-clubs';
 const DEFAULT_CLUB_REGISTRY=[{"name": "نادي الأمن السيبراني", "activities": ["مسابقة التقاط العلم", "ورشة الأمن الرقمي", "معسكر اختبار الاختراق"]}, {"name": "نادي البرمجة", "activities": ["هاكاثون البرمجة", "ورشة تطوير الويب", "تحدي الخوارزميات", "لقاء مطوري التطبيقات"]}, {"name": "نادي التنمية المستدامة", "activities": ["حملة الجامعة الخضراء", "مبادرة إعادة التدوير"]}, {"name": "نادي الهندسة المعمارية", "activities": ["معرض التصاميم المعمارية", "ورشة النمذجة ثلاثية الأبعاد"]}, {"name": "نادي الهندسة المدنية", "activities": ["زيارة مشروع إنشائي", "مسابقة الجسور المصغرة", "محاضرة البنية التحتية"]}, {"name": "نادي ريادة الأعمال", "activities": ["معسكر بناء المشاريع", "لقاء رواد الأعمال", "مسابقة نموذج العمل", "جلسة الاستثمار الجريء"]}, {"name": "نادي إدارة الأعمال", "activities": ["محاكاة إدارة الشركات", "ورشة القيادة الإدارية"]}, {"name": "نادي المالية", "activities": ["تحدي المحفظة الاستثمارية", "ورشة الثقافة المالية", "ملتقى الأسواق المالية"]}, {"name": "نادي المحاسبة", "activities": ["مسابقة المحاسب الواعد", "ورشة المعايير المحاسبية"]}];
@@ -3546,6 +3550,7 @@ function allReq(){return[
  ...R(K.clubs).map(x=>({...x,store:K.clubs,kind:'تسجيل نادي جديد'})),
  ...R(K.clubEvents).map(x=>({...x,store:K.clubEvents,kind:'مبادرة/فعالية نادي'})),
  ...R(K.vol).map(x=>({...x,store:K.vol,kind:'فرصة تطوعية'})),
+ ...R(K.council).map(x=>({...x,store:K.council,kind:'نشاط المجلس الطلابي'})),
  ...R(K.grants).filter(x=>x.status==='محال للعمادة'||x.status==='معتمد نهائيًا'||x.status==='مرفوض من العمادة')
    .map(x=>({...x,store:K.grants,kind:'طلب اعتماد منحة رياضية',name:x.name,date:x.submittedAt,gender:x.gender}))
 ]}
@@ -3776,11 +3781,17 @@ function tables(){
      : `<tr><td colspan="${colspan}" class="empty-filtered-row">لا توجد نتائج مطابقة.</td></tr>`;
  };
 
+ const finishAction=row=>{
+   if(row.status!=='مقبول')return '—';
+   if(row.finished)return '<span class="event-finished-badge">منتهي</span>';
+   return `<button class="finish-event-btn" type="button" data-finish-store="${row.__store||''}" data-finish-id="${row.id}">إنهاء الحدث</button>`;
+ };
+
  put(
    'sportsRequestRows',
-   filteredStoredRows(K.sports,'sportsRequestSearch','sportsRequestStatus'),
-   row=>`<tr><td>${row.name}</td><td>${row.date}</td><td>${row.game}</td><td>${row.capacity}</td><td>${badge(row.status)}</td><td>${row.reason||'—'}</td></tr>`,
-   6
+   filteredStoredRows(K.sports,'sportsRequestSearch','sportsRequestStatus').map(row=>({...row,__store:K.sports})),
+   row=>`<tr><td>${row.name}</td><td>${row.date}</td><td>${row.game}</td><td>${row.capacity}</td><td>${money(row.budget)}</td><td>${badge(row.status)}</td><td>${row.reason||'—'}</td><td>${finishAction(row)}</td></tr>`,
+   8
  );
 
  put(
@@ -3792,16 +3803,16 @@ function tables(){
 
  put(
    'clubEventRequestRows',
-   filteredStoredRows(K.clubEvents,'clubEventSearch','clubEventStatus'),
-   row=>`<tr><td>${row.name}</td><td>${row.club}</td><td>${row.date}</td><td>${row.location}</td><td>${row.capacity}</td><td>${badge(row.status)}</td><td>${row.reason||'—'}</td></tr>`,
-   7
+   filteredStoredRows(K.clubEvents,'clubEventSearch','clubEventStatus').map(row=>({...row,__store:K.clubEvents})),
+   row=>`<tr><td>${row.name}</td><td>${row.club}</td><td>${row.date}</td><td>${row.location}</td><td>${row.capacity}</td><td>${money(row.budget)}</td><td>${badge(row.status)}</td><td>${row.reason||'—'}</td><td>${finishAction(row)}</td></tr>`,
+   9
  );
 
  put(
    'volunteerRequestRows',
-   filteredStoredRows(K.vol,'volunteerTableSearch','volunteerTableStatus'),
-   row=>`<tr><td>${row.name}</td><td>${row.date}</td><td>${row.capacity}</td><td>${row.owner}</td><td>${badge(row.status)}</td><td>${row.reason||'—'}</td></tr>`,
-   6
+   filteredStoredRows(K.vol,'volunteerTableSearch','volunteerTableStatus').map(row=>({...row,__store:K.vol})),
+   row=>`<tr><td>${row.name}</td><td>${row.date}</td><td>${row.capacity}</td><td>${row.owner}</td><td>${money(row.budget)}</td><td>${badge(row.status)}</td><td>${row.reason||'—'}</td><td>${finishAction(row)}</td></tr>`,
+   8
  );
 }
 function student(){
@@ -3889,7 +3900,18 @@ function student(){
    W(K.apps,x);
    renderAll();
  });
- const body=document.getElementById('studentApplicationRows');if(body)body.innerHTML=a.length?a.map(x=>`<tr><td>${x.eventName}</td><td>${x.kind}</td><td>${x.appliedAt}</td><td>${badge(x.status)}</td></tr>`).join(''):'<tr><td colspan="4">لا توجد طلبات.</td></tr>';
+ const body=document.getElementById('studentApplicationRows');
+ if(body)body.innerHTML=a.length?a.map(x=>{
+   const req=allReq().find(r=>r.id===x.requestId);
+   const surveyDone=R('sah-v30-beneficiary-surveys').some(s=>s.applicationId===x.id);
+   const canSurvey=x.status==='مقبول'&&req?.finished;
+   const action=canSurvey
+     ? (surveyDone
+       ? '<span class="survey-completed-badge">تم التقييم</span>'
+       : `<button class="open-beneficiary-survey" type="button" data-app-id="${x.id}" title="استبانة رضا المستفيد">✎</button>`)
+     : '—';
+   return `<tr><td>${x.eventName}</td><td>${x.kind}</td><td>${x.appliedAt}</td><td>${badge(x.status)}</td><td>${action}</td></tr>`;
+ }).join(''):'<tr><td colspan="5">لا توجد طلبات.</td></tr>';
  document.getElementById('studentAppliedCount').textContent=a.length;document.getElementById('studentJoinedCount').textContent=a.filter(x=>x.status==='مقبول').length;
 }
 function applicants(){
@@ -5410,9 +5432,10 @@ function renderAgreementSubmissions(){
  body.innerHTML=rows.length?rows.map(row=>`<tr>
    <td>${row.name}</td><td>${row.nationalId}</td><td>${row.nationality}</td>
    <td>${row.studentId}</td><td>${row.mobile}</td><td>${row.gender}</td>
+   <td>${row.sportCategory||'—'}</td><td>${row.sportType||'—'}</td>
    <td>${row.college}</td><td>${grantStatusBadge(row.status)}</td>
    <td>${row.rate?row.rate+'%':'—'}</td>
- </tr>`).join(''):'<tr><td colspan="9">لا توجد إقرارات.</td></tr>';
+ </tr>`).join(''):'<tr><td colspan="11">لا توجد إقرارات.</td></tr>';
 }
 
 function renderDeanGrantApprovals(){
@@ -5518,6 +5541,8 @@ function initGrantWorkflow(){
      studentId:document.getElementById('agreementStudentId').value.trim(),
      mobile:document.getElementById('agreementMobile').value.trim(),
      gender:document.getElementById('agreementGender').value,
+     sportCategory:document.getElementById('agreementSportCategory')?.value||'',
+     sportType:document.getElementById('agreementSportType')?.value||'',
      college:document.getElementById('agreementCollege').value,
      identityFile:file.name,
      signature:document.getElementById('agreementSignature').value.trim(),
@@ -5549,7 +5574,7 @@ function initGrantWorkflow(){
  renderGrantWorkflow();
 }
 
-function renderAll(){tables();student();applicants();approvals();populateClubEventSelect();renderRegisteredClubs();renderGeneralIndicator();renderGrantWorkflow();renderSportsManagementDashboard();const b=document.querySelector('[data-event-category].active');if(b)renderCategory(b.dataset.eventCategory)}
+function renderAll(){tables();student();applicants();approvals();populateClubEventSelect();renderRegisteredClubs();renderGeneralIndicator();renderGrantWorkflow();renderSportsManagementDashboard();renderV30Extensions();const b=document.querySelector('[data-event-category].active');if(b)renderCategory(b.dataset.eventCategory)}
 function bind(id,fn){const o=document.getElementById(id);if(!o)return;const n=o.cloneNode(true);o.replaceWith(n);n.onclick=fn}
 window.addEventListener('DOMContentLoaded',()=>{
  document.getElementById('exportApprovalsExcel')
@@ -5618,7 +5643,7 @@ window.addEventListener('DOMContentLoaded',()=>{
    if(!validateRequiredContainer(form))return;
    const d=document.getElementById('sportsReqDate').value;if(!later3(d))return alert('يجب أن يكون الحدث بعد 3 أيام على الأقل.');push(K.sports,{id:id('sp'),name:document.getElementById('sportsReqName').value,description:normalizeEventDescription(document.getElementById('sportsReqDescription')?.value),date:d,game:document.getElementById('sportsReqGame').value,
         location:document.getElementById('sportsReqLocation')?.value.trim()||'غير محدد',
-        participants:+document.getElementById('sportsReqParticipants').value,teams:+document.getElementById('sportsReqTeams').value,universities:+document.getElementById('sportsReqUniversities').value,capacity:+document.getElementById('sportsReqCapacity').value,gender:document.getElementById('sportsReqGender').value,status:'تحت المراجعة',submittedAt:td(),submittedBy:'مدير النادي الرياضي'})});
+        participants:+document.getElementById('sportsReqParticipants').value,teams:+document.getElementById('sportsReqTeams').value,universities:+document.getElementById('sportsReqUniversities').value,capacity:+document.getElementById('sportsReqCapacity').value,budget:+document.getElementById('sportsReqBudget').value,gender:document.getElementById('sportsReqGender').value,status:'تحت المراجعة',submittedAt:td(),submittedBy:'مدير النادي الرياضي'})});
  bind('submitClubRequest',()=>{
    const form=document.getElementById('submitClubRequest')?.closest('form');
    if(!validateRequiredContainer(form))return;
@@ -5645,6 +5670,7 @@ window.addEventListener('DOMContentLoaded',()=>{
    supervisor:document.getElementById('clubEventSupervisor').value,
    gender:document.getElementById('clubEventGender').value,
    capacity:+document.getElementById('clubEventCapacity').value,
+   budget:+document.getElementById('clubEventBudget').value,
    status:'تحت المراجعة',
    submittedAt:td(),
    submittedBy:'مسؤول النادي'
@@ -5654,7 +5680,7 @@ window.addEventListener('DOMContentLoaded',()=>{
  const form=document.getElementById('submitVolunteerOpportunity')?.closest('form');
  if(!validateRequiredContainer(form))return;
 
- push(K.vol,{id:id('vo'),type:document.getElementById('volunteerType').value,capacity:+document.getElementById('volunteerCapacity').value,name:document.getElementById('volunteerEventName').value,description:normalizeEventDescription(document.getElementById('volunteerEventDescription')?.value),date:document.getElementById('volunteerEventDate').value,sponsor:document.getElementById('volunteerSponsor').value,owner:document.getElementById('volunteerOwner').value,location:document.getElementById('volunteerLocation').value,gender:'الاثنان معًا',status:'تحت المراجعة',submittedAt:td(),submittedBy:'مدير الأنشطة الطلابية'});
+ push(K.vol,{id:id('vo'),type:document.getElementById('volunteerType').value,capacity:+document.getElementById('volunteerCapacity').value,name:document.getElementById('volunteerEventName').value,description:normalizeEventDescription(document.getElementById('volunteerEventDescription')?.value),date:document.getElementById('volunteerEventDate').value,sponsor:document.getElementById('volunteerSponsor').value,owner:document.getElementById('volunteerOwner').value,location:document.getElementById('volunteerLocation').value,budget:+document.getElementById('volunteerBudget').value,gender:'الاثنان معًا',status:'تحت المراجعة',submittedAt:td(),submittedBy:'مدير الأنشطة الطلابية'});
 });
  renderAll();
 });
@@ -5678,7 +5704,8 @@ window.addEventListener('DOMContentLoaded',()=>{
     coach:{name:'كابتن محمد نفار',role:'مدرب رياضي',avatar:'ن'},
     activities_manager:{name:'الأستاذ فهد',role:'مدير الأنشطة الطلابية',avatar:'ف'},
     student_account:{name:'فلان الفلاني',role:'حساب طالب',avatar:'ط'},
-    faculty:{name:'د. كريم سليمان',role:'عضو هيئة التدريس',avatar:'ك'}
+    faculty:{name:'د. كريم سليمان',role:'عضو هيئة التدريس',avatar:'ك'},
+    student_council:{name:'المجلس الطلابي',role:'حساب المجلس الطلابي',avatar:'م'}
   };
 
   const ALL=new Set([
@@ -5700,7 +5727,8 @@ window.addEventListener('DOMContentLoaded',()=>{
       'home','athletes','reports','activities','volunteer','approvals'
     ]),
     student_account:new Set(['home','agreement','student']),
-    faculty:new Set(['home','clubs'])
+    faculty:new Set(['home','clubs']),
+    student_council:new Set(['home','student-council'])
   };
 
   function read(key,fallback){
@@ -6710,3 +6738,478 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.documentElement.dataset.sahBuild='27.2';
   console.info('SAH build 27.2 loaded');
 });
+
+
+/* ==========================================================
+   SAH V30.0 — budgets, student council, event completion,
+   suggestions, and beneficiary satisfaction
+   ========================================================== */
+(function(){
+'use strict';
+
+const V30={
+  councilMembers:'sah-v30-council-members',
+  councilActivities:'sah-v30-council-activities',
+  councilMeetings:'sah-v30-council-meetings',
+  suggestions:'sah-v30-student-suggestions',
+  surveys:'sah-v30-beneficiary-surveys'
+};
+
+const SURVEY_QUESTIONS=[
+ 'ما مدى رضاك عن جودة الخدمة المقدمة؟',
+ 'ما مدى رضاك عن سهولة الحصول على الخدمة والاستفادة منها؟',
+ 'ما مدى رضاك عن سرعة تقديم الخدمة وإنجاز طلبك؟',
+ 'ما مدى رضاك عن وضوح المعلومات والإرشادات المقدمة لك؟',
+ 'ما مدى رضاك عن تعامل الموظفين معك واحترافيتهم؟',
+ 'ما مدى رضاك عن مدى استجابة الموظفين لاحتياجاتك واستفساراتك؟',
+ 'ما مدى رضاك عن سهولة التواصل مع الجهة عند الحاجة إلى الدعم أو الاستفسار؟',
+ 'إلى أي مدى كانت الخدمة المقدمة متوافقة مع توقعاتك واحتياجاتك؟',
+ 'ما مدى رضاك بشكل عام عن تجربتك مع الجهة المقدمة للخدمة؟',
+ 'هل تنصح الآخرين بالاستفادة من الخدمات المقدمة من الجهة؟'
+];
+
+const SURVEY_OPTIONS=[
+ ['ممتاز',5],['جيد جدًا',4],['جيد',3],['مقبول',2],['ضعيف',1]
+];
+
+function readV30(key,fallback=[]){
+  try{return JSON.parse(localStorage.getItem(key)||'null') ?? fallback;}
+  catch{return fallback;}
+}
+function writeV30(key,value){
+  localStorage.setItem(key,JSON.stringify(value));
+}
+function currentRoleV30(){
+  return document.getElementById('activeRole')?.value ||
+    localStorage.getItem('sah-v15-role') || 'system';
+}
+function money(value){
+  return `${Number(value||0).toLocaleString('en-US',{maximumFractionDigits:2})} ر.س`;
+}
+window.money=window.money||money;
+
+function councilPositionLabel(value){
+  return ({president:'رئيس',vice:'نائب رئيس',secretary:'أمين المجلس',member:'عضو'})[value]||value||'عضو';
+}
+
+function seedV30(){
+  if(!readV30(V30.councilMembers,[]).length){
+    writeV30(V30.councilMembers,[
+      {id:'cm-1',name:'عبدالعزيز أحمد',studentId:'20261011',college:'CBA',email:'council.president@ubt.edu.sa',position:'president',active:true},
+      {id:'cm-2',name:'لينا خالد',studentId:'20261012',college:'JCA',email:'council.vice@ubt.edu.sa',position:'vice',active:true},
+      {id:'cm-3',name:'محمد سامي',studentId:'20261013',college:'JCE',email:'council.secretary@ubt.edu.sa',position:'secretary',active:true},
+      {id:'cm-4',name:'رهف علي',studentId:'20261014',college:'JCL',email:'council.member@ubt.edu.sa',position:'member',active:true}
+    ]);
+  }
+  if(!readV30(V30.councilActivities,[]).length){
+    writeV30(V30.councilActivities,[
+      {id:'ca-1',name:'ملتقى صوت الطلبة',description:'جلسة حوارية تجمع الطلبة بممثلي المجلس.',category:'الأنشطة الثقافية',date:'2026-09-15',location:'المسرح الرئيسي',gender:'الاثنان معًا',capacity:120,budget:6500,status:'مقبول',reason:'',finished:false,submittedAt:'2026-08-20',submittedBy:'المجلس الطلابي'},
+      {id:'ca-2',name:'مبادرة تحسين تجربة المرافق',description:'مبادرة لرصد مقترحات تطوير مرافق الطلبة.',category:'الأنشطة و البرامج المجتمعية و التطوعية',date:'2026-09-28',location:'الحرم الجامعي',gender:'الاثنان معًا',capacity:60,budget:4200,status:'تحت المراجعة',reason:'',finished:false,submittedAt:'2026-08-24',submittedBy:'المجلس الطلابي'},
+      {id:'ca-3',name:'أسبوع المشاركة الطلابية',description:'برنامج لتعزيز المشاركة والتمثيل الطلابي.',category:'برامج عامة على مستوى الجامعة',date:'2026-10-08',location:'الساحة المركزية',gender:'الاثنان معًا',capacity:250,budget:11000,status:'مرفوض',reason:'تحتاج الخطة التشغيلية إلى إعادة ضبط الميزانية.',finished:false,submittedAt:'2026-08-25',submittedBy:'المجلس الطلابي'}
+    ]);
+  }
+  if(!readV30(V30.councilMeetings,[]).length){
+    writeV30(V30.councilMeetings,[
+      {id:'mt-1',task:'مراجعة خطة الأنشطة للفصل الدراسي',date:'2026-09-03',time:'12:30',member:'عبدالعزيز أحمد'},
+      {id:'mt-2',task:'متابعة المقترحات الطلابية المفتوحة',date:'2026-09-10',time:'13:00',member:'محمد سامي'}
+    ]);
+  }
+}
+
+function roleCanManageCouncilMembers(){
+  const role=currentRoleV30();
+  const councilRole=document.getElementById('councilViewRole')?.value||'president';
+  return role==='system'||role==='dean'||(role==='student_council'&&(councilRole==='president'||councilRole==='vice'));
+}
+function roleCanSubmitCouncilActivity(){
+  const role=currentRoleV30();
+  const councilRole=document.getElementById('councilViewRole')?.value||'president';
+  return role==='system'||role==='dean'||(role==='student_council'&&['president','vice','secretary'].includes(councilRole));
+}
+function roleCanEditMeetings(){
+  const role=currentRoleV30();
+  const councilRole=document.getElementById('councilViewRole')?.value||'president';
+  return role==='system'||role==='dean'||(role==='student_council'&&councilRole==='president');
+}
+
+function allBudgetRows(){
+  const directActivities=(window.getFilteredEvidence?.()||window.SAH_DATA?.evidenceRecords||[])
+    .filter(row=>Number(row.budget)>0)
+    .map(row=>({id:row.recordKey||row.id,name:row.activity||'نشاط مسجل',kind:'نشاط مسجل',submittedBy:'عمادة شؤون الطلاب',status:'مقبول',budget:Number(row.budget)||0}));
+
+  const stores=[
+    ['sah-v22-sports','بطولة/حدث رياضي'],
+    ['sah-v22-club-events','مبادرة/فعالية نادي'],
+    ['sah-v22-vol','فرصة تطوعية'],
+    [V30.councilActivities,'نشاط المجلس الطلابي']
+  ];
+  const rows=[];
+  stores.forEach(([key,kind])=>{
+    readV30(key,[]).forEach(row=>rows.push({...row,kind}));
+  });
+  return [...rows,...directActivities].filter(row=>Number(row.budget)>0);
+}
+
+function renderBudgetDashboard(){
+  const rows=allBudgetRows();
+  const approved=rows.filter(row=>row.status==='مقبول'||row.status==='معتمد نهائيًا');
+  const pending=rows.filter(row=>!['مقبول','معتمد نهائيًا','مرفوض','مرفوض من العمادة'].includes(row.status||'تحت المراجعة'));
+  const sum=list=>list.reduce((total,row)=>total+(Number(row.budget)||0),0);
+  const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
+  set('generalApprovedBudget',money(sum(approved)));
+  set('generalRequestedBudget',money(sum(pending)));
+  set('generalTotalBudget',money(sum(rows)));
+
+  document.querySelectorAll('[data-budget-filter]').forEach(button=>{
+    button.onclick=()=>{
+      const filter=button.dataset.budgetFilter;
+      const selected=filter==='approved'?approved:filter==='pending'?pending:rows;
+      const panel=document.getElementById('generalBudgetDetails');
+      const body=document.getElementById('generalBudgetDetailsRows');
+      const title=document.getElementById('generalBudgetDetailsTitle');
+      if(title)title.textContent=filter==='approved'?'الميزانية المصروفة':filter==='pending'?'الميزانية المطلوبة':'إجمالي الميزانيات المقدمة';
+      if(body)body.innerHTML=selected.length?selected.map(row=>`<tr>
+        <td><strong>${row.name||'—'}</strong></td><td>${row.kind||'—'}</td>
+        <td>${row.submittedBy||'—'}</td><td>${row.status||'تحت المراجعة'}</td><td>${money(row.budget)}</td>
+      </tr>`).join(''):'<tr><td colspan="5">لا توجد بيانات.</td></tr>';
+      panel?.classList.remove('hidden');
+      panel?.scrollIntoView({behavior:'smooth',block:'start'});
+    };
+  });
+}
+
+function renderCouncil(){
+  seedV30();
+  const members=readV30(V30.councilMembers,[]);
+  const activities=readV30(V30.councilActivities,[]);
+  const meetings=readV30(V30.councilMeetings,[]);
+  const suggestions=readV30(V30.suggestions,[]);
+
+  const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
+  set('councilMembersCount',members.filter(m=>m.active!==false).length);
+  set('councilActivitiesTotal',activities.length);
+  set('councilActivitiesApproved',activities.filter(a=>a.status==='مقبول').length);
+  set('councilActivitiesPending',activities.filter(a=>a.status==='تحت المراجعة').length);
+  set('generalCouncilActivities',activities.length);
+  set('generalCouncilApproved',`${activities.filter(a=>a.status==='مقبول').length} نشاط معتمد`);
+
+  const form=document.getElementById('councilMemberForm');
+  if(form)form.classList.toggle('permission-disabled',!roleCanManageCouncilMembers());
+  const activityForm=document.getElementById('councilActivityForm');
+  if(activityForm)activityForm.classList.toggle('permission-disabled',!roleCanSubmitCouncilActivity());
+  const meetingForm=document.getElementById('councilMeetingForm');
+  if(meetingForm)meetingForm.classList.toggle('permission-disabled',!roleCanEditMeetings());
+
+  const memberBody=document.getElementById('councilMemberRows');
+  if(memberBody)memberBody.innerHTML=members.length?members.map(member=>`<tr class="${member.active===false?'is-disabled':''}">
+    <td><strong>${member.name}</strong></td><td>${member.studentId}</td><td>${member.college}</td><td>${member.email}</td>
+    <td>${councilPositionLabel(member.position)}</td>
+    <td>${member.active===false?'<span class="request-status rejected">منتهية</span>':'<span class="request-status accepted">مفعلة</span>'}</td>
+    <td>${currentRoleV30()==='dean'
+      ? `<button class="council-revoke-btn" data-id="${member.id}" type="button">${member.active===false?'إعادة التفعيل':'إنهاء الصلاحية'}</button>`
+      : '—'}</td>
+  </tr>`).join(''):'<tr><td colspan="7">لا يوجد أعضاء.</td></tr>';
+
+  const meetingSelect=document.getElementById('councilMeetingMember');
+  if(meetingSelect){
+    const current=meetingSelect.value;
+    meetingSelect.innerHTML='<option value="">اختر العضو</option>'+members.filter(m=>m.active!==false).map(m=>`<option value="${m.name}">${m.name} — ${councilPositionLabel(m.position)}</option>`).join('');
+    meetingSelect.value=current;
+  }
+
+  const activityBody=document.getElementById('councilActivityRows');
+  if(activityBody)activityBody.innerHTML=activities.length?activities.map(row=>`<tr>
+    <td><strong>${row.name}</strong></td><td>${row.date}</td><td>${row.category}</td><td>${money(row.budget)}</td>
+    <td>${row.status==='مقبول'?'<span class="request-status accepted">مقبول</span>':row.status==='مرفوض'?'<span class="request-status rejected">مرفوض</span>':'<span class="request-status pending">تحت المراجعة</span>'}</td>
+    <td>${row.finished?'<span class="event-finished-badge">منتهي</span>':'قائم'}</td>
+    <td>${row.status==='مقبول'&&!row.finished?`<button class="finish-event-btn" data-finish-store="${V30.councilActivities}" data-finish-id="${row.id}" type="button">إنهاء الحدث</button>`:'—'}</td>
+  </tr>`).join(''):'<tr><td colspan="7">لا توجد أنشطة.</td></tr>';
+
+  const meetingBody=document.getElementById('councilMeetingRows');
+  if(meetingBody)meetingBody.innerHTML=meetings.length?meetings.map(row=>`<tr>
+    <td>${row.task}</td><td>${row.date}</td><td>${row.time}</td><td>${row.member}</td>
+    <td>${roleCanEditMeetings()?`<button class="delete-council-meeting" data-id="${row.id}" type="button">حذف</button>`:'—'}</td>
+  </tr>`).join(''):'<tr><td colspan="5">لا يوجد جدول اجتماعات.</td></tr>';
+
+  const suggestionsBody=document.getElementById('councilSuggestionRows');
+  if(suggestionsBody)suggestionsBody.innerHTML=suggestions.length?suggestions.map(row=>`<tr>
+    <td>${row.name}</td><td>${row.college}</td><td>${row.category}</td><td class="wrap-cell">${row.text}</td><td>${row.date}</td>
+  </tr>`).join(''):'<tr><td colspan="5">لا توجد مقترحات.</td></tr>';
+
+  const approvalBody=document.getElementById('councilApprovalRows');
+  if(approvalBody)approvalBody.innerHTML=activities.length?activities.map(row=>{
+    const pending=row.status==='تحت المراجعة';
+    return `<tr><td><strong>${row.name}</strong></td><td>${row.date}</td><td>${row.category}</td><td>${row.gender}</td><td>${money(row.budget)}</td>
+      <td>${row.status==='مقبول'?'<span class="request-status accepted">مقبول</span>':row.status==='مرفوض'?'<span class="request-status rejected">مرفوض</span>':'<span class="request-status pending">تحت المراجعة</span>'}</td>
+      <td>${pending?`<div class="council-approval-actions">
+        <button class="council-approve-request" data-id="${row.id}" type="button">موافقة</button>
+        <button class="council-open-reject" data-id="${row.id}" type="button">رفض</button>
+        <div class="council-reject-editor hidden" data-id="${row.id}">
+          <input placeholder="سبب الرفض إلزامي">
+          <button class="council-confirm-reject" data-id="${row.id}" type="button">تأكيد</button>
+        </div>
+      </div>`:(row.reason?row.reason:'تم اتخاذ القرار')}</td></tr>`;
+  }).join(''):'<tr><td colspan="7">لا توجد طلبات مجلس.</td></tr>';
+
+  set('approvalCouncilRequests',activities.length);
+}
+
+function renderSuggestions(){
+  const rows=readV30(V30.suggestions,[]);
+  const body=document.getElementById('studentSuggestionRows');
+  if(body)body.innerHTML=rows.length?rows.map(row=>`<tr>
+    <td>${row.category}</td><td class="wrap-cell">${row.text}</td><td>${row.date}</td><td><span class="request-status pending">${row.status||'تم الاستلام'}</span></td>
+  </tr>`).join(''):'<tr><td colspan="4">لا توجد مقترحات مرسلة.</td></tr>';
+}
+
+function renderSatisfaction(){
+  const surveys=readV30(V30.surveys,[]);
+  const avg=surveys.length?Math.round(surveys.reduce((s,r)=>s+(Number(r.percent)||0),0)/surveys.length):0;
+  const p=document.getElementById('generalSatisfactionPercent');if(p)p.textContent=`${avg}%`;
+  const c=document.getElementById('generalSatisfactionCount');if(c)c.textContent=`${surveys.length} استبانة مكتملة`;
+  const body=document.getElementById('generalSatisfactionRows');
+  if(body)body.innerHTML=surveys.length?surveys.map(row=>`<tr>
+    <td>${row.studentName}</td><td>${row.college||'—'}</td><td>${row.eventName}</td><td>${row.gender||'—'}</td>
+    <td><strong>${row.percent}%</strong></td><td>${row.submittedAt}</td>
+  </tr>`).join(''):'<tr><td colspan="6">لا توجد استبانات مكتملة.</td></tr>';
+}
+
+function renderV30Extensions(){
+  renderBudgetDashboard();
+  renderCouncil();
+  renderSuggestions();
+  renderSatisfaction();
+}
+window.renderV30Extensions=renderV30Extensions;
+
+let finishTarget=null;
+function requestFinishEvent(store,id){
+  finishTarget={store,id};
+  const rows=readV30(store,[]);
+  const row=rows.find(item=>String(item.id)===String(id));
+  const msg=document.getElementById('finishEventMessage');
+  if(msg)msg.textContent=`هل أنت متأكد من إنهاء "${row?.name||'هذا الحدث'}"؟ سيتم إتاحة استبانة رضا المستفيد للطلبة المقبولين بعد التأكيد.`;
+  document.getElementById('finishEventModal')?.classList.remove('hidden');
+}
+function closeFinishEvent(){
+  finishTarget=null;
+  document.getElementById('finishEventModal')?.classList.add('hidden');
+}
+function finishEventNow(){
+  if(!finishTarget)return;
+  const rows=readV30(finishTarget.store,[]);
+  const row=rows.find(item=>String(item.id)===String(finishTarget.id));
+  if(row){
+    row.finished=true;
+    row.finishedAt=new Date().toISOString().slice(0,10);
+    writeV30(finishTarget.store,rows);
+  }
+  closeFinishEvent();
+  window.renderAll?.();
+  window.showToast?.('تم إنهاء الحدث وإتاحة استبانة رضا المستفيد للمشاركين المقبولين.');
+}
+
+let activeSurveyApplicationId='';
+function openSurvey(appId){
+  const apps=readV30('sah-v22-apps',[]);
+  const application=apps.find(row=>row.id===appId);
+  if(!application)return;
+  activeSurveyApplicationId=appId;
+  const title=document.getElementById('surveyEventName');
+  if(title)title.textContent=application.eventName||'تقييم الحدث';
+  const form=document.getElementById('beneficiarySurveyForm');
+  if(form)form.innerHTML=SURVEY_QUESTIONS.map((question,index)=>`<fieldset class="survey-question">
+    <legend><span>${index+1}</span>${question}</legend>
+    <div class="survey-options">
+      ${SURVEY_OPTIONS.map(([label,value])=>`<label><input type="radio" name="survey-${index}" value="${value}" required><span>${label}</span></label>`).join('')}
+    </div>
+  </fieldset>`).join('');
+  document.getElementById('beneficiarySurveyModal')?.classList.remove('hidden');
+}
+function closeSurvey(){
+  activeSurveyApplicationId='';
+  document.getElementById('beneficiarySurveyModal')?.classList.add('hidden');
+}
+function submitSurvey(){
+  if(!activeSurveyApplicationId)return;
+  const form=document.getElementById('beneficiarySurveyForm');
+  const values=SURVEY_QUESTIONS.map((_,index)=>Number(form.querySelector(`input[name="survey-${index}"]:checked`)?.value)||0);
+  if(values.some(v=>!v)){window.showToast?.('يجب الإجابة على جميع أسئلة الاستبانة.');return;}
+  const apps=readV30('sah-v22-apps',[]);
+  const application=apps.find(row=>row.id===activeSurveyApplicationId);
+  const percent=Math.round(values.reduce((a,b)=>a+b,0)/(SURVEY_QUESTIONS.length*5)*100);
+  const surveys=readV30(V30.surveys,[]);
+  if(!surveys.some(s=>s.applicationId===activeSurveyApplicationId)){
+    surveys.unshift({
+      id:`sv-${Date.now()}`,applicationId:activeSurveyApplicationId,
+      requestId:application?.requestId,eventName:application?.eventName||'—',
+      studentName:application?.student?.name||'فلان الفلاني',
+      college:'CBA',gender:application?.student?.gender||'ذكر',
+      answers:values,percent,submittedAt:new Date().toISOString().slice(0,10)
+    });
+    writeV30(V30.surveys,surveys);
+  }
+  closeSurvey();
+  window.renderAll?.();
+  window.showToast?.('شكرًا لك، تم تسجيل تقييم رضا المستفيد.');
+}
+
+function bindV30(){
+  document.getElementById('studentSuggestionForm')?.addEventListener('submit',event=>{
+    event.preventDefault();
+    if(!event.currentTarget.reportValidity())return;
+    const rows=readV30(V30.suggestions,[]);
+    rows.unshift({
+      id:`sg-${Date.now()}`,
+      name:document.getElementById('suggestionName').value.trim(),
+      studentId:document.getElementById('suggestionStudentId').value.trim(),
+      college:document.getElementById('suggestionCollege').value,
+      gender:document.getElementById('suggestionGender').value,
+      category:document.getElementById('suggestionCategory').value,
+      text:document.getElementById('suggestionText').value.trim(),
+      date:new Date().toISOString().slice(0,10),status:'تم الاستلام'
+    });
+    writeV30(V30.suggestions,rows);
+    document.getElementById('suggestionCategory').value='';
+    document.getElementById('suggestionText').value='';
+    renderV30Extensions();
+    window.showToast?.('تم إرسال المقترح بنجاح.');
+  });
+
+  document.getElementById('councilMemberForm')?.addEventListener('submit',event=>{
+    event.preventDefault();
+    if(!roleCanManageCouncilMembers()){window.showToast?.('هذه الصلاحية متاحة للرئيس ونائب الرئيس فقط.');return;}
+    if(!event.currentTarget.reportValidity())return;
+    const rows=readV30(V30.councilMembers,[]);
+    const email=document.getElementById('councilMemberEmail').value.trim().toLowerCase();
+    if(rows.some(row=>row.email.toLowerCase()===email)){window.showToast?.('هذا البريد مرتبط بعضو في المجلس بالفعل.');return;}
+    rows.push({
+      id:`cm-${Date.now()}`,name:document.getElementById('councilMemberName').value.trim(),
+      studentId:document.getElementById('councilMemberStudentId').value.trim(),
+      college:document.getElementById('councilMemberCollege').value,email,
+      position:document.getElementById('councilMemberPosition').value,active:true
+    });
+    writeV30(V30.councilMembers,rows);
+    event.currentTarget.reset();
+    renderV30Extensions();
+  });
+
+  document.getElementById('councilActivityForm')?.addEventListener('submit',event=>{
+    event.preventDefault();
+    if(!roleCanSubmitCouncilActivity()){window.showToast?.('صلاحيتك الحالية لا تسمح بإدخال نشاط جديد.');return;}
+    if(!event.currentTarget.reportValidity())return;
+    const rows=readV30(V30.councilActivities,[]);
+    rows.unshift({
+      id:`ca-${Date.now()}`,name:document.getElementById('councilActivityName').value.trim(),
+      description:document.getElementById('councilActivityDescription').value.trim(),
+      category:document.getElementById('councilActivityCategory').value,
+      date:document.getElementById('councilActivityDate').value,
+      location:document.getElementById('councilActivityLocation').value.trim(),
+      gender:document.getElementById('councilActivityGender').value,
+      capacity:+document.getElementById('councilActivityCapacity').value,
+      budget:+document.getElementById('councilActivityBudget').value,
+      status:'تحت المراجعة',reason:'',finished:false,
+      submittedAt:new Date().toISOString().slice(0,10),submittedBy:'المجلس الطلابي'
+    });
+    writeV30(V30.councilActivities,rows);
+    event.currentTarget.reset();
+    window.renderAll?.();
+    window.showToast?.('تم إرسال نشاط المجلس إلى عمادة شؤون الطلاب للمراجعة.');
+  });
+
+  document.getElementById('councilMeetingForm')?.addEventListener('submit',event=>{
+    event.preventDefault();
+    if(!roleCanEditMeetings()){window.showToast?.('تحديد جدول الاجتماعات متاح لرئيس المجلس فقط.');return;}
+    if(!event.currentTarget.reportValidity())return;
+    const rows=readV30(V30.councilMeetings,[]);
+    rows.push({
+      id:`mt-${Date.now()}`,task:document.getElementById('councilMeetingTask').value.trim(),
+      date:document.getElementById('councilMeetingDate').value,
+      time:document.getElementById('councilMeetingTime').value,
+      member:document.getElementById('councilMeetingMember').value
+    });
+    writeV30(V30.councilMeetings,rows);
+    event.currentTarget.reset();
+    renderV30Extensions();
+  });
+
+  document.getElementById('councilViewRole')?.addEventListener('change',renderV30Extensions);
+
+  document.getElementById('downloadCouncilMeetingsPdf')?.addEventListener('click',()=>{
+    const rows=readV30(V30.councilMeetings,[]);
+    const w=window.open('','_blank','width=1000,height=760');
+    if(!w)return;
+    w.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><title>جدول اجتماعات المجلس الطلابي</title>
+    <style>body{font-family:Tahoma,Arial;padding:28px;color:#072c64}header{display:flex;justify-content:space-between;border-bottom:2px solid #072c64;padding-bottom:14px}table{width:100%;border-collapse:collapse;margin-top:22px}th,td{border:1px solid #ccd6e5;padding:10px;text-align:right}th{background:#eef4ff}@media print{button{display:none}}</style></head>
+    <body><header><div><h1>جدول اجتماعات المجلس الطلابي</h1><p>Student Activities Platform | UBT</p></div><b>${new Date().toLocaleDateString('ar-SA')}</b></header>
+    <button onclick="window.print()">طباعة / حفظ PDF</button><table><thead><tr><th>المهمة</th><th>التاريخ</th><th>الوقت</th><th>العضو المسؤول</th></tr></thead>
+    <tbody>${rows.map(row=>`<tr><td>${row.task}</td><td>${row.date}</td><td>${row.time}</td><td>${row.member}</td></tr>`).join('')}</tbody></table>
+    <script>setTimeout(()=>window.print(),500)<\/script></body></html>`);
+    w.document.close();
+  });
+
+  document.getElementById('closeGeneralBudgetDetails')?.addEventListener('click',()=>document.getElementById('generalBudgetDetails')?.classList.add('hidden'));
+  document.getElementById('generalSatisfactionCard')?.addEventListener('click',()=>{
+    document.getElementById('generalSatisfactionDetails')?.classList.remove('hidden');
+    document.getElementById('generalSatisfactionDetails')?.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+  document.getElementById('closeGeneralSatisfactionDetails')?.addEventListener('click',()=>document.getElementById('generalSatisfactionDetails')?.classList.add('hidden'));
+
+  document.querySelectorAll('[data-close-finish-event]').forEach(el=>el.addEventListener('click',closeFinishEvent));
+  document.getElementById('confirmFinishEvent')?.addEventListener('click',finishEventNow);
+  document.querySelectorAll('[data-close-beneficiary-survey]').forEach(el=>el.addEventListener('click',closeSurvey));
+  document.getElementById('submitBeneficiarySurvey')?.addEventListener('click',submitSurvey);
+
+  document.addEventListener('click',event=>{
+    const finish=event.target.closest('.finish-event-btn');
+    if(finish){requestFinishEvent(finish.dataset.finishStore,finish.dataset.finishId);return;}
+    const survey=event.target.closest('.open-beneficiary-survey');
+    if(survey){openSurvey(survey.dataset.appId);return;}
+
+    const revoke=event.target.closest('.council-revoke-btn');
+    if(revoke){
+      if(currentRoleV30()!=='dean'){window.showToast?.('إنهاء صلاحية أعضاء المجلس متاح لعميد شؤون الطلاب فقط.');return;}
+      const rows=readV30(V30.councilMembers,[]);
+      const row=rows.find(item=>item.id===revoke.dataset.id);
+      if(row){row.active=row.active===false;writeV30(V30.councilMembers,rows);renderV30Extensions();}
+      return;
+    }
+
+    const delMeeting=event.target.closest('.delete-council-meeting');
+    if(delMeeting&&roleCanEditMeetings()){
+      writeV30(V30.councilMeetings,readV30(V30.councilMeetings,[]).filter(row=>row.id!==delMeeting.dataset.id));
+      renderV30Extensions();return;
+    }
+
+    const approve=event.target.closest('.council-approve-request');
+    if(approve){
+      const rows=readV30(V30.councilActivities,[]);
+      const row=rows.find(item=>item.id===approve.dataset.id);
+      if(row){row.status='مقبول';row.reason='';writeV30(V30.councilActivities,rows);window.renderAll?.();}
+      return;
+    }
+    const openReject=event.target.closest('.council-open-reject');
+    if(openReject){
+      openReject.closest('.council-approval-actions')?.querySelector('.council-reject-editor')?.classList.remove('hidden');
+      return;
+    }
+    const confirmReject=event.target.closest('.council-confirm-reject');
+    if(confirmReject){
+      const editor=confirmReject.closest('.council-reject-editor');
+      const reason=editor?.querySelector('input')?.value.trim();
+      if(!reason){editor?.querySelector('input')?.focus();window.showToast?.('سبب الرفض إلزامي.');return;}
+      const rows=readV30(V30.councilActivities,[]);
+      const row=rows.find(item=>item.id===confirmReject.dataset.id);
+      if(row){row.status='مرفوض';row.reason=reason;writeV30(V30.councilActivities,rows);window.renderAll?.();}
+    }
+  });
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  seedV30();
+  bindV30();
+  setTimeout(()=>renderV30Extensions(),120);
+  console.info('SAH build 30.0 loaded');
+});
+
+})();

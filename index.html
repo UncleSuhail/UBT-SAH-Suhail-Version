@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#082b63">
-<title>Student Activities Platform | UBT</title>
-<link rel="stylesheet" href="css/style.css?v=27.2">
 
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="#082b63" name="theme-color"/>
+<title>Student Activities Platform | UBT</title>
+<link href="css/style.css?v=30.0" rel="stylesheet"/>
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
   html,body{width:100%;max-width:100%;overflow-x:hidden}
@@ -69,2016 +69,1999 @@
   .hero-content{padding:20px 16px!important}
 }
 </style>
-
 </head>
-<body data-sah-version="27.2" class="login-mode">
-<section id="login" class="login-page">
-  <div class="login-bg"></div>
-  <div class="login-card">
-    <img src="assets/logos/ubt-logo.png" class="login-logo" alt="UBT">
-    <h1 data-i18n="brand.en">Student Activities Platform</h1>
-    <h2 data-i18n="brand.ar">منصة الأنشطة الطلابية</h2>
-    <p>منصة موحدة لإدارة خدمات وأنشطة عمادة شؤون الطلاب.</p>
-    <input value="s.kaaki@ubt.edu.sa" aria-label="University email">
-    <button id="enterApp" class="btn primary wide">تسجيل الدخول عبر Microsoft</button>
-    <img src="assets/logos/ubt-slogan.png" class="slogan" alt="UBT Slogan">
-  </div>
+<body class="login-mode" data-sah-version="30.0">
+<section class="login-page" id="login">
+<div class="login-bg"></div>
+<div class="login-card">
+<img alt="UBT" class="login-logo" src="assets/logos/ubt-logo.png"/>
+<h1 data-i18n="brand.en">Student Activities Platform</h1>
+<h2 data-i18n="brand.ar">منصة الأنشطة الطلابية</h2>
+<p>منصة موحدة لإدارة خدمات وأنشطة عمادة شؤون الطلاب.</p>
+<input aria-label="University email" value="s.kaaki@ubt.edu.sa"/>
+<button class="btn primary wide" id="enterApp">تسجيل الدخول عبر Microsoft</button>
+<img alt="UBT Slogan" class="slogan" src="assets/logos/ubt-slogan.png"/>
+</div>
 </section>
-
-<div id="app" class="app hidden">
+<div class="app hidden" id="app">
 <header class="topbar">
-
-    <button id="mobileMenu" class="mobile-menu">
-        <span data-icon="menu"></span>
-    </button>
-
-    <!-- الشعارات -->
-    <div class="brand-left">
-
-        <img class="ubt"
-             src="assets/logos/ubt-logo.png"
-             alt="UBT">
-
-        <img class="dsa"
-             src="assets/logos/dsa-logo.png"
-             alt="DSA">
-
-    </div>
-
-    <!-- عنوان المنصة -->
-    <div class="brand-title">
-
-        <h1>Student Activities Platform</h1>
-
-        <p>منصة الأنشطة الطلابية</p>
-
-    </div>
-
-    <!-- أدوات النظام -->
-    <div class="topbar-right">
-
-        <div class="app-controls">
-
-            <button id="langToggle"
-                    class="control-btn">
+<button class="mobile-menu" id="mobileMenu">
+<span data-icon="menu"></span>
+</button>
+<!-- الشعارات -->
+<div class="brand-left">
+<img alt="UBT" class="ubt" src="assets/logos/ubt-logo.png"/>
+<img alt="DSA" class="dsa" src="assets/logos/dsa-logo.png"/>
+</div>
+<!-- عنوان المنصة -->
+<div class="brand-title">
+<h1>Student Activities Platform</h1>
+<p>منصة الأنشطة الطلابية</p>
+</div>
+<!-- أدوات النظام -->
+<div class="topbar-right">
+<div class="app-controls">
+<button class="control-btn" id="langToggle">
                 EN
             </button>
-
-        </div>
-
-        <div class="role-switcher">
-
-            <label for="activeRole">
+</div>
+<div class="role-switcher">
+<label for="activeRole">
                 المستخدم الحالي
             </label>
-
-            <select id="activeRole"><option value="system">مسؤول النظام</option>
+<select id="activeRole"><option value="system">مسؤول النظام</option>
 <option value="indicator">مسؤول مؤشر الأداء الرياضي</option>
 <option value="sports_manager">مدير النادي الرياضي</option>
 <option value="dean">عميد شؤون الطلاب</option>
 <option value="coach">مدرب رياضي</option>
 <option value="activities_manager">مدير الأنشطة الطلابية</option>
 <option value="student_account">حساب طالب</option>
-<option value="faculty">عضو هيئة التدريس</option></select>
-
-        </div>
-
-        <div class="user-chip">
-
-            <div>
-
-                <strong id="activeUserName">حسام الحسين</strong>
-                <span class="user-role-divider">/</span>
-                <span id="activeUserRole">مسؤول النظام</span>
-
-            </div>
-
-            <div class="avatar"
-                 id="activeUserAvatar">
+<option value="faculty">عضو هيئة التدريس</option><option value="student_council">المجلس الطلابي</option></select>
+</div>
+<div class="user-chip">
+<div>
+<strong id="activeUserName">حسام الحسين</strong>
+<span class="user-role-divider">/</span>
+<span id="activeUserRole">مسؤول النظام</span>
+</div>
+<div class="avatar" id="activeUserAvatar">
 
                 ح
 
             </div>
-
-        </div>
-
-    </div>
-
+</div>
+</div>
 </header>
-
 <div class="mobile-user-strip" id="mobileUserStrip">
-  <div class="mobile-user-identity">
-    <div class="mobile-user-avatar" id="mobileUserAvatar">ح</div>
-    <div>
-      <strong id="mobileUserName">حسام الحسين</strong>
-      <span id="mobileUserRole">مسؤول النظام</span>
-    </div>
-  </div>
-
-  <div class="mobile-role-actions">
-    <select id="mobileActiveRole" aria-label="تغيير الصلاحية"><option value="system">مسؤول النظام</option>
+<div class="mobile-user-identity">
+<div class="mobile-user-avatar" id="mobileUserAvatar">ح</div>
+<div>
+<strong id="mobileUserName">حسام الحسين</strong>
+<span id="mobileUserRole">مسؤول النظام</span>
+</div>
+</div>
+<div class="mobile-role-actions">
+<select aria-label="تغيير الصلاحية" id="mobileActiveRole"><option value="system">مسؤول النظام</option>
 <option value="indicator">مسؤول مؤشر الأداء الرياضي</option>
 <option value="sports_manager">مدير النادي الرياضي</option>
 <option value="dean">عميد شؤون الطلاب</option>
 <option value="coach">مدرب رياضي</option>
 <option value="activities_manager">مدير الأنشطة الطلابية</option>
 <option value="student_account">حساب طالب</option>
-<option value="faculty">عضو هيئة التدريس</option></select>
-  </div>
+<option value="faculty">عضو هيئة التدريس</option><option value="student_council">المجلس الطلابي</option></select>
 </div>
-<div id="fixedStackSpacer" class="fixed-stack-spacer" aria-hidden="true"></div>
-
+</div>
+<div aria-hidden="true" class="fixed-stack-spacer" id="fixedStackSpacer"></div>
 <div class="layout">
-  <aside class="sidebar">
+<aside class="sidebar">
 <div class="sidebar-toolbar">
-      <span class="sidebar-title">Student Activities Platform</span>
-      <button id="toggleSidebar" class="sidebar-toggle" type="button"
-              title="تصغير القائمة" aria-label="تصغير أو توسيع القائمة">
+<span class="sidebar-title">Student Activities Platform</span>
+<button aria-label="تصغير أو توسيع القائمة" class="sidebar-toggle" id="toggleSidebar" title="تصغير القائمة" type="button">
         ☰
       </button>
-    </div>
-
-    <nav class="nav" aria-label="التنقل الرئيسي">
-      <div class="nav-group general-indicator-nav open">
-        <button class="nav-group-title" type="button" aria-expanded="true">
-          <span class="group-left">
-            <span class="nav-group-symbol" aria-hidden="true">📊</span>
-            <span class="nav-group-name">المؤشر العام</span>
-          </span>
-        </button>
-
-        <div class="nav-items">
-          <button data-page="general-indicator" type="button">
-            <span>لوحة المؤشر العام</span>
-            <small data-icon="chart"></small>
-          </button>
-        </div>
-      </div>
-
-      <div class="nav-group open">
-        <button class="nav-group-title" type="button" aria-expanded="true">
-          <span class="group-left">
-            <span class="nav-group-symbol" aria-hidden="true">🏆</span>
-            <span class="nav-group-name">الشؤون الرياضية</span>
-          </span>
-        </button>
-
-        <div class="nav-items">
-          <button data-page="sports" type="button">
-            <span>الإدارة الرياضية</span>
-            <small data-icon="trophy"></small>
-          </button>
-          <button data-page="sports-request" type="button">
-            <span>تقديم طلب تنفيذ بطولة/حدث</span>
-            <small data-icon="calendar"></small>
-          </button>
-          <button data-page="indicator" type="button">
-            <span>مؤشر الأداء الرياضي</span>
-            <small data-icon="chart"></small>
-          </button>
-          <button data-page="scholarships" type="button">
-            <span>المنح الرياضية</span>
-            <small data-icon="award"></small>
-          </button>
-          <button data-page="athletes" type="button">
-            <span>ملف الطالب الرياضي</span>
-            <small data-icon="users"></small>
-          </button>
-          <button data-page="reports" type="button">
-            <span>التقارير والتحليلات</span>
-            <small data-icon="briefcase"></small>
-          </button>
-          <button data-page="calendar" type="button">
-            <span>التقويم الموحد</span>
-            <small data-icon="calendar"></small>
-          </button>
-        </div>
-      </div>
-
-      <div class="nav-group">
-        <button class="nav-group-title" type="button" aria-expanded="false">
-          <span class="group-left">
-            <span class="nav-group-symbol" aria-hidden="true">👨‍🎓</span>
-            <span class="nav-group-name">خدمات الطلبة</span>
-          </span>
-        </button>
-
-        <div class="nav-items">
-          <button data-page="agreement" type="button">
-            <span>الإقرار الإلكتروني للمنح</span>
-            <small data-icon="pen"></small>
-          </button>
-          <button data-page="student" type="button">
-            <span>بوابة الطالب</span>
-            <small data-icon="student"></small>
-          </button>
-        </div>
-      </div>
-
-      <div class="nav-group">
-        <button class="nav-group-title" type="button" aria-expanded="false">
-          <span class="group-left">
-            <span class="nav-group-symbol" aria-hidden="true">🎓</span>
-            <span class="nav-group-name">الأنشطة الطلابية</span>
-          </span>
-        </button>
-
-        <div class="nav-items">
-          <button data-page="activities" type="button">
-            <span>الأنشطة والفعاليات</span>
-            <small data-icon="activity"></small>
-          </button>
-          <button data-page="volunteer" type="button">
-            <span>الفرص التطوعية</span>
-            <small data-icon="heart"></small>
-          </button>
-          <button data-page="clubs" type="button">
-            <span>الأندية الطلابية</span>
-            <small data-icon="users"></small>
-          </button>
-          <button data-page="approvals" type="button">
-            <span>صلاحيات عمادة شؤون الطلاب</span>
-            <small data-icon="award"></small>
-          </button>
-        </div>
-      </div>
-    </nav>
-  </aside>
-  <main class="main">
-
-    <section id="page-general-indicator" class="page">
-      <div class="general-indicator-heading">
-        <div>
-          <span class="general-indicator-kicker">الخلاصة التنفيذية للمنصة</span>
-          <h2>المؤشر العام</h2>
-          <p>لوحة موحدة تجمع أهم نتائج الشؤون الرياضية، الأنشطة الطلابية، الأندية، التطوع، الطلبات والتوثيق.</p>
-        </div>
-        <div class="general-indicator-update">
-          <span>آخر تحديث</span>
-          <strong id="generalIndicatorUpdatedAt">—</strong>
-        </div>
-      </div>
-
-      <div class="general-kpi-grid">
-        <button class="card general-kpi-card primary" type="button" data-route="reports">
-          <span>إجمالي الأنشطة المسجلة</span>
-          <strong id="generalActivitiesTotal">0</strong>
-          <small>جميع الأنشطة والشواهد</small>
-          <i class="general-kpi-arrow">←</i>
-        </button>
-
-        <button class="card general-kpi-card male" type="button" data-route="activities">
-          <span>أنشطة الطلاب</span>
-          <strong id="generalMaleActivities">0</strong>
-          <small id="generalMaleActivitiesPercent">0% من الأنشطة</small>
-          <i class="general-kpi-arrow">←</i>
-        </button>
-
-        <button class="card general-kpi-card female" type="button" data-route="activities">
-          <span>أنشطة الطالبات</span>
-          <strong id="generalFemaleActivities">0</strong>
-          <small id="generalFemaleActivitiesPercent">0% من الأنشطة</small>
-          <i class="general-kpi-arrow">←</i>
-        </button>
-
-        <button class="card general-kpi-card beneficiaries" type="button" data-route="activities">
-          <span>إجمالي المستفيدين</span>
-          <strong id="generalBeneficiaries">0</strong>
-          <small>الطلاب والطالبات</small>
-          <i class="general-kpi-arrow">←</i>
-        </button>
-
-        <button class="card general-kpi-card sports" type="button" data-route="indicator">
-          <span>مؤشر الأداء الرياضي</span>
-          <strong id="generalSportsIndicatorPercent">0%</strong>
-          <small id="generalSportsIndicatorPoints">0 / 0 نقطة</small>
-          <i class="general-kpi-arrow">←</i>
-        </button>
-
-        <button class="card general-kpi-card clubs" type="button" data-route="clubs">
-          <span>الأندية الطلابية</span>
-          <strong id="generalClubsCount">0</strong>
-          <small id="generalClubActivitiesCount">0 نشاط نادي</small>
-          <i class="general-kpi-arrow">←</i>
-        </button>
-
-        <button class="card general-kpi-card volunteer" type="button" data-route="volunteer">
-          <span>الفرص التطوعية</span>
-          <strong id="generalVolunteerCount">0</strong>
-          <small id="generalVolunteerApproved">0 معتمدة</small>
-          <i class="general-kpi-arrow">←</i>
-        </button>
-
-        <button class="card general-kpi-card requests" type="button" data-route="approvals">
-          <span>الطلبات قيد المراجعة</span>
-          <strong id="generalPendingRequests">0</strong>
-          <small id="generalApprovalRate">0% نسبة الموافقة</small>
-          <i class="general-kpi-arrow">←</i>
-        </button>
-      </div>
-
-      <div class="general-charts-grid">
-        <article class="card general-chart-card">
-          <div class="general-chart-head">
-            <div>
-              <span>توزيع الأنشطة</span>
-              <h3>الطلاب والطالبات</h3>
-            </div>
-            <button class="general-chart-link" type="button" data-route="activities">عرض التفاصيل ←</button>
-          </div>
-
-          <div class="general-gender-layout">
-            <div class="general-multi-donut" id="generalGenderDonut" style="--male:0deg">
-              <div>
-                <b id="generalGenderTotal">0</b>
-                <small>نشاط</small>
-              </div>
-            </div>
-            <div class="general-chart-legend">
-              <span><i class="male"></i>الطلاب <b id="generalGenderMale">0</b></span>
-              <span><i class="female"></i>الطالبات <b id="generalGenderFemale">0</b></span>
-            </div>
-          </div>
-        </article>
-
-        <article class="card general-chart-card">
-          <div class="general-chart-head">
-            <div>
-              <span>التوثيق العام</span>
-              <h3>اكتمال الشواهد</h3>
-            </div>
-            <button class="general-chart-link" type="button" data-route="reports">مركز الشواهد ←</button>
-          </div>
-
-          <div class="general-documentation-layout">
-            <div class="general-progress-ring" id="generalDocumentationRing" style="--p:0">
-              <div>
-                <b id="generalDocumentationPercent">0%</b>
-                <small>مكتمل</small>
-              </div>
-            </div>
-            <div class="general-chart-legend">
-              <span><i class="complete"></i>مكتمل <b id="generalDocumentationComplete">0</b></span>
-              <span><i class="incomplete"></i>غير مكتمل <b id="generalDocumentationIncomplete">0</b></span>
-            </div>
-          </div>
-        </article>
-
-        <article class="card general-chart-card general-grants-card">
-          <div class="general-chart-head">
-            <div>
-              <span>طلبات المنح الرياضية</span>
-              <h3>حالة المنح المقدمة</h3>
-            </div>
-            <button class="general-chart-link" type="button" data-route="scholarships">
+</div>
+<nav aria-label="التنقل الرئيسي" class="nav">
+<div class="nav-group general-indicator-nav open">
+<button aria-expanded="true" class="nav-group-title" type="button">
+<span class="group-left">
+<span aria-hidden="true" class="nav-group-symbol">📊</span>
+<span class="nav-group-name">المؤشر العام</span>
+</span>
+</button>
+<div class="nav-items">
+<button data-page="general-indicator" type="button">
+<span>لوحة المؤشر العام</span>
+<small data-icon="chart"></small>
+</button>
+</div>
+</div>
+<div class="nav-group open">
+<button aria-expanded="true" class="nav-group-title" type="button">
+<span class="group-left">
+<span aria-hidden="true" class="nav-group-symbol">🏆</span>
+<span class="nav-group-name">الشؤون الرياضية</span>
+</span>
+</button>
+<div class="nav-items">
+<button data-page="sports" type="button">
+<span>الإدارة الرياضية</span>
+<small data-icon="trophy"></small>
+</button>
+<button data-page="sports-request" type="button">
+<span>تقديم طلب تنفيذ بطولة/حدث</span>
+<small data-icon="calendar"></small>
+</button>
+<button data-page="indicator" type="button">
+<span>مؤشر الأداء الرياضي</span>
+<small data-icon="chart"></small>
+</button>
+<button data-page="scholarships" type="button">
+<span>المنح الرياضية</span>
+<small data-icon="award"></small>
+</button>
+<button data-page="athletes" type="button">
+<span>ملف الطالب الرياضي</span>
+<small data-icon="users"></small>
+</button>
+<button data-page="reports" type="button">
+<span>التقارير والتحليلات</span>
+<small data-icon="briefcase"></small>
+</button>
+<button data-page="calendar" type="button">
+<span>التقويم الموحد</span>
+<small data-icon="calendar"></small>
+</button>
+</div>
+</div>
+<div class="nav-group">
+<button aria-expanded="false" class="nav-group-title" type="button">
+<span class="group-left">
+<span aria-hidden="true" class="nav-group-symbol">👨‍🎓</span>
+<span class="nav-group-name">خدمات الطلبة</span>
+</span>
+</button>
+<div class="nav-items">
+<button data-page="agreement" type="button">
+<span>الإقرار الإلكتروني للمنح</span>
+<small data-icon="pen"></small>
+</button>
+<button data-page="student" type="button">
+<span>بوابة الطالب</span>
+<small data-icon="student"></small>
+</button>
+</div>
+</div>
+<div class="nav-group">
+<button aria-expanded="false" class="nav-group-title" type="button">
+<span class="group-left">
+<span aria-hidden="true" class="nav-group-symbol">🎓</span>
+<span class="nav-group-name">الأنشطة الطلابية</span>
+</span>
+</button>
+<div class="nav-items">
+<button data-page="activities" type="button">
+<span>الأنشطة والفعاليات</span>
+<small data-icon="activity"></small>
+</button>
+<button data-page="volunteer" type="button">
+<span>الفرص التطوعية</span>
+<small data-icon="heart"></small>
+</button>
+<button data-page="clubs" type="button">
+<span>الأندية الطلابية</span>
+<small data-icon="users"></small>
+</button>
+<button data-page="approvals" type="button">
+<span>صلاحيات عمادة شؤون الطلاب</span>
+<small data-icon="award"></small>
+</button>
+</div>
+</div>
+<div class="nav-group">
+<button aria-expanded="false" class="nav-group-title" type="button">
+<span class="group-left">
+<span aria-hidden="true" class="nav-group-symbol">🗳️</span>
+<span class="nav-group-name">المجلس الطلابي</span>
+</span>
+</button>
+<div class="nav-items">
+<button data-page="student-council" type="button">
+<span>إدارة المجلس الطلابي</span>
+<small data-icon="users"></small>
+</button>
+</div>
+</div>
+</nav>
+</aside>
+<main class="main">
+<section class="page" id="page-general-indicator">
+<div class="general-indicator-heading">
+<div>
+<span class="general-indicator-kicker">الخلاصة التنفيذية للمنصة</span>
+<h2>المؤشر العام</h2>
+<p>لوحة موحدة تجمع أهم نتائج الشؤون الرياضية، الأنشطة الطلابية، الأندية، التطوع، الطلبات والتوثيق.</p>
+</div>
+<div class="general-indicator-update">
+<span>آخر تحديث</span>
+<strong id="generalIndicatorUpdatedAt">—</strong>
+</div>
+</div>
+<div class="general-kpi-grid">
+<button class="card general-kpi-card primary" data-route="reports" type="button">
+<span>إجمالي الأنشطة المسجلة</span>
+<strong id="generalActivitiesTotal">0</strong>
+<small>جميع الأنشطة والشواهد</small>
+<i class="general-kpi-arrow">←</i>
+</button>
+<button class="card general-kpi-card male" data-route="activities" type="button">
+<span>أنشطة الطلاب</span>
+<strong id="generalMaleActivities">0</strong>
+<small id="generalMaleActivitiesPercent">0% من الأنشطة</small>
+<i class="general-kpi-arrow">←</i>
+</button>
+<button class="card general-kpi-card female" data-route="activities" type="button">
+<span>أنشطة الطالبات</span>
+<strong id="generalFemaleActivities">0</strong>
+<small id="generalFemaleActivitiesPercent">0% من الأنشطة</small>
+<i class="general-kpi-arrow">←</i>
+</button>
+<button class="card general-kpi-card beneficiaries" data-route="activities" type="button">
+<span>إجمالي المستفيدين</span>
+<strong id="generalBeneficiaries">0</strong>
+<small>الطلاب والطالبات</small>
+<i class="general-kpi-arrow">←</i>
+</button>
+<button class="card general-kpi-card sports" data-route="indicator" type="button">
+<span>مؤشر الأداء الرياضي</span>
+<strong id="generalSportsIndicatorPercent">0%</strong>
+<small id="generalSportsIndicatorPoints">0 / 0 نقطة</small>
+<i class="general-kpi-arrow">←</i>
+</button>
+<button class="card general-kpi-card clubs" data-route="clubs" type="button">
+<span>الأندية الطلابية</span>
+<strong id="generalClubsCount">0</strong>
+<small id="generalClubActivitiesCount">0 نشاط نادي</small>
+<i class="general-kpi-arrow">←</i>
+</button>
+<button class="card general-kpi-card volunteer" data-route="volunteer" type="button">
+<span>الفرص التطوعية</span>
+<strong id="generalVolunteerCount">0</strong>
+<small id="generalVolunteerApproved">0 معتمدة</small>
+<i class="general-kpi-arrow">←</i>
+</button>
+<button class="card general-kpi-card requests" data-route="approvals" type="button">
+<span>الطلبات قيد المراجعة</span>
+<strong id="generalPendingRequests">0</strong>
+<small id="generalApprovalRate">0% نسبة الموافقة</small>
+<i class="general-kpi-arrow">←</i>
+</button>
+<button class="card general-kpi-card budget approved-budget" data-budget-filter="approved" type="button">
+<span>الميزانية المصروفة</span>
+<strong id="generalApprovedBudget">0 ر.س</strong>
+<small>ميزانية الأحداث والأنشطة التي تمت الموافقة عليها.</small>
+<i class="general-kpi-arrow">←</i>
+</button><button class="card general-kpi-card budget requested-budget" data-budget-filter="pending" type="button">
+<span>الميزانية المطلوبة</span>
+<strong id="generalRequestedBudget">0 ر.س</strong>
+<small>ميزانية الأحداث التي لم تتم الموافقة عليها بعد.</small>
+<i class="general-kpi-arrow">←</i>
+</button><button class="card general-kpi-card budget total-budget" data-budget-filter="all" type="button">
+<span>إجمالي الميزانيات المقدمة</span>
+<strong id="generalTotalBudget">0 ر.س</strong>
+<small>إجمالي الميزانيات المصروفة والمطلوبة لجميع الأحداث.</small>
+<i class="general-kpi-arrow">←</i>
+</button><button class="card general-kpi-card council" data-route="student-council" type="button">
+<span>أنشطة المجلس الطلابي</span>
+<strong id="generalCouncilActivities">0</strong>
+<small id="generalCouncilApproved">0 نشاط معتمد</small>
+<i class="general-kpi-arrow">←</i>
+</button><button class="card general-kpi-card satisfaction" id="generalSatisfactionCard" type="button">
+<span>نسبة رضا المستفيدين</span>
+<strong id="generalSatisfactionPercent">0%</strong>
+<small id="generalSatisfactionCount">0 استبانة مكتملة</small>
+<i class="general-kpi-arrow">←</i>
+</button></div>
+<div class="general-charts-grid">
+<article class="card general-chart-card">
+<div class="general-chart-head">
+<div>
+<span>توزيع الأنشطة</span>
+<h3>الطلاب والطالبات</h3>
+</div>
+<button class="general-chart-link" data-route="activities" type="button">عرض التفاصيل ←</button>
+</div>
+<div class="general-gender-layout">
+<div class="general-multi-donut" id="generalGenderDonut" style="--male:0deg">
+<div>
+<b id="generalGenderTotal">0</b>
+<small>نشاط</small>
+</div>
+</div>
+<div class="general-chart-legend">
+<span><i class="male"></i>الطلاب <b id="generalGenderMale">0</b></span>
+<span><i class="female"></i>الطالبات <b id="generalGenderFemale">0</b></span>
+</div>
+</div>
+</article>
+<article class="card general-chart-card">
+<div class="general-chart-head">
+<div>
+<span>التوثيق العام</span>
+<h3>اكتمال الشواهد</h3>
+</div>
+<button class="general-chart-link" data-route="reports" type="button">مركز الشواهد ←</button>
+</div>
+<div class="general-documentation-layout">
+<div class="general-progress-ring" id="generalDocumentationRing" style="--p:0">
+<div>
+<b id="generalDocumentationPercent">0%</b>
+<small>مكتمل</small>
+</div>
+</div>
+<div class="general-chart-legend">
+<span><i class="complete"></i>مكتمل <b id="generalDocumentationComplete">0</b></span>
+<span><i class="incomplete"></i>غير مكتمل <b id="generalDocumentationIncomplete">0</b></span>
+</div>
+</div>
+</article>
+<article class="card general-chart-card general-grants-card">
+<div class="general-chart-head">
+<div>
+<span>طلبات المنح الرياضية</span>
+<h3>حالة المنح المقدمة</h3>
+</div>
+<button class="general-chart-link" data-route="scholarships" type="button">
               إدارة المنح ←
             </button>
-          </div>
-
-          <div class="general-grants-layout">
-            <button class="general-grants-donut"
-                    id="generalGrantsDonut"
-                    type="button"
-                    data-route="scholarships">
-              <span>
-                <b id="generalGrantsTotal">0</b>
-                <small>طلب منحة</small>
-              </span>
-            </button>
-
-            <div class="general-grants-legend">
-              <button type="button" data-route="scholarships">
-                <i class="accepted"></i>
-                <span>موافق عليها</span>
-                <b id="generalGrantsAccepted">0</b>
-              </button>
-              <button type="button" data-route="scholarships">
-                <i class="rejected"></i>
-                <span>مرفوضة</span>
-                <b id="generalGrantsRejected">0</b>
-              </button>
-              <button type="button" data-route="scholarships">
-                <i class="pending"></i>
-                <span>تحت المراجعة</span>
-                <b id="generalGrantsPending">0</b>
-              </button>
-            </div>
-          </div>
-        </article>
-
-        <article class="card general-approvals-dashboard">
-          <div class="general-approvals-head">
-            <div>
-              <span>الملخص التنفيذي للطلبات</span>
-              <h3>موافقات الأنشطة والأندية والطلبات</h3>
-              <p>
+</div>
+<div class="general-grants-layout">
+<button class="general-grants-donut" data-route="scholarships" id="generalGrantsDonut" type="button">
+<span>
+<b id="generalGrantsTotal">0</b>
+<small>طلب منحة</small>
+</span>
+</button>
+<div class="general-grants-legend">
+<button data-route="scholarships" type="button">
+<i class="accepted"></i>
+<span>موافق عليها</span>
+<b id="generalGrantsAccepted">0</b>
+</button>
+<button data-route="scholarships" type="button">
+<i class="rejected"></i>
+<span>مرفوضة</span>
+<b id="generalGrantsRejected">0</b>
+</button>
+<button data-route="scholarships" type="button">
+<i class="pending"></i>
+<span>تحت المراجعة</span>
+<b id="generalGrantsPending">0</b>
+</button>
+</div>
+</div>
+</article>
+<article class="card general-approvals-dashboard">
+<div class="general-approvals-head">
+<div>
+<span>الملخص التنفيذي للطلبات</span>
+<h3>موافقات الأنشطة والأندية والطلبات</h3>
+<p>
                 يشمل طلبات الأنشطة الطلابية، الأندية، البطولات الرياضية،
                 الفرص التطوعية، والمنح الرياضية.
               </p>
-            </div>
-
-            <button class="general-chart-link"
-                    type="button"
-                    data-route="approvals">
+</div>
+<button class="general-chart-link" data-route="approvals" type="button">
               فتح صفحة الصلاحيات ←
             </button>
-          </div>
-
-          <div class="general-approvals-layout">
-            <div class="general-approvals-chart-side">
-              <button class="general-approvals-donut"
-                      id="generalApprovalsDonut"
-                      type="button"
-                      data-route="approvals"
-                      style="--approved:0deg;--rejected:0deg">
-                <span>
-                  <b id="generalApprovalsTotal">0</b>
-                  <small>إجمالي الطلبات</small>
-                </span>
-              </button>
-
-              <div class="general-approvals-legend">
-                <button type="button"
-                        data-route="approvals"
-                        data-general-approval-filter="مقبول">
-                  <i class="approved"></i>
-                  <span>تمت الموافقة</span>
-                  <b id="generalApprovalsAccepted">0</b>
-                </button>
-
-                <button type="button"
-                        data-route="approvals"
-                        data-general-approval-filter="مرفوض">
-                  <i class="rejected"></i>
-                  <span>مرفوضة</span>
-                  <b id="generalApprovalsRejected">0</b>
-                </button>
-
-                <button type="button"
-                        data-route="approvals"
-                        data-general-approval-filter="تحت المراجعة">
-                  <i class="pending"></i>
-                  <span>تحت المراجعة</span>
-                  <b id="generalApprovalsPending">0</b>
-                </button>
-              </div>
-            </div>
-
-            <div class="general-approval-types">
-              <button type="button" data-route="sports-request">
-                <span class="general-approval-type-icon">🏆</span>
-                <div>
-                  <strong>البطولات والأحداث الرياضية</strong>
-                  <small>طلبات التنفيذ والمشاركة</small>
-                </div>
-                <b id="generalApprovalSportsCount">0</b>
-              </button>
-
-              <button type="button" data-route="clubs">
-                <span class="general-approval-type-icon">👥</span>
-                <div>
-                  <strong>الأندية الطلابية</strong>
-                  <small>تسجيل الأندية والمبادرات</small>
-                </div>
-                <b id="generalApprovalClubsCount">0</b>
-              </button>
-
-              <button type="button" data-route="volunteer">
-                <span class="general-approval-type-icon">🤝</span>
-                <div>
-                  <strong>الفرص التطوعية</strong>
-                  <small>الفرص والطلبات التطوعية</small>
-                </div>
-                <b id="generalApprovalVolunteerCount">0</b>
-              </button>
-
-              <button type="button" data-route="scholarships">
-                <span class="general-approval-type-icon">🎓</span>
-                <div>
-                  <strong>المنح الرياضية</strong>
-                  <small>إقرارات وطلبات اعتماد المنح</small>
-                </div>
-                <b id="generalApprovalGrantsCount">0</b>
-              </button>
-
-              <button type="button" data-route="activities">
-                <span class="general-approval-type-icon">📅</span>
-                <div>
-                  <strong>الأنشطة والفعاليات</strong>
-                  <small>الطلبات المرتبطة بالأنشطة العامة</small>
-                </div>
-                <b id="generalApprovalActivitiesCount">0</b>
-              </button>
-            </div>
-          </div>
-
-          <div class="general-approvals-progress">
-            <span id="generalApprovalsAcceptedBar" style="width:0%"></span>
-            <i id="generalApprovalsRejectedBar" style="width:0%"></i>
-            <b id="generalApprovalsPendingBar" style="width:0%"></b>
-          </div>
-        </article>
-      </div>
-
-      <div class="general-sections-grid">
-        <article class="card general-section-card">
-          <div class="general-section-head">
-            <div>
-              <span>المجالات الرئيسية</span>
-              <h3>توزيع الأنشطة حسب المجال</h3>
-            </div>
-            <button type="button" data-route="reports">التقارير والتحليلات ←</button>
-          </div>
-          <div class="general-fields-chart" id="generalFieldsChart"></div>
-        </article>
-
-        <article class="card general-section-card">
-          <div class="general-section-head">
-            <div>
-              <span>المؤشرات الرياضية</span>
-              <h3>الطلاب مقابل الطالبات</h3>
-            </div>
-            <button type="button" data-route="indicator">مؤشر الأداء ←</button>
-          </div>
-
-          <div class="general-sports-comparison">
-            <button type="button" data-route="indicator" class="male">
-              <span>الطلاب</span>
-              <strong id="generalMaleIndicator">0%</strong>
-              <div><i id="generalMaleIndicatorBar" style="width:0%"></i></div>
-              <small id="generalMaleIndicatorPoints">0 نقطة</small>
-            </button>
-
-            <button type="button" data-route="indicator" class="female">
-              <span>الطالبات</span>
-              <strong id="generalFemaleIndicator">0%</strong>
-              <div><i id="generalFemaleIndicatorBar" style="width:0%"></i></div>
-              <small id="generalFemaleIndicatorPoints">0 نقطة</small>
-            </button>
-          </div>
-
-          <div class="general-mini-kpis">
-            <button type="button" data-route="scholarships">
-              <span>المنح الرياضية</span>
-              <b id="generalScholarships">0</b>
-            </button>
-            <button type="button" data-route="championships">
-              <span>البطولات</span>
-              <b id="generalChampionships">0</b>
-            </button>
-            <button type="button" data-route="athletes">
-              <span>ملفات الرياضيين</span>
-              <b id="generalAthletes">0</b>
-            </button>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section id="page-home" class="page active">
-      <div class="hero home-hero">
-        <div class="hero-img" style="background-image:url('assets/images/campus-wide.jpg')"></div>
-        <div class="hero-content">
-          <span class="eyebrow" data-i18n="home.eyebrow">عمادة شؤون الطلاب</span>
-          <h2 data-i18n="home.title">منصة واحدة لإدارة الأنشطة والخدمات الطلابية</h2>
-          <p>بوابة مؤسسية تجمع الإدارة الرياضية، الأنشطة الطلابية، العمل التطوعي، التقويم، وبوابة الطالب بهوية جامعة الأعمال والتكنولوجيا.</p>
-          <div class="btns"><button class="btn primary" data-route="sports" data-i18n="btn.sports">الدخول للإدارة الرياضية</button><button class="btn secondary" data-route="student" data-i18n="btn.student">عرض بوابة الطالب</button></div>
-        </div>
-      </div>
-      <div class="section-title"><div><h3 data-i18n="home.modules">وحدات المنصة</h3><p>كل وحدة لها صلاحياتها وبياناتها، والطالب يشاهد ما يهمه في بوابة واحدة.</p></div></div>
-      <div class="grid cols-3">
-        <div class="card module-card" data-route="sports"><div><div class="iconbox" data-icon="trophy"></div><h4>الإدارة الرياضية</h4><p>المؤشر، المنح، الإقرار الإلكتروني، البطولات، ملفات الرياضيين، والتقارير.</p></div><span class="pill">وحدة مستقلة</span></div>
-        <div class="card module-card" data-route="activities"><div><div class="iconbox" data-icon="activity"></div><h4>الأنشطة الطلابية العامة</h4><p>الأندية، الفعاليات، المبادرات، الأعضاء، وفرص المشاركة.</p></div><span class="pill burg">طلاب / طالبات</span></div>
-        <div class="card module-card" data-route="volunteer"><div><div class="iconbox" data-icon="heart"></div><h4>العمل التطوعي</h4><p>فرص تطوعية واحتساب ساعات بناءً على الضوابط اللاصفية المعتمدة.</p></div><span class="pill">محرك ساعات</span></div>
-      </div>
-      <div class="section-title"><div><h3 data-i18n="home.dataSummary">ملخص البيانات المستوردة</h3><p>الأرقام التالية مستخرجة من الملفات المعتمدة المرفوعة: قوائم المنح، روزنامة الاتحاد، ودليل مؤشر الأداء الرياضي.</p></div></div>
-      <div class="grid cols-4">
-        <div class="card stat"><div class="label">طلاب المنح الرياضية</div><div class="value" id="homeMaleScholarships">0</div><div class="sub">ربيع 2026</div></div>
-        <div class="card stat burg"><div class="label">طالبات المنح الرياضية</div><div class="value" id="homeFemaleScholarships">0</div><div class="sub">ربيع 2026</div></div>
-        <div class="card stat"><div class="label">مجالات مؤشر الأداء الرياضي</div><div class="value">16</div><div class="sub">حسب دليل المؤشر</div></div>
-        <div class="card stat"><div class="label">أحداث التقويم المستوردة</div><div class="value" id="homeEvents">0</div><div class="sub">رياضي، أكاديمي، رسمي</div></div>
-      </div>
-    </section>
-
-    <section id="page-sports" class="page">
-      <div class="section-title sports-management-heading">
-        <div>
-          <h3>الإدارة الرياضية</h3>
-          <p>ملخص إحصائي مباشر لطلبات البطولات والمنح والتقارير، مع إمكانية عرض البيانات المرتبطة بكل نتيجة.</p>
-        </div>
-      </div>
-
-      <div class="sports-management-dashboard">
-        <article class="card sports-status-card">
-          <div class="sports-status-head">
-            <div>
-              <span>طلبات البطولات والأحداث</span>
-              <h3>حالة طلبات البطولات</h3>
-            </div>
-            <button type="button" data-route="sports-request">عرض الطلبات ←</button>
-          </div>
-
-          <div class="sports-status-layout">
-            <button class="sports-status-donut sports-dashboard-filter"
-                    id="sportsRequestsDonut"
-                    type="button"
-                    data-sports-dashboard-type="sports"
-                    data-sports-dashboard-status="all"
-                    style="--approved:0deg;--rejected:0deg">
-              <span><b id="sportsRequestsTotal">0</b><small>طلب</small></span>
-            </button>
-
-            <div class="sports-status-legend">
-              <button type="button"
-                      data-sports-dashboard-type="sports"
-                      data-sports-dashboard-status="مقبول">
-                <i class="approved"></i>مقبولة <b id="sportsRequestsAccepted">0</b>
-              </button>
-              <button type="button"
-                      data-sports-dashboard-type="sports"
-                      data-sports-dashboard-status="مرفوض">
-                <i class="rejected"></i>مرفوضة <b id="sportsRequestsRejected">0</b>
-              </button>
-              <button type="button"
-                      data-sports-dashboard-type="sports"
-                      data-sports-dashboard-status="تحت المراجعة">
-                <i class="pending"></i>تحت المراجعة <b id="sportsRequestsPending">0</b>
-              </button>
-            </div>
-          </div>
-        </article>
-
-        <article class="card sports-status-card">
-          <div class="sports-status-head">
-            <div>
-              <span>المنح الرياضية</span>
-              <h3>حالة المنح الرياضية</h3>
-            </div>
-            <button type="button" data-route="scholarships">عرض المنح ←</button>
-          </div>
-
-          <div class="sports-status-layout">
-            <button class="sports-status-donut sports-dashboard-filter"
-                    id="sportsGrantsDonut"
-                    type="button"
-                    data-sports-dashboard-type="grants"
-                    data-sports-dashboard-status="all"
-                    style="--approved:0deg;--rejected:0deg">
-              <span><b id="sportsGrantsTotal">0</b><small>طلب منحة</small></span>
-            </button>
-
-            <div class="sports-status-legend">
-              <button type="button"
-                      data-sports-dashboard-type="grants"
-                      data-sports-dashboard-status="approved">
-                <i class="approved"></i>موافق عليها <b id="sportsGrantsAccepted">0</b>
-              </button>
-              <button type="button"
-                      data-sports-dashboard-type="grants"
-                      data-sports-dashboard-status="rejected">
-                <i class="rejected"></i>مرفوضة <b id="sportsGrantsRejected">0</b>
-              </button>
-              <button type="button"
-                      data-sports-dashboard-type="grants"
-                      data-sports-dashboard-status="pending">
-                <i class="pending"></i>تحت المراجعة <b id="sportsGrantsPending">0</b>
-              </button>
-            </div>
-          </div>
-        </article>
-
-        <article class="card sports-status-card sports-documentation-card">
-          <div class="sports-status-head">
-            <div>
-              <span>التقارير والشواهد</span>
-              <h3>اكتمال التقارير</h3>
-            </div>
-            <button type="button" data-route="reports">فتح التقارير ←</button>
-          </div>
-
-          <div class="sports-documentation-grid">
-            <div class="sports-gender-doc male">
-              <button class="sports-doc-donut"
-                      id="sportsMaleDocsDonut"
-                      type="button"
-                      data-sports-dashboard-type="reports"
-                      data-sports-dashboard-gender="طلاب"
-                      data-sports-dashboard-status="all"
-                      style="--p:0">
-                <span><b id="sportsMaleDocsPercent">0%</b><small>طلاب</small></span>
-              </button>
-
-              <div>
-                <button type="button"
-                        data-sports-dashboard-type="reports"
-                        data-sports-dashboard-gender="طلاب"
-                        data-sports-dashboard-status="complete">
+</div>
+<div class="general-approvals-layout">
+<div class="general-approvals-chart-side">
+<button class="general-approvals-donut" data-route="approvals" id="generalApprovalsDonut" style="--approved:0deg;--rejected:0deg" type="button">
+<span>
+<b id="generalApprovalsTotal">0</b>
+<small>إجمالي الطلبات</small>
+</span>
+</button>
+<div class="general-approvals-legend">
+<button data-general-approval-filter="مقبول" data-route="approvals" type="button">
+<i class="approved"></i>
+<span>تمت الموافقة</span>
+<b id="generalApprovalsAccepted">0</b>
+</button>
+<button data-general-approval-filter="مرفوض" data-route="approvals" type="button">
+<i class="rejected"></i>
+<span>مرفوضة</span>
+<b id="generalApprovalsRejected">0</b>
+</button>
+<button data-general-approval-filter="تحت المراجعة" data-route="approvals" type="button">
+<i class="pending"></i>
+<span>تحت المراجعة</span>
+<b id="generalApprovalsPending">0</b>
+</button>
+</div>
+</div>
+<div class="general-approval-types">
+<button data-route="sports-request" type="button">
+<span class="general-approval-type-icon">🏆</span>
+<div>
+<strong>البطولات والأحداث الرياضية</strong>
+<small>طلبات التنفيذ والمشاركة</small>
+</div>
+<b id="generalApprovalSportsCount">0</b>
+</button>
+<button data-route="clubs" type="button">
+<span class="general-approval-type-icon">👥</span>
+<div>
+<strong>الأندية الطلابية</strong>
+<small>تسجيل الأندية والمبادرات</small>
+</div>
+<b id="generalApprovalClubsCount">0</b>
+</button>
+<button data-route="volunteer" type="button">
+<span class="general-approval-type-icon">🤝</span>
+<div>
+<strong>الفرص التطوعية</strong>
+<small>الفرص والطلبات التطوعية</small>
+</div>
+<b id="generalApprovalVolunteerCount">0</b>
+</button>
+<button data-route="scholarships" type="button">
+<span class="general-approval-type-icon">🎓</span>
+<div>
+<strong>المنح الرياضية</strong>
+<small>إقرارات وطلبات اعتماد المنح</small>
+</div>
+<b id="generalApprovalGrantsCount">0</b>
+</button>
+<button data-route="activities" type="button">
+<span class="general-approval-type-icon">📅</span>
+<div>
+<strong>الأنشطة والفعاليات</strong>
+<small>الطلبات المرتبطة بالأنشطة العامة</small>
+</div>
+<b id="generalApprovalActivitiesCount">0</b>
+</button>
+</div>
+</div>
+<div class="general-approvals-progress">
+<span id="generalApprovalsAcceptedBar" style="width:0%"></span>
+<i id="generalApprovalsRejectedBar" style="width:0%"></i>
+<b id="generalApprovalsPendingBar" style="width:0%"></b>
+</div>
+</article>
+</div>
+<div class="general-sections-grid">
+<article class="card general-section-card">
+<div class="general-section-head">
+<div>
+<span>المجالات الرئيسية</span>
+<h3>توزيع الأنشطة حسب المجال</h3>
+</div>
+<button data-route="reports" type="button">التقارير والتحليلات ←</button>
+</div>
+<div class="general-fields-chart" id="generalFieldsChart"></div>
+</article>
+<article class="card general-section-card">
+<div class="general-section-head">
+<div>
+<span>المؤشرات الرياضية</span>
+<h3>الطلاب مقابل الطالبات</h3>
+</div>
+<button data-route="indicator" type="button">مؤشر الأداء ←</button>
+</div>
+<div class="general-sports-comparison">
+<button class="male" data-route="indicator" type="button">
+<span>الطلاب</span>
+<strong id="generalMaleIndicator">0%</strong>
+<div><i id="generalMaleIndicatorBar" style="width:0%"></i></div>
+<small id="generalMaleIndicatorPoints">0 نقطة</small>
+</button>
+<button class="female" data-route="indicator" type="button">
+<span>الطالبات</span>
+<strong id="generalFemaleIndicator">0%</strong>
+<div><i id="generalFemaleIndicatorBar" style="width:0%"></i></div>
+<small id="generalFemaleIndicatorPoints">0 نقطة</small>
+</button>
+</div>
+<div class="general-mini-kpis">
+<button data-route="scholarships" type="button">
+<span>المنح الرياضية</span>
+<b id="generalScholarships">0</b>
+</button>
+<button data-route="championships" type="button">
+<span>البطولات</span>
+<b id="generalChampionships">0</b>
+</button>
+<button data-route="athletes" type="button">
+<span>ملفات الرياضيين</span>
+<b id="generalAthletes">0</b>
+</button>
+</div>
+</article>
+</div>
+<div class="card table-card dashboard-detail-panel hidden" id="generalBudgetDetails">
+<div class="dashboard-detail-head">
+<div><span>تفاصيل الميزانيات</span><h3 id="generalBudgetDetailsTitle">الميزانيات</h3></div>
+<button class="btn outline" id="closeGeneralBudgetDetails" type="button">إغلاق</button>
+</div>
+<div class="table-wrap">
+<table>
+<thead><tr><th>الحدث</th><th>النوع</th><th>مقدم الطلب</th><th>الحالة</th><th>الميزانية</th></tr></thead>
+<tbody id="generalBudgetDetailsRows"></tbody>
+</table>
+</div>
+</div>
+<div class="card table-card dashboard-detail-panel hidden" id="generalSatisfactionDetails">
+<div class="dashboard-detail-head">
+<div><span>استبانات رضا المستفيد</span><h3>تفاصيل التقييمات</h3></div>
+<button class="btn outline" id="closeGeneralSatisfactionDetails" type="button">إغلاق</button>
+</div>
+<div class="table-wrap">
+<table>
+<thead><tr><th>الطالب / الطالبة</th><th>الكلية</th><th>الحدث</th><th>الفئة</th><th>التقييم العام</th><th>تاريخ الإرسال</th></tr></thead>
+<tbody id="generalSatisfactionRows"></tbody>
+</table>
+</div>
+</div>
+</section>
+<section class="page active" id="page-home">
+<div class="hero home-hero">
+<div class="hero-img" style="background-image:url('assets/images/campus-wide.jpg')"></div>
+<div class="hero-content">
+<span class="eyebrow" data-i18n="home.eyebrow">عمادة شؤون الطلاب</span>
+<h2 data-i18n="home.title">منصة واحدة لإدارة الأنشطة والخدمات الطلابية</h2>
+<p>بوابة مؤسسية تجمع الإدارة الرياضية، الأنشطة الطلابية، العمل التطوعي، التقويم، وبوابة الطالب بهوية جامعة الأعمال والتكنولوجيا.</p>
+<div class="btns"><button class="btn primary" data-i18n="btn.sports" data-route="sports">الدخول للإدارة الرياضية</button><button class="btn secondary" data-i18n="btn.student" data-route="student">عرض بوابة الطالب</button></div>
+</div>
+</div>
+<div class="section-title"><div><h3 data-i18n="home.modules">وحدات المنصة</h3><p>كل وحدة لها صلاحياتها وبياناتها، والطالب يشاهد ما يهمه في بوابة واحدة.</p></div></div>
+<div class="grid cols-3">
+<div class="card module-card" data-route="sports"><div><div class="iconbox" data-icon="trophy"></div><h4>الإدارة الرياضية</h4><p>المؤشر، المنح، الإقرار الإلكتروني، البطولات، ملفات الرياضيين، والتقارير.</p></div><span class="pill">وحدة مستقلة</span></div>
+<div class="card module-card" data-route="activities"><div><div class="iconbox" data-icon="activity"></div><h4>الأنشطة الطلابية العامة</h4><p>الأندية، الفعاليات، المبادرات، الأعضاء، وفرص المشاركة.</p></div><span class="pill burg">طلاب / طالبات</span></div>
+<div class="card module-card" data-route="volunteer"><div><div class="iconbox" data-icon="heart"></div><h4>العمل التطوعي</h4><p>فرص تطوعية واحتساب ساعات بناءً على الضوابط اللاصفية المعتمدة.</p></div><span class="pill">محرك ساعات</span></div>
+</div>
+<div class="section-title"><div><h3 data-i18n="home.dataSummary">ملخص البيانات المستوردة</h3><p>الأرقام التالية مستخرجة من الملفات المعتمدة المرفوعة: قوائم المنح، روزنامة الاتحاد، ودليل مؤشر الأداء الرياضي.</p></div></div>
+<div class="grid cols-4">
+<div class="card stat"><div class="label">طلاب المنح الرياضية</div><div class="value" id="homeMaleScholarships">0</div><div class="sub">ربيع 2026</div></div>
+<div class="card stat burg"><div class="label">طالبات المنح الرياضية</div><div class="value" id="homeFemaleScholarships">0</div><div class="sub">ربيع 2026</div></div>
+<div class="card stat"><div class="label">مجالات مؤشر الأداء الرياضي</div><div class="value">16</div><div class="sub">حسب دليل المؤشر</div></div>
+<div class="card stat"><div class="label">أحداث التقويم المستوردة</div><div class="value" id="homeEvents">0</div><div class="sub">رياضي، أكاديمي، رسمي</div></div>
+</div>
+</section>
+<section class="page" id="page-sports">
+<div class="section-title sports-management-heading">
+<div>
+<h3>الإدارة الرياضية</h3>
+<p>ملخص إحصائي مباشر لطلبات البطولات والمنح والتقارير، مع إمكانية عرض البيانات المرتبطة بكل نتيجة.</p>
+</div>
+</div>
+<div class="sports-management-dashboard">
+<article class="card sports-status-card">
+<div class="sports-status-head">
+<div>
+<span>طلبات البطولات والأحداث</span>
+<h3>حالة طلبات البطولات</h3>
+</div>
+<button data-route="sports-request" type="button">عرض الطلبات ←</button>
+</div>
+<div class="sports-status-layout">
+<button class="sports-status-donut sports-dashboard-filter" data-sports-dashboard-status="all" data-sports-dashboard-type="sports" id="sportsRequestsDonut" style="--approved:0deg;--rejected:0deg" type="button">
+<span><b id="sportsRequestsTotal">0</b><small>طلب</small></span>
+</button>
+<div class="sports-status-legend">
+<button data-sports-dashboard-status="مقبول" data-sports-dashboard-type="sports" type="button">
+<i class="approved"></i>مقبولة <b id="sportsRequestsAccepted">0</b>
+</button>
+<button data-sports-dashboard-status="مرفوض" data-sports-dashboard-type="sports" type="button">
+<i class="rejected"></i>مرفوضة <b id="sportsRequestsRejected">0</b>
+</button>
+<button data-sports-dashboard-status="تحت المراجعة" data-sports-dashboard-type="sports" type="button">
+<i class="pending"></i>تحت المراجعة <b id="sportsRequestsPending">0</b>
+</button>
+</div>
+</div>
+</article>
+<article class="card sports-status-card">
+<div class="sports-status-head">
+<div>
+<span>المنح الرياضية</span>
+<h3>حالة المنح الرياضية</h3>
+</div>
+<button data-route="scholarships" type="button">عرض المنح ←</button>
+</div>
+<div class="sports-status-layout">
+<button class="sports-status-donut sports-dashboard-filter" data-sports-dashboard-status="all" data-sports-dashboard-type="grants" id="sportsGrantsDonut" style="--approved:0deg;--rejected:0deg" type="button">
+<span><b id="sportsGrantsTotal">0</b><small>طلب منحة</small></span>
+</button>
+<div class="sports-status-legend">
+<button data-sports-dashboard-status="approved" data-sports-dashboard-type="grants" type="button">
+<i class="approved"></i>موافق عليها <b id="sportsGrantsAccepted">0</b>
+</button>
+<button data-sports-dashboard-status="rejected" data-sports-dashboard-type="grants" type="button">
+<i class="rejected"></i>مرفوضة <b id="sportsGrantsRejected">0</b>
+</button>
+<button data-sports-dashboard-status="pending" data-sports-dashboard-type="grants" type="button">
+<i class="pending"></i>تحت المراجعة <b id="sportsGrantsPending">0</b>
+</button>
+</div>
+</div>
+</article>
+<article class="card sports-status-card sports-documentation-card">
+<div class="sports-status-head">
+<div>
+<span>التقارير والشواهد</span>
+<h3>اكتمال التقارير</h3>
+</div>
+<button data-route="reports" type="button">فتح التقارير ←</button>
+</div>
+<div class="sports-documentation-grid">
+<div class="sports-gender-doc male">
+<button class="sports-doc-donut" data-sports-dashboard-gender="طلاب" data-sports-dashboard-status="all" data-sports-dashboard-type="reports" id="sportsMaleDocsDonut" style="--p:0" type="button">
+<span><b id="sportsMaleDocsPercent">0%</b><small>طلاب</small></span>
+</button>
+<div>
+<button data-sports-dashboard-gender="طلاب" data-sports-dashboard-status="complete" data-sports-dashboard-type="reports" type="button">
                   مكتملة <b id="sportsMaleDocsComplete">0</b>
-                </button>
-                <button type="button"
-                        data-sports-dashboard-type="reports"
-                        data-sports-dashboard-gender="طلاب"
-                        data-sports-dashboard-status="incomplete">
+</button>
+<button data-sports-dashboard-gender="طلاب" data-sports-dashboard-status="incomplete" data-sports-dashboard-type="reports" type="button">
                   غير مكتملة <b id="sportsMaleDocsIncomplete">0</b>
-                </button>
-              </div>
-            </div>
-
-            <div class="sports-gender-doc female">
-              <button class="sports-doc-donut female"
-                      id="sportsFemaleDocsDonut"
-                      type="button"
-                      data-sports-dashboard-type="reports"
-                      data-sports-dashboard-gender="طالبات"
-                      data-sports-dashboard-status="all"
-                      style="--p:0">
-                <span><b id="sportsFemaleDocsPercent">0%</b><small>طالبات</small></span>
-              </button>
-
-              <div>
-                <button type="button"
-                        data-sports-dashboard-type="reports"
-                        data-sports-dashboard-gender="طالبات"
-                        data-sports-dashboard-status="complete">
+</button>
+</div>
+</div>
+<div class="sports-gender-doc female">
+<button class="sports-doc-donut female" data-sports-dashboard-gender="طالبات" data-sports-dashboard-status="all" data-sports-dashboard-type="reports" id="sportsFemaleDocsDonut" style="--p:0" type="button">
+<span><b id="sportsFemaleDocsPercent">0%</b><small>طالبات</small></span>
+</button>
+<div>
+<button data-sports-dashboard-gender="طالبات" data-sports-dashboard-status="complete" data-sports-dashboard-type="reports" type="button">
                   مكتملة <b id="sportsFemaleDocsComplete">0</b>
-                </button>
-                <button type="button"
-                        data-sports-dashboard-type="reports"
-                        data-sports-dashboard-gender="طالبات"
-                        data-sports-dashboard-status="incomplete">
+</button>
+<button data-sports-dashboard-gender="طالبات" data-sports-dashboard-status="incomplete" data-sports-dashboard-type="reports" type="button">
                   غير مكتملة <b id="sportsFemaleDocsIncomplete">0</b>
-                </button>
-              </div>
-            </div>
-          </div>
-        </article>
-      </div>
-
-      <div class="card table-card sports-dashboard-results-card">
-        <div class="sports-dashboard-results-head">
-          <div>
-            <span>البيانات المرتبطة بالإحصائية</span>
-            <h3 id="sportsDashboardResultsTitle">جميع طلبات البطولات</h3>
-            <p id="sportsDashboardResultsDescription">
+</button>
+</div>
+</div>
+</div>
+</article>
+</div>
+<div class="card table-card sports-dashboard-results-card">
+<div class="sports-dashboard-results-head">
+<div>
+<span>البيانات المرتبطة بالإحصائية</span>
+<h3 id="sportsDashboardResultsTitle">جميع طلبات البطولات</h3>
+<p id="sportsDashboardResultsDescription">
               اضغط على أي جزء من الرسوم أو النتائج أعلاه لعرض السجلات المرتبطة مباشرة.
             </p>
-          </div>
-
-          <button id="sportsDashboardClearFilter"
-                  class="btn outline"
-                  type="button">
+</div>
+<button class="btn outline" id="sportsDashboardClearFilter" type="button">
             عرض الكل
           </button>
-        </div>
-
-        <div class="table-wrap">
-          <table>
-            <thead id="sportsDashboardResultsHead"></thead>
-            <tbody id="sportsDashboardResultsRows"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="section-title sports-services-title">
-        <div>
-          <h3>خدمات الإدارة الرياضية</h3>
-          <p>وصول سريع إلى الصفحات المتخصصة.</p>
-        </div>
-      </div>
-
-      <div class="sports-services-grid">
-        <button class="card sports-service-card" type="button" data-route="indicator">
-          <span data-icon="chart"></span>
-          <div><h4>مؤشر الأداء الرياضي</h4><p>مؤشرات الطلاب والطالبات ونقاط المجالات.</p></div>
-          <b>←</b>
-        </button>
-
-        <button class="card sports-service-card" type="button" data-route="scholarships">
-          <span data-icon="award"></span>
-          <div><h4>المنح الرياضية</h4><p>طلبات المنح ونسب الاستحقاق والاعتمادات.</p></div>
-          <b>←</b>
-        </button>
-
-        <button class="card sports-service-card" type="button" data-route="agreement">
-          <span data-icon="pen"></span>
-          <div><h4>الإقرار الإلكتروني للمنح</h4><p>تقديم الإقرار ومتابعة حالته.</p></div>
-          <b>←</b>
-        </button>
-
-        <button class="card sports-service-card" type="button" data-route="athletes">
-          <span data-icon="users"></span>
-          <div><h4>ملف الطالب الرياضي</h4><p>بيانات الرياضيين والمشاركات والسجل الرياضي.</p></div>
-          <b>←</b>
-        </button>
-
-        <button class="card sports-service-card" type="button" data-route="reports">
-          <span data-icon="briefcase"></span>
-          <div><h4>التقارير والتحليلات</h4><p>الشواهد والتوثيق وتحليل الأنشطة الرياضية.</p></div>
-          <b>←</b>
-        </button>
-
-        <button class="card sports-service-card" type="button" data-route="sports-request">
-          <span data-icon="calendar"></span>
-          <div><h4>طلب تنفيذ بطولة / حدث</h4><p>تقديم الطلبات ومتابعة حالات الاعتماد.</p></div>
-          <b>←</b>
-        </button>
-      </div>
-    </section>
-
-    <section id="page-indicator" class="page">
-      <div class="section-title indicator-page-heading">
-        <div>
-          <h3>مؤشر الأداء الرياضي</h3>
-          <p>الاحتساب مبني على دليل مؤشر الأداء الرياضي فقط.</p>
-        </div>
-        <div class="btns indicator-heading-actions">
-          <button id="indicatorPermissionSettings" class="btn permission-settings-btn hidden"
-                  type="button" title="تعديل الحدود العليا لحاسبة نقاط المؤشر">
-            <span aria-hidden="true">⚙</span>
+</div>
+<div class="table-wrap">
+<table>
+<thead id="sportsDashboardResultsHead"></thead>
+<tbody id="sportsDashboardResultsRows"></tbody>
+</table>
+</div>
+</div>
+<div class="section-title sports-services-title">
+<div>
+<h3>خدمات الإدارة الرياضية</h3>
+<p>وصول سريع إلى الصفحات المتخصصة.</p>
+</div>
+</div>
+<div class="sports-services-grid">
+<button class="card sports-service-card" data-route="indicator" type="button">
+<span data-icon="chart"></span>
+<div><h4>مؤشر الأداء الرياضي</h4><p>مؤشرات الطلاب والطالبات ونقاط المجالات.</p></div>
+<b>←</b>
+</button>
+<button class="card sports-service-card" data-route="scholarships" type="button">
+<span data-icon="award"></span>
+<div><h4>المنح الرياضية</h4><p>طلبات المنح ونسب الاستحقاق والاعتمادات.</p></div>
+<b>←</b>
+</button>
+<button class="card sports-service-card" data-route="agreement" type="button">
+<span data-icon="pen"></span>
+<div><h4>الإقرار الإلكتروني للمنح</h4><p>تقديم الإقرار ومتابعة حالته.</p></div>
+<b>←</b>
+</button>
+<button class="card sports-service-card" data-route="athletes" type="button">
+<span data-icon="users"></span>
+<div><h4>ملف الطالب الرياضي</h4><p>بيانات الرياضيين والمشاركات والسجل الرياضي.</p></div>
+<b>←</b>
+</button>
+<button class="card sports-service-card" data-route="reports" type="button">
+<span data-icon="briefcase"></span>
+<div><h4>التقارير والتحليلات</h4><p>الشواهد والتوثيق وتحليل الأنشطة الرياضية.</p></div>
+<b>←</b>
+</button>
+<button class="card sports-service-card" data-route="sports-request" type="button">
+<span data-icon="calendar"></span>
+<div><h4>طلب تنفيذ بطولة / حدث</h4><p>تقديم الطلبات ومتابعة حالات الاعتماد.</p></div>
+<b>←</b>
+</button>
+</div>
+</section>
+<section class="page" id="page-indicator">
+<div class="section-title indicator-page-heading">
+<div>
+<h3>مؤشر الأداء الرياضي</h3>
+<p>الاحتساب مبني على دليل مؤشر الأداء الرياضي فقط.</p>
+</div>
+<div class="btns indicator-heading-actions">
+<button class="btn permission-settings-btn hidden" id="indicatorPermissionSettings" title="تعديل الحدود العليا لحاسبة نقاط المؤشر" type="button">
+<span aria-hidden="true">⚙</span>
             تعديل حاسبة النقاط
           </button>
-          <button id="indicatorFieldsManagerButton" class="btn outline indicator-only hidden"
-                  type="button" title="تعديل أسماء المجالات أو إضافة مجال جديد">
-            <span aria-hidden="true">✎</span>
+<button class="btn outline indicator-only hidden" id="indicatorFieldsManagerButton" title="تعديل أسماء المجالات أو إضافة مجال جديد" type="button">
+<span aria-hidden="true">✎</span>
             إدارة المجالات
           </button>
-          <a class="btn outline" href="assets/docs/sports-performance-indicator-guide.pdf"
-             target="_blank" rel="noopener">عرض الدليل</a>
-        </div>
-      </div>
-      <div class="reference-card"><div><h4 data-i18n="indicator.referenceTitle">مرجعية احتساب المؤشر</h4><p data-i18n="indicator.referenceText">يعتمد احتساب المؤشر على دليل مؤشر الأداء الرياضي الصادر من الاتحاد السعودي للرياضة الجامعية.</p></div><img src="assets/logos/susf-logo.png" alt="SUSF"></div>
-      <div class="grid cols-2">
-        <div class="card indicator-card"><h4 data-i18n="indicator.male">مؤشر الأداء الرياضي - الطلاب</h4><div class="donut" id="maleDonut"><b id="malePct">0%</b></div><div class="points" id="malePoints">0 / 0 نقطة</div><div class="indicator-audience-summary"><div><span>إجمالي المستفيدين</span><strong id="maleBeneficiariesTotal">0</strong></div><div><span>إجمالي اللاعبين</span><strong id="malePlayersTotal">0</strong></div></div><p>لا يتم جمع هذا المؤشر مع مؤشر الطالبات.</p></div>
-        <div class="card indicator-card burg"><h4 data-i18n="indicator.female">مؤشر الأداء الرياضي - الطالبات</h4><div class="donut burg" id="femaleDonut"><b id="femalePct">0%</b></div><div class="points" id="femalePoints">0 / 0 نقطة</div><div class="indicator-audience-summary burg-summary"><div><span>إجمالي المستفيدين</span><strong id="femaleBeneficiariesTotal">0</strong></div><div><span>إجمالي اللاعبين</span><strong id="femalePlayersTotal">0</strong></div></div><p>مؤشر مستقل حسب نفس المجالات والمسارات.</p></div>
-      </div>
-      <div class="grid cols-4">
-        <div class="card stat"><div class="label">نقاط الطلاب المحققة</div><div class="value" id="maleAchieved">0</div><div class="sub">من أصل نقاط الدليل</div></div>
-        <div class="card stat"><div class="label">المتبقي للطلاب</div><div class="value" id="maleRemaining">0</div><div class="sub">نقطة</div></div>
-        <div class="card stat burg"><div class="label">نقاط الطالبات المحققة</div><div class="value" id="femaleAchieved">0</div><div class="sub">من أصل نقاط الدليل</div></div>
-        <div class="card stat burg"><div class="label">المتبقي للطالبات</div><div class="value" id="femaleRemaining">0</div><div class="sub">نقطة</div></div>
-      </div>
-      <div class="section-title"><div><h3>تحليل المسارات والمجالات الـ16</h3><p>كل مجال يعرض الحد الأعلى والنقاط المحققة للطلاب والطالبات بشكل منفصل.</p></div></div>
-      <div class="card table-card"><div class="table-wrap"><table class="indicator-grouped-table"><thead><tr><th>المجال</th><th>الحد الأعلى</th><th>نقاط الطلاب</th><th>إنجاز الطلاب</th><th>نقاط الطالبات</th><th>إنجاز الطالبات</th></tr></thead><tbody id="indicatorRows"></tbody></table></div></div>
-    </section>
-
-    <section id="page-scholarships" class="page">
-      <div class="section-title scholarships-heading">
-        <div>
-          <h3>المنح الرياضية</h3>
-          <p>مراجعة طلبات الإقرار، تحديد نسبة الاستحقاق، ثم إحالتها إلى صلاحيات عمادة شؤون الطلاب.</p>
-        </div>
-        <button class="btn outline" type="button" data-route="agreement">
+<a class="btn outline" href="assets/docs/sports-performance-indicator-guide.pdf" rel="noopener" target="_blank">عرض الدليل</a>
+</div>
+</div>
+<div class="reference-card"><div><h4 data-i18n="indicator.referenceTitle">مرجعية احتساب المؤشر</h4><p data-i18n="indicator.referenceText">يعتمد احتساب المؤشر على دليل مؤشر الأداء الرياضي الصادر من الاتحاد السعودي للرياضة الجامعية.</p></div><img alt="SUSF" src="assets/logos/susf-logo.png"/></div>
+<div class="grid cols-2">
+<div class="card indicator-card"><h4 data-i18n="indicator.male">مؤشر الأداء الرياضي - الطلاب</h4><div class="donut" id="maleDonut"><b id="malePct">0%</b></div><div class="points" id="malePoints">0 / 0 نقطة</div><div class="indicator-audience-summary"><div><span>إجمالي المستفيدين</span><strong id="maleBeneficiariesTotal">0</strong></div><div><span>إجمالي اللاعبين</span><strong id="malePlayersTotal">0</strong></div></div><p>لا يتم جمع هذا المؤشر مع مؤشر الطالبات.</p></div>
+<div class="card indicator-card burg"><h4 data-i18n="indicator.female">مؤشر الأداء الرياضي - الطالبات</h4><div class="donut burg" id="femaleDonut"><b id="femalePct">0%</b></div><div class="points" id="femalePoints">0 / 0 نقطة</div><div class="indicator-audience-summary burg-summary"><div><span>إجمالي المستفيدين</span><strong id="femaleBeneficiariesTotal">0</strong></div><div><span>إجمالي اللاعبين</span><strong id="femalePlayersTotal">0</strong></div></div><p>مؤشر مستقل حسب نفس المجالات والمسارات.</p></div>
+</div>
+<div class="grid cols-4">
+<div class="card stat"><div class="label">نقاط الطلاب المحققة</div><div class="value" id="maleAchieved">0</div><div class="sub">من أصل نقاط الدليل</div></div>
+<div class="card stat"><div class="label">المتبقي للطلاب</div><div class="value" id="maleRemaining">0</div><div class="sub">نقطة</div></div>
+<div class="card stat burg"><div class="label">نقاط الطالبات المحققة</div><div class="value" id="femaleAchieved">0</div><div class="sub">من أصل نقاط الدليل</div></div>
+<div class="card stat burg"><div class="label">المتبقي للطالبات</div><div class="value" id="femaleRemaining">0</div><div class="sub">نقطة</div></div>
+</div>
+<div class="section-title"><div><h3>تحليل المسارات والمجالات الـ16</h3><p>كل مجال يعرض الحد الأعلى والنقاط المحققة للطلاب والطالبات بشكل منفصل.</p></div></div>
+<div class="card table-card"><div class="table-wrap"><table class="indicator-grouped-table"><thead><tr><th>المجال</th><th>الحد الأعلى</th><th>نقاط الطلاب</th><th>إنجاز الطلاب</th><th>نقاط الطالبات</th><th>إنجاز الطالبات</th></tr></thead><tbody id="indicatorRows"></tbody></table></div></div>
+</section>
+<section class="page" id="page-scholarships">
+<div class="section-title scholarships-heading">
+<div>
+<h3>المنح الرياضية</h3>
+<p>مراجعة طلبات الإقرار، تحديد نسبة الاستحقاق، ثم إحالتها إلى صلاحيات عمادة شؤون الطلاب.</p>
+</div>
+<button class="btn outline" data-route="agreement" type="button">
           فتح نموذج الإقرار الإلكتروني
         </button>
-      </div>
-
-      <div class="scholarships-dashboard-grid">
-        <article class="card scholarship-gender-chart-card">
-          <div>
-            <span>إجمالي مستحقي المنح</span>
-            <strong id="scholarTotal">0</strong>
-            <small>طلاب وطالبات</small>
-          </div>
-          <div class="scholarship-gender-donut" id="scholarGenderDonut" style="--male:0deg">
-            <span><b id="scholarGenderTotal">0</b><small>طلب</small></span>
-          </div>
-          <div class="scholarship-chart-legend">
-            <button type="button" data-scholar-filter-gender="طلاب">
-              <i class="male"></i><span>طلاب</span><b id="scholarBoys">0</b>
-              <small id="scholarBoysPercent">0%</small>
-            </button>
-            <button type="button" data-scholar-filter-gender="طالبات">
-              <i class="female"></i><span>طالبات</span><b id="scholarGirls">0</b>
-              <small id="scholarGirlsPercent">0%</small>
-            </button>
-          </div>
-        </article>
-
-        <article class="card scholarship-discount-card scholarship-pie-card">
-          <div class="scholarship-card-head">
-            <div><span>توزيع المنح</span><h4>حسب النسبة المستحقة</h4></div>
-          </div>
-          <div class="scholarship-pie-layout">
-            <div class="scholarship-dynamic-pie" id="scholarDiscountPie">
-              <span><b id="scholarDiscountPieTotal">0</b><small>طلب</small></span>
-            </div>
-            <div id="scholarDiscountChart" class="scholarship-pie-legend"></div>
-          </div>
-        </article>
-
-        <article class="card scholarship-college-card scholarship-pie-card">
-          <div class="scholarship-card-head">
-            <div><span>التوزيع الأكاديمي</span><h4>حسب الكلية</h4></div>
-          </div>
-          <div class="scholarship-pie-layout">
-            <div class="scholarship-dynamic-pie" id="scholarCollegePie">
-              <span><b id="scholarCollegePieTotal">0</b><small>طلب</small></span>
-            </div>
-            <div id="scholarCollegeChart" class="scholarship-pie-legend"></div>
-          </div>
-        </article>
-      </div>
-
-      <div class="card table-card scholarship-review-card">
-        <div class="scholarship-table-head">
-          <div>
-            <h4>طلبات الإقرار والمنح</h4>
-            <p>تحديد النسبة شرط أساسي قبل الموافقة، وسبب الرفض إلزامي عند الرفض.</p>
-          </div>
-          <div class="scholarship-table-tools">
-            <input id="scholarSearch" type="search"
-                   placeholder="بحث بالاسم أو الرقم الجامعي أو الكلية أو الحالة">
-            <select id="scholarStatusFilter">
-              <option value="all">كل الحالات</option>
-              <option value="تحت المراجعة">تحت المراجعة</option>
-              <option value="مقبول مبدئيًا">مقبول مبدئيًا</option>
-              <option value="مرفوض">مرفوض</option>
-              <option value="محال للعمادة">محال للعمادة</option>
-              <option value="معتمد نهائيًا">معتمد نهائيًا</option>
-            </select>
-          </div>
-        </div>
-        <div class="table-wrap">
-          <table class="scholarship-review-table">
-            <thead>
-              <tr>
-                <th>الاسم</th><th>الرقم الجامعي</th><th>الفئة</th><th>الكلية</th>
-                <th>حالة الإقرار</th><th>النسبة المستحقة</th><th>الحالة</th><th>الإجراء</th>
-              </tr>
-            </thead>
-            <tbody id="scholarRows"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section id="page-agreement" class="page">
-      <a class="scholarship-criteria-banner"
-         href="assets/docs/scholarship-criteria.pdf"
-         target="_blank" rel="noopener">
-        <span class="criteria-banner-icon">📘</span>
-        <span>
-          <strong>معايير وشروط المنح الجزئية للطلبة الرياضيين</strong>
-          <small>النسخة المحدثة المعتمدة بالعربية والإنجليزية، وتشمل شروط الاستحقاق ونسب المنح 10% و20% و30%.</small>
-        </span>
-        <b>عرض المعايير والشروط ↗</b>
-      </a>
-
-      <div class="agreement-layout">
-        <form class="card scholarship-agreement-form" id="scholarshipAgreementForm">
-          <div class="agreement-form-head">
-            <div><span>النموذج الإلكتروني</span><h3>إقرار المنحة الرياضية</h3></div>
-            <strong>UBT</strong>
-          </div>
-
-          <div class="agreement-form-grid">
-            <label><span>اسم الطالب / الطالبة</span><input id="agreementName" required></label>
-            <label><span>رقم الهوية</span><input id="agreementNationalId" inputmode="numeric" required></label>
-            <label><span>الجنسية</span><input id="agreementNationality" required></label>
-            <label><span>الرقم الجامعي</span><input id="agreementStudentId" required></label>
-            <label><span>رقم الجوال</span><input id="agreementMobile" inputmode="tel" required></label>
-            <label><span>الفئة</span>
-              <select id="agreementGender" required>
-                <option value="">اختر الفئة</option>
-                <option value="طلاب">طلاب</option>
-                <option value="طالبات">طالبات</option>
-              </select>
-            </label>
-            <label><span>الكلية</span>
-              <select id="agreementCollege" required>
-                <option value="">اختر الكلية</option>
-                <option value="JCA">JCA</option>
-                <option value="CBA">CBA</option>
-                <option value="JCE">JCE</option>
-                <option value="JCL">JCL</option>
-              </select>
-            </label>
-            <label class="agreement-file-field">
-              <span>رفع الهوية</span>
-              <input id="agreementIdentityFile" type="file" accept=".pdf,.png,.jpg,.jpeg" required>
-            </label>
-          </div>
-
-          <div class="agreement-signature-box">
-            <label><span>التوقيع</span>
-              <textarea id="agreementSignature"
-                        placeholder="اكتب الاسم الكامل كتوقيع إلكتروني"
-                        required></textarea>
-            </label>
-          </div>
-
-          <label class="agreement-confirmation">
-            <input id="agreementConfirm" type="checkbox" required>
-            <span>بالضغط على الزر فإنني أقر بأنني قرأت الإقرار وأوافق على شروطه.</span>
-            <a href="assets/docs/scholarship-agreement.pdf" target="_blank" rel="noopener">
+</div>
+<div class="scholarships-dashboard-grid">
+<article class="card scholarship-gender-chart-card">
+<div>
+<span>إجمالي مستحقي المنح</span>
+<strong id="scholarTotal">0</strong>
+<small>طلاب وطالبات</small>
+</div>
+<div class="scholarship-gender-donut" id="scholarGenderDonut" style="--male:0deg">
+<span><b id="scholarGenderTotal">0</b><small>طلب</small></span>
+</div>
+<div class="scholarship-chart-legend">
+<button data-scholar-filter-gender="طلاب" type="button">
+<i class="male"></i><span>طلاب</span><b id="scholarBoys">0</b>
+<small id="scholarBoysPercent">0%</small>
+</button>
+<button data-scholar-filter-gender="طالبات" type="button">
+<i class="female"></i><span>طالبات</span><b id="scholarGirls">0</b>
+<small id="scholarGirlsPercent">0%</small>
+</button>
+</div>
+</article>
+<article class="card scholarship-discount-card scholarship-pie-card">
+<div class="scholarship-card-head">
+<div><span>توزيع المنح</span><h4>حسب النسبة المستحقة</h4></div>
+</div>
+<div class="scholarship-pie-layout">
+<div class="scholarship-dynamic-pie" id="scholarDiscountPie">
+<span><b id="scholarDiscountPieTotal">0</b><small>طلب</small></span>
+</div>
+<div class="scholarship-pie-legend" id="scholarDiscountChart"></div>
+</div>
+</article>
+<article class="card scholarship-college-card scholarship-pie-card">
+<div class="scholarship-card-head">
+<div><span>التوزيع الأكاديمي</span><h4>حسب الكلية</h4></div>
+</div>
+<div class="scholarship-pie-layout">
+<div class="scholarship-dynamic-pie" id="scholarCollegePie">
+<span><b id="scholarCollegePieTotal">0</b><small>طلب</small></span>
+</div>
+<div class="scholarship-pie-legend" id="scholarCollegeChart"></div>
+</div>
+</article>
+</div>
+<div class="card table-card scholarship-review-card">
+<div class="scholarship-table-head">
+<div>
+<h4>طلبات الإقرار والمنح</h4>
+<p>تحديد النسبة شرط أساسي قبل الموافقة، وسبب الرفض إلزامي عند الرفض.</p>
+</div>
+<div class="scholarship-table-tools">
+<input id="scholarSearch" placeholder="بحث بالاسم أو الرقم الجامعي أو الكلية أو الحالة" type="search"/>
+<select id="scholarStatusFilter">
+<option value="all">كل الحالات</option>
+<option value="تحت المراجعة">تحت المراجعة</option>
+<option value="مقبول مبدئيًا">مقبول مبدئيًا</option>
+<option value="مرفوض">مرفوض</option>
+<option value="محال للعمادة">محال للعمادة</option>
+<option value="معتمد نهائيًا">معتمد نهائيًا</option>
+</select>
+</div>
+</div>
+<div class="table-wrap">
+<table class="scholarship-review-table">
+<thead>
+<tr>
+<th>الاسم</th><th>الرقم الجامعي</th><th>الفئة</th><th>الكلية</th>
+<th>حالة الإقرار</th><th>النسبة المستحقة</th><th>الحالة</th><th>الإجراء</th>
+</tr>
+</thead>
+<tbody id="scholarRows"></tbody>
+</table>
+</div>
+</div>
+</section>
+<section class="page" id="page-agreement">
+<a class="scholarship-criteria-banner" href="assets/docs/scholarship-criteria.pdf" rel="noopener" target="_blank">
+<span class="criteria-banner-icon">📘</span>
+<span>
+<strong>معايير وشروط المنح الجزئية للطلبة الرياضيين</strong>
+<small>النسخة المحدثة المعتمدة بالعربية والإنجليزية، وتشمل شروط الاستحقاق ونسب المنح 10% و20% و30%.</small>
+</span>
+<b>عرض المعايير والشروط ↗</b>
+</a>
+<div class="agreement-layout">
+<form class="card scholarship-agreement-form" id="scholarshipAgreementForm">
+<div class="agreement-form-head">
+<div><span>النموذج الإلكتروني</span><h3>إقرار المنحة الرياضية</h3></div>
+<strong>UBT</strong>
+</div>
+<div class="agreement-form-grid">
+<label><span>اسم الطالب / الطالبة</span><input id="agreementName" required=""/></label>
+<label><span>رقم الهوية</span><input id="agreementNationalId" inputmode="numeric" required=""/></label>
+<label><span>الجنسية</span><input id="agreementNationality" required=""/></label>
+<label><span>الرقم الجامعي</span><input id="agreementStudentId" required=""/></label>
+<label><span>رقم الجوال</span><input id="agreementMobile" inputmode="tel" required=""/></label>
+<label><span>الفئة</span>
+<select id="agreementGender" required="">
+<option value="">اختر الفئة</option>
+<option value="طلاب">طلاب</option>
+<option value="طالبات">طالبات</option>
+</select>
+</label>
+<label><span>فئة الرياضة</span>
+<select id="agreementSportCategory" required="">
+<option value="">اختر فئة الرياضة</option>
+<option value="بطولة وطنية">بطولة وطنية</option>
+<option value="بطولة دولية">بطولة دولية</option>
+<option value="بطولة إقليمية">بطولة إقليمية</option>
+<option value="بطولة خليجية">بطولة خليجية</option>
+<option value="بطولة تنشيطية">بطولة تنشيطية</option>
+</select>
+</label>
+<label><span>نوع الرياضة</span>
+<select id="agreementSportType" required="">
+<option value="">اختر نوع الرياضة</option>
+<option value="كرة القدم">كرة القدم</option><option value="كرة قدم الصالات">كرة قدم الصالات</option><option value="كرة القدم الشاطئية">كرة القدم الشاطئية</option><option value="كرة السلة">كرة السلة</option><option value="كرة السلة 3×3">كرة السلة 3×3</option><option value="كرة السلة للكراسي المتحركة">كرة السلة للكراسي المتحركة</option><option value="الكرة الطائرة">الكرة الطائرة</option><option value="الكرة الطائرة الشاطئية">الكرة الطائرة الشاطئية</option><option value="كرة اليد">كرة اليد</option><option value="التنس">التنس</option><option value="تنس الطاولة">تنس الطاولة</option><option value="الريشة الطائرة">الريشة الطائرة</option><option value="الاسكواش">الاسكواش</option><option value="السباحة">السباحة</option><option value="السباحة في المياه المفتوحة">السباحة في المياه المفتوحة</option><option value="كرة الماء">كرة الماء</option><option value="ألعاب القوى">ألعاب القوى</option><option value="العدو الريفي">العدو الريفي</option><option value="الترايثلون">الترايثلون</option><option value="الدراجات الهوائية">الدراجات الهوائية</option><option value="الدراجات الجبلية">الدراجات الجبلية</option><option value="الملاكمة">الملاكمة</option><option value="المواي تاي">المواي تاي</option><option value="الكيك بوكسينغ">الكيك بوكسينغ</option><option value="التايكواندو">التايكواندو</option><option value="الكاراتيه">الكاراتيه</option><option value="الجودو">الجودو</option><option value="الجوجيتسو">الجوجيتسو</option><option value="المصارعة">المصارعة</option><option value="المبارزة">المبارزة</option><option value="الرماية">الرماية</option><option value="القوس والسهم">القوس والسهم</option><option value="رفع الأثقال">رفع الأثقال</option><option value="القوة البدنية">القوة البدنية</option><option value="كمال الأجسام">كمال الأجسام</option><option value="الجمباز">الجمباز</option><option value="الجمباز الإيقاعي">الجمباز الإيقاعي</option><option value="البادل">البادل</option><option value="البولينج">البولينج</option><option value="البلياردو">البلياردو</option><option value="السنوكر">السنوكر</option><option value="الشطرنج">الشطرنج</option><option value="الرياضات الإلكترونية">الرياضات الإلكترونية</option><option value="التجديف">التجديف</option><option value="الإبحار الشراعي">الإبحار الشراعي</option><option value="الفروسية">الفروسية</option><option value="الجولف">الجولف</option><option value="الهوكي">الهوكي</option><option value="الهوكي الأرضي">الهوكي الأرضي</option><option value="البيسبول">البيسبول</option><option value="السوفتبول">السوفتبول</option><option value="الكريكت">الكريكت</option><option value="الرجبي">الرجبي</option><option value="رياضة أخرى">رياضة أخرى</option>
+</select>
+</label>
+<label><span>الكلية</span>
+<select id="agreementCollege" required="">
+<option value="">اختر الكلية</option>
+<option value="JCA">JCA</option>
+<option value="CBA">CBA</option>
+<option value="JCE">JCE</option>
+<option value="JCL">JCL</option>
+</select>
+</label>
+<label class="agreement-file-field">
+<span>رفع الهوية</span>
+<input accept=".pdf,.png,.jpg,.jpeg" id="agreementIdentityFile" required="" type="file"/>
+</label>
+</div>
+<div class="agreement-signature-box">
+<label><span>التوقيع</span>
+<textarea id="agreementSignature" placeholder="اكتب الاسم الكامل كتوقيع إلكتروني" required=""></textarea>
+</label>
+</div>
+<label class="agreement-confirmation">
+<input id="agreementConfirm" required="" type="checkbox"/>
+<span>بالضغط على الزر فإنني أقر بأنني قرأت الإقرار وأوافق على شروطه.</span>
+<a href="assets/docs/scholarship-agreement.pdf" rel="noopener" target="_blank">
               الاطلاع على نموذج الإقرار
             </a>
-          </label>
-
-          <button class="btn primary agreement-submit-btn" type="submit">
+</label>
+<button class="btn primary agreement-submit-btn" type="submit">
             إرسال الإقرار للمراجعة
           </button>
-        </form>
+</form>
 </div>
-
-      <div class="card table-card agreement-submissions-card">
-        <div class="agreement-table-head">
-          <div><h4>الإقرارات المرسلة</h4><p>تظهر الطلبات فور إرسال النموذج وتتابع حالتها من هنا.</p></div>
-          <input id="agreementSearch" type="search"
-                 placeholder="بحث بالاسم أو الرقم الجامعي أو الكلية أو الحالة">
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>الاسم</th><th>رقم الهوية</th><th>الجنسية</th><th>الرقم الجامعي</th>
-                <th>الجوال</th><th>الفئة</th><th>الكلية</th><th>الحالة</th><th>النسبة المستحقة</th>
-              </tr>
-            </thead>
-            <tbody id="agreementRows"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section id="page-championships" class="page">
-      <div class="section-title"><div><h3>البطولات الرياضية</h3><p>روزنامة بطولات الاتحاد السعودي للرياضة الجامعية، مع فصل الطلاب والطالبات.</p></div><a class="btn outline" href="assets/docs/susf-sports-calendar-2025.pdf" target="_blank">عرض روزنامة الاتحاد</a></div>
-      <div class="grid cols-3" id="championshipCards"></div>
-      <div class="card table-card"><h4>قائمة البطولات</h4><div class="table-toolbar"><input id="championshipSearch" placeholder="بحث باسم البطولة أو التاريخ أو المكان أو الفئة"></div><div class="table-wrap"><table><thead><tr><th>التاريخ</th><th>البطولة</th><th>الفئة</th><th>المكان</th><th>الإجراء</th></tr></thead><tbody id="championshipRows"></tbody></table></div></div>
-    </section>
-
-    <section id="page-athletes" class="page">
-      <div class="section-title"><div><h3>ملف الطالب الرياضي</h3><p>البحث عن طالب أو طالبة ومعرفة بياناته، المنحة، البطولات، وسجل المشاركات.</p></div></div>
-      <div class="grid cols-3">
-        <div class="card search-panel"><h4>البحث</h4><input id="profileSearch" placeholder="اكتب الاسم أو الرقم الجامعي أو الكلية أو البطولة"><div id="profileList" class="profile-list"></div></div>
-        <div class="card profile-card span-2" id="profileDetails"><h4>اختر طالبًا لعرض الملف</h4><p>سيظهر هنا سجل المشاركات والبطولات والبيانات الأساسية.</p></div>
-      </div>
-    </section>
-
-    <section id="page-activities" class="page">
-  <div class="section-title"><div><h3>الأنشطة والفعاليات</h3><p>تتحدث البيانات مباشرة من جدول التقارير والتحليلات حسب فئة الحدث.</p></div></div>
-  <div class="activity-category-menu" id="activityEventCategoryMenu"><button type="button" data-event-category="الأنشطة التوعوية">الأنشطة التوعوية</button><button type="button" data-event-category="الأنشطة و البرامج المجتمعية و التطوعية">الأنشطة و البرامج المجتمعية و التطوعية</button><button type="button" data-event-category="الأنشطة الثقافية">الأنشطة الثقافية</button><button type="button" data-event-category="الأنشطة العلمية">الأنشطة العلمية</button><button type="button" data-event-category="الأنشطة الفنية">الأنشطة الفنية</button><button type="button" data-event-category="الأنشطة الرياضية">الأنشطة الرياضية</button><button type="button" data-event-category="البرامج التدريبية">البرامج التدريبية</button><button type="button" data-event-category="برامج عامة على مستوى الجامعة">برامج عامة على مستوى الجامعة</button></div>
-  <div class="activities-category-stats">
-    <div class="card activity-stat-card male">
-      <span>أنشطة الطلاب</span>
-      <strong id="categoryMaleCount">0</strong>
-      <small>ضمن الفئة المحددة</small>
-    </div>
-
-    <div class="card activity-stat-card female">
-      <span>أنشطة الطالبات</span>
-      <strong id="categoryFemaleCount">0</strong>
-      <small>ضمن الفئة المحددة</small>
-    </div>
-
-    <div class="card activity-stat-card total">
-      <span>إجمالي أنشطة الفئة</span>
-      <strong id="categoryTotalCount">0</strong>
-      <small id="categoryCurrentName">اختر فئة</small>
-    </div>
-
-    <div class="card activity-stat-card male-beneficiaries">
-      <span>مستفيدو الطلاب</span>
-      <strong id="categoryMaleBeneficiaries">0</strong>
-      <small>إجمالي الطلاب المستفيدين</small>
-    </div>
-
-    <div class="card activity-stat-card female-beneficiaries">
-      <span>مستفيدات الطالبات</span>
-      <strong id="categoryFemaleBeneficiaries">0</strong>
-      <small>إجمالي الطالبات المستفيدات</small>
-    </div>
-
-    <div class="card activity-stat-card beneficiaries-total">
-      <span>إجمالي مستفيدي الفئة</span>
-      <strong id="categoryBeneficiaries">0</strong>
-      <small>الطلاب والطالبات</small>
-    </div>
-  </div>
-
-  <div class="activities-insights-grid">
-    <div class="card activity-chart-card">
-      <div class="activity-chart-copy">
-        <span>توزيع الفئة المحددة</span>
-        <strong id="categoryGenderPercentText">0%</strong>
-        <small>نسبة أنشطة الطلاب من إجمالي أنشطة الفئة</small>
-        <div class="activity-chart-legend">
-          <span><i class="activity-legend-dot male"></i>الطلاب <b id="categoryChartMaleCount">0</b></span>
-          <span><i class="activity-legend-dot female"></i>الطالبات <b id="categoryChartFemaleCount">0</b></span>
-        </div>
-      </div>
-      <div class="donut activity-donut" id="categoryGenderDonut" style="--p:0">
-        <b id="categoryGenderPercent">0%</b>
-      </div>
-    </div>
-
-    <div class="card activity-chart-card">
-      <div class="activity-chart-copy">
-        <span>التوزيع العام لجميع الأنشطة</span>
-        <strong id="allActivitiesGenderPercentText">0%</strong>
-        <small>نسبة أنشطة الطلاب من جميع الأنشطة المسجلة</small>
-        <div class="activity-chart-legend">
-          <span><i class="activity-legend-dot male"></i>الطلاب <b id="allActivitiesMaleCount">0</b></span>
-          <span><i class="activity-legend-dot female"></i>الطالبات <b id="allActivitiesFemaleCount">0</b></span>
-        </div>
-      </div>
-      <div class="donut activity-donut" id="allActivitiesGenderDonut" style="--p:0">
-        <b id="allActivitiesGenderPercent">0%</b>
-      </div>
-    </div>
-
-    <div class="card all-activities-summary-card">
-      <div class="all-activities-summary-head">
-        <div>
-          <span>الإحصائيات الشاملة</span>
-          <h4>جميع الأنشطة المسجلة</h4>
-        </div>
-        <strong id="allActivitiesTotal">0</strong>
-      </div>
-
-      <div class="all-activities-summary-grid">
-        <div>
-          <span>إجمالي المستفيدين</span>
-          <b id="allActivitiesBeneficiaries">0</b>
-        </div>
-        <div>
-          <span>الفئات النشطة</span>
-          <b id="allActivitiesCategories">0</b>
-        </div>
-        <div>
-          <span>موثقة بالكامل</span>
-          <b id="allActivitiesDocumented">0</b>
-        </div>
-        <div>
-          <span>تحتاج استكمال</span>
-          <b id="allActivitiesIncomplete">0</b>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="card table-card"><div class="table-wrap"><table>
-    <thead><tr><th>اسم النشاط</th><th>التاريخ</th><th>الأيام</th><th>المستفيدون</th><th>الفئة</th><th>التوثيق</th></tr></thead>
-    <tbody id="categoryActivityRows"></tbody>
-  </table></div></div>
+<div class="card table-card agreement-submissions-card">
+<div class="agreement-table-head">
+<div><h4>الإقرارات المرسلة</h4><p>تظهر الطلبات فور إرسال النموذج وتتابع حالتها من هنا.</p></div>
+<input id="agreementSearch" placeholder="بحث بالاسم أو الرقم الجامعي أو الكلية أو الحالة" type="search"/>
+</div>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>الاسم</th><th>رقم الهوية</th><th>الجنسية</th><th>الرقم الجامعي</th>
+<th>الجوال</th><th>الفئة</th><th>فئة الرياضة</th><th>نوع الرياضة</th><th>الكلية</th><th>الحالة</th><th>النسبة المستحقة</th>
+</tr>
+</thead>
+<tbody id="agreementRows"></tbody>
+</table>
+</div>
+</div>
 </section>
-
-    <section id="page-volunteer" class="page">
-  <div class="section-title"><div><h3>الفرص التطوعية</h3><p>إنشاء فرصة تطوعية وإرسالها للاعتماد.</p></div></div>
-  <div class="card"><form id="volunteerOpportunityForm" class="workflow-form">
-    <label><span>نوع العمل التطوعي</span><input id="volunteerType" required></label>
-    <label><span>عدد الأفراد المطلوبين</span><input id="volunteerCapacity" type="number" min="1" required></label>
-    <label><span>اسم الحدث</span><input id="volunteerEventName" required></label><label class="event-description-field">
-      <span>وصف الحدث</span>
-      <textarea id="volunteerEventDescription" rows="3"
-                data-word-limit="35"
-                data-word-counter="volunteerEventDescriptionCounter"
-                placeholder="اكتب وصفًا مختصرًا للحدث بحد أقصى 35 كلمة" required></textarea>
-      <small class="event-description-counter" id="volunteerEventDescriptionCounter">0 / 35 كلمة</small>
-    </label>
-    <label><span>تاريخ الحدث</span><input id="volunteerEventDate" type="date" required></label>
-    <label><span>الجهة الراعية</span><input id="volunteerSponsor" required></label>
-    <label><span>الجهة المسؤولة</span><input id="volunteerOwner" required></label>
-    <label><span>مكان الحدث</span><input id="volunteerLocation" required></label>
-    <div class="form-submit-row"><button id="submitVolunteerOpportunity" class="btn primary" type="button">إرسال الطلب</button></div>
-  </form></div>
-  <div class="card table-card records-table-card">
-    <h4>طلبات الفرص التطوعية</h4>
-    <div class="records-toolbar">
-      <div class="records-search">
-        <span data-icon="search" aria-hidden="true"></span>
-        <input id="volunteerTableSearch" type="search" placeholder="ابحث باسم الحدث أو التاريخ أو الجهة المسؤولة" autocomplete="off">
-      </div>
-      <select id="volunteerTableStatus" class="records-filter" aria-label="فلترة السجلات">
-        <option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
-      </select>
-    </div>
-    <div class="table-wrap"><table>
-      <thead><tr><th>الحدث</th><th>التاريخ</th><th>السعة</th><th>الجهة المسؤولة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead>
-      <tbody id="volunteerRequestRows"></tbody>
-    </table></div>
-  </div>
+<section class="page" id="page-championships">
+<div class="section-title"><div><h3>البطولات الرياضية</h3><p>روزنامة بطولات الاتحاد السعودي للرياضة الجامعية، مع فصل الطلاب والطالبات.</p></div><a class="btn outline" href="assets/docs/susf-sports-calendar-2025.pdf" target="_blank">عرض روزنامة الاتحاد</a></div>
+<div class="grid cols-3" id="championshipCards"></div>
+<div class="card table-card"><h4>قائمة البطولات</h4><div class="table-toolbar"><input id="championshipSearch" placeholder="بحث باسم البطولة أو التاريخ أو المكان أو الفئة"/></div><div class="table-wrap"><table><thead><tr><th>التاريخ</th><th>البطولة</th><th>الفئة</th><th>المكان</th><th>الإجراء</th></tr></thead><tbody id="championshipRows"></tbody></table></div></div>
 </section>
-
-    <section id="page-student" class="page">
-  <div class="section-title"><div><h3>بوابة الطالب</h3><p>الفعاليات المعتمدة المتاحة للتقديم ومتابعة حالة الطلبات.</p></div></div>
-  <div class="grid cols-2">
-    <div class="card stat"><div class="label">عدد الفعاليات التي شاركت فيها</div><div class="value" id="studentJoinedCount">0</div></div>
-    <div class="card stat burg"><div class="label">عدد الفعاليات التي قدمت إليها</div><div class="value" id="studentAppliedCount">0</div></div>
-  </div>
-  <div class="section-title"><div><h3>الفعاليات المقبولة والمتاحة</h3><p>تختفي الفعالية من القائمة بعد الضغط على قدم الآن.</p></div></div>
-  <div class="grid cols-3" id="studentApprovedOpportunityCards"></div>
-  <div class="card table-card"><div class="table-wrap"><table>
-    <thead><tr><th>الفعالية</th><th>النوع</th><th>تاريخ التقديم</th><th>الحالة</th></tr></thead>
-    <tbody id="studentApplicationRows"></tbody>
-  </table></div></div>
+<section class="page" id="page-athletes">
+<div class="section-title"><div><h3>ملف الطالب الرياضي</h3><p>البحث عن طالب أو طالبة ومعرفة بياناته، المنحة، البطولات، وسجل المشاركات.</p></div></div>
+<div class="grid cols-3">
+<div class="card search-panel"><h4>البحث</h4><input id="profileSearch" placeholder="اكتب الاسم أو الرقم الجامعي أو الكلية أو البطولة"/><div class="profile-list" id="profileList"></div></div>
+<div class="card profile-card span-2" id="profileDetails"><h4>اختر طالبًا لعرض الملف</h4><p>سيظهر هنا سجل المشاركات والبطولات والبيانات الأساسية.</p></div>
+</div>
 </section>
-
-    <section id="page-sports-request" class="page">
-  <div class="section-title"><div><h3>تقديم طلب تنفيذ بطولة/حدث</h3><p>يشترط ثلاثة أيام على الأقل بين التقديم والحدث.</p></div></div>
-  <div class="card"><form class="workflow-form">
-    <label><span>اسم الحدث/البطولة</span><input id="sportsReqName" required></label><label class="event-description-field">
-      <span>وصف الحدث</span>
-      <textarea id="sportsReqDescription" rows="3"
-                data-word-limit="35"
-                data-word-counter="sportsReqDescriptionCounter"
-                placeholder="اكتب وصفًا مختصرًا للحدث بحد أقصى 35 كلمة" required></textarea>
-      <small class="event-description-counter" id="sportsReqDescriptionCounter">0 / 35 كلمة</small>
-    </label>
-    <label><span>تاريخ الحدث</span><input id="sportsReqDate" type="date" required></label>
-    <label><span>نوع اللعبة</span><select id="sportsReqGame" required><option value="" selected disabled>اختر نوع اللعبة</option><option>كرة القدم</option><option>كرة السلة</option><option>الكرة الطائرة</option><option>كرة اليد</option><option>التنس</option><option>تنس الطاولة</option><option>السباحة</option><option>ألعاب القوى</option><option>الكاراتيه</option><option>الجودو</option><option>البلياردو</option><option>الشطرنج</option><option>رياضة أخرى</option></select></label>
-    
-    <label>
-      <span>مكان الحدث</span>
-      <input id="sportsReqLocation" type="text"
-             placeholder="مثال: الصالة الرياضية الرئيسية" required>
-    </label>
-    <label><span>عدد المشاركين</span><input id="sportsReqParticipants" type="number" min="1" required></label>
-    <label><span>عدد الفرق المشاركة</span><input id="sportsReqTeams" type="number" min="0" value="0" required></label>
-    <label><span>عدد الجامعات المشاركة</span><input id="sportsReqUniversities" type="number" min="0" value="0" required></label>
-    <label><span>الحد الأقصى للمتقدمين</span><input id="sportsReqCapacity" type="number" min="1" required></label>
-    <label><span>الفئة المستهدفة</span><select id="sportsReqGender" required><option value="" selected disabled>اختر الفئة المستهدفة</option><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
-    <div class="form-submit-row"><button id="submitSportsRequest" class="btn primary" type="button">إرسال الطلب</button></div>
-  </form></div>
-  <div class="card table-card records-table-card">
-    <h4>طلبات تنفيذ البطولات والأحداث</h4>
-    <div class="records-toolbar">
-      <div class="records-search">
-        <span data-icon="search" aria-hidden="true"></span>
-        <input id="sportsRequestSearch" type="search" placeholder="ابحث باسم الحدث أو التاريخ أو اللعبة" autocomplete="off">
-      </div>
-      <select id="sportsRequestStatus" class="records-filter" aria-label="فلترة السجلات">
-        <option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
-      </select>
-    </div>
-    <div class="table-wrap"><table><thead><tr><th>الحدث</th><th>التاريخ</th><th>اللعبة</th><th>السعة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead><tbody id="sportsRequestRows"></tbody></table></div>
-  </div>
-  <div class="card table-card records-table-card">
-    <h4>طلبات الطلبة</h4>
-    <div class="records-toolbar">
-      <div class="records-search">
-        <span data-icon="search" aria-hidden="true"></span>
-        <input id="sportsApplicantSearch" type="search" placeholder="ابحث باسم الحدث أو الطالب أو الرقم الجامعي أو الإيميل" autocomplete="off">
-      </div>
-      <select id="sportsApplicantStatus" class="records-filter" aria-label="فلترة السجلات">
-        <option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
-      </select>
-    </div>
-    <div class="table-wrap"><table><thead><tr><th>الحدث</th><th>الاسم</th><th>الرقم الجامعي</th><th>الإيميل</th><th>العمر</th><th>الجنس</th><th>الجوال</th><th>القرار</th></tr></thead><tbody id="sportsApplicantRows"></tbody></table></div>
-  </div>
-</section><section id="page-clubs" class="page">
-  <div class="section-title"><div><h3>الأندية الطلابية</h3><p>تأسيس نادٍ جديد أو تقديم مبادرة/فعالية تابعة لنادٍ.</p></div></div>
-
-  <a class="clubs-regulations-card"
-     href="https://drive.google.com/file/d/17ExalYDUN_PfDILv_21xZVAnQFEoVGgr/view?usp=sharing"
-     target="_blank"
-     rel="noopener noreferrer">
-    <span class="clubs-regulations-icon" aria-hidden="true">📘</span>
-    <span class="clubs-regulations-content">
-      <strong>إطلع على القواعد التنظيمية للأندية الطلابية</strong>
-      <small>اضغط لفتح اللائحة التنظيمية في نافذة جديدة</small>
-    </span>
-    <span class="clubs-regulations-action">عرض اللائحة ↗</span>
-  </a>
-  <div class="grid cols-2">
-    <div class="card"><h4>تقديم طلب تسجيل نادي جديد</h4><form class="workflow-form single-column">
-      <label><span>اسم النادي</span><input id="clubName" required></label><label><span>مشرف النادي</span><input id="clubSupervisor" required></label>
-      <label><span>مسؤول النادي</span><input id="clubManager" required></label><label><span>الأعضاء (10 على الأقل، كل اسم في سطر)</span><textarea id="clubMembers" rows="7" required></textarea></label>
-      <label><span>هدف النادي</span><textarea id="clubGoal" required></textarea></label><label><span>شعار النادي</span><input id="clubLogo" type="file" accept="image/*" required></label>
-      <label><span>الفئة</span><select id="clubGender" required><option value="" selected disabled>اختر الفئة</option><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
-      <button id="submitClubRequest" class="btn primary club-form-submit" type="button">إرسال طلب النادي</button>
-    </form></div>
-    <div class="card"><h4>تقديم طلب مبادرة / فعالية تابعة للنادي</h4><form class="workflow-form single-column">
-      <label>
-      <span>النادي</span>
-      <select id="clubEventClub" required>
-        <option value="">اختر النادي المسجل</option>
-      </select>
-      <small class="field-help">تظهر هنا النوادي المفعلة والنوادي التي تمت الموافقة عليها.</small>
-    </label><label><span>اسم الحدث</span><input id="clubEventName" required></label><label class="event-description-field">
-      <span>وصف الحدث</span>
-      <textarea id="clubEventDescription" rows="3"
-                data-word-limit="35"
-                data-word-counter="clubEventDescriptionCounter"
-                placeholder="اكتب وصفًا مختصرًا للحدث بحد أقصى 35 كلمة" required></textarea>
-      <small class="event-description-counter" id="clubEventDescriptionCounter">0 / 35 كلمة</small>
-    </label>
-      <label><span>تاريخ الحدث</span><input id="clubEventDate" type="date" required></label><label><span>مكان الحدث</span><input id="clubEventLocation" required></label>
-      <label><span>الأفراد المشاركون وبياناتهم</span><textarea id="clubEventParticipants" required></textarea></label><label><span>المشرف المسؤول</span><input id="clubEventSupervisor" required></label>
-      <label><span>الفئة</span><select id="clubEventGender" required><option value="" selected disabled>اختر الفئة</option><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
-      <label><span>الحد الأقصى للمتقدمين</span><input id="clubEventCapacity" type="number" min="1" required></label>
-      <button id="submitClubEventRequest" class="btn primary club-form-submit" type="button">إرسال طلب الفعالية</button>
-    </form></div>
-  </div>
-  <div class="card table-card records-table-card">
-    <h4>طلبات الأندية</h4>
-    <div class="records-toolbar">
-      <div class="records-search">
-        <span data-icon="search" aria-hidden="true"></span>
-        <input id="clubRequestSearch" type="search" placeholder="ابحث باسم النادي أو المشرف أو المسؤول" autocomplete="off">
-      </div>
-      <select id="clubRequestStatus" class="records-filter" aria-label="فلترة السجلات">
-        <option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
-      </select>
-    </div>
-    <div class="table-wrap"><table><thead><tr><th>النادي</th><th>المشرف</th><th>المسؤول</th><th>الأعضاء</th><th>الفئة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead><tbody id="clubRequestRows"></tbody></table></div>
-  </div>
-  <div class="card table-card records-table-card">
-    <h4>طلبات المبادرات والفعاليات</h4>
-    <div class="records-toolbar">
-      <div class="records-search">
-        <span data-icon="search" aria-hidden="true"></span>
-        <input id="clubEventSearch" type="search" placeholder="ابحث باسم الحدث أو النادي أو التاريخ أو المكان" autocomplete="off">
-      </div>
-      <select id="clubEventStatus" class="records-filter" aria-label="فلترة السجلات">
-        <option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
-      </select>
-    </div>
-    <div class="table-wrap"><table><thead><tr><th>الحدث</th><th>النادي</th><th>التاريخ</th><th>المكان</th><th>السعة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead><tbody id="clubEventRequestRows"></tbody></table></div>
-  </div>
-  <div class="card table-card records-table-card">
-    <h4>طلبات الطلبة</h4>
-    <div class="records-toolbar">
-      <div class="records-search">
-        <span data-icon="search" aria-hidden="true"></span>
-        <input id="clubApplicantSearch" type="search" placeholder="ابحث باسم الحدث أو النادي أو الطالب أو الرقم الجامعي" autocomplete="off">
-      </div>
-      <select id="clubApplicantStatus" class="records-filter" aria-label="فلترة السجلات">
-        <option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
-      </select>
-    </div>
-    <div class="table-wrap"><table><thead><tr><th>الحدث</th><th>الاسم</th><th>الرقم الجامعي</th><th>الإيميل</th><th>العمر</th><th>الجنس</th><th>الجوال</th><th>القرار</th></tr></thead><tbody id="clubApplicantRows"></tbody></table></div>
-  </div>
-</section><section id="page-approvals" class="page">
-  <div class="section-title approvals-page-heading">
-    <div>
-      <h3>صلاحيات عمادة شؤون الطلاب</h3>
-      <p>مراجعة واعتماد أو رفض جميع الطلبات.</p>
-    </div>
-    <div class="approvals-export-actions">
-      <button id="exportApprovalsExcel" class="approval-export-btn excel" type="button"
-              title="تصدير الطلبات والأندية وأنشطتها إلى Excel">
-        <span class="approval-export-icon">X</span>
-        <span>Excel</span>
-      </button>
-      <button id="exportApprovalsPdf" class="approval-export-btn pdf" type="button"
-              title="تصدير تقرير الطلبات والأندية وأنشطتها بصيغة PDF">
-        <span class="approval-export-icon">PDF</span>
-        <span>PDF</span>
-      </button>
-    </div>
-  </div>
-  <div class="approval-summary-grid">
-    <div class="card approval-stat-card">
-      <span>إجمالي الطلبات</span>
-      <strong id="approvalTotal">0</strong>
-    </div>
-    <div class="card approval-stat-card approved">
-      <span>الموافقات</span>
-      <strong id="approvalAccepted">0</strong>
-    </div>
-    <div class="card approval-stat-card rejected">
-      <span>الرفض</span>
-      <strong id="approvalRejected">0</strong>
-    </div>
-    <div class="card approval-stat-card pending">
-      <span>قيد المراجعة</span>
-      <strong id="approvalPending">0</strong>
-    </div>
-    <div class="card approval-stat-card beneficiaries male">
-      <span>مستفيدو الطلاب</span>
-      <strong id="approvalMaleBeneficiaries">0</strong>
-      <small>إجمالي الطلاب المستفيدين</small>
-    </div>
-    <div class="card approval-stat-card beneficiaries female">
-      <span>مستفيدات الطالبات</span>
-      <strong id="approvalFemaleBeneficiaries">0</strong>
-      <small>إجمالي الطالبات المستفيدات</small>
-    </div>
-    <button class="card approval-stat-card clubs-stat" id="registeredClubsStat" type="button">
-      <span>عدد النوادي المسجلة</span>
-      <strong id="registeredClubsCount">0</strong>
-      <small>اضغط لعرض النوادي وأنشطتها</small>
-    </button>
-  </div>
-
-  <div class="approval-charts-grid">
-    <div class="card approval-chart-card">
-      <div class="approval-chart-copy">
-        <span>قرارات الطلبات</span>
-        <strong id="approvalPercentText">0%</strong>
-        <small>نسبة الموافقات من إجمالي الطلبات</small>
-        <div class="approval-chart-legend">
-          <span><i class="legend-dot approved"></i>الموافقات <b id="approvalChartAccepted">0</b></span>
-          <span><i class="legend-dot rejected"></i>الرفض <b id="approvalChartRejected">0</b></span>
-          <span><i class="legend-dot pending"></i>قيد المراجعة <b id="approvalChartPending">0</b></span>
-        </div>
-      </div>
-      <div class="multi-donut approval-decision-donut" id="approvalDecisionDonut"
-           style="--approved:0deg;--rejected:0deg">
-        <div><b id="approvalDecisionTotal">0</b><small>طلب</small></div>
-      </div>
-    </div>
-
-    <div class="card approval-chart-card">
-      <div class="approval-chart-copy">
-        <span>أنشطة الطالبات مقارنة بالطلاب</span>
-        <strong id="approvalFemaleRatioText">0%</strong>
-        <small>نسبة أنشطة الطالبات من الأنشطة المعتمدة</small>
-        <div class="approval-chart-legend">
-          <span><i class="legend-dot male"></i>الطلاب <b id="approvalMaleActivityCount">0</b></span>
-          <span><i class="legend-dot female"></i>الطالبات <b id="approvalFemaleActivityCount">0</b></span>
-        </div>
-      </div>
-      <div class="multi-donut approval-gender-donut" id="approvalGenderDonut"
-           style="--male:0deg">
-        <div><b id="approvalGenderTotal">0</b><small>نشاط</small></div>
-      </div>
-    </div>
-
-    <div class="card approval-chart-card club-share-chart-card">
-      <div class="approval-chart-copy">
-        <span>توزيع أنشطة النوادي</span>
-        <strong id="clubActivitiesTotalText">0 نشاط</strong>
-        <small>نسبة مساهمة كل نادٍ من إجمالي أنشطة النوادي</small>
-      </div>
-      <div class="club-share-chart-layout">
-        <div class="multi-donut club-share-donut" id="clubShareDonut">
-          <div><b id="clubShareTotal">0</b><small>نشاط</small></div>
-        </div>
-        <div class="club-chart-legend" id="clubShareLegend"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="card club-activity-details-panel hidden" id="clubActivityDetailsPanel">
-    <div class="club-activity-details-header">
-      <div>
-        <span class="club-details-kicker">تفاصيل أنشطة النادي</span>
-        <h4 id="clubActivityDetailsTitle">اختر ناديًا لعرض أنشطته</h4>
-        <p id="clubActivityDetailsSummary">تظهر الأنشطة القديمة والجديدة تلقائيًا.</p>
-      </div>
-      <button class="btn outline compact-btn" id="closeClubActivityDetails" type="button">
+<section class="page" id="page-activities">
+<div class="section-title"><div><h3>الأنشطة والفعاليات</h3><p>تتحدث البيانات مباشرة من جدول التقارير والتحليلات حسب فئة الحدث.</p></div></div>
+<div class="activity-category-menu" id="activityEventCategoryMenu"><button data-event-category="الأنشطة التوعوية" type="button">الأنشطة التوعوية</button><button data-event-category="الأنشطة و البرامج المجتمعية و التطوعية" type="button">الأنشطة و البرامج المجتمعية و التطوعية</button><button data-event-category="الأنشطة الثقافية" type="button">الأنشطة الثقافية</button><button data-event-category="الأنشطة العلمية" type="button">الأنشطة العلمية</button><button data-event-category="الأنشطة الفنية" type="button">الأنشطة الفنية</button><button data-event-category="الأنشطة الرياضية" type="button">الأنشطة الرياضية</button><button data-event-category="البرامج التدريبية" type="button">البرامج التدريبية</button><button data-event-category="برامج عامة على مستوى الجامعة" type="button">برامج عامة على مستوى الجامعة</button></div>
+<div class="activities-category-stats">
+<div class="card activity-stat-card male">
+<span>أنشطة الطلاب</span>
+<strong id="categoryMaleCount">0</strong>
+<small>ضمن الفئة المحددة</small>
+</div>
+<div class="card activity-stat-card female">
+<span>أنشطة الطالبات</span>
+<strong id="categoryFemaleCount">0</strong>
+<small>ضمن الفئة المحددة</small>
+</div>
+<div class="card activity-stat-card total">
+<span>إجمالي أنشطة الفئة</span>
+<strong id="categoryTotalCount">0</strong>
+<small id="categoryCurrentName">اختر فئة</small>
+</div>
+<div class="card activity-stat-card male-beneficiaries">
+<span>مستفيدو الطلاب</span>
+<strong id="categoryMaleBeneficiaries">0</strong>
+<small>إجمالي الطلاب المستفيدين</small>
+</div>
+<div class="card activity-stat-card female-beneficiaries">
+<span>مستفيدات الطالبات</span>
+<strong id="categoryFemaleBeneficiaries">0</strong>
+<small>إجمالي الطالبات المستفيدات</small>
+</div>
+<div class="card activity-stat-card beneficiaries-total">
+<span>إجمالي مستفيدي الفئة</span>
+<strong id="categoryBeneficiaries">0</strong>
+<small>الطلاب والطالبات</small>
+</div>
+</div>
+<div class="activities-insights-grid">
+<div class="card activity-chart-card">
+<div class="activity-chart-copy">
+<span>توزيع الفئة المحددة</span>
+<strong id="categoryGenderPercentText">0%</strong>
+<small>نسبة أنشطة الطلاب من إجمالي أنشطة الفئة</small>
+<div class="activity-chart-legend">
+<span><i class="activity-legend-dot male"></i>الطلاب <b id="categoryChartMaleCount">0</b></span>
+<span><i class="activity-legend-dot female"></i>الطالبات <b id="categoryChartFemaleCount">0</b></span>
+</div>
+</div>
+<div class="donut activity-donut" id="categoryGenderDonut" style="--p:0">
+<b id="categoryGenderPercent">0%</b>
+</div>
+</div>
+<div class="card activity-chart-card">
+<div class="activity-chart-copy">
+<span>التوزيع العام لجميع الأنشطة</span>
+<strong id="allActivitiesGenderPercentText">0%</strong>
+<small>نسبة أنشطة الطلاب من جميع الأنشطة المسجلة</small>
+<div class="activity-chart-legend">
+<span><i class="activity-legend-dot male"></i>الطلاب <b id="allActivitiesMaleCount">0</b></span>
+<span><i class="activity-legend-dot female"></i>الطالبات <b id="allActivitiesFemaleCount">0</b></span>
+</div>
+</div>
+<div class="donut activity-donut" id="allActivitiesGenderDonut" style="--p:0">
+<b id="allActivitiesGenderPercent">0%</b>
+</div>
+</div>
+<div class="card all-activities-summary-card">
+<div class="all-activities-summary-head">
+<div>
+<span>الإحصائيات الشاملة</span>
+<h4>جميع الأنشطة المسجلة</h4>
+</div>
+<strong id="allActivitiesTotal">0</strong>
+</div>
+<div class="all-activities-summary-grid">
+<div>
+<span>إجمالي المستفيدين</span>
+<b id="allActivitiesBeneficiaries">0</b>
+</div>
+<div>
+<span>الفئات النشطة</span>
+<b id="allActivitiesCategories">0</b>
+</div>
+<div>
+<span>موثقة بالكامل</span>
+<b id="allActivitiesDocumented">0</b>
+</div>
+<div>
+<span>تحتاج استكمال</span>
+<b id="allActivitiesIncomplete">0</b>
+</div>
+</div>
+</div>
+</div>
+<div class="card table-card"><div class="table-wrap"><table>
+<thead><tr><th>اسم النشاط</th><th>التاريخ</th><th>الأيام</th><th>المستفيدون</th><th>الفئة</th><th>التوثيق</th></tr></thead>
+<tbody id="categoryActivityRows"></tbody>
+</table></div></div>
+</section>
+<section class="page" id="page-volunteer">
+<div class="section-title"><div><h3>الفرص التطوعية</h3><p>إنشاء فرصة تطوعية وإرسالها للاعتماد.</p></div></div>
+<div class="card"><form class="workflow-form" id="volunteerOpportunityForm">
+<label><span>نوع العمل التطوعي</span><input id="volunteerType" required=""/></label>
+<label><span>عدد الأفراد المطلوبين</span><input id="volunteerCapacity" min="1" required="" type="number"/></label>
+<label><span>اسم الحدث</span><input id="volunteerEventName" required=""/></label><label class="event-description-field">
+<span>وصف الحدث</span>
+<textarea data-word-counter="volunteerEventDescriptionCounter" data-word-limit="35" id="volunteerEventDescription" placeholder="اكتب وصفًا مختصرًا للحدث بحد أقصى 35 كلمة" required="" rows="3"></textarea>
+<small class="event-description-counter" id="volunteerEventDescriptionCounter">0 / 35 كلمة</small>
+</label>
+<label><span>تاريخ الحدث</span><input id="volunteerEventDate" required="" type="date"/></label>
+<label><span>الجهة الراعية</span><input id="volunteerSponsor" required=""/></label>
+<label><span>الجهة المسؤولة</span><input id="volunteerOwner" required=""/></label>
+<label><span>مكان الحدث</span><input id="volunteerLocation" required=""/>
+<label class="budget-field">
+<span>الميزانية المطلوبة للفرصة (ر.س)</span>
+<input id="volunteerBudget" min="0" placeholder="0" required="" step="0.01" type="number"/>
+<small>التكلفة التقديرية المطلوبة لتنفيذ الفرصة التطوعية.</small>
+</label></label>
+<div class="form-submit-row"><button class="btn primary" id="submitVolunteerOpportunity" type="button">إرسال الطلب</button></div>
+</form></div>
+<div class="card table-card records-table-card">
+<h4>طلبات الفرص التطوعية</h4>
+<div class="records-toolbar">
+<div class="records-search">
+<span aria-hidden="true" data-icon="search"></span>
+<input autocomplete="off" id="volunteerTableSearch" placeholder="ابحث باسم الحدث أو التاريخ أو الجهة المسؤولة" type="search"/>
+</div>
+<select aria-label="فلترة السجلات" class="records-filter" id="volunteerTableStatus">
+<option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
+</select>
+</div>
+<div class="table-wrap"><table>
+<thead><tr><th>الحدث</th><th>التاريخ</th><th>السعة</th><th>الجهة المسؤولة</th><th>الميزانية</th><th>الحالة</th><th>سبب الرفض</th><th>حالة التنفيذ</th></tr></thead>
+<tbody id="volunteerRequestRows"></tbody>
+</table></div>
+</div>
+</section>
+<section class="page" id="page-student">
+<div class="section-title"><div><h3>بوابة الطالب</h3><p>الفعاليات المعتمدة المتاحة للتقديم ومتابعة حالة الطلبات.</p></div></div>
+<div class="grid cols-2">
+<div class="card stat"><div class="label">عدد الفعاليات التي شاركت فيها</div><div class="value" id="studentJoinedCount">0</div></div>
+<div class="card stat burg"><div class="label">عدد الفعاليات التي قدمت إليها</div><div class="value" id="studentAppliedCount">0</div></div>
+</div>
+<div class="section-title"><div><h3>الفعاليات المقبولة والمتاحة</h3><p>تختفي الفعالية من القائمة بعد الضغط على قدم الآن.</p></div></div>
+<div class="grid cols-3" id="studentApprovedOpportunityCards"></div>
+<div class="card table-card"><div class="table-wrap"><table>
+<thead><tr><th>الفعالية</th><th>النوع</th><th>تاريخ التقديم</th><th>الحالة</th><th>التقييم</th></tr></thead>
+<tbody id="studentApplicationRows"></tbody>
+</table></div></div>
+<div class="section-title student-suggestions-title">
+<div>
+<h3>المقترحات والملاحظات</h3>
+<p>أرسل مقترحك أو ملاحظتك مباشرة إلى المجلس الطلابي وعمادة شؤون الطلاب.</p>
+</div>
+</div>
+<div class="card student-suggestion-card">
+<form class="workflow-form suggestion-form" id="studentSuggestionForm">
+<label><span>الاسم</span><input id="suggestionName" required="" value="فلان الفلاني"/></label>
+<label><span>الرقم الجامعي</span><input id="suggestionStudentId" required="" value="20260001"/></label>
+<label><span>الكلية</span>
+<select id="suggestionCollege" required="">
+<option value="">اختر الكلية</option>
+<option>JCA</option><option>JCE</option><option>CBA</option><option>JCL</option>
+</select>
+</label>
+<label><span>الفئة</span><input id="suggestionGender" readonly="" value="طلاب"/></label>
+<label><span>تصنيف المقترح</span>
+<select id="suggestionCategory" required="">
+<option value="">اختر التصنيف</option>
+<option>أكاديمي</option><option>خدمات</option><option>أنشطة</option>
+<option>مرافق</option><option>أخرى</option>
+</select>
+</label>
+<label class="suggestion-text-field"><span>طبيعة المقترح أو الملاحظة</span>
+<textarea id="suggestionText" placeholder="اكتب المقترح أو الملاحظة بالتفصيل..." required="" rows="6"></textarea>
+</label>
+<div class="form-submit-row"><button class="btn primary" type="submit">إرسال المقترح</button></div>
+</form>
+</div>
+<div class="card table-card student-suggestions-history">
+<h4>المقترحات المرسلة</h4>
+<div class="table-wrap">
+<table>
+<thead><tr><th>التصنيف</th><th>المقترح</th><th>التاريخ</th><th>الحالة</th></tr></thead>
+<tbody id="studentSuggestionRows"></tbody>
+</table>
+</div>
+</div>
+</section>
+<section class="page" id="page-sports-request">
+<div class="section-title"><div><h3>تقديم طلب تنفيذ بطولة/حدث</h3><p>يشترط ثلاثة أيام على الأقل بين التقديم والحدث.</p></div></div>
+<div class="card"><form class="workflow-form">
+<label><span>اسم الحدث/البطولة</span><input id="sportsReqName" required=""/></label><label class="event-description-field">
+<span>وصف الحدث</span>
+<textarea data-word-counter="sportsReqDescriptionCounter" data-word-limit="35" id="sportsReqDescription" placeholder="اكتب وصفًا مختصرًا للحدث بحد أقصى 35 كلمة" required="" rows="3"></textarea>
+<small class="event-description-counter" id="sportsReqDescriptionCounter">0 / 35 كلمة</small>
+</label>
+<label><span>تاريخ الحدث</span><input id="sportsReqDate" required="" type="date"/></label>
+<label><span>نوع اللعبة</span><select id="sportsReqGame" required=""><option disabled="" selected="" value="">اختر نوع اللعبة</option><option>كرة القدم</option><option>كرة السلة</option><option>الكرة الطائرة</option><option>كرة اليد</option><option>التنس</option><option>تنس الطاولة</option><option>السباحة</option><option>ألعاب القوى</option><option>الكاراتيه</option><option>الجودو</option><option>البلياردو</option><option>الشطرنج</option><option>رياضة أخرى</option></select></label>
+<label>
+<span>مكان الحدث</span>
+<input id="sportsReqLocation" placeholder="مثال: الصالة الرياضية الرئيسية" required="" type="text"/>
+</label>
+<label><span>عدد المشاركين</span><input id="sportsReqParticipants" min="1" required="" type="number"/></label>
+<label><span>عدد الفرق المشاركة</span><input id="sportsReqTeams" min="0" required="" type="number" value="0"/></label>
+<label><span>عدد الجامعات المشاركة</span><input id="sportsReqUniversities" min="0" required="" type="number" value="0"/></label>
+<label><span>الحد الأقصى للمتقدمين</span><input id="sportsReqCapacity" min="1" required="" type="number"/>
+<label class="budget-field">
+<span>الميزانية المطلوبة للحدث (ر.س)</span>
+<input id="sportsReqBudget" min="0" placeholder="0" required="" step="0.01" type="number"/>
+<small>أدخل التكلفة التقديرية المطلوبة لتنفيذ البطولة أو الحدث.</small>
+</label></label>
+<label><span>الفئة المستهدفة</span><select id="sportsReqGender" required=""><option disabled="" selected="" value="">اختر الفئة المستهدفة</option><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
+<div class="form-submit-row"><button class="btn primary" id="submitSportsRequest" type="button">إرسال الطلب</button></div>
+</form></div>
+<div class="card table-card records-table-card">
+<h4>طلبات تنفيذ البطولات والأحداث</h4>
+<div class="records-toolbar">
+<div class="records-search">
+<span aria-hidden="true" data-icon="search"></span>
+<input autocomplete="off" id="sportsRequestSearch" placeholder="ابحث باسم الحدث أو التاريخ أو اللعبة" type="search"/>
+</div>
+<select aria-label="فلترة السجلات" class="records-filter" id="sportsRequestStatus">
+<option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
+</select>
+</div>
+<div class="table-wrap"><table><thead><tr><th>الحدث</th><th>التاريخ</th><th>اللعبة</th><th>السعة</th><th>الميزانية</th><th>الحالة</th><th>سبب الرفض</th><th>حالة التنفيذ</th></tr></thead><tbody id="sportsRequestRows"></tbody></table></div>
+</div>
+<div class="card table-card records-table-card">
+<h4>طلبات الطلبة</h4>
+<div class="records-toolbar">
+<div class="records-search">
+<span aria-hidden="true" data-icon="search"></span>
+<input autocomplete="off" id="sportsApplicantSearch" placeholder="ابحث باسم الحدث أو الطالب أو الرقم الجامعي أو الإيميل" type="search"/>
+</div>
+<select aria-label="فلترة السجلات" class="records-filter" id="sportsApplicantStatus">
+<option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
+</select>
+</div>
+<div class="table-wrap"><table><thead><tr><th>الحدث</th><th>الاسم</th><th>الرقم الجامعي</th><th>الإيميل</th><th>العمر</th><th>الجنس</th><th>الجوال</th><th>القرار</th></tr></thead><tbody id="sportsApplicantRows"></tbody></table></div>
+</div>
+</section><section class="page" id="page-clubs">
+<div class="section-title"><div><h3>الأندية الطلابية</h3><p>تأسيس نادٍ جديد أو تقديم مبادرة/فعالية تابعة لنادٍ.</p></div></div>
+<a class="clubs-regulations-card" href="https://drive.google.com/file/d/17ExalYDUN_PfDILv_21xZVAnQFEoVGgr/view?usp=sharing" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="clubs-regulations-icon">📘</span>
+<span class="clubs-regulations-content">
+<strong>إطلع على القواعد التنظيمية للأندية الطلابية</strong>
+<small>اضغط لفتح اللائحة التنظيمية في نافذة جديدة</small>
+</span>
+<span class="clubs-regulations-action">عرض اللائحة ↗</span>
+</a>
+<div class="grid cols-2">
+<div class="card"><h4>تقديم طلب تسجيل نادي جديد</h4><form class="workflow-form single-column">
+<label><span>اسم النادي</span><input id="clubName" required=""/></label><label><span>مشرف النادي</span><input id="clubSupervisor" required=""/></label>
+<label><span>مسؤول النادي</span><input id="clubManager" required=""/></label><label><span>الأعضاء (10 على الأقل، كل اسم في سطر)</span><textarea id="clubMembers" required="" rows="7"></textarea></label>
+<label><span>هدف النادي</span><textarea id="clubGoal" required=""></textarea></label><label><span>شعار النادي</span><input accept="image/*" id="clubLogo" required="" type="file"/></label>
+<label><span>الفئة</span><select id="clubGender" required=""><option disabled="" selected="" value="">اختر الفئة</option><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
+<button class="btn primary club-form-submit" id="submitClubRequest" type="button">إرسال طلب النادي</button>
+</form></div>
+<div class="card"><h4>تقديم طلب مبادرة / فعالية تابعة للنادي</h4><form class="workflow-form single-column">
+<label>
+<span>النادي</span>
+<select id="clubEventClub" required="">
+<option value="">اختر النادي المسجل</option>
+</select>
+<small class="field-help">تظهر هنا النوادي المفعلة والنوادي التي تمت الموافقة عليها.</small>
+</label><label><span>اسم الحدث</span><input id="clubEventName" required=""/></label><label class="event-description-field">
+<span>وصف الحدث</span>
+<textarea data-word-counter="clubEventDescriptionCounter" data-word-limit="35" id="clubEventDescription" placeholder="اكتب وصفًا مختصرًا للحدث بحد أقصى 35 كلمة" required="" rows="3"></textarea>
+<small class="event-description-counter" id="clubEventDescriptionCounter">0 / 35 كلمة</small>
+</label>
+<label><span>تاريخ الحدث</span><input id="clubEventDate" required="" type="date"/></label><label><span>مكان الحدث</span><input id="clubEventLocation" required=""/></label>
+<label><span>الأفراد المشاركون وبياناتهم</span><textarea id="clubEventParticipants" required=""></textarea></label><label><span>المشرف المسؤول</span><input id="clubEventSupervisor" required=""/></label>
+<label><span>الفئة</span><select id="clubEventGender" required=""><option disabled="" selected="" value="">اختر الفئة</option><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option></select></label>
+<label><span>الحد الأقصى للمتقدمين</span><input id="clubEventCapacity" min="1" required="" type="number"/>
+<label class="budget-field">
+<span>الميزانية المطلوبة للفعالية (ر.س)</span>
+<input id="clubEventBudget" min="0" placeholder="0" required="" step="0.01" type="number"/>
+<small>الميزانية التقديرية المطلوبة لتنفيذ مبادرة أو فعالية النادي.</small>
+</label></label>
+<button class="btn primary club-form-submit" id="submitClubEventRequest" type="button">إرسال طلب الفعالية</button>
+</form></div>
+</div>
+<div class="card table-card records-table-card">
+<h4>طلبات الأندية</h4>
+<div class="records-toolbar">
+<div class="records-search">
+<span aria-hidden="true" data-icon="search"></span>
+<input autocomplete="off" id="clubRequestSearch" placeholder="ابحث باسم النادي أو المشرف أو المسؤول" type="search"/>
+</div>
+<select aria-label="فلترة السجلات" class="records-filter" id="clubRequestStatus">
+<option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
+</select>
+</div>
+<div class="table-wrap"><table><thead><tr><th>النادي</th><th>المشرف</th><th>المسؤول</th><th>الأعضاء</th><th>الفئة</th><th>الحالة</th><th>سبب الرفض</th></tr></thead><tbody id="clubRequestRows"></tbody></table></div>
+</div>
+<div class="card table-card records-table-card">
+<h4>طلبات المبادرات والفعاليات</h4>
+<div class="records-toolbar">
+<div class="records-search">
+<span aria-hidden="true" data-icon="search"></span>
+<input autocomplete="off" id="clubEventSearch" placeholder="ابحث باسم الحدث أو النادي أو التاريخ أو المكان" type="search"/>
+</div>
+<select aria-label="فلترة السجلات" class="records-filter" id="clubEventStatus">
+<option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
+</select>
+</div>
+<div class="table-wrap"><table><thead><tr><th>الحدث</th><th>النادي</th><th>التاريخ</th><th>المكان</th><th>السعة</th><th>الميزانية</th><th>الحالة</th><th>سبب الرفض</th><th>حالة التنفيذ</th></tr></thead><tbody id="clubEventRequestRows"></tbody></table></div>
+</div>
+<div class="card table-card records-table-card">
+<h4>طلبات الطلبة</h4>
+<div class="records-toolbar">
+<div class="records-search">
+<span aria-hidden="true" data-icon="search"></span>
+<input autocomplete="off" id="clubApplicantSearch" placeholder="ابحث باسم الحدث أو النادي أو الطالب أو الرقم الجامعي" type="search"/>
+</div>
+<select aria-label="فلترة السجلات" class="records-filter" id="clubApplicantStatus">
+<option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
+</select>
+</div>
+<div class="table-wrap"><table><thead><tr><th>الحدث</th><th>الاسم</th><th>الرقم الجامعي</th><th>الإيميل</th><th>العمر</th><th>الجنس</th><th>الجوال</th><th>القرار</th></tr></thead><tbody id="clubApplicantRows"></tbody></table></div>
+</div>
+</section>
+<section class="page" id="page-student-council">
+<div class="section-title council-page-heading">
+<div>
+<h3>المجلس الطلابي</h3>
+<p>إدارة أعضاء المجلس، الأنشطة، الاجتماعات، المقترحات، والمتابعة التشغيلية.</p>
+</div>
+<div class="council-current-position">
+<span>صلاحية المجلس الحالية</span>
+<select id="councilViewRole">
+<option value="president">الرئيس</option>
+<option value="vice">نائب الرئيس</option>
+<option value="secretary">أمين المجلس</option>
+<option value="member">عضو</option>
+</select>
+</div>
+</div>
+<div class="grid cols-4 council-stats-grid">
+<div class="card stat"><div class="label">أعضاء المجلس</div><div class="value" id="councilMembersCount">0</div><div class="sub">أعضاء مرتبطون بالبريد الجامعي</div></div>
+<div class="card stat"><div class="label">الأنشطة المقدمة</div><div class="value" id="councilActivitiesTotal">0</div><div class="sub">جميع طلبات أنشطة المجلس</div></div>
+<div class="card stat"><div class="label">الأنشطة الموافق عليها</div><div class="value" id="councilActivitiesApproved">0</div><div class="sub">تم اعتمادها من العمادة</div></div>
+<div class="card stat burg"><div class="label">قيد المراجعة</div><div class="value" id="councilActivitiesPending">0</div><div class="sub">بانتظار قرار العمادة</div></div>
+</div>
+<div class="grid cols-2 council-main-grid">
+<div class="card council-members-card">
+<div class="section-title compact-title">
+<div><h3>أعضاء المجلس الطلابي</h3><p>ربط أعضاء المجلس بالبريد الجامعي دون إنشاء حسابات جديدة.</p></div>
+</div>
+<form class="workflow-form single-column" id="councilMemberForm">
+<label><span>الاسم</span><input id="councilMemberName" required=""/></label>
+<label><span>الرقم الجامعي</span><input id="councilMemberStudentId" required=""/></label>
+<label><span>الكلية</span>
+<select id="councilMemberCollege" required="">
+<option value="">اختر الكلية</option><option>JCA</option><option>JCE</option><option>CBA</option><option>JCL</option>
+</select>
+</label>
+<label><span>إيميل المستفيد</span><input id="councilMemberEmail" required="" type="email"/></label>
+<label><span>الصفة</span>
+<select id="councilMemberPosition" required="">
+<option value="">اختر الصفة</option>
+<option value="president">رئيس</option>
+<option value="vice">نائب رئيس</option>
+<option value="secretary">أمين المجلس</option>
+<option value="member">عضو</option>
+</select>
+</label>
+<div class="form-submit-row"><button class="btn primary" id="saveCouncilMember" type="submit">ربط العضو بالمجلس</button></div>
+</form>
+<div class="table-wrap council-members-table-wrap">
+<table>
+<thead><tr><th>الاسم</th><th>الرقم الجامعي</th><th>الكلية</th><th>الإيميل</th><th>الصفة</th><th>الحالة</th><th>الإجراء</th></tr></thead>
+<tbody id="councilMemberRows"></tbody>
+</table>
+</div>
+</div>
+<div class="card council-activity-card">
+<div class="section-title compact-title">
+<div><h3>تقديم نشاط للمجلس الطلابي</h3><p>يرسل الطلب إلى صلاحيات عمادة شؤون الطلاب للموافقة أو الرفض.</p></div>
+</div>
+<form class="workflow-form single-column" id="councilActivityForm">
+<label><span>اسم النشاط</span><input id="councilActivityName" required=""/></label>
+<label><span>وصف النشاط</span><textarea id="councilActivityDescription" required="" rows="3"></textarea></label>
+<label><span>نوع النشاط</span>
+<select id="councilActivityCategory" required="">
+<option value="">اختر النوع</option>
+<option>الأنشطة التوعوية</option><option>الأنشطة و البرامج المجتمعية و التطوعية</option>
+<option>الأنشطة الثقافية</option><option>الأنشطة العلمية</option><option>الأنشطة الفنية</option>
+<option>الأنشطة الرياضية</option><option>البرامج التدريبية</option><option>برامج عامة على مستوى الجامعة</option>
+</select>
+</label>
+<label><span>التاريخ</span><input id="councilActivityDate" required="" type="date"/></label>
+<label><span>المكان</span><input id="councilActivityLocation" required=""/></label>
+<label><span>الفئة</span>
+<select id="councilActivityGender" required="">
+<option value="">اختر الفئة</option><option>طلاب</option><option>طالبات</option><option>الاثنان معًا</option>
+</select>
+</label>
+<label><span>الحد الأقصى للمشاركين</span><input id="councilActivityCapacity" min="1" required="" type="number"/></label>
+<label class="budget-field"><span>الميزانية المطلوبة (ر.س)</span><input id="councilActivityBudget" min="0" required="" step="0.01" type="number"/></label>
+<div class="form-submit-row"><button class="btn primary" type="submit">إرسال النشاط للاعتماد</button></div>
+</form>
+<div class="table-wrap">
+<table>
+<thead><tr><th>النشاط</th><th>التاريخ</th><th>النوع</th><th>الميزانية</th><th>الحالة</th><th>حالة التنفيذ</th><th>الإجراء</th></tr></thead>
+<tbody id="councilActivityRows"></tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="grid cols-2 council-secondary-grid">
+<div class="card council-meetings-card">
+<div class="section-title compact-title">
+<div><h3>جدول اجتماعات المجلس</h3><p>الرئيس يحدد المهمة والتاريخ والوقت والعضو المسؤول.</p></div>
+<button class="btn outline" id="downloadCouncilMeetingsPdf" type="button">تنزيل PDF</button>
+</div>
+<form class="workflow-form council-meeting-form" id="councilMeetingForm">
+<label><span>المهمة / موضوع الاجتماع</span><input id="councilMeetingTask" required=""/></label>
+<label><span>التاريخ</span><input id="councilMeetingDate" required="" type="date"/></label>
+<label><span>الوقت</span><input id="councilMeetingTime" required="" type="time"/></label>
+<label><span>العضو المسؤول</span><select id="councilMeetingMember" required=""><option value="">اختر العضو</option></select></label>
+<div class="form-submit-row"><button class="btn primary" type="submit">إضافة للجدول</button></div>
+</form>
+<div class="table-wrap">
+<table><thead><tr><th>المهمة</th><th>التاريخ</th><th>الوقت</th><th>العضو المسؤول</th><th>الإجراء</th></tr></thead><tbody id="councilMeetingRows"></tbody></table>
+</div>
+</div>
+<div class="card council-suggestions-card">
+<div class="section-title compact-title">
+<div><h3>مقترحات وملاحظات الطلبة</h3><p>الطلبات الواردة من بوابة الطالب.</p></div>
+</div>
+<div class="table-wrap">
+<table><thead><tr><th>الطالب</th><th>الكلية</th><th>التصنيف</th><th>المقترح</th><th>التاريخ</th></tr></thead><tbody id="councilSuggestionRows"></tbody></table>
+</div>
+</div>
+</div>
+<div class="card council-permissions-card">
+<h4>صلاحيات أعضاء المجلس</h4>
+<div class="council-permission-grid">
+<div><strong>الرئيس</strong><span>صلاحية كاملة على أعضاء المجلس والأنشطة والاجتماعات.</span></div>
+<div><strong>نائب الرئيس</strong><span>صلاحية كاملة مماثلة للرئيس.</span></div>
+<div><strong>أمين المجلس</strong><span>إدخال الأنشطة والاطلاع على الأعضاء دون تسجيل أعضاء جدد.</span></div>
+<div><strong>عضو</strong><span>الاطلاع على أنشطة المجلس الطلابي وجدول الاجتماعات.</span></div>
+</div>
+</div>
+</section>
+<section class="page" id="page-approvals">
+<div class="section-title approvals-page-heading">
+<div>
+<h3>صلاحيات عمادة شؤون الطلاب</h3>
+<p>مراجعة واعتماد أو رفض جميع الطلبات.</p>
+</div>
+<div class="approvals-export-actions">
+<button class="approval-export-btn excel" id="exportApprovalsExcel" title="تصدير الطلبات والأندية وأنشطتها إلى Excel" type="button">
+<span class="approval-export-icon">X</span>
+<span>Excel</span>
+</button>
+<button class="approval-export-btn pdf" id="exportApprovalsPdf" title="تصدير تقرير الطلبات والأندية وأنشطتها بصيغة PDF" type="button">
+<span class="approval-export-icon">PDF</span>
+<span>PDF</span>
+</button>
+</div>
+</div>
+<div class="approval-summary-grid">
+<div class="card approval-stat-card">
+<span>إجمالي الطلبات</span>
+<strong id="approvalTotal">0</strong>
+</div>
+<div class="card approval-stat-card approved">
+<span>الموافقات</span>
+<strong id="approvalAccepted">0</strong>
+</div>
+<div class="card approval-stat-card rejected">
+<span>الرفض</span>
+<strong id="approvalRejected">0</strong>
+</div>
+<div class="card approval-stat-card pending">
+<span>قيد المراجعة</span>
+<strong id="approvalPending">0</strong>
+</div>
+<div class="card approval-stat-card beneficiaries male">
+<span>مستفيدو الطلاب</span>
+<strong id="approvalMaleBeneficiaries">0</strong>
+<small>إجمالي الطلاب المستفيدين</small>
+</div>
+<div class="card approval-stat-card beneficiaries female">
+<span>مستفيدات الطالبات</span>
+<strong id="approvalFemaleBeneficiaries">0</strong>
+<small>إجمالي الطالبات المستفيدات</small>
+</div>
+<button class="card approval-stat-card clubs-stat" id="registeredClubsStat" type="button">
+<span>عدد النوادي المسجلة</span>
+<strong id="registeredClubsCount">0</strong>
+<small>اضغط لعرض النوادي وأنشطتها</small>
+</button>
+<button class="card approval-stat-card council-stat" id="approvalCouncilStat" type="button">
+<span>طلبات المجلس الطلابي</span>
+<strong id="approvalCouncilRequests">0</strong>
+<small>اضغط لعرض طلبات المجلس</small>
+</button>
+</div>
+<div class="approval-charts-grid">
+<div class="card approval-chart-card">
+<div class="approval-chart-copy">
+<span>قرارات الطلبات</span>
+<strong id="approvalPercentText">0%</strong>
+<small>نسبة الموافقات من إجمالي الطلبات</small>
+<div class="approval-chart-legend">
+<span><i class="legend-dot approved"></i>الموافقات <b id="approvalChartAccepted">0</b></span>
+<span><i class="legend-dot rejected"></i>الرفض <b id="approvalChartRejected">0</b></span>
+<span><i class="legend-dot pending"></i>قيد المراجعة <b id="approvalChartPending">0</b></span>
+</div>
+</div>
+<div class="multi-donut approval-decision-donut" id="approvalDecisionDonut" style="--approved:0deg;--rejected:0deg">
+<div><b id="approvalDecisionTotal">0</b><small>طلب</small></div>
+</div>
+</div>
+<div class="card approval-chart-card">
+<div class="approval-chart-copy">
+<span>أنشطة الطالبات مقارنة بالطلاب</span>
+<strong id="approvalFemaleRatioText">0%</strong>
+<small>نسبة أنشطة الطالبات من الأنشطة المعتمدة</small>
+<div class="approval-chart-legend">
+<span><i class="legend-dot male"></i>الطلاب <b id="approvalMaleActivityCount">0</b></span>
+<span><i class="legend-dot female"></i>الطالبات <b id="approvalFemaleActivityCount">0</b></span>
+</div>
+</div>
+<div class="multi-donut approval-gender-donut" id="approvalGenderDonut" style="--male:0deg">
+<div><b id="approvalGenderTotal">0</b><small>نشاط</small></div>
+</div>
+</div>
+<div class="card approval-chart-card club-share-chart-card">
+<div class="approval-chart-copy">
+<span>توزيع أنشطة النوادي</span>
+<strong id="clubActivitiesTotalText">0 نشاط</strong>
+<small>نسبة مساهمة كل نادٍ من إجمالي أنشطة النوادي</small>
+</div>
+<div class="club-share-chart-layout">
+<div class="multi-donut club-share-donut" id="clubShareDonut">
+<div><b id="clubShareTotal">0</b><small>نشاط</small></div>
+</div>
+<div class="club-chart-legend" id="clubShareLegend"></div>
+</div>
+</div>
+</div>
+<div class="card club-activity-details-panel hidden" id="clubActivityDetailsPanel">
+<div class="club-activity-details-header">
+<div>
+<span class="club-details-kicker">تفاصيل أنشطة النادي</span>
+<h4 id="clubActivityDetailsTitle">اختر ناديًا لعرض أنشطته</h4>
+<p id="clubActivityDetailsSummary">تظهر الأنشطة القديمة والجديدة تلقائيًا.</p>
+</div>
+<button class="btn outline compact-btn" id="closeClubActivityDetails" type="button">
         إغلاق
       </button>
-    </div>
-
-    <div class="club-activity-details-stats">
-      <div>
-        <span>إجمالي الأنشطة</span>
-        <strong id="clubDetailsTotal">0</strong>
-      </div>
-      <div>
-        <span>المعتمدة</span>
-        <strong id="clubDetailsAccepted">0</strong>
-      </div>
-      <div>
-        <span>قيد المراجعة</span>
-        <strong id="clubDetailsPending">0</strong>
-      </div>
-      <div>
-        <span>المرفوضة</span>
-        <strong id="clubDetailsRejected">0</strong>
-      </div>
-    </div>
-
-    <div class="table-wrap">
-      <table class="club-activity-details-table">
-        <thead>
-          <tr>
-            <th>اسم النشاط</th>
-            <th>النوع</th>
-            <th>التاريخ</th>
-            <th>المكان</th>
-            <th>الفئة</th>
-            <th>السعة</th>
-            <th>الحالة</th>
-          </tr>
-        </thead>
-        <tbody id="clubActivityDetailsRows"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="card registered-clubs-panel hidden" id="registeredClubsPanel">
-    <div class="registered-clubs-header">
-      <div>
-        <h4>النوادي المسجلة والمفعلة</h4>
-        <p>تتحدث القائمة تلقائيًا عند اعتماد نادي جديد، ويمكن تعديل النادي أو حذفه.</p>
-      </div>
-      <div class="registered-clubs-header-actions">
-        <button class="btn outline compact-btn" id="manageRegisteredClubsBtn" type="button">
+</div>
+<div class="club-activity-details-stats">
+<div>
+<span>إجمالي الأنشطة</span>
+<strong id="clubDetailsTotal">0</strong>
+</div>
+<div>
+<span>المعتمدة</span>
+<strong id="clubDetailsAccepted">0</strong>
+</div>
+<div>
+<span>قيد المراجعة</span>
+<strong id="clubDetailsPending">0</strong>
+</div>
+<div>
+<span>المرفوضة</span>
+<strong id="clubDetailsRejected">0</strong>
+</div>
+</div>
+<div class="table-wrap">
+<table class="club-activity-details-table">
+<thead>
+<tr>
+<th>اسم النشاط</th>
+<th>النوع</th>
+<th>التاريخ</th>
+<th>المكان</th>
+<th>الفئة</th>
+<th>السعة</th>
+<th>الحالة</th>
+</tr>
+</thead>
+<tbody id="clubActivityDetailsRows"></tbody>
+</table>
+</div>
+</div>
+<div class="card registered-clubs-panel hidden" id="registeredClubsPanel">
+<div class="registered-clubs-header">
+<div>
+<h4>النوادي المسجلة والمفعلة</h4>
+<p>تتحدث القائمة تلقائيًا عند اعتماد نادي جديد، ويمكن تعديل النادي أو حذفه.</p>
+</div>
+<div class="registered-clubs-header-actions">
+<button class="btn outline compact-btn" id="manageRegisteredClubsBtn" type="button">
           ✎ تعديل النوادي
         </button>
-        <button class="btn outline compact-btn" id="closeRegisteredClubsPanel" type="button">
+<button class="btn outline compact-btn" id="closeRegisteredClubsPanel" type="button">
           إغلاق
         </button>
-      </div>
-    </div>
-    <div class="table-wrap">
-      <table class="registered-clubs-table">
-        <thead>
-          <tr>
-            <th>اسم النادي</th>
-            <th>الحالة</th>
-            <th>عدد الأنشطة</th>
-            <th>الأنشطة المرتبطة</th>
-            <th class="club-management-column">الإدارة</th>
-          </tr>
-        </thead>
-        <tbody id="registeredClubsRows"></tbody>
-      </table>
-    </div>
-  </div>
-  <div class="card table-card records-table-card approvals-records-card">
-    <h4>جميع الطلبات والقرارات</h4>
-    <div class="records-toolbar records-toolbar-wide">
-      <div class="records-search">
-        <span data-icon="search" aria-hidden="true"></span>
-        <input id="approvalTableSearch" type="search"
-               placeholder="ابحث باسم النشاط أو النادي أو مقدم الطلب أو التاريخ"
-               autocomplete="off">
-      </div>
-      <select id="approvalTableStatus" class="records-filter" aria-label="فلترة حسب الحالة">
-        <option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
-      </select>
-      <select id="approvalTableType" class="records-filter" aria-label="فلترة حسب نوع الطلب">
-        <option value="all">كل أنواع الطلبات</option>
-        <option value="بطولة/حدث رياضي">بطولة/حدث رياضي</option>
-        <option value="تسجيل نادي جديد">تسجيل نادي جديد</option>
-        <option value="مبادرة/فعالية نادي">مبادرة/فعالية نادي</option>
-        <option value="فرصة تطوعية">فرصة تطوعية</option>
-      </select>
-    </div>
-    <div class="table-wrap"><table><thead><tr><th>نوع الطلب</th><th>العنوان</th><th>مقدم الطلب</th><th>التاريخ</th><th>الفئة/السعة</th><th>الحالة</th><th>الإجراء</th></tr></thead><tbody id="approvalRequestRows"></tbody></table></div>
-  </div>
-
-  <div class="scholarship-approval-dashboard">
-    <div class="section-title">
-      <div>
-        <h3>اعتمادات المنح الرياضية</h3>
-        <p>الطلبات المحالة من صفحة المنح الرياضية لاعتماد النسبة النهائية أو رفضها مع السبب.</p>
-      </div>
-    </div>
-
-    <div class="scholarship-approval-stats">
-      <article class="card approved"><span>منح موافق عليها</span><strong id="deanGrantAccepted">0</strong></article>
-      <article class="card rejected"><span>منح مرفوضة</span><strong id="deanGrantRejected">0</strong></article>
-      <article class="card pending"><span>منح تحت المراجعة</span><strong id="deanGrantPending">0</strong></article>
-      <article class="card grant-pie-card">
-        <div class="grant-decision-donut" id="deanGrantDonut" style="--approved:0deg;--rejected:0deg">
-          <span><b id="deanGrantTotal">0</b><small>طلب منحة</small></span>
-        </div>
-      </article>
-    </div>
-
-    <div class="card table-card">
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>الطالب</th><th>الرقم الجامعي</th><th>الفئة</th><th>الكلية</th>
-              <th>النسبة المقترحة</th><th>الحالة</th><th>الإجراء</th>
-            </tr>
-          </thead>
-          <tbody id="deanGrantApprovalRows"></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</section><section id="page-calendar" class="page">
-      <div class="section-title"><div><h3>التقويم الموحد</h3><p>تقويم واحد مع فلاتر: أكاديمي، مناسبات رسمية، إسلامية، أنشطة، رياضة، تطوع.</p></div><label class="btn outline filebtn">استيراد Calendar<input id="importCalendar" type="file" accept=".xlsx,.xls,.pdf,.ics" hidden></label></div>
-      <div id="calFilters" class="filterbar large"><button class="active" data-filter="all">الكل</button><button data-filter="academic">أكاديمي</button><button data-filter="national">مناسبات رسمية</button><button data-filter="islamic">إسلامية</button><button data-filter="activities">أنشطة طلابية</button><button data-filter="sports">رياضية</button><button data-filter="volunteer">تطوع</button></div>
-      <div class="card"><div id="eventList" class="event-list"></div></div>
-    </section>
-
-    <section id="page-requests" class="page">
-      <div class="section-title"><div><h3>طلبات التسجيل</h3><p>الطلبات مفصولة حسب الجهة: الرياضة للإدارة الرياضية، والأنشطة للأنشطة الطلابية.</p></div><div id="requestFilters" class="filterbar"><button class="active" data-filter="all">الكل</button><button data-filter="sports">الإدارة الرياضية</button><button data-filter="activities">الأنشطة الطلابية</button></div></div>
-      <div class="card table-card"><div class="table-toolbar"><input id="requestSearch" placeholder="بحث بالطالب أو الرقم الجامعي أو الفرصة أو الحالة"></div><div class="table-wrap"><table><thead><tr><th>الطالب</th><th>الرقم الجامعي</th><th>الفرصة</th><th>الجهة المستقبلة</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="requestRows"></tbody></table></div></div>
-    </section>
-
-    <section id="page-reports" class="page">
-      <div class="reports-documentation-dashboard">
-
-        <div class="reports-gender-documentation-grid">
-
-          <article class="card reports-gender-card male">
-            <div class="reports-gender-card-head">
-              <div>
-                <span>توثيق أنشطة الطلاب</span>
-                <h3>الطلاب</h3>
-              </div>
-              <strong id="reportsMaleTotal">0</strong>
-            </div>
-
-            <div class="reports-gender-chart-layout">
-              <button class="reports-completion-donut"
-                      id="reportsMaleDonut"
-                      type="button"
-                      data-evidence-gender="طلاب"
-                      data-evidence-completion="complete"
-                      style="--p:0"
-                      title="عرض أنشطة الطلاب المكتملة">
-                <span>
-                  <b id="reportsMalePercent">0%</b>
-                  <small>مكتمل</small>
-                </span>
-              </button>
-
-              <div class="reports-gender-stats">
-                <button type="button"
-                        data-evidence-gender="طلاب"
-                        data-evidence-completion="all">
-                  <span>الأنشطة المسجلة</span>
-                  <b id="reportsMaleRegistered">0</b>
-                </button>
-
-                <button class="complete"
-                        type="button"
-                        data-evidence-gender="طلاب"
-                        data-evidence-completion="complete">
-                  <span>مكتملة التوثيق</span>
-                  <b id="reportsMaleComplete">0</b>
-                </button>
-
-                <button class="incomplete"
-                        type="button"
-                        data-evidence-gender="طلاب"
-                        data-evidence-completion="not-complete">
-                  <span>غير مكتملة</span>
-                  <b id="reportsMaleIncomplete">0</b>
-                </button>
-              </div>
-            </div>
-          </article>
-
-          <article class="card reports-gender-card female">
-            <div class="reports-gender-card-head">
-              <div>
-                <span>توثيق أنشطة الطالبات</span>
-                <h3>الطالبات</h3>
-              </div>
-              <strong id="reportsFemaleTotal">0</strong>
-            </div>
-
-            <div class="reports-gender-chart-layout">
-              <button class="reports-completion-donut female"
-                      id="reportsFemaleDonut"
-                      type="button"
-                      data-evidence-gender="طالبات"
-                      data-evidence-completion="complete"
-                      style="--p:0"
-                      title="عرض أنشطة الطالبات المكتملة">
-                <span>
-                  <b id="reportsFemalePercent">0%</b>
-                  <small>مكتمل</small>
-                </span>
-              </button>
-
-              <div class="reports-gender-stats">
-                <button type="button"
-                        data-evidence-gender="طالبات"
-                        data-evidence-completion="all">
-                  <span>الأنشطة المسجلة</span>
-                  <b id="reportsFemaleRegistered">0</b>
-                </button>
-
-                <button class="complete"
-                        type="button"
-                        data-evidence-gender="طالبات"
-                        data-evidence-completion="complete">
-                  <span>مكتملة التوثيق</span>
-                  <b id="reportsFemaleComplete">0</b>
-                </button>
-
-                <button class="incomplete"
-                        type="button"
-                        data-evidence-gender="طالبات"
-                        data-evidence-completion="not-complete">
-                  <span>غير مكتملة</span>
-                  <b id="reportsFemaleIncomplete">0</b>
-                </button>
-              </div>
-            </div>
-          </article>
-
-        </div>
-
-        <article class="card reports-main-fields-card">
-          <div class="reports-main-fields-head">
-            <div>
-              <span>التوزيع الديناميكي</span>
-              <h3>الأنشطة حسب المجالات الرئيسية</h3>
-              <p>يتحدث المخطط تلقائيًا عند إضافة مجال رئيسي جديد أو تعديل المجالات الحالية.</p>
-            </div>
-            <div class="reports-main-fields-total">
-              <span>إجمالي الأنشطة</span>
-              <strong id="reportsAllActivitiesTotal">0</strong>
-            </div>
-          </div>
-
-          <div class="reports-main-fields-chart"
-               id="reportsMainFieldsChart">
-          </div>
-        </article>
-
-        <div class="reports-dashboard-hint">
+</div>
+</div>
+<div class="table-wrap">
+<table class="registered-clubs-table">
+<thead>
+<tr>
+<th>اسم النادي</th>
+<th>الحالة</th>
+<th>عدد الأنشطة</th>
+<th>الأنشطة المرتبطة</th>
+<th class="club-management-column">الإدارة</th>
+</tr>
+</thead>
+<tbody id="registeredClubsRows"></tbody>
+</table>
+</div>
+</div>
+<div class="card table-card records-table-card approvals-records-card">
+<h4>جميع الطلبات والقرارات</h4>
+<div class="records-toolbar records-toolbar-wide">
+<div class="records-search">
+<span aria-hidden="true" data-icon="search"></span>
+<input autocomplete="off" id="approvalTableSearch" placeholder="ابحث باسم النشاط أو النادي أو مقدم الطلب أو التاريخ" type="search"/>
+</div>
+<select aria-label="فلترة حسب الحالة" class="records-filter" id="approvalTableStatus">
+<option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option>
+</select>
+<select aria-label="فلترة حسب نوع الطلب" class="records-filter" id="approvalTableType">
+<option value="all">كل أنواع الطلبات</option>
+<option value="بطولة/حدث رياضي">بطولة/حدث رياضي</option>
+<option value="تسجيل نادي جديد">تسجيل نادي جديد</option>
+<option value="مبادرة/فعالية نادي">مبادرة/فعالية نادي</option>
+<option value="فرصة تطوعية">فرصة تطوعية</option>
+</select>
+</div>
+<div class="table-wrap"><table><thead><tr><th>نوع الطلب</th><th>العنوان</th><th>مقدم الطلب</th><th>التاريخ</th><th>الفئة/السعة</th><th>الحالة</th><th>الإجراء</th></tr></thead><tbody id="approvalRequestRows"></tbody></table></div>
+</div>
+<div class="scholarship-approval-dashboard">
+<div class="section-title">
+<div>
+<h3>اعتمادات المنح الرياضية</h3>
+<p>الطلبات المحالة من صفحة المنح الرياضية لاعتماد النسبة النهائية أو رفضها مع السبب.</p>
+</div>
+</div>
+<div class="scholarship-approval-stats">
+<article class="card approved"><span>منح موافق عليها</span><strong id="deanGrantAccepted">0</strong></article>
+<article class="card rejected"><span>منح مرفوضة</span><strong id="deanGrantRejected">0</strong></article>
+<article class="card pending"><span>منح تحت المراجعة</span><strong id="deanGrantPending">0</strong></article>
+<article class="card grant-pie-card">
+<div class="grant-decision-donut" id="deanGrantDonut" style="--approved:0deg;--rejected:0deg">
+<span><b id="deanGrantTotal">0</b><small>طلب منحة</small></span>
+</div>
+</article>
+</div>
+<div class="card table-card">
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>الطالب</th><th>الرقم الجامعي</th><th>الفئة</th><th>الكلية</th>
+<th>النسبة المقترحة</th><th>الحالة</th><th>الإجراء</th>
+</tr>
+</thead>
+<tbody id="deanGrantApprovalRows"></tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="section-title council-approval-section-title">
+<div><h3>موافقات المجلس الطلابي</h3><p>اعتماد أو رفض أنشطة المجلس الطلابي والميزانيات المطلوبة.</p></div>
+</div>
+<div class="card table-card council-approval-table-card">
+<div class="table-wrap">
+<table>
+<thead><tr><th>النشاط</th><th>التاريخ</th><th>النوع</th><th>الفئة</th><th>الميزانية</th><th>الحالة</th><th>القرار</th></tr></thead>
+<tbody id="councilApprovalRows"></tbody>
+</table>
+</div>
+</div>
+</section><section class="page" id="page-calendar">
+<div class="section-title"><div><h3>التقويم الموحد</h3><p>تقويم واحد مع فلاتر: أكاديمي، مناسبات رسمية، إسلامية، أنشطة، رياضة، تطوع.</p></div><label class="btn outline filebtn">استيراد Calendar<input accept=".xlsx,.xls,.pdf,.ics" hidden="" id="importCalendar" type="file"/></label></div>
+<div class="filterbar large" id="calFilters"><button class="active" data-filter="all">الكل</button><button data-filter="academic">أكاديمي</button><button data-filter="national">مناسبات رسمية</button><button data-filter="islamic">إسلامية</button><button data-filter="activities">أنشطة طلابية</button><button data-filter="sports">رياضية</button><button data-filter="volunteer">تطوع</button></div>
+<div class="card"><div class="event-list" id="eventList"></div></div>
+</section>
+<section class="page" id="page-requests">
+<div class="section-title"><div><h3>طلبات التسجيل</h3><p>الطلبات مفصولة حسب الجهة: الرياضة للإدارة الرياضية، والأنشطة للأنشطة الطلابية.</p></div><div class="filterbar" id="requestFilters"><button class="active" data-filter="all">الكل</button><button data-filter="sports">الإدارة الرياضية</button><button data-filter="activities">الأنشطة الطلابية</button></div></div>
+<div class="card table-card"><div class="table-toolbar"><input id="requestSearch" placeholder="بحث بالطالب أو الرقم الجامعي أو الفرصة أو الحالة"/></div><div class="table-wrap"><table><thead><tr><th>الطالب</th><th>الرقم الجامعي</th><th>الفرصة</th><th>الجهة المستقبلة</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="requestRows"></tbody></table></div></div>
+</section>
+<section class="page" id="page-reports">
+<div class="reports-documentation-dashboard">
+<div class="reports-gender-documentation-grid">
+<article class="card reports-gender-card male">
+<div class="reports-gender-card-head">
+<div>
+<span>توثيق أنشطة الطلاب</span>
+<h3>الطلاب</h3>
+</div>
+<strong id="reportsMaleTotal">0</strong>
+</div>
+<div class="reports-gender-chart-layout">
+<button class="reports-completion-donut" data-evidence-completion="complete" data-evidence-gender="طلاب" id="reportsMaleDonut" style="--p:0" title="عرض أنشطة الطلاب المكتملة" type="button">
+<span>
+<b id="reportsMalePercent">0%</b>
+<small>مكتمل</small>
+</span>
+</button>
+<div class="reports-gender-stats">
+<button data-evidence-completion="all" data-evidence-gender="طلاب" type="button">
+<span>الأنشطة المسجلة</span>
+<b id="reportsMaleRegistered">0</b>
+</button>
+<button class="complete" data-evidence-completion="complete" data-evidence-gender="طلاب" type="button">
+<span>مكتملة التوثيق</span>
+<b id="reportsMaleComplete">0</b>
+</button>
+<button class="incomplete" data-evidence-completion="not-complete" data-evidence-gender="طلاب" type="button">
+<span>غير مكتملة</span>
+<b id="reportsMaleIncomplete">0</b>
+</button>
+</div>
+</div>
+</article>
+<article class="card reports-gender-card female">
+<div class="reports-gender-card-head">
+<div>
+<span>توثيق أنشطة الطالبات</span>
+<h3>الطالبات</h3>
+</div>
+<strong id="reportsFemaleTotal">0</strong>
+</div>
+<div class="reports-gender-chart-layout">
+<button class="reports-completion-donut female" data-evidence-completion="complete" data-evidence-gender="طالبات" id="reportsFemaleDonut" style="--p:0" title="عرض أنشطة الطالبات المكتملة" type="button">
+<span>
+<b id="reportsFemalePercent">0%</b>
+<small>مكتمل</small>
+</span>
+</button>
+<div class="reports-gender-stats">
+<button data-evidence-completion="all" data-evidence-gender="طالبات" type="button">
+<span>الأنشطة المسجلة</span>
+<b id="reportsFemaleRegistered">0</b>
+</button>
+<button class="complete" data-evidence-completion="complete" data-evidence-gender="طالبات" type="button">
+<span>مكتملة التوثيق</span>
+<b id="reportsFemaleComplete">0</b>
+</button>
+<button class="incomplete" data-evidence-completion="not-complete" data-evidence-gender="طالبات" type="button">
+<span>غير مكتملة</span>
+<b id="reportsFemaleIncomplete">0</b>
+</button>
+</div>
+</div>
+</article>
+</div>
+<article class="card reports-main-fields-card">
+<div class="reports-main-fields-head">
+<div>
+<span>التوزيع الديناميكي</span>
+<h3>الأنشطة حسب المجالات الرئيسية</h3>
+<p>يتحدث المخطط تلقائيًا عند إضافة مجال رئيسي جديد أو تعديل المجالات الحالية.</p>
+</div>
+<div class="reports-main-fields-total">
+<span>إجمالي الأنشطة</span>
+<strong id="reportsAllActivitiesTotal">0</strong>
+</div>
+</div>
+<div class="reports-main-fields-chart" id="reportsMainFieldsChart">
+</div>
+</article>
+<div class="reports-dashboard-hint">
           اضغط على أي نسبة أو بطاقة أو مجال لعرض السجلات المرتبطة مباشرة في الجدول أدناه.
         </div>
-
-      </div>
-
-      <div class="evidence-actionbar">
-        <div class="evidence-actions-primary">
-          <button class="btn primary add-activity-btn" id="openAddActivity" type="button">
-            <span class="action-icon">＋</span>
+</div>
+<div class="evidence-actionbar">
+<div class="evidence-actions-primary">
+<button class="btn primary add-activity-btn" id="openAddActivity" type="button">
+<span class="action-icon">＋</span>
             إضافة نشاط
           </button>
-
-          <button class="btn outline indicator-only hidden" id="openFieldPointsCalculator" type="button">
+<button class="btn outline indicator-only hidden" id="openFieldPointsCalculator" type="button">
             تعديل حاسبة النقاط للمجالات
           </button>
-        </div>
-
-        <div class="evidence-actions-models">
-          <a class="btn outline model-action-btn"
-             href="https://ubtu-my.sharepoint.com/:w:/g/personal/s_kaaki_ubt_edu_sa/IQCy868fWsMaRq9HcTRHg1siAWJJr_W0osUtAq6YlZc7510?e=ScANX2"
-             target="_blank" rel="noopener">
-            <span class="model-action-icon">W</span>
+</div>
+<div class="evidence-actions-models">
+<a class="btn outline model-action-btn" href="https://ubtu-my.sharepoint.com/:w:/g/personal/s_kaaki_ubt_edu_sa/IQCy868fWsMaRq9HcTRHg1siAWJJr_W0osUtAq6YlZc7510?e=ScANX2" rel="noopener" target="_blank">
+<span class="model-action-icon">W</span>
             نموذج التقرير
           </a>
-
-          <a class="btn outline model-action-btn"
-             href="assets/data/activity-evidence-template.xlsx"
-             download>
-            <span class="model-action-icon">X</span>
+<a class="btn outline model-action-btn" download="" href="assets/data/activity-evidence-template.xlsx">
+<span class="model-action-icon">X</span>
             نموذج الجدول الزمني
           </a>
-        </div>
-
-        <div class="evidence-actions-export">
-          <button class="export-square" id="exportEvidenceCsv" type="button" title="تصدير Excel / CSV" aria-label="تصدير Excel">
-            <span>⇩</span>
-            <small>Excel</small>
-          </button>
-
-          <button class="export-square" id="printEvidenceReport" type="button" title="توليد تقرير PDF" aria-label="تصدير PDF">
-            <span>⇩</span>
-            <small>PDF</small>
-          </button>
-        </div>
-      </div>
-
-      <div class="card table-card evidence-card">
-        <div class="table-toolbar evidence-toolbar evidence-management-toolbar">
-
-          <!-- الصف الأول: البحث + عمود البحث + فلتر الاكتمال + حذف المحدد -->
-          <div class="evidence-toolbar-row evidence-toolbar-primary">
-            <div class="evidence-search-main">
-              <input id="evidenceSearch" placeholder="ابحث داخل بيانات الأنشطة">
-
-              <select id="evidenceColumnFilter" aria-label="عمود البحث">
-                <option value="all">جميع الأعمدة</option>
-                <option value="activity">اسم النشاط</option>
-                <option value="date">التاريخ</option>
-                <option value="gender">الفئة</option>
-                <option value="indicatorField">المجال المرتبط</option>
-                <option value="participationType">نوع المشاركة</option>
-                <option value="status">الحالة</option>
-                <option value="documentation">التوثيق</option>
-              </select>
-
-              <select id="evidenceCompletionFilter" aria-label="تصفية اكتمال النشاط">
-                <option value="all">كل مستويات الاكتمال</option>
-                <option value="complete">المعبأة بالكامل فقط</option>
-                <option value="incomplete">البيانات غير المكتملة</option>
-                <option value="missing">ما لم تتم إضافته</option>
-              </select>
-            </div>
-
-            <button id="deleteSelectedEvidence"
-                    class="btn danger evidence-delete-selected"
-                    type="button"
-                    disabled>
+</div>
+<div class="evidence-actions-export">
+<button aria-label="تصدير Excel" class="export-square" id="exportEvidenceCsv" title="تصدير Excel / CSV" type="button">
+<span>⇩</span>
+<small>Excel</small>
+</button>
+<button aria-label="تصدير PDF" class="export-square" id="printEvidenceReport" title="توليد تقرير PDF" type="button">
+<span>⇩</span>
+<small>PDF</small>
+</button>
+</div>
+</div>
+<div class="card table-card evidence-card">
+<div class="table-toolbar evidence-toolbar evidence-management-toolbar">
+<!-- الصف الأول: البحث + عمود البحث + فلتر الاكتمال + حذف المحدد -->
+<div class="evidence-toolbar-row evidence-toolbar-primary">
+<div class="evidence-search-main">
+<input id="evidenceSearch" placeholder="ابحث داخل بيانات الأنشطة"/>
+<select aria-label="عمود البحث" id="evidenceColumnFilter">
+<option value="all">جميع الأعمدة</option>
+<option value="activity">اسم النشاط</option>
+<option value="date">التاريخ</option>
+<option value="gender">الفئة</option>
+<option value="indicatorField">المجال المرتبط</option>
+<option value="participationType">نوع المشاركة</option>
+<option value="status">الحالة</option>
+<option value="documentation">التوثيق</option>
+</select>
+<select aria-label="تصفية اكتمال النشاط" id="evidenceCompletionFilter">
+<option value="all">كل مستويات الاكتمال</option>
+<option value="complete">المعبأة بالكامل فقط</option>
+<option value="incomplete">البيانات غير المكتملة</option>
+<option value="missing">ما لم تتم إضافته</option>
+</select>
+</div>
+<button class="btn danger evidence-delete-selected" disabled="" id="deleteSelectedEvidence" type="button">
               حذف المحدد
             </button>
-          </div>
-
-          <!-- الصف الثاني: تحديد الكل + الفئة + الحالة -->
-          <div class="evidence-toolbar-row evidence-toolbar-secondary">
-            <label class="select-all-evidence">
-              <input id="selectAllEvidence" type="checkbox">
+</div>
+<!-- الصف الثاني: تحديد الكل + الفئة + الحالة -->
+<div class="evidence-toolbar-row evidence-toolbar-secondary">
+<label class="select-all-evidence">
+<input id="selectAllEvidence" type="checkbox"/>
               تحديد الكل
             </label>
-
-            <div class="filterbar evidence-gender-filter" id="evidenceGender">
-              <button class="active" data-gender="all">الكل</button>
-              <button data-gender="طلاب">طلاب</button>
-              <button data-gender="طالبات">طالبات</button>
-            </div>
-
-            <select id="evidenceStatus" class="evidence-status-filter">
-              <option value="all">كل الحالات</option>
-              <option value="مكتمل">مكتمل</option>
-              <option value="جزئي">جزئي</option>
-              <option value="ناقص">ناقص</option>
-            </select>
-          </div>
-
-        </div>
-
-        <div class="table-wrap">
-          <table class="evidence-table">
-            <thead>
-              <tr>
-                <th class="select-column"><input id="selectAllEvidenceHead" type="checkbox" aria-label="تحديد جميع الأنشطة"></th>
-                <th>#</th>
-                <th>اسم النشاط</th>
-                <th>التاريخ</th>
-                <th>الأيام</th>
-                <th>المستفيدون</th>
-                <th>اللاعبون</th>
-                <th>الفئة</th>
-                <th>فئة الحدث</th>
-                <th>المجال الرئيسي</th>
-                <th>المجال الفرعي</th>
-                <th>نوع المشاركة</th>
-                <th>الجامعات المشاركة</th>
-                <th>النقاط</th>
-                <th>الحالة</th>
-                <th>تقرير الاتحاد</th>
-                <th>الجدول الزمني</th>
-                <th>التوثيق</th>
-                <th>نسبة اكتمال الحدث</th>
-                <th>الإجراءات</th>
-              </tr>
-            </thead>
-            <tbody id="evidenceRows"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-
-<section id="page-admin" class="page">
-      <div class="section-title"><div><h3>إدارة البيانات والتعديل اليدوي</h3><p>إضافة وتعديل وحذف بيانات المنصة من الواجهة دون فتح الكود، مع حفظ التعديلات محليًا في هذه النسخة.</p></div><div class="btns"><button class="btn primary" id="adminAddRecord">إضافة سجل</button><button class="btn outline" id="adminExportData">تصدير نسخة احتياطية</button><label class="btn outline filebtn">استيراد نسخة احتياطية<input id="adminImportData" type="file" accept="application/json,.json" hidden></label><button class="btn danger" id="adminResetData">إلغاء التعديلات المحلية</button></div></div>
-      <div class="grid cols-4 admin-summary">
-        <div class="card stat"><div class="label">صلاحية المستخدم</div><div class="value small-value">كاملة</div><div class="sub">إضافة، تعديل، حذف، اعتماد</div></div>
-        <div class="card stat"><div class="label">المستخدمون الرئيسيون</div><div class="value">3</div><div class="sub">مسؤول النظام، مسؤول المؤشر، العميد</div></div>
-        <div class="card stat"><div class="label">مجموعة البيانات الحالية</div><div class="value small-value" id="adminDatasetName">—</div><div class="sub">اختر من القائمة أدناه</div></div>
-        <div class="card stat"><div class="label">عدد السجلات</div><div class="value" id="adminRecordCount">0</div><div class="sub">بعد البحث والتصفية</div></div>
-      </div>
-      <div class="card table-card">
-        <div class="table-toolbar admin-toolbar"><select id="adminDataset"></select><input id="adminSearch" placeholder="بحث في جميع الحقول: الاسم، الرقم الجامعي، التاريخ، الحالة..."><button class="btn outline" id="adminRefresh">تحديث العرض</button></div>
-        <div class="admin-help">كل تعديل في هذه النسخة يُحفظ داخل المتصفح عبر Local Storage. عند التنفيذ الرسمي تُستبدل هذه الطبقة بقاعدة بيانات وصلاحيات دخول Microsoft.</div>
-        <div class="table-wrap"><table><thead id="adminHead"></thead><tbody id="adminRows"></tbody></table></div>
-      </div>
-    </section>
-
-  </main>
+<div class="filterbar evidence-gender-filter" id="evidenceGender">
+<button class="active" data-gender="all">الكل</button>
+<button data-gender="طلاب">طلاب</button>
+<button data-gender="طالبات">طالبات</button>
 </div>
-
-<div id="indicatorSettingsModal" class="modal calculator-modal hidden" role="dialog"
-     aria-modal="true" aria-labelledby="indicatorSettingsTitle">
-  <div class="modal-backdrop" data-close-indicator-settings></div>
-  <div class="modal-card indicator-settings-card">
-    <div class="section-title compact-title indicator-modal-heading">
-      <div>
-        <h3 id="indicatorSettingsTitle">تعديل حاسبة النقاط</h3>
-        <p>عدّل الحد الأعلى لكل مجال. يُعاد احتساب الإجمالي والنسب والرسوم مباشرة بعد الحفظ.</p>
-      </div>
-      <div class="indicator-modal-header-actions">
-        <button id="openFieldsManagerFromCalculator" class="btn outline indicator-only"
-                type="button">
+<select class="evidence-status-filter" id="evidenceStatus">
+<option value="all">كل الحالات</option>
+<option value="مكتمل">مكتمل</option>
+<option value="جزئي">جزئي</option>
+<option value="ناقص">ناقص</option>
+</select>
+</div>
+</div>
+<div class="table-wrap">
+<table class="evidence-table">
+<thead>
+<tr>
+<th class="select-column"><input aria-label="تحديد جميع الأنشطة" id="selectAllEvidenceHead" type="checkbox"/></th>
+<th>#</th>
+<th>اسم النشاط</th>
+<th>التاريخ</th>
+<th>الأيام</th>
+<th>المستفيدون</th>
+<th>اللاعبون</th>
+<th>الفئة</th>
+<th>فئة الحدث</th>
+<th>المجال الرئيسي</th>
+<th>المجال الفرعي</th>
+<th>نوع المشاركة</th>
+<th>الجامعات المشاركة</th>
+<th>النقاط</th>
+<th>الحالة</th>
+<th>تقرير الاتحاد</th>
+<th>الجدول الزمني</th>
+<th>التوثيق</th>
+<th>نسبة اكتمال الحدث</th>
+<th>الإجراءات</th>
+</tr>
+</thead>
+<tbody id="evidenceRows"></tbody>
+</table>
+</div>
+</div>
+</section>
+<section class="page" id="page-admin">
+<div class="section-title"><div><h3>إدارة البيانات والتعديل اليدوي</h3><p>إضافة وتعديل وحذف بيانات المنصة من الواجهة دون فتح الكود، مع حفظ التعديلات محليًا في هذه النسخة.</p></div><div class="btns"><button class="btn primary" id="adminAddRecord">إضافة سجل</button><button class="btn outline" id="adminExportData">تصدير نسخة احتياطية</button><label class="btn outline filebtn">استيراد نسخة احتياطية<input accept="application/json,.json" hidden="" id="adminImportData" type="file"/></label><button class="btn danger" id="adminResetData">إلغاء التعديلات المحلية</button></div></div>
+<div class="grid cols-4 admin-summary">
+<div class="card stat"><div class="label">صلاحية المستخدم</div><div class="value small-value">كاملة</div><div class="sub">إضافة، تعديل، حذف، اعتماد</div></div>
+<div class="card stat"><div class="label">المستخدمون الرئيسيون</div><div class="value">3</div><div class="sub">مسؤول النظام، مسؤول المؤشر، العميد</div></div>
+<div class="card stat"><div class="label">مجموعة البيانات الحالية</div><div class="value small-value" id="adminDatasetName">—</div><div class="sub">اختر من القائمة أدناه</div></div>
+<div class="card stat"><div class="label">عدد السجلات</div><div class="value" id="adminRecordCount">0</div><div class="sub">بعد البحث والتصفية</div></div>
+</div>
+<div class="card table-card">
+<div class="table-toolbar admin-toolbar"><select id="adminDataset"></select><input id="adminSearch" placeholder="بحث في جميع الحقول: الاسم، الرقم الجامعي، التاريخ، الحالة..."/><button class="btn outline" id="adminRefresh">تحديث العرض</button></div>
+<div class="admin-help">كل تعديل في هذه النسخة يُحفظ داخل المتصفح عبر Local Storage. عند التنفيذ الرسمي تُستبدل هذه الطبقة بقاعدة بيانات وصلاحيات دخول Microsoft.</div>
+<div class="table-wrap"><table><thead id="adminHead"></thead><tbody id="adminRows"></tbody></table></div>
+</div>
+</section>
+</main>
+</div>
+<div aria-labelledby="indicatorSettingsTitle" aria-modal="true" class="modal calculator-modal hidden" id="indicatorSettingsModal" role="dialog">
+<div class="modal-backdrop" data-close-indicator-settings=""></div>
+<div class="modal-card indicator-settings-card">
+<div class="section-title compact-title indicator-modal-heading">
+<div>
+<h3 id="indicatorSettingsTitle">تعديل حاسبة النقاط</h3>
+<p>عدّل الحد الأعلى لكل مجال. يُعاد احتساب الإجمالي والنسب والرسوم مباشرة بعد الحفظ.</p>
+</div>
+<div class="indicator-modal-header-actions">
+<button class="btn outline indicator-only" id="openFieldsManagerFromCalculator" type="button">
           ✎ إدارة المجالات والمسارات
         </button>
-        <button class="btn outline" type="button"
-                data-close-indicator-settings>إغلاق</button>
-      </div>
-    </div>
-
-    <div class="indicator-settings-note">
+<button class="btn outline" data-close-indicator-settings="" type="button">إغلاق</button>
+</div>
+</div>
+<div class="indicator-settings-note">
       هذه الصلاحية متاحة لمسؤول مؤشر الأداء الرياضي فقط.
       تحفظ القيم في المتصفح لهذه النسخة التجريبية.
     </div>
-
-    <form id="indicatorSettingsForm" class="indicator-settings-form"></form>
-
-    <div class="modal-actions indicator-settings-actions">
-      <button id="restorePreviousIndicatorLimits" class="btn outline" type="button">استعادة الإعدادات السابقة</button>
-      <button id="indicatorResetLimits" class="btn outline" type="button">استعادة القيم الأصلية</button>
-      <button class="btn outline" type="button" data-close-indicator-settings>إلغاء</button>
-      <button id="indicatorSaveLimits" class="btn primary" type="button">حفظ وتحديث المؤشر</button>
-    </div>
-  </div>
+<form class="indicator-settings-form" id="indicatorSettingsForm"></form>
+<div class="modal-actions indicator-settings-actions">
+<button class="btn outline" id="restorePreviousIndicatorLimits" type="button">استعادة الإعدادات السابقة</button>
+<button class="btn outline" id="indicatorResetLimits" type="button">استعادة القيم الأصلية</button>
+<button class="btn outline" data-close-indicator-settings="" type="button">إلغاء</button>
+<button class="btn primary" id="indicatorSaveLimits" type="button">حفظ وتحديث المؤشر</button>
 </div>
-
-
-
-<div id="indicatorFieldsManagerModal" class="modal calculator-modal hidden"
-     role="dialog" aria-modal="true" aria-labelledby="indicatorFieldsManagerTitle">
-  <div class="modal-backdrop" data-close-fields-manager></div>
-  <div class="modal-card fields-manager-card">
-    <div class="section-title compact-title">
-      <div>
-        <h3 id="indicatorFieldsManagerTitle">إدارة مجالات مؤشر الأداء الرياضي</h3>
-        <p>عدّل اسم المجال أو المسار، احذف مجالًا، أو أضف مجالًا جديدًا. تنعكس التغييرات تلقائيًا على التقارير ونموذج إضافة النشاط.</p>
-      </div>
-      <button class="btn outline" type="button" data-close-fields-manager>إغلاق</button>
-    </div>
-
-    <div class="fields-manager-toolbar">
-      <select id="existingTrackForNewField" class="fields-manager-track-select"
-              aria-label="اختر مسارًا موجودًا"></select>
-      <button id="addIndicatorFieldToExistingTrack" class="btn outline" type="button">
+</div>
+</div>
+<div aria-labelledby="indicatorFieldsManagerTitle" aria-modal="true" class="modal calculator-modal hidden" id="indicatorFieldsManagerModal" role="dialog">
+<div class="modal-backdrop" data-close-fields-manager=""></div>
+<div class="modal-card fields-manager-card">
+<div class="section-title compact-title">
+<div>
+<h3 id="indicatorFieldsManagerTitle">إدارة مجالات مؤشر الأداء الرياضي</h3>
+<p>عدّل اسم المجال أو المسار، احذف مجالًا، أو أضف مجالًا جديدًا. تنعكس التغييرات تلقائيًا على التقارير ونموذج إضافة النشاط.</p>
+</div>
+<button class="btn outline" data-close-fields-manager="" type="button">إغلاق</button>
+</div>
+<div class="fields-manager-toolbar">
+<select aria-label="اختر مسارًا موجودًا" class="fields-manager-track-select" id="existingTrackForNewField"></select>
+<button class="btn outline" id="addIndicatorFieldToExistingTrack" type="button">
         ＋ إضافة مجال إلى المسار المحدد
       </button>
-      <button id="addIndicatorFieldRow" class="btn outline" type="button">
+<button class="btn outline" id="addIndicatorFieldRow" type="button">
         ＋ إضافة مجال ومسار جديد
       </button>
-    </div>
-    <datalist id="indicatorTracksList"></datalist>
-
-    <div class="fields-manager-list" id="indicatorFieldsManagerRows"></div>
-
-    <div class="modal-actions">
-      <button class="btn outline" type="button" data-close-fields-manager>إلغاء</button>
-      <button id="saveIndicatorFieldsManager" class="btn primary" type="button">حفظ المجالات وتحديث الأقسام</button>
-    </div>
-  </div>
 </div>
-
-<div id="addActivityModal" class="modal activity-entry-modal hidden" role="dialog" aria-modal="true" aria-labelledby="addActivityTitle">
-  <div class="modal-backdrop" data-close-add-activity></div>
-  <div class="modal-card activity-modal-card">
-    <div class="section-title compact-title">
-      <div>
-        <h3 id="addActivityTitle">إضافة نشاط جديد</h3>
-        <p>تُحسب النقاط تلقائيًا حسب المجال والفئة ونوع المشاركة، ثم تُضاف مباشرة إلى مؤشر الطلاب أو الطالبات.</p>
-      </div>
-      <button class="btn outline" type="button" data-close-add-activity>إغلاق</button>
-    </div>
-    <form id="addActivityForm" class="activity-form">
-      <input id="activityEditKey" type="hidden" value="">
-      <label><span>اسم النشاط</span><input id="activityName" required></label>
-      <label><span>التاريخ</span><input id="activityDate" type="date" required></label>
-      <label><span>عدد الأيام</span><input id="activityDays" type="number" min="1" value="1" required></label>
-      <label><span>عدد المستفيدين</span><input id="activityBeneficiaries" type="number" min="0" value="0" required></label>
-      <label><span>عدد اللاعبين المشاركين</span><input id="activityPlayers" type="number" min="0" value="0" required></label>
-      <label><span>الفئة</span><select id="activityGender" required><option value="" selected disabled>اختر الفئة</option><option value="طلاب">طلاب</option><option value="طالبات">طالبات</option></select></label>
-      <label><span>فئة الحدث</span><select id="activityEventCategory" required><option value="" selected disabled>اختر فئة الحدث</option><option value="الأنشطة التوعوية">الأنشطة التوعوية</option><option value="الأنشطة و البرامج المجتمعية و التطوعية">الأنشطة و البرامج المجتمعية و التطوعية</option><option value="الأنشطة الثقافية">الأنشطة الثقافية</option><option value="الأنشطة العلمية">الأنشطة العلمية</option><option value="الأنشطة الفنية">الأنشطة الفنية</option><option value="الأنشطة الرياضية">الأنشطة الرياضية</option><option value="البرامج التدريبية">البرامج التدريبية</option><option value="برامج عامة على مستوى الجامعة">برامج عامة على مستوى الجامعة</option></select></label>
-      <label><span>المجال الرئيسي</span><select id="activityIndicatorField" required></select></label>
-      <label><span>المجال الفرعي</span><select id="activitySubField" required></select></label>
-      <label><span>نوع المشاركة</span><select id="activityParticipationType" required><option value="" selected disabled>اختر نوع المشاركة</option><option value="guest">ضيف</option><option value="host">مستضيف</option></select></label>
-      <label><span>عدد الجامعات المشاركة</span><input id="activityUniversities" type="number" min="0" value="0" required></label>
-      <label><span>نوع اللعبة / النشاط</span><input id="activityGameType" required></label>
-      <label><span>رابط التوثيق</span><input id="activityDocumentationUrl" type="url" placeholder="https://..." required></label>
-      <label class="file-field"><span>تقرير الاتحاد</span><input id="activityFederationReport" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" required></label>
-      <label class="file-field"><span>الجدول الزمني</span><input id="activityScheduleFile" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" required></label>
-      <div class="activity-points-preview">
-        <span>النقاط المحتسبة</span>
-        <strong id="activityCalculatedPoints">0</strong>
-      </div>
-    </form>
-    <div class="modal-actions">
-      <button class="btn outline" type="button" data-close-add-activity>إلغاء</button>
-      <button class="btn primary" id="saveNewActivity" type="button">حفظ النشاط وإضافة النقاط</button>
-    </div>
-  </div>
+<datalist id="indicatorTracksList"></datalist>
+<div class="fields-manager-list" id="indicatorFieldsManagerRows"></div>
+<div class="modal-actions">
+<button class="btn outline" data-close-fields-manager="" type="button">إلغاء</button>
+<button class="btn primary" id="saveIndicatorFieldsManager" type="button">حفظ المجالات وتحديث الأقسام</button>
 </div>
-
-<div id="fieldPointsCalculatorModal" class="modal calculator-modal hidden" role="dialog" aria-modal="true" aria-labelledby="fieldPointsCalculatorTitle">
-  <div class="modal-backdrop" data-close-field-calculator></div>
-  <div class="modal-card field-calculator-card">
-    <div class="section-title compact-title">
-      <div>
-        <h3 id="fieldPointsCalculatorTitle">تعديل حاسبة النقاط للمجالات</h3>
-        <p>حدد قيمة كل نوع من النقاط وحده الأقصى لكل مجال فرعي، ثم احفظ لإعادة حساب جميع الأنشطة.</p>
-      </div>
-      <button class="btn outline" type="button" data-close-field-calculator>إغلاق</button>
-    </div>
-
-    <div class="calculator-notice">
+</div>
+</div>
+<div aria-labelledby="addActivityTitle" aria-modal="true" class="modal activity-entry-modal hidden" id="addActivityModal" role="dialog">
+<div class="modal-backdrop" data-close-add-activity=""></div>
+<div class="modal-card activity-modal-card">
+<div class="section-title compact-title">
+<div>
+<h3 id="addActivityTitle">إضافة نشاط جديد</h3>
+<p>تُحسب النقاط تلقائيًا حسب المجال والفئة ونوع المشاركة، ثم تُضاف مباشرة إلى مؤشر الطلاب أو الطالبات.</p>
+</div>
+<button class="btn outline" data-close-add-activity="" type="button">إغلاق</button>
+</div>
+<form class="activity-form" id="addActivityForm">
+<input id="activityEditKey" type="hidden" value=""/>
+<label><span>اسم النشاط</span><input id="activityName" required=""/></label>
+<label><span>التاريخ</span><input id="activityDate" required="" type="date"/></label>
+<label><span>عدد الأيام</span><input id="activityDays" min="1" required="" type="number" value="1"/></label>
+<label><span>عدد المستفيدين</span><input id="activityBeneficiaries" min="0" required="" type="number" value="0"/></label>
+<label><span>عدد اللاعبين المشاركين</span><input id="activityPlayers" min="0" required="" type="number" value="0"/></label>
+<label><span>الفئة</span><select id="activityGender" required=""><option disabled="" selected="" value="">اختر الفئة</option><option value="طلاب">طلاب</option><option value="طالبات">طالبات</option></select></label>
+<label><span>فئة الحدث</span><select id="activityEventCategory" required=""><option disabled="" selected="" value="">اختر فئة الحدث</option><option value="الأنشطة التوعوية">الأنشطة التوعوية</option><option value="الأنشطة و البرامج المجتمعية و التطوعية">الأنشطة و البرامج المجتمعية و التطوعية</option><option value="الأنشطة الثقافية">الأنشطة الثقافية</option><option value="الأنشطة العلمية">الأنشطة العلمية</option><option value="الأنشطة الفنية">الأنشطة الفنية</option><option value="الأنشطة الرياضية">الأنشطة الرياضية</option><option value="البرامج التدريبية">البرامج التدريبية</option><option value="برامج عامة على مستوى الجامعة">برامج عامة على مستوى الجامعة</option></select></label>
+<label><span>المجال الرئيسي</span><select id="activityIndicatorField" required=""></select></label>
+<label><span>المجال الفرعي</span><select id="activitySubField" required=""></select></label>
+<label><span>نوع المشاركة</span><select id="activityParticipationType" required=""><option disabled="" selected="" value="">اختر نوع المشاركة</option><option value="guest">ضيف</option><option value="host">مستضيف</option></select></label>
+<label><span>عدد الجامعات المشاركة</span><input id="activityUniversities" min="0" required="" type="number" value="0"/></label>
+<label><span>نوع اللعبة / النشاط</span><input id="activityGameType" required=""/>
+<label class="budget-field">
+<span>الميزانية المطلوبة للنشاط (ر.س)</span>
+<input id="activityBudget" min="0" placeholder="0" required="" step="0.01" type="number"/>
+<small>تدخل ضمن الميزانية المصروفة للأنشطة المسجلة مباشرة عند اعتمادها.</small>
+</label></label>
+<label><span>رابط التوثيق</span><input id="activityDocumentationUrl" placeholder="https://..." required="" type="url"/></label>
+<label class="file-field"><span>تقرير الاتحاد</span><input accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" id="activityFederationReport" required="" type="file"/></label>
+<label class="file-field"><span>الجدول الزمني</span><input accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" id="activityScheduleFile" required="" type="file"/></label>
+<div class="activity-points-preview">
+<span>النقاط المحتسبة</span>
+<strong id="activityCalculatedPoints">0</strong>
+</div>
+</form>
+<div class="modal-actions">
+<button class="btn outline" data-close-add-activity="" type="button">إلغاء</button>
+<button class="btn primary" id="saveNewActivity" type="button">حفظ النشاط وإضافة النقاط</button>
+</div>
+</div>
+</div>
+<div aria-labelledby="fieldPointsCalculatorTitle" aria-modal="true" class="modal calculator-modal hidden" id="fieldPointsCalculatorModal" role="dialog">
+<div class="modal-backdrop" data-close-field-calculator=""></div>
+<div class="modal-card field-calculator-card">
+<div class="section-title compact-title">
+<div>
+<h3 id="fieldPointsCalculatorTitle">تعديل حاسبة النقاط للمجالات</h3>
+<p>حدد قيمة كل نوع من النقاط وحده الأقصى لكل مجال فرعي، ثم احفظ لإعادة حساب جميع الأنشطة.</p>
+</div>
+<button class="btn outline" data-close-field-calculator="" type="button">إغلاق</button>
+</div>
+<div class="calculator-notice">
       يتم ضبط كل بند على شكل قيمتين: قيمة النقاط، والحد الأقصى الذي لا يمكن تجاوزه.
       اجعل الحد الأقصى (0) إذا أردت عدم تطبيق حد على ذلك البند.
     </div>
-    <div class="subfield-calculator-toolbar">
-      <button id="addSubFieldCalculatorRow" class="btn outline" type="button">＋ إضافة مجال فرعي</button>
-    </div>
-    <div id="subFieldPointsRows" class="subfield-calculator-list"></div>
-    <div class="modal-actions">
-      <button class="btn outline" id="restorePreviousFieldPointsCalculator" type="button">استعادة الإعدادات السابقة</button>
-      <button class="btn outline" id="resetFieldPointsCalculator" type="button">استعادة الإعدادات الافتراضية</button>
-      <button class="btn outline" type="button" data-close-field-calculator>إلغاء</button>
-      <button class="btn primary" id="saveFieldPointsCalculator" type="button">حفظ الحاسبة</button>
-    </div>
-  </div>
+<div class="subfield-calculator-toolbar">
+<button class="btn outline" id="addSubFieldCalculatorRow" type="button">＋ إضافة مجال فرعي</button>
 </div>
-
-<div id="adminModal" class="modal hidden" role="dialog" aria-modal="true"><div class="modal-backdrop" data-close-admin></div><div class="modal-card"><div class="section-title compact-title"><div><h3 id="adminModalTitle">إضافة سجل</h3><p>عدّل الحقول ثم اضغط حفظ.</p></div><button class="btn outline" data-close-admin>إغلاق</button></div><form id="adminForm" class="dynamic-form"></form><div class="modal-actions"><button class="btn outline" type="button" data-close-admin>إلغاء</button><button class="btn primary" id="adminSave" type="button">حفظ التعديلات</button></div></div></div>
-<div id="toast" class="toast"></div>
+<div class="subfield-calculator-list" id="subFieldPointsRows"></div>
+<div class="modal-actions">
+<button class="btn outline" id="restorePreviousFieldPointsCalculator" type="button">استعادة الإعدادات السابقة</button>
+<button class="btn outline" id="resetFieldPointsCalculator" type="button">استعادة الإعدادات الافتراضية</button>
+<button class="btn outline" data-close-field-calculator="" type="button">إلغاء</button>
+<button class="btn primary" id="saveFieldPointsCalculator" type="button">حفظ الحاسبة</button>
+</div>
+</div>
+</div>
+<div aria-modal="true" class="modal hidden" id="adminModal" role="dialog"><div class="modal-backdrop" data-close-admin=""></div><div class="modal-card"><div class="section-title compact-title"><div><h3 id="adminModalTitle">إضافة سجل</h3><p>عدّل الحقول ثم اضغط حفظ.</p></div><button class="btn outline" data-close-admin="">إغلاق</button></div><form class="dynamic-form" id="adminForm"></form><div class="modal-actions"><button class="btn outline" data-close-admin="" type="button">إلغاء</button><button class="btn primary" id="adminSave" type="button">حفظ التعديلات</button></div></div></div>
+<div class="toast" id="toast"></div>
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=27.2"></script>
+<script src="js/app.js?v=30.0"></script>
+<div aria-modal="true" class="modal hidden" id="finishEventModal" role="dialog">
+<div class="modal-backdrop" data-close-finish-event=""></div>
+<div class="modal-card university-confirm-modal">
+<div class="university-confirm-brand">
+<strong>UBT</strong>
+<span>Student Activities Platform</span>
+</div>
+<h3>تأكيد إنهاء الحدث</h3>
+<p id="finishEventMessage">هل أنت متأكد من إنهاء هذا الحدث؟ بعد الإنهاء سيتم إتاحة استبانة رضا المستفيد للطلبة المقبولين في الحدث.</p>
+<div class="modal-actions centered">
+<button class="btn outline" data-close-finish-event="" type="button">إلغاء</button>
+<button class="btn primary" id="confirmFinishEvent" type="button">تأكيد إنهاء الحدث</button>
+</div>
+</div>
+</div>
+<div aria-modal="true" class="modal hidden" id="beneficiarySurveyModal" role="dialog">
+<div class="modal-backdrop" data-close-beneficiary-survey=""></div>
+<div class="modal-card beneficiary-survey-modal-card">
+<div class="section-title compact-title">
+<div><span class="survey-kicker">استبانة رضا المستفيد</span><h3 id="surveyEventName">تقييم الحدث</h3><p>اختر مستوى رضاك عن كل بند.</p></div>
+<button class="btn outline" data-close-beneficiary-survey="" type="button">إغلاق</button>
+</div>
+<form class="beneficiary-survey-form" id="beneficiarySurveyForm"></form>
+<div class="modal-actions centered">
+<button class="btn primary" id="submitBeneficiarySurvey" type="button">إرسال التقييم</button>
+</div>
+</div>
+</div>
 </body>
 </html>

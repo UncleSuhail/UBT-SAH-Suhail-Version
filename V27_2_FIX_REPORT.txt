@@ -1,0 +1,11 @@
+SAH V27.2 Avatar Order and Title Spacing
+==========================================
+Desktop Arabic and English:
+- Avatar is physically fixed at the far right.
+- User name appears immediately to the left of the avatar.
+- Role selector appears to the left of the user name.
+- Language button remains at the left edge of the account controls.
+- Center title width is limited to preserve a clear gap from the role selector.
+- Removed inherited fixed-stack and mobile-user-strip spacing.
+- Main content starts 8px below the header.
+- JavaScript syntax check passed.
