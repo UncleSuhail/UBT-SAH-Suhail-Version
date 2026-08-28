@@ -1,0 +1,11 @@
+SAH V30.4
+=========
+Fixed:
+- Header platform title uses the actual .brand-title selector and is shifted left.
+- Username slash separator removed from HTML and guarded in JavaScript.
+- Budget and satisfaction KPIs restored as true circular donut statistics.
+- All 4 circular KPIs stay side-by-side on desktop.
+- Decorative ordinary-card pseudo elements are disabled for these circles.
+- Added guaranteed vertical spacing between the KPI circles and charts/sections below.
+- Responsive 2x2 layout for medium screens and single column on small screens.
+- JavaScript syntax check passed.

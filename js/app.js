@@ -7272,3 +7272,31 @@ window.addEventListener('DOMContentLoaded',()=>{
   sahV303HeaderCleanup();
   setTimeout(sahV303HeaderCleanup,100);
 });
+
+
+/* SAH V30.4 — final header cleanup */
+function sahV304HeaderCleanup(){
+  const header=document.querySelector('.topbar');
+  if(!header)return;
+
+  header.querySelectorAll(
+    '.user-role-divider,.header-user-separator,.user-separator,.account-separator,.profile-separator'
+  ).forEach(el=>el.remove());
+
+  header.querySelectorAll('.user-chip span').forEach(el=>{
+    if((el.textContent||'').trim()==='/')el.remove();
+  });
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  document.documentElement.dataset.sahBuild='30.4';
+
+  sahV304HeaderCleanup();
+  setTimeout(sahV304HeaderCleanup,50);
+  setTimeout(sahV304HeaderCleanup,250);
+
+  const role=document.getElementById('activeRole');
+  role?.addEventListener('change',()=>setTimeout(sahV304HeaderCleanup,0));
+
+  console.info('SAH build 30.4 loaded');
+});
