@@ -1,0 +1,10 @@
+SAH V30.7
+=========
+- When an event is officially finished, all student applications still under review are automatically closed.
+- Those pending applications are no longer left in "Under Review".
+- The student now sees the status "انتهى الحدث" / "Event Ended".
+- Accepted participants remain accepted and receive the satisfaction survey.
+- Rejected participants remain rejected.
+- Ended-event pending applications do not receive a survey.
+- Added a distinct neutral status badge for "Event Ended".
+- JavaScript syntax validation passed.

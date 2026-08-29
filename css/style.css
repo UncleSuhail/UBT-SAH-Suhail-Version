@@ -13136,3 +13136,34 @@ html[lang="en"] .topbar #activeRole{
     width:100%!important;
   }
 }
+
+
+/* ==========================================================
+   SAH V30.7 — ended event / closed application state
+   ========================================================== */
+
+.request-status.event-closed{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+
+  min-height:30px!important;
+  padding:6px 11px!important;
+
+  border:1px solid #cbd5e3!important;
+  border-radius:999px!important;
+
+  background:#f1f4f8!important;
+  color:#5f6b7a!important;
+
+  font-size:9px!important;
+  font-weight:900!important;
+  white-space:nowrap!important;
+}
+
+.request-status.event-closed::before{
+  content:"■"!important;
+  margin-inline-end:6px!important;
+  color:#8b96a6!important;
+  font-size:7px!important;
+}

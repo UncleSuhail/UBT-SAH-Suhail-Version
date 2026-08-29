@@ -358,6 +358,7 @@ Object.assign(SAH_TEXT_EN,{"قبول":"Approve","رفض":"Reject","قبول ال
 Object.assign(SAH_TEXT_EN,{"المجلس الطلابي":"Student Council","إدارة المجلس الطلابي":"Student Council Management","حساب المجلس الطلابي":"Student Council Account","فئة الرياضة":"Sports Category","نوع الرياضة":"Sport","اختر فئة الرياضة":"Select Sports Category","اختر نوع الرياضة":"Select Sport","بطولة وطنية":"National Championship","بطولة دولية":"International Championship","بطولة إقليمية":"Regional Championship","بطولة خليجية":"Gulf Championship","بطولة تنشيطية":"Recreational Championship","الميزانية المصروفة":"Approved / Spent Budget","الميزانية المطلوبة":"Requested Budget","إجمالي الميزانيات المقدمة":"Total Submitted Budgets","أنشطة المجلس الطلابي":"Student Council Activities","نسبة رضا المستفيدين":"Beneficiary Satisfaction Rate","استبانة رضا المستفيد":"Beneficiary Satisfaction Survey","إنهاء الحدث":"Finish Event","تأكيد إنهاء الحدث":"Confirm Event Completion","المقترحات والملاحظات":"Suggestions & Feedback","تصنيف المقترح":"Suggestion Category","مقترحات وملاحظات الطلبة":"Student Suggestions & Feedback","جدول اجتماعات المجلس":"Student Council Meeting Schedule","أعضاء المجلس الطلابي":"Student Council Members","إيميل المستفيد":"Member Email","الصفة":"Position","رئيس":"President","نائب رئيس":"Vice President","أمين المجلس":"Council Secretary","عضو":"Member","ربط العضو بالمجلس":"Link Member to Council","إنهاء الصلاحية":"Revoke Access","إعادة التفعيل":"Reactivate","تقديم نشاط للمجلس الطلابي":"Submit Student Council Activity","موافقات المجلس الطلابي":"Student Council Approvals","الميزانية":"Budget","حالة التنفيذ":"Execution Status","منتهي":"Finished","التقييم":"Survey","تم التقييم":"Survey Completed"});
 Object.assign(SAH_TEXT_EN,{"ملخص أنشطة المجلس الطلابي":"Student Council Activity Summary","عرض سريع لعدد أعضاء المجلس وحالة الأنشطة المقدمة للاعتماد.":"A quick view of council members and submitted activity statuses.","عدد الأعضاء":"Members","الأنشطة الموافق عليها":"Approved Activities","الأنشطة المرفوضة":"Rejected Activities","إجمالي الأنشطة المقدمة":"Total Submitted Activities","الأعضاء المفعّلون حاليًا":"Currently Active Members","أنشطة تم اعتمادها":"Approved Activities","أنشطة تم رفضها":"Rejected Activities"});
 Object.assign(SAH_TEXT_EN,{"يلزم استكمال التقييمات قبل المشاركة في فعالية جديدة":"Complete pending surveys before joining a new event","فتح التقييم":"Open Survey","أكمل التقييم أولًا":"Complete Survey First"});
+Object.assign(SAH_TEXT_EN,{"انتهى الحدث":"Event Ended"});
 const SAH_TEXT_AR = Object.fromEntries(Object.entries(SAH_TEXT_EN).map(([ar,en])=>[en,ar]));
 const SAH_PHRASES = Object.entries(SAH_TEXT_EN).sort((a,b)=>b[0].length-a[0].length);
 function translateLoose(text,lang){
@@ -3947,7 +3948,10 @@ function student(){
        ? '<span class="survey-completed-badge">تم التقييم</span>'
        : `<button class="open-beneficiary-survey" type="button" data-app-id="${x.id}" title="استبانة رضا المستفيد">✎</button>`)
      : '—';
-   return `<tr><td>${x.eventName}</td><td>${x.kind}</td><td>${x.appliedAt}</td><td>${badge(x.status)}</td><td>${action}</td></tr>`;
+   const statusCell=x.status==='انتهى الحدث'
+     ? '<span class="request-status event-closed">انتهى الحدث</span>'
+     : badge(x.status);
+   return `<tr><td>${x.eventName}</td><td>${x.kind}</td><td>${x.appliedAt}</td><td>${statusCell}</td><td>${action}</td></tr>`;
  }).join(''):'<tr><td colspan="5">لا توجد طلبات.</td></tr>';
  document.getElementById('studentAppliedCount').textContent=a.length;document.getElementById('studentJoinedCount').textContent=a.filter(x=>x.status==='مقبول').length;
 }
@@ -7143,17 +7147,29 @@ function finishEventNow(){
     writeV30(finishTarget.store,rows);
   }
 
-  // Persist survey eligibility directly on every accepted student application.
-  // This avoids relying only on a later request lookup and makes the survey
-  // available immediately after the event is officially completed.
   const applications=readV30('sah-v22-apps',[]);
   let unlocked=0;
+  let closedWithoutDecision=0;
 
   applications.forEach(application=>{
-    if(String(application.requestId)===requestId && application.status==='مقبول'){
+    if(String(application.requestId)!==requestId)return;
+
+    // Accepted participants keep their accepted status and receive the survey.
+    if(application.status==='مقبول'){
       application.surveyAvailable=true;
       application.surveyAvailableAt=new Date().toISOString();
       unlocked++;
+      return;
+    }
+
+    // Any request that was still pending when the event ended is automatically
+    // closed. The student sees "انتهى الحدث" instead of a pending application.
+    if(application.status==='تحت المراجعة' || !application.status){
+      application.status='انتهى الحدث';
+      application.closedByEventEnd=true;
+      application.closedAt=new Date().toISOString();
+      application.surveyAvailable=false;
+      closedWithoutDecision++;
     }
   });
 
@@ -7162,15 +7178,13 @@ function finishEventNow(){
   closeFinishEvent();
   window.renderAll?.();
 
-  window.showToast?.(
-    unlocked
-      ? `تم إنهاء الحدث وتفعيل استبانة رضا المستفيد تلقائيًا لـ ${unlocked} من المشاركين المقبولين.`
-      : 'تم إنهاء الحدث. ستظهر الاستبانة تلقائيًا لأي مشارك تم قبوله في هذا الحدث.'
-  );
+  const messages=[];
+  messages.push('تم إنهاء الحدث بنجاح.');
+  if(unlocked)messages.push(`تم تفعيل الاستبانة لـ ${unlocked} من المشاركين المقبولين.`);
+  if(closedWithoutDecision)messages.push(`تم إغلاق ${closedWithoutDecision} طلبًا لم يُتخذ بشأنه قرار، وستظهر للطالب بحالة «انتهى الحدث».`);
 
-  // If the currently selected account is the student account, open the survey
-  // immediately. Otherwise it will auto-open the first time the student opens
-  // the Student Portal.
+  window.showToast?.(messages.join(' '));
+
   setTimeout(()=>window.autoOpenPendingBeneficiarySurvey?.(),180);
 }
 
@@ -7508,4 +7522,11 @@ window.addEventListener('DOMContentLoaded',()=>{
 window.addEventListener('DOMContentLoaded',()=>{
   document.documentElement.dataset.sahBuild='30.6';
   console.info('SAH build 30.6 loaded');
+});
+
+
+/* SAH V30.7 */
+window.addEventListener('DOMContentLoaded',()=>{
+  document.documentElement.dataset.sahBuild='30.7';
+  console.info('SAH build 30.7 loaded');
 });
