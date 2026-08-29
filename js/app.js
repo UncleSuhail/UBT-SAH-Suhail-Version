@@ -359,6 +359,7 @@ Object.assign(SAH_TEXT_EN,{"المجلس الطلابي":"Student Council","إد
 Object.assign(SAH_TEXT_EN,{"ملخص أنشطة المجلس الطلابي":"Student Council Activity Summary","عرض سريع لعدد أعضاء المجلس وحالة الأنشطة المقدمة للاعتماد.":"A quick view of council members and submitted activity statuses.","عدد الأعضاء":"Members","الأنشطة الموافق عليها":"Approved Activities","الأنشطة المرفوضة":"Rejected Activities","إجمالي الأنشطة المقدمة":"Total Submitted Activities","الأعضاء المفعّلون حاليًا":"Currently Active Members","أنشطة تم اعتمادها":"Approved Activities","أنشطة تم رفضها":"Rejected Activities"});
 Object.assign(SAH_TEXT_EN,{"يلزم استكمال التقييمات قبل المشاركة في فعالية جديدة":"Complete pending surveys before joining a new event","فتح التقييم":"Open Survey","أكمل التقييم أولًا":"Complete Survey First"});
 Object.assign(SAH_TEXT_EN,{"انتهى الحدث":"Event Ended"});
+Object.assign(SAH_TEXT_EN,{"تم اختيارك للمشاركة":"You Were Selected to Participate","لم يتم اختيارك قبل انتهاء الحدث":"You Were Not Selected Before the Event Ended","انتهى الحدث":"Event Ended"});
 const SAH_TEXT_AR = Object.fromEntries(Object.entries(SAH_TEXT_EN).map(([ar,en])=>[en,ar]));
 const SAH_PHRASES = Object.entries(SAH_TEXT_EN).sort((a,b)=>b[0].length-a[0].length);
 function translateLoose(text,lang){
@@ -3948,9 +3949,24 @@ function student(){
        ? '<span class="survey-completed-badge">تم التقييم</span>'
        : `<button class="open-beneficiary-survey" type="button" data-app-id="${x.id}" title="استبانة رضا المستفيد">✎</button>`)
      : '—';
-   const statusCell=x.status==='انتهى الحدث'
-     ? '<span class="request-status event-closed">انتهى الحدث</span>'
-     : badge(x.status);
+   const eventFinished=req?.finished===true || x.status==='انتهى الحدث' || x.closedByEventEnd===true;
+
+   let statusCell;
+   if(x.status==='مرفوض'){
+     statusCell=badge('مرفوض');
+   }else if(eventFinished){
+     const participationNote=x.status==='مقبول'
+       ? '<small class="event-ended-participation-note">تم اختيارك للمشاركة</small>'
+       : '<small class="event-ended-participation-note not-selected">لم يتم اختيارك قبل انتهاء الحدث</small>';
+
+     statusCell=`<div class="student-event-ended-status">
+       <span class="request-status event-closed">انتهى الحدث</span>
+       ${participationNote}
+     </div>`;
+   }else{
+     statusCell=badge(x.status);
+   }
+
    return `<tr><td>${x.eventName}</td><td>${x.kind}</td><td>${x.appliedAt}</td><td>${statusCell}</td><td>${action}</td></tr>`;
  }).join(''):'<tr><td colspan="5">لا توجد طلبات.</td></tr>';
  document.getElementById('studentAppliedCount').textContent=a.length;document.getElementById('studentJoinedCount').textContent=a.filter(x=>x.status==='مقبول').length;
@@ -4027,6 +4043,11 @@ function applicants(){
 
    const rows=applications.filter(application=>{
      const request=requests.find(item=>item.id===application.requestId);
+
+     // Once an event is finished, applications that were never accepted/rejected
+     // are removed from the organizer's applicant review table.
+     if(application.closedByEventEnd===true || application.status==='انتهى الحدث')return false;
+
      if(request?.kind!==kind)return false;
      if(status!=='all'&&String(application.status||'تحت المراجعة')!==status)return false;
 
@@ -7529,4 +7550,11 @@ window.addEventListener('DOMContentLoaded',()=>{
 window.addEventListener('DOMContentLoaded',()=>{
   document.documentElement.dataset.sahBuild='30.7';
   console.info('SAH build 30.7 loaded');
+});
+
+
+/* SAH V30.8 */
+window.addEventListener('DOMContentLoaded',()=>{
+  document.documentElement.dataset.sahBuild='30.8';
+  console.info('SAH build 30.8 loaded');
 });

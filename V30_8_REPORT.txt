@@ -1,0 +1,10 @@
+SAH V30.8
+=========
+- Pending student applications are automatically closed when the event is finished.
+- These automatically closed applications disappear from the event organizer's applicant-review table.
+- The student's own Student Portal keeps the historical record.
+- Rejected applications always remain "مرفوض".
+- If the event ended and the student was not selected, the student sees "انتهى الحدث" + "لم يتم اختيارك قبل انتهاء الحدث".
+- If the student was accepted and the event ended, the student sees "انتهى الحدث" + "تم اختيارك للمشاركة".
+- Accepted students still keep their accepted status internally, so beneficiary satisfaction surveys continue to work.
+- JavaScript syntax validation passed.

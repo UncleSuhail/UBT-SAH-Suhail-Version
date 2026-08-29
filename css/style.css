@@ -13167,3 +13167,33 @@ html[lang="en"] .topbar #activeRole{
   color:#8b96a6!important;
   font-size:7px!important;
 }
+
+
+/* ==========================================================
+   SAH V30.8 — event ended applicant cleanup and student state
+   ========================================================== */
+
+.student-event-ended-status{
+  display:grid!important;
+  justify-items:center!important;
+  gap:5px!important;
+}
+
+.event-ended-participation-note{
+  display:block!important;
+  color:#08764e!important;
+  font-size:8px!important;
+  font-weight:900!important;
+  line-height:1.4!important;
+  white-space:nowrap!important;
+}
+
+.event-ended-participation-note.not-selected{
+  color:#7c8796!important;
+}
+
+/* An automatically closed request is deliberately removed from
+   organizer review tables, but remains visible to the student. */
+.student-application-row.is-event-closed{
+  display:none!important;
+}
