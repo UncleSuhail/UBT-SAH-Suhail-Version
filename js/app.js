@@ -357,6 +357,7 @@ Object.assign(SAH_TEXT_EN,{"مسار البطولات الوطنية":"National 
 Object.assign(SAH_TEXT_EN,{"قبول":"Approve","رفض":"Reject","قبول الطالب":"Approve Student","رفض الطالب":"Reject Student","اعتماد":"Approve","تأكيد القبول":"Confirm Approval","تم القبول":"Approved","تم الرفض":"Rejected","ابحث باسم الحدث أو الطالب أو الرقم الجامعي أو الإيميل":"Search by event, student, university ID, or email","ابحث باسم الحدث أو الطالب أو الرقم الجامعي أو الإيميل أو الجوال":"Search by event, student, university ID, email, or mobile","ابحث باسم الطالب أو الرقم الجامعي أو الإيميل":"Search by student, university ID, or email","ابحث باسم الحدث أو التاريخ أو اللعبة":"Search by event, date, or sport","ابحث باسم الحدث أو النادي":"Search by event or club","ابحث باسم الحدث أو التاريخ":"Search by event or date","جميع الحالات":"All Statuses"});
 Object.assign(SAH_TEXT_EN,{"المجلس الطلابي":"Student Council","إدارة المجلس الطلابي":"Student Council Management","حساب المجلس الطلابي":"Student Council Account","فئة الرياضة":"Sports Category","نوع الرياضة":"Sport","اختر فئة الرياضة":"Select Sports Category","اختر نوع الرياضة":"Select Sport","بطولة وطنية":"National Championship","بطولة دولية":"International Championship","بطولة إقليمية":"Regional Championship","بطولة خليجية":"Gulf Championship","بطولة تنشيطية":"Recreational Championship","الميزانية المصروفة":"Approved / Spent Budget","الميزانية المطلوبة":"Requested Budget","إجمالي الميزانيات المقدمة":"Total Submitted Budgets","أنشطة المجلس الطلابي":"Student Council Activities","نسبة رضا المستفيدين":"Beneficiary Satisfaction Rate","استبانة رضا المستفيد":"Beneficiary Satisfaction Survey","إنهاء الحدث":"Finish Event","تأكيد إنهاء الحدث":"Confirm Event Completion","المقترحات والملاحظات":"Suggestions & Feedback","تصنيف المقترح":"Suggestion Category","مقترحات وملاحظات الطلبة":"Student Suggestions & Feedback","جدول اجتماعات المجلس":"Student Council Meeting Schedule","أعضاء المجلس الطلابي":"Student Council Members","إيميل المستفيد":"Member Email","الصفة":"Position","رئيس":"President","نائب رئيس":"Vice President","أمين المجلس":"Council Secretary","عضو":"Member","ربط العضو بالمجلس":"Link Member to Council","إنهاء الصلاحية":"Revoke Access","إعادة التفعيل":"Reactivate","تقديم نشاط للمجلس الطلابي":"Submit Student Council Activity","موافقات المجلس الطلابي":"Student Council Approvals","الميزانية":"Budget","حالة التنفيذ":"Execution Status","منتهي":"Finished","التقييم":"Survey","تم التقييم":"Survey Completed"});
 Object.assign(SAH_TEXT_EN,{"ملخص أنشطة المجلس الطلابي":"Student Council Activity Summary","عرض سريع لعدد أعضاء المجلس وحالة الأنشطة المقدمة للاعتماد.":"A quick view of council members and submitted activity statuses.","عدد الأعضاء":"Members","الأنشطة الموافق عليها":"Approved Activities","الأنشطة المرفوضة":"Rejected Activities","إجمالي الأنشطة المقدمة":"Total Submitted Activities","الأعضاء المفعّلون حاليًا":"Currently Active Members","أنشطة تم اعتمادها":"Approved Activities","أنشطة تم رفضها":"Rejected Activities"});
+Object.assign(SAH_TEXT_EN,{"يلزم استكمال التقييمات قبل المشاركة في فعالية جديدة":"Complete pending surveys before joining a new event","فتح التقييم":"Open Survey","أكمل التقييم أولًا":"Complete Survey First"});
 const SAH_TEXT_AR = Object.fromEntries(Object.entries(SAH_TEXT_EN).map(([ar,en])=>[en,ar]));
 const SAH_PHRASES = Object.entries(SAH_TEXT_EN).sort((a,b)=>b[0].length-a[0].length);
 function translateLoose(text,lang){
@@ -2533,6 +2534,41 @@ window.addEventListener('DOMContentLoaded',initPreferences);
   }
 
   document.addEventListener('click',event=>{
+    const pendingSurveyShortcut=event.target.closest('.open-oldest-pending-survey');
+    if(pendingSurveyShortcut){
+      const pending=pendingBeneficiarySurveysForStudent();
+      if(pending[0])window.openBeneficiarySurvey?.(pending[0].id);
+      return;
+    }
+
+    const participationButton=event.target.closest(
+      '[data-apply-request],.student-apply-btn,.apply-event-btn,.student-event-card button'
+    );
+
+    if(participationButton){
+      const isApplyAction=
+        participationButton.matches('[data-apply-request],.student-apply-btn,.apply-event-btn') ||
+        /قدم الآن|Apply Now/i.test(participationButton.textContent||'');
+
+      if(isApplyAction && hasParticipationSurveyBlock()){
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        const pending=pendingBeneficiarySurveysForStudent();
+        window.showToast?.(
+          `لديك ${pending.length} استبانات رضا مفتوحة لم يتم إرسالها. أكمل التقييمات المطلوبة قبل التقديم على فعالية جديدة.`
+        );
+
+        const firstPending=pending[0];
+        if(firstPending){
+          setTimeout(()=>window.openBeneficiarySurvey?.(firstPending.id),120);
+        }
+        return;
+      }
+    }
+
+    const studentPortalNav=event.target.closest('[data-page="student"]');
+    if(studentPortalNav)setTimeout(()=>window.autoOpenPendingBeneficiarySurvey?.(),180);
     const sidebar=document.querySelector('.sidebar');
     const menu=document.getElementById('mobileMenu');
     if(!sidebar || !sidebar.classList.contains('open')) return;
@@ -3905,7 +3941,7 @@ function student(){
  if(body)body.innerHTML=a.length?a.map(x=>{
    const req=allReq().find(r=>r.id===x.requestId);
    const surveyDone=R('sah-v30-beneficiary-surveys').some(s=>s.applicationId===x.id);
-   const canSurvey=x.status==='مقبول'&&req?.finished;
+   const canSurvey=x.status==='مقبول'&&(x.surveyAvailable===true||req?.finished===true);
    const action=canSurvey
      ? (surveyDone
        ? '<span class="survey-completed-badge">تم التقييم</span>'
@@ -5575,7 +5611,7 @@ function initGrantWorkflow(){
  renderGrantWorkflow();
 }
 
-function renderAll(){tables();student();applicants();approvals();populateClubEventSelect();renderRegisteredClubs();renderGeneralIndicator();renderGrantWorkflow();renderSportsManagementDashboard();renderV30Extensions();const b=document.querySelector('[data-event-category].active');if(b)renderCategory(b.dataset.eventCategory)}
+function renderAll(){tables();student();applicants();approvals();bindApprovalStatusOverview?.();populateClubEventSelect();renderRegisteredClubs();renderGeneralIndicator();renderGrantWorkflow();renderSportsManagementDashboard();renderV30Extensions();const b=document.querySelector('[data-event-category].active');if(b)renderCategory(b.dataset.eventCategory)}
 function bind(id,fn){const o=document.getElementById(id);if(!o)return;const n=o.cloneNode(true);o.replaceWith(n);n.onclick=fn}
 window.addEventListener('DOMContentLoaded',()=>{
  document.getElementById('exportApprovalsExcel')
@@ -6984,6 +7020,22 @@ function renderSuggestions(){
   </tr>`).join(''):'<tr><td colspan="4">لا توجد مقترحات مرسلة.</td></tr>';
 }
 
+
+function pendingBeneficiarySurveysForStudent(){
+  const applications=readV30('sah-v22-apps',[]);
+  const surveys=readV30(V30.surveys,[]);
+
+  return applications.filter(application=>
+    application.status==='مقبول' &&
+    application.surveyAvailable===true &&
+    !surveys.some(survey=>survey.applicationId===application.id)
+  );
+}
+
+function hasParticipationSurveyBlock(){
+  return pendingBeneficiarySurveysForStudent().length>=2;
+}
+
 function renderSatisfaction(){
   const surveys=readV30(V30.surveys,[]);
   const avg=surveys.length?Math.round(surveys.reduce((s,r)=>s+(Number(r.percent)||0),0)/surveys.length):0;
@@ -6998,11 +7050,70 @@ function renderSatisfaction(){
   </tr>`).join(''):'<tr><td colspan="6">لا توجد استبانات مكتملة.</td></tr>';
 }
 
+
+function updateStudentParticipationGate(){
+  const blocked=hasParticipationSurveyBlock();
+  const pending=pendingBeneficiarySurveysForStudent();
+  const studentPage=document.getElementById('page-student');
+  if(!studentPage)return;
+
+  studentPage.querySelectorAll(
+    '[data-apply-request],.student-apply-btn,.apply-event-btn,.student-event-card button'
+  ).forEach(button=>{
+    const isApplyAction=
+      button.matches('[data-apply-request],.student-apply-btn,.apply-event-btn') ||
+      /قدم الآن|Apply Now/i.test(button.textContent||'');
+
+    if(!isApplyAction)return;
+
+    button.classList.toggle('survey-blocked-apply',blocked);
+    button.setAttribute('aria-disabled',blocked?'true':'false');
+
+    if(blocked){
+      button.dataset.originalTitle=button.dataset.originalTitle||button.getAttribute('title')||'';
+      button.setAttribute(
+        'title',
+        `أكمل ${pending.length} استبانات رضا مفتوحة قبل التقديم على فعالية جديدة`
+      );
+    }else if(button.dataset.originalTitle!==undefined){
+      button.setAttribute('title',button.dataset.originalTitle);
+    }
+  });
+
+  let notice=studentPage.querySelector('.survey-participation-gate-notice');
+
+  if(blocked){
+    if(!notice){
+      notice=document.createElement('div');
+      notice.className='survey-participation-gate-notice';
+      const cardsArea=
+        studentPage.querySelector('.student-available-events,.available-events-grid,.student-events-grid') ||
+        studentPage.querySelector('.section-title');
+      cardsArea?.insertAdjacentElement('afterend',notice);
+    }
+
+    notice.innerHTML=`
+      <div class="survey-participation-gate-icon">✎</div>
+      <div>
+        <strong>يلزم استكمال التقييمات قبل المشاركة في فعالية جديدة</strong>
+        <span>لديك ${pending.length} استبانات رضا مفتوحة لم يتم تقديمها بعد. أكملها أولًا لإعادة تفعيل زر «قدم الآن».</span>
+      </div>
+      <button type="button" class="open-oldest-pending-survey">فتح التقييم</button>
+    `;
+  }else{
+    notice?.remove();
+  }
+}
+
 function renderV30Extensions(){
   renderBudgetDashboard();
   renderCouncil();
   renderSuggestions();
   renderSatisfaction();
+  setTimeout(()=>{
+    updateStudentParticipationGate();
+    window.autoOpenPendingBeneficiarySurvey?.();
+  },80);
 }
 window.renderV30Extensions=renderV30Extensions;
 
@@ -7021,16 +7132,46 @@ function closeFinishEvent(){
 }
 function finishEventNow(){
   if(!finishTarget)return;
+
+  const requestId=String(finishTarget.id);
   const rows=readV30(finishTarget.store,[]);
-  const row=rows.find(item=>String(item.id)===String(finishTarget.id));
+  const row=rows.find(item=>String(item.id)===requestId);
+
   if(row){
     row.finished=true;
     row.finishedAt=new Date().toISOString().slice(0,10);
     writeV30(finishTarget.store,rows);
   }
+
+  // Persist survey eligibility directly on every accepted student application.
+  // This avoids relying only on a later request lookup and makes the survey
+  // available immediately after the event is officially completed.
+  const applications=readV30('sah-v22-apps',[]);
+  let unlocked=0;
+
+  applications.forEach(application=>{
+    if(String(application.requestId)===requestId && application.status==='مقبول'){
+      application.surveyAvailable=true;
+      application.surveyAvailableAt=new Date().toISOString();
+      unlocked++;
+    }
+  });
+
+  writeV30('sah-v22-apps',applications);
+
   closeFinishEvent();
   window.renderAll?.();
-  window.showToast?.('تم إنهاء الحدث وإتاحة استبانة رضا المستفيد للمشاركين المقبولين.');
+
+  window.showToast?.(
+    unlocked
+      ? `تم إنهاء الحدث وتفعيل استبانة رضا المستفيد تلقائيًا لـ ${unlocked} من المشاركين المقبولين.`
+      : 'تم إنهاء الحدث. ستظهر الاستبانة تلقائيًا لأي مشارك تم قبوله في هذا الحدث.'
+  );
+
+  // If the currently selected account is the student account, open the survey
+  // immediately. Otherwise it will auto-open the first time the student opens
+  // the Student Portal.
+  setTimeout(()=>window.autoOpenPendingBeneficiarySurvey?.(),180);
 }
 
 let activeSurveyApplicationId='';
@@ -7054,6 +7195,33 @@ function closeSurvey(){
   activeSurveyApplicationId='';
   document.getElementById('beneficiarySurveyModal')?.classList.add('hidden');
 }
+
+window.openBeneficiarySurvey=openSurvey;
+
+window.autoOpenPendingBeneficiarySurvey=function(){
+  const currentRole=document.getElementById('activeRole')?.value||'';
+  if(currentRole!=='student')return;
+
+  const studentPage=document.getElementById('page-student');
+  if(!studentPage?.classList.contains('active'))return;
+
+  const applications=readV30('sah-v22-apps',[]);
+  const surveys=readV30(V30.surveys,[]);
+
+  const pending=applications.find(application=>
+    application.status==='مقبول' &&
+    application.surveyAvailable===true &&
+    !surveys.some(survey=>survey.applicationId===application.id)
+  );
+
+  if(!pending)return;
+
+  const shownKey=`sah-v30-survey-auto-shown-${pending.id}`;
+  if(sessionStorage.getItem(shownKey)==='1')return;
+
+  sessionStorage.setItem(shownKey,'1');
+  setTimeout(()=>openSurvey(pending.id),120);
+};
 function submitSurvey(){
   if(!activeSurveyApplicationId)return;
   const form=document.getElementById('beneficiarySurveyForm');
@@ -7075,6 +7243,7 @@ function submitSurvey(){
   }
   closeSurvey();
   window.renderAll?.();
+  setTimeout(updateStudentParticipationGate,80);
   window.showToast?.('شكرًا لك، تم تسجيل تقييم رضا المستفيد.');
 }
 
@@ -7299,4 +7468,44 @@ window.addEventListener('DOMContentLoaded',()=>{
   role?.addEventListener('change',()=>setTimeout(sahV304HeaderCleanup,0));
 
   console.info('SAH build 30.4 loaded');
+});
+
+
+/* SAH V30.5 — approval overview quick filters */
+function bindApprovalStatusOverview(){
+  document.querySelectorAll('[data-approval-status]').forEach(button=>{
+    if(button.dataset.boundApprovalStatus==='1')return;
+    button.dataset.boundApprovalStatus='1';
+
+    button.addEventListener('click',()=>{
+      const value=button.dataset.approvalStatus||'all';
+      const select=document.getElementById('approvalTableStatus');
+
+      if(select){
+        select.value=value;
+        select.dispatchEvent(new Event('change',{bubbles:true}));
+      }
+
+      document.querySelectorAll('[data-approval-status]').forEach(item=>
+        item.classList.toggle('active',item===button)
+      );
+
+      const recordsCard=document.querySelector('.approvals-records-card');
+      recordsCard?.scrollIntoView({behavior:'smooth',block:'start'});
+
+      if(typeof approvals==='function')approvals();
+    });
+  });
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  bindApprovalStatusOverview();
+  setTimeout(bindApprovalStatusOverview,120);
+});
+
+
+/* SAH V30.6 */
+window.addEventListener('DOMContentLoaded',()=>{
+  document.documentElement.dataset.sahBuild='30.6';
+  console.info('SAH build 30.6 loaded');
 });

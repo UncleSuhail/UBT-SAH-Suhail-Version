@@ -1,0 +1,12 @@
+SAH V30.5
+=========
+- Fixed the event-completion -> beneficiary-survey workflow.
+- Accepted students receive a persisted surveyAvailable flag immediately when an event is finished.
+- Student Portal now auto-opens the first pending beneficiary survey after the student enters the portal.
+- Survey remains available via the pen icon until completed.
+- Rebuilt the Finish Event confirmation dialog with UBT identity, modern hierarchy, confirmation note, and clear actions.
+- Combined Total / Approved / Rejected / Pending request KPIs into one unified card.
+- Each status segment is clickable and filters the approvals table immediately.
+- Beneficiary, clubs, and council summary cards are arranged in a separate secondary row.
+- Charts and records table now have explicit spacing and no random overlap.
+- JavaScript syntax validation passed.

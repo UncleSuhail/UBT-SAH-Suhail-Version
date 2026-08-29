@@ -1,0 +1,10 @@
+SAH V30.6
+=========
+- Added a hard participation gate in Student Portal.
+- If the student has 2 or more open beneficiary-satisfaction surveys that have not been submitted, all Apply Now / participation buttons are blocked.
+- Clicking a blocked participation button does not submit an application.
+- The oldest pending survey opens automatically to help the student clear the restriction.
+- A branded warning panel appears in Student Portal showing the number of pending surveys.
+- As soon as enough surveys are completed and pending count drops below 2, participation buttons are automatically re-enabled.
+- Survey gate persists because eligibility and completed surveys are stored in localStorage.
+- JavaScript syntax validation passed.

@@ -6,7 +6,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="#082b63" name="theme-color"/>
 <title>Student Activities Platform | UBT</title>
-<link href="css/style.css?v=30.4" rel="stylesheet"/>
+<link href="css/style.css?v=30.6" rel="stylesheet"/>
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
   html,body{width:100%;max-width:100%;overflow-x:hidden}
@@ -70,7 +70,7 @@
 }
 </style>
 </head>
-<body class="login-mode" data-sah-version="30.4">
+<body class="login-mode" data-sah-version="30.6">
 <section class="login-page" id="login">
 <div class="login-bg"></div>
 <div class="login-card">
@@ -121,7 +121,6 @@
 <div class="user-chip">
 <div>
 <strong id="activeUserName">حسام الحسين</strong>
-
 <span id="activeUserRole">مسؤول النظام</span>
 </div>
 <div class="avatar" id="activeUserAvatar">
@@ -260,7 +259,6 @@
 <small data-icon="users"></small>
 </button></div>
 </div>
-
 </nav>
 </aside>
 <main class="main">
@@ -1484,43 +1482,62 @@
 </div>
 </div>
 <div class="approval-summary-grid">
-<div class="card approval-stat-card">
+<div class="card approval-status-overview-card">
+<div class="approval-status-overview-head">
+<div>
+<span>ملخص القرارات</span>
+<h3>حالة جميع الطلبات</h3>
+<p>اضغط على أي حالة لعرض الطلبات المرتبطة بها مباشرة في الجدول.</p>
+</div>
+<div class="approval-status-overview-badge">DSA</div>
+</div>
+<div class="approval-status-segments">
+<button class="approval-status-segment total active" data-approval-status="all" type="button">
 <span>إجمالي الطلبات</span>
 <strong id="approvalTotal">0</strong>
-</div>
-<div class="card approval-stat-card approved">
+<small>جميع الطلبات</small>
+</button>
+<button class="approval-status-segment approved" data-approval-status="مقبول" type="button">
 <span>الموافقات</span>
 <strong id="approvalAccepted">0</strong>
-</div>
-<div class="card approval-stat-card rejected">
+<small>طلبات تمت الموافقة عليها</small>
+</button>
+<button class="approval-status-segment rejected" data-approval-status="مرفوض" type="button">
 <span>الرفض</span>
 <strong id="approvalRejected">0</strong>
-</div>
-<div class="card approval-stat-card pending">
+<small>طلبات تم رفضها</small>
+</button>
+<button class="approval-status-segment pending" data-approval-status="تحت المراجعة" type="button">
 <span>قيد المراجعة</span>
 <strong id="approvalPending">0</strong>
+<small>بانتظار اتخاذ القرار</small>
+</button>
 </div>
-<div class="card approval-stat-card beneficiaries male">
+</div>
+
+
+
+
+
+
+
+<div class="approval-secondary-summary-grid"><div class="card approval-stat-card beneficiaries male">
 <span>مستفيدو الطلاب</span>
 <strong id="approvalMaleBeneficiaries">0</strong>
 <small>إجمالي الطلاب المستفيدين</small>
-</div>
-<div class="card approval-stat-card beneficiaries female">
+</div><div class="card approval-stat-card beneficiaries female">
 <span>مستفيدات الطالبات</span>
 <strong id="approvalFemaleBeneficiaries">0</strong>
 <small>إجمالي الطالبات المستفيدات</small>
-</div>
-<button class="card approval-stat-card clubs-stat" id="registeredClubsStat" type="button">
+</div><button class="card approval-stat-card clubs-stat" id="registeredClubsStat" type="button">
 <span>عدد النوادي المسجلة</span>
 <strong id="registeredClubsCount">0</strong>
 <small>اضغط لعرض النوادي وأنشطتها</small>
-</button>
-<button class="card approval-stat-card council-stat" id="approvalCouncilStat" type="button">
+</button><button class="card approval-stat-card council-stat" id="approvalCouncilStat" type="button">
 <span>طلبات المجلس الطلابي</span>
 <strong id="approvalCouncilRequests">0</strong>
 <small>اضغط لعرض طلبات المجلس</small>
-</button>
-</div>
+</button></div></div>
 <div class="approval-charts-grid">
 <div class="card approval-chart-card">
 <div class="approval-chart-copy">
@@ -2050,21 +2067,35 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=30.4"></script>
+<script src="js/app.js?v=30.6"></script>
 <div aria-modal="true" class="modal hidden" id="finishEventModal" role="dialog">
 <div class="modal-backdrop" data-close-finish-event=""></div>
-<div class="modal-card university-confirm-modal">
-<div class="university-confirm-brand">
-<strong>UBT</strong>
-<span>Student Activities Platform</span>
+<div class="modal-card university-confirm-modal finish-event-modern-modal"><div class="finish-event-confirm-shell">
+<div class="finish-event-brandbar">
+<div class="finish-event-brandmark">UBT</div>
+<div class="finish-event-brandcopy">
+<strong>Student Activities Platform</strong>
+<span>اعتماد إنهاء الحدث</span>
 </div>
+<div class="finish-event-confirm-icon">✓</div>
+</div>
+<div class="finish-event-confirm-body">
+<span class="finish-event-kicker">إجراء نهائي للحدث</span>
 <h3>تأكيد إنهاء الحدث</h3>
-<p id="finishEventMessage">هل أنت متأكد من إنهاء هذا الحدث؟ بعد الإنهاء سيتم إتاحة استبانة رضا المستفيد للطلبة المقبولين في الحدث.</p>
-<div class="modal-actions centered">
-<button class="btn outline" data-close-finish-event="" type="button">إلغاء</button>
-<button class="btn primary" id="confirmFinishEvent" type="button">تأكيد إنهاء الحدث</button>
+<p id="finishEventMessage">هل أنت متأكد من إنهاء هذا الحدث؟ بعد الاعتماد سيتم تفعيل استبانة رضا المستفيد تلقائيًا لجميع الطلبة المقبولين في الحدث.</p>
+<div class="finish-event-note">
+<span>i</span>
+<p>بعد الإنهاء تتحول حالة الحدث إلى «منتهي»، وتظهر استبانة التقييم تلقائيًا للمشارك المقبول عند دخوله إلى بوابة الطالب.</p>
 </div>
 </div>
+<div class="finish-event-actions">
+<button class="finish-event-cancel-btn" data-close-finish-event="" type="button">إلغاء</button>
+<button class="finish-event-confirm-btn" id="confirmFinishEvent" type="button">
+<span>✓</span>
+<strong>اعتماد إنهاء الحدث</strong>
+</button>
+</div>
+</div></div>
 </div>
 <div aria-modal="true" class="modal hidden" id="beneficiarySurveyModal" role="dialog">
 <div class="modal-backdrop" data-close-beneficiary-survey=""></div>
