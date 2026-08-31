@@ -1,0 +1,15 @@
+SAH V30.9
+=========
+- Removed the generic Home interface from account startup and assigned a role-specific landing page.
+- Added a final route guard so navigation and manual hashes cannot open pages outside the current role's allowed UI pages.
+- Added a Back button to operational pages, returning users to their role-specific home.
+- Added requested budget directly to Student Affairs approval rows.
+- Replaced Total Submitted Budget with Remaining Annual Budget, editable only by the Dean of Student Affairs.
+- Remaining annual budget automatically deducts approved/spent activity budgets.
+- Added a branded annual-budget editor modal.
+- Enhanced budget drill-down with event type, requester, date, category/capacity, request status, event status, and requested budget.
+- Added Student Council participant-application review with search/filter and approve/reject controls for President/Vice President (plus Dean/System).
+- Renamed Available Accepted Events to Available Events.
+- Renamed Student Applications headings to Participant Applications.
+- Added strong visual separation between sections, tables, cards and charts.
+- JavaScript syntax validation passed.

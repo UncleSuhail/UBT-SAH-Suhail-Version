@@ -360,6 +360,7 @@ Object.assign(SAH_TEXT_EN,{"ملخص أنشطة المجلس الطلابي":"St
 Object.assign(SAH_TEXT_EN,{"يلزم استكمال التقييمات قبل المشاركة في فعالية جديدة":"Complete pending surveys before joining a new event","فتح التقييم":"Open Survey","أكمل التقييم أولًا":"Complete Survey First"});
 Object.assign(SAH_TEXT_EN,{"انتهى الحدث":"Event Ended"});
 Object.assign(SAH_TEXT_EN,{"تم اختيارك للمشاركة":"You Were Selected to Participate","لم يتم اختيارك قبل انتهاء الحدث":"You Were Not Selected Before the Event Ended","انتهى الحدث":"Event Ended"});
+Object.assign(SAH_TEXT_EN,{"الفعاليات المتاحة":"Available Events","طلبات المشاركين":"Participant Applications","الرجوع":"Back","العودة إلى الصفحة الرئيسية المخصصة لحسابك":"Return to your account home page","الميزانية السنوية المتبقية":"Remaining Annual Budget","إضافة / تعديل الميزانية":"Add / Edit Budget","تحديد الميزانية السنوية":"Set Annual Budget","الميزانية المطلوبة":"Requested Budget","حالة الحدث":"Event Status"});
 const SAH_TEXT_AR = Object.fromEntries(Object.entries(SAH_TEXT_EN).map(([ar,en])=>[en,ar]));
 const SAH_PHRASES = Object.entries(SAH_TEXT_EN).sort((a,b)=>b[0].length-a[0].length);
 function translateLoose(text,lang){
@@ -4235,10 +4236,11 @@ function approvals(){
      <td>${r.submittedBy||'المستخدم الحالي'}</td>
      <td>${r.date||r.submittedAt}</td>
      <td>${r.gender||r.capacity||'—'}</td>
+     <td><strong class="approval-budget-value">${Number(r.budget)>0?money(r.budget):'—'}</strong></td>
      <td>${badge(r.status)}</td>
      <td class="approval-action-cell">${actionHtml}</td>
    </tr>`;
- }).join(''):'<tr><td colspan="7">لا توجد طلبات.</td></tr>';
+ }).join(''):'<tr><td colspan="8">لا توجد طلبات.</td></tr>';
 
  document.querySelectorAll('.approve-req').forEach(button=>button.onclick=()=>{
    const rows=R(button.dataset.store);
@@ -5636,7 +5638,7 @@ function initGrantWorkflow(){
  renderGrantWorkflow();
 }
 
-function renderAll(){tables();student();applicants();approvals();bindApprovalStatusOverview?.();populateClubEventSelect();renderRegisteredClubs();renderGeneralIndicator();renderGrantWorkflow();renderSportsManagementDashboard();renderV30Extensions();const b=document.querySelector('[data-event-category].active');if(b)renderCategory(b.dataset.eventCategory)}
+function renderAll(){tables();student();applicants();approvals();bindApprovalStatusOverview?.();populateClubEventSelect();renderRegisteredClubs();renderGeneralIndicator();renderGrantWorkflow();renderSportsManagementDashboard();renderV30Extensions();setTimeout(()=>window.v309Refresh?.(),20);const b=document.querySelector('[data-event-category].active');if(b)renderCategory(b.dataset.eventCategory)}
 function bind(id,fn){const o=document.getElementById(id);if(!o)return;const n=o.cloneNode(true);o.replaceWith(n);n.onclick=fn}
 window.addEventListener('DOMContentLoaded',()=>{
  document.getElementById('exportApprovalsExcel')
@@ -7558,3 +7560,205 @@ window.addEventListener('DOMContentLoaded',()=>{
   document.documentElement.dataset.sahBuild='30.8';
   console.info('SAH build 30.8 loaded');
 });
+
+
+/* ==========================================================
+   SAH V30.9 — strict role access, role landing pages, budgets,
+   council participant review, back buttons and clearer sections
+   ========================================================== */
+(function(){
+'use strict';
+
+const V309_ANNUAL_BUDGET_KEY='sah-v30-annual-budget';
+
+const V309_ROLE_ACCESS={
+  system:new Set(['general-indicator','sports','sports-request','indicator','scholarships','athletes','reports','calendar','agreement','student','activities','volunteer','clubs','approvals','student-council','admin','requests']),
+  indicator:new Set(['general-indicator','sports','sports-request','indicator','scholarships','athletes','reports','calendar','agreement','student','activities','volunteer','clubs','approvals','student-council','admin','requests']),
+  dean:new Set(['general-indicator','sports','sports-request','indicator','scholarships','athletes','reports','calendar','agreement','student','activities','volunteer','clubs','approvals','student-council','admin','requests']),
+  sports_manager:new Set(['sports','sports-request','scholarships','athletes','reports','calendar']),
+  coach:new Set(['sports-request','athletes','reports']),
+  activities_manager:new Set(['activities','athletes','reports','volunteer','approvals']),
+  student_account:new Set(['agreement','student']),
+  faculty:new Set(['clubs']),
+  student_council:new Set(['student-council'])
+};
+
+const V309_ROLE_HOME={
+  system:'general-indicator',
+  indicator:'general-indicator',
+  dean:'general-indicator',
+  sports_manager:'sports',
+  coach:'sports-request',
+  activities_manager:'activities',
+  student_account:'student',
+  faculty:'clubs',
+  student_council:'student-council'
+};
+
+function v309Role(){
+  return document.getElementById('activeRole')?.value ||
+         document.getElementById('mobileActiveRole')?.value ||
+         localStorage.getItem('sah-v22-role') || 'system';
+}
+function v309Home(role=v309Role()){return V309_ROLE_HOME[role]||'general-indicator';}
+function v309Allowed(page,role=v309Role()){
+  return V309_ROLE_ACCESS[role]?.has(page)===true;
+}
+function v309RouteHome(){window.route?.(v309Home());}
+
+function v309ApplyHardPermissions(){
+  const role=v309Role();
+  const allowed=V309_ROLE_ACCESS[role]||V309_ROLE_ACCESS.system;
+
+  document.getElementById('page-home')?.classList.remove('active');
+  document.getElementById('page-home')?.classList.add('permission-page-hidden');
+
+  document.querySelectorAll('.page[id^="page-"]').forEach(page=>{
+    const name=page.id.replace('page-','');
+    if(name==='home')return;
+    page.classList.toggle('permission-page-hidden',!allowed.has(name));
+  });
+  document.querySelectorAll('.nav button[data-page]').forEach(button=>{
+    const visible=allowed.has(button.dataset.page);
+    button.hidden=!visible;
+    button.classList.toggle('role-hidden',!visible);
+  });
+  document.querySelectorAll('.nav-group').forEach(group=>{
+    const visible=[...group.querySelectorAll('.nav-items button[data-page]')].some(btn=>!btn.hidden);
+    group.hidden=!visible;
+  });
+
+  const active=document.querySelector('.page.active');
+  const activeName=active?.id?.replace('page-','');
+  if(!activeName || activeName==='home' || !allowed.has(activeName)){
+    setTimeout(()=>window.route?.(v309Home(role)),0);
+  }
+}
+
+// Final route guard: even a manually typed hash cannot open an unauthorized page.
+const v309PreviousRoute=window.route;
+window.route=function(pageId){
+  const role=v309Role();
+  if(pageId==='home')pageId=v309Home(role);
+  if(!v309Allowed(pageId,role)){
+    window.showToast?.('هذه الصفحة غير متاحة ضمن صلاحيات الحساب الحالي.');
+    pageId=v309Home(role);
+  }
+  v309PreviousRoute?.(pageId);
+};
+
+function v309AnnualBudget(){return Math.max(0,Number(localStorage.getItem(V309_ANNUAL_BUDGET_KEY))||0);}
+function v309SetAnnualBudget(value){localStorage.setItem(V309_ANNUAL_BUDGET_KEY,String(Math.max(0,Number(value)||0)));}
+
+function v309Money(value){return `${Number(value||0).toLocaleString('en-US',{maximumFractionDigits:2})} ر.س`;}
+
+function v309BudgetRows(){
+  if(typeof allBudgetRows==='function')return allBudgetRows();
+  return [];
+}
+function v309ApprovedSpent(){
+  return v309BudgetRows().filter(r=>r.status==='مقبول'||r.status==='معتمد نهائيًا').reduce((s,r)=>s+(Number(r.budget)||0),0);
+}
+function v309RenderAnnualBudget(){
+  const total=v309AnnualBudget();
+  const spent=v309ApprovedSpent();
+  const remaining=Math.max(0,total-spent);
+  const el=document.getElementById('generalAnnualBudgetRemaining');if(el)el.textContent=v309Money(remaining);
+  const caption=document.getElementById('generalAnnualBudgetCaption');if(caption)caption.textContent=`من أصل ${v309Money(total)} — المصروف ${v309Money(spent)}`;
+  const card=document.getElementById('generalAnnualBudgetCard');
+  if(card)card.style.setProperty('--ring-p',total>0?Math.round(remaining/total*100):0);
+  const cur=document.getElementById('annualBudgetCurrentValue');if(cur)cur.textContent=v309Money(total);
+  const spentText=document.getElementById('annualBudgetSpentSummary');if(spentText)spentText.textContent=`المصروف المعتمد: ${v309Money(spent)} — المتبقي: ${v309Money(remaining)}`;
+  const input=document.getElementById('annualBudgetInput');if(input&&!input.matches(':focus'))input.value=total||'';
+  const edit=document.getElementById('openAnnualBudgetEditor');
+  if(edit)edit.hidden=v309Role()!=='dean';
+}
+
+function v309OpenAnnualBudget(){
+  if(v309Role()!=='dean'){window.showToast?.('تحديد الميزانية السنوية متاح لعميد شؤون الطلاب فقط.');return;}
+  v309RenderAnnualBudget();
+  document.getElementById('annualBudgetModal')?.classList.remove('hidden');
+  setTimeout(()=>document.getElementById('annualBudgetInput')?.focus(),80);
+}
+function v309CloseAnnualBudget(){document.getElementById('annualBudgetModal')?.classList.add('hidden');}
+
+function v309RequestStatusText(r){
+  if(r.finished)return 'منتهي';
+  if(r.status==='مقبول'||r.status==='معتمد نهائيًا')return 'معتمد / قائم';
+  if(r.status==='مرفوض'||r.status==='مرفوض من العمادة')return 'مرفوض';
+  return 'بانتظار الاعتماد';
+}
+
+function v309RenderBudgetDetails(filter){
+  const rows=v309BudgetRows();
+  const selected=filter==='approved'?rows.filter(r=>r.status==='مقبول'||r.status==='معتمد نهائيًا'):
+    filter==='pending'?rows.filter(r=>!['مقبول','معتمد نهائيًا','مرفوض','مرفوض من العمادة'].includes(r.status||'تحت المراجعة')):rows;
+  const body=document.getElementById('generalBudgetDetailsRows');
+  if(body)body.innerHTML=selected.length?selected.map(r=>`<tr>
+    <td><strong>${r.name||'—'}</strong><small class="budget-detail-sub">${r.description||r.location||'لا يوجد وصف إضافي'}</small></td>
+    <td>${r.kind||'—'}</td><td>${r.submittedBy||'المستخدم الحالي'}</td><td>${r.date||r.submittedAt||'—'}</td>
+    <td>${r.gender||r.capacity||'—'}</td><td>${r.status||'تحت المراجعة'}</td><td><span class="budget-event-state">${v309RequestStatusText(r)}</span></td><td><strong>${v309Money(r.budget)}</strong></td>
+  </tr>`).join(''):'<tr><td colspan="8">لا توجد بيانات ميزانية مطابقة.</td></tr>';
+  const panel=document.getElementById('generalBudgetDetails');panel?.classList.remove('hidden');panel?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function v309CanManageCouncilApplicants(){
+  const role=v309Role();
+  const pos=document.getElementById('councilViewRole')?.value||'president';
+  return role==='system'||role==='dean'||(role==='student_council'&&['president','vice'].includes(pos));
+}
+function v309RenderCouncilApplicants(){
+  const body=document.getElementById('councilApplicantRows');if(!body)return;
+  const apps=(()=>{try{return JSON.parse(localStorage.getItem('sah-v22-apps')||'[]')}catch{return []}})();
+  const acts=(()=>{try{return JSON.parse(localStorage.getItem('sah-v30-council-activities')||'[]')}catch{return []}})();
+  const ids=new Set(acts.map(a=>String(a.id)));
+  const q=(document.getElementById('councilApplicantSearch')?.value||'').trim().toLowerCase();
+  const st=document.getElementById('councilApplicantStatus')?.value||'all';
+  const rows=apps.filter(a=>ids.has(String(a.requestId)) && !a.closedByEventEnd && a.status!=='انتهى الحدث').filter(a=>st==='all'||String(a.status||'تحت المراجعة')===st).filter(a=>{
+    const text=[a.eventName,a.student?.name,a.student?.studentId,a.student?.email,a.student?.phone].join(' ').toLowerCase();return !q||text.includes(q);
+  });
+  const can=v309CanManageCouncilApplicants();
+  body.innerHTML=rows.length?rows.map(a=>{const pending=!a.status||a.status==='تحت المراجعة';return `<tr><td><strong>${a.eventName||'—'}</strong></td><td>${a.student?.name||'—'}</td><td>${a.student?.studentId||'—'}</td><td>${a.student?.email||'—'}</td><td>${a.student?.phone||'—'}</td><td>${a.status||'تحت المراجعة'}</td><td>${pending&&can?`<div class="council-participant-actions"><button class="council-participant-approve" data-id="${a.id}" type="button">قبول</button><button class="council-participant-reject-open" data-id="${a.id}" type="button">رفض</button><div class="council-participant-reject-editor hidden"><input placeholder="سبب الرفض إلزامي"><button class="council-participant-reject-confirm" data-id="${a.id}" type="button">تأكيد</button></div></div>`:(a.status||'عرض فقط')}</td></tr>`}).join(''):'<tr><td colspan="7">لا توجد طلبات مشاركين.</td></tr>';
+}
+function v309SaveCouncilApplicant(id,status,reason=''){
+  const apps=(()=>{try{return JSON.parse(localStorage.getItem('sah-v22-apps')||'[]')}catch{return []}})();
+  const a=apps.find(x=>x.id===id);if(!a)return;a.status=status;a.reason=reason;localStorage.setItem('sah-v22-apps',JSON.stringify(apps));v309RenderCouncilApplicants();window.renderAll?.();
+}
+
+function v309Bind(){
+  document.addEventListener('click',e=>{
+    const back=e.target.closest('[data-role-home-back]');if(back){v309RouteHome();return;}
+    const edit=e.target.closest('#openAnnualBudgetEditor');if(edit){e.preventDefault();v309OpenAnnualBudget();return;}
+    if(e.target.closest('[data-close-annual-budget]')){v309CloseAnnualBudget();return;}
+    const annualCard=e.target.closest('#generalAnnualBudgetCard');if(annualCard&&!e.target.closest('#openAnnualBudgetEditor')){v309OpenAnnualBudget();return;}
+    const approve=e.target.closest('.council-participant-approve');if(approve){v309SaveCouncilApplicant(approve.dataset.id,'مقبول','');return;}
+    const rejectOpen=e.target.closest('.council-participant-reject-open');if(rejectOpen){rejectOpen.closest('.council-participant-actions')?.querySelector('.council-participant-reject-editor')?.classList.remove('hidden');return;}
+    const reject=e.target.closest('.council-participant-reject-confirm');if(reject){const editor=reject.closest('.council-participant-reject-editor');const reason=editor?.querySelector('input')?.value.trim();if(!reason){window.showToast?.('سبب الرفض إلزامي.');return;}v309SaveCouncilApplicant(reject.dataset.id,'مرفوض',reason);return;}
+  },true);
+  document.getElementById('saveAnnualBudget')?.addEventListener('click',()=>{if(v309Role()!=='dean')return;const value=Number(document.getElementById('annualBudgetInput')?.value);if(!Number.isFinite(value)||value<0){window.showToast?.('أدخل ميزانية سنوية صحيحة.');return;}v309SetAnnualBudget(value);v309RenderAnnualBudget();v309CloseAnnualBudget();window.showToast?.('تم تحديث الميزانية السنوية بنجاح.');});
+  document.getElementById('councilApplicantSearch')?.addEventListener('input',v309RenderCouncilApplicants);
+  document.getElementById('councilApplicantStatus')?.addEventListener('change',v309RenderCouncilApplicants);
+  document.getElementById('councilViewRole')?.addEventListener('change',v309RenderCouncilApplicants);
+  document.getElementById('activeRole')?.addEventListener('change',()=>setTimeout(()=>{v309ApplyHardPermissions();v309RouteHome();v309RenderAnnualBudget();v309RenderCouncilApplicants();},20));
+  document.getElementById('mobileActiveRole')?.addEventListener('change',()=>setTimeout(()=>{v309ApplyHardPermissions();v309RouteHome();v309RenderAnnualBudget();v309RenderCouncilApplicants();},20));
+}
+
+// Override budget click rendering with detailed table and annual-budget logic.
+function v309PatchBudgetButtons(){
+  document.querySelectorAll('[data-budget-filter]').forEach(btn=>btn.onclick=()=>v309RenderBudgetDetails(btn.dataset.budgetFilter));
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  document.documentElement.dataset.sahBuild='30.9';
+  v309Bind();
+  setTimeout(()=>{
+    v309ApplyHardPermissions();
+    const hash=(location.hash||'').replace('#','');
+    if(!hash||hash==='home'||!v309Allowed(hash))v309RouteHome();
+    v309RenderAnnualBudget();v309RenderCouncilApplicants();v309PatchBudgetButtons();
+  },180);
+  console.info('SAH build 30.9 loaded');
+});
+
+window.v309Refresh=function(){v309ApplyHardPermissions();v309RenderAnnualBudget();v309RenderCouncilApplicants();v309PatchBudgetButtons();};
+})();

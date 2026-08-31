@@ -6,7 +6,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="#082b63" name="theme-color"/>
 <title>Student Activities Platform | UBT</title>
-<link href="css/style.css?v=30.8" rel="stylesheet"/>
+<link href="css/style.css?v=30.9" rel="stylesheet"/>
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
   html,body{width:100%;max-width:100%;overflow-x:hidden}
@@ -70,7 +70,7 @@
 }
 </style>
 </head>
-<body class="login-mode" data-sah-version="30.8">
+<body class="login-mode" data-sah-version="30.9">
 <section class="login-page" id="login">
 <div class="login-bg"></div>
 <div class="login-card">
@@ -262,7 +262,7 @@
 </nav>
 </aside>
 <main class="main">
-<section class="page" id="page-general-indicator">
+<section class="page" id="page-general-indicator"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
 <div class="general-indicator-heading">
 <div>
 <span class="general-indicator-kicker">الخلاصة التنفيذية للمنصة</span>
@@ -364,12 +364,7 @@
 <strong id="generalRequestedBudget">0 ر.س</strong>
 <small>ميزانية الأحداث التي لم تتم الموافقة عليها بعد.</small>
 <i class="general-kpi-arrow">←</i>
-</button><button class="card general-kpi-card budget total-budget" data-budget-filter="all" type="button">
-<span>إجمالي الميزانيات المقدمة</span>
-<strong id="generalTotalBudget">0 ر.س</strong>
-<small>إجمالي الميزانيات المصروفة والمطلوبة لجميع الأحداث.</small>
-<i class="general-kpi-arrow">←</i>
-</button><button class="card general-kpi-card satisfaction" id="generalSatisfactionCard" type="button">
+</button><button class="card general-kpi-card budget annual-budget" id="generalAnnualBudgetCard" type="button"><span>الميزانية السنوية المتبقية</span><strong id="generalAnnualBudgetRemaining">0 ر.س</strong><small id="generalAnnualBudgetCaption">المتبقي من الميزانية السنوية بعد خصم ميزانية الأنشطة الموافق عليها.</small><button class="annual-budget-edit-mini" id="openAnnualBudgetEditor" type="button">إضافة / تعديل الميزانية</button></button><button class="card general-kpi-card satisfaction" id="generalSatisfactionCard" type="button">
 <span>نسبة رضا المستفيدين</span>
 <strong id="generalSatisfactionPercent">0%</strong>
 <small id="generalSatisfactionCount">0 استبانة مكتملة</small>
@@ -600,7 +595,7 @@
 </div>
 <div class="table-wrap">
 <table>
-<thead><tr><th>الحدث</th><th>النوع</th><th>مقدم الطلب</th><th>الحالة</th><th>الميزانية</th></tr></thead>
+<thead><tr><th>الحدث</th><th>نوع الطلب</th><th>مقدم الطلب</th><th>التاريخ</th><th>الفئة / السعة</th><th>حالة الطلب</th><th>حالة الحدث</th><th>الميزانية المطلوبة</th></tr></thead>
 <tbody id="generalBudgetDetailsRows"></tbody>
 </table>
 </div>
@@ -618,7 +613,7 @@
 </div>
 </div>
 </section>
-<section class="page active" id="page-home">
+<section class="page active legacy-home-disabled" id="page-home">
 <div class="hero home-hero">
 <div class="hero-img" style="background-image:url('assets/images/campus-wide.jpg')"></div>
 <div class="hero-content">
@@ -642,7 +637,7 @@
 <div class="card stat"><div class="label">أحداث التقويم المستوردة</div><div class="value" id="homeEvents">0</div><div class="sub">رياضي، أكاديمي، رسمي</div></div>
 </div>
 </section>
-<section class="page" id="page-sports">
+<section class="page" id="page-sports"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
 <div class="section-title sports-management-heading">
 <div>
 <h3>الإدارة الرياضية</h3>
@@ -797,7 +792,7 @@
 </button>
 </div>
 </section>
-<section class="page" id="page-indicator">
+<section class="page" id="page-indicator"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
 <div class="section-title indicator-page-heading">
 <div>
 <h3>مؤشر الأداء الرياضي</h3>
@@ -829,7 +824,7 @@
 <div class="section-title"><div><h3>تحليل المسارات والمجالات الـ16</h3><p>كل مجال يعرض الحد الأعلى والنقاط المحققة للطلاب والطالبات بشكل منفصل.</p></div></div>
 <div class="card table-card"><div class="table-wrap"><table class="indicator-grouped-table"><thead><tr><th>المجال</th><th>الحد الأعلى</th><th>نقاط الطلاب</th><th>إنجاز الطلاب</th><th>نقاط الطالبات</th><th>إنجاز الطالبات</th></tr></thead><tbody id="indicatorRows"></tbody></table></div></div>
 </section>
-<section class="page" id="page-scholarships">
+<section class="page" id="page-scholarships"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
 <div class="section-title scholarships-heading">
 <div>
 <h3>المنح الرياضية</h3>
@@ -914,7 +909,7 @@
 </div>
 </div>
 </section>
-<section class="page" id="page-agreement">
+<section class="page" id="page-agreement"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
 <a class="scholarship-criteria-banner" href="assets/docs/scholarship-criteria.pdf" rel="noopener" target="_blank">
 <span class="criteria-banner-icon">📘</span>
 <span>
@@ -1007,19 +1002,19 @@
 </div>
 </div>
 </section>
-<section class="page" id="page-championships">
+<section class="page" id="page-championships"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
 <div class="section-title"><div><h3>البطولات الرياضية</h3><p>روزنامة بطولات الاتحاد السعودي للرياضة الجامعية، مع فصل الطلاب والطالبات.</p></div><a class="btn outline" href="assets/docs/susf-sports-calendar-2025.pdf" target="_blank">عرض روزنامة الاتحاد</a></div>
 <div class="grid cols-3" id="championshipCards"></div>
 <div class="card table-card"><h4>قائمة البطولات</h4><div class="table-toolbar"><input id="championshipSearch" placeholder="بحث باسم البطولة أو التاريخ أو المكان أو الفئة"/></div><div class="table-wrap"><table><thead><tr><th>التاريخ</th><th>البطولة</th><th>الفئة</th><th>المكان</th><th>الإجراء</th></tr></thead><tbody id="championshipRows"></tbody></table></div></div>
 </section>
-<section class="page" id="page-athletes">
+<section class="page" id="page-athletes"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
 <div class="section-title"><div><h3>ملف الطالب الرياضي</h3><p>البحث عن طالب أو طالبة ومعرفة بياناته، المنحة، البطولات، وسجل المشاركات.</p></div></div>
 <div class="grid cols-3">
 <div class="card search-panel"><h4>البحث</h4><input id="profileSearch" placeholder="اكتب الاسم أو الرقم الجامعي أو الكلية أو البطولة"/><div class="profile-list" id="profileList"></div></div>
 <div class="card profile-card span-2" id="profileDetails"><h4>اختر طالبًا لعرض الملف</h4><p>سيظهر هنا سجل المشاركات والبطولات والبيانات الأساسية.</p></div>
 </div>
 </section>
-<section class="page" id="page-activities">
+<section class="page" id="page-activities"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
 <div class="section-title"><div><h3>الأنشطة والفعاليات</h3><p>تتحدث البيانات مباشرة من جدول التقارير والتحليلات حسب فئة الحدث.</p></div></div>
 <div class="activity-category-menu" id="activityEventCategoryMenu"><button data-event-category="الأنشطة التوعوية" type="button">الأنشطة التوعوية</button><button data-event-category="الأنشطة و البرامج المجتمعية و التطوعية" type="button">الأنشطة و البرامج المجتمعية و التطوعية</button><button data-event-category="الأنشطة الثقافية" type="button">الأنشطة الثقافية</button><button data-event-category="الأنشطة العلمية" type="button">الأنشطة العلمية</button><button data-event-category="الأنشطة الفنية" type="button">الأنشطة الفنية</button><button data-event-category="الأنشطة الرياضية" type="button">الأنشطة الرياضية</button><button data-event-category="البرامج التدريبية" type="button">البرامج التدريبية</button><button data-event-category="برامج عامة على مستوى الجامعة" type="button">برامج عامة على مستوى الجامعة</button></div>
 <div class="activities-category-stats">
@@ -1116,7 +1111,7 @@
 <tbody id="categoryActivityRows"></tbody>
 </table></div></div>
 </section>
-<section class="page" id="page-volunteer">
+<section class="page" id="page-volunteer"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
 <div class="section-title"><div><h3>الفرص التطوعية</h3><p>إنشاء فرصة تطوعية وإرسالها للاعتماد.</p></div></div>
 <div class="card"><form class="workflow-form" id="volunteerOpportunityForm">
 <label><span>نوع العمل التطوعي</span><input id="volunteerType" required=""/></label>
@@ -1154,13 +1149,13 @@
 </table></div>
 </div>
 </section>
-<section class="page" id="page-student">
+<section class="page" id="page-student"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
 <div class="section-title"><div><h3>بوابة الطالب</h3><p>الفعاليات المعتمدة المتاحة للتقديم ومتابعة حالة الطلبات.</p></div></div>
 <div class="grid cols-2">
 <div class="card stat"><div class="label">عدد الفعاليات التي شاركت فيها</div><div class="value" id="studentJoinedCount">0</div></div>
 <div class="card stat burg"><div class="label">عدد الفعاليات التي قدمت إليها</div><div class="value" id="studentAppliedCount">0</div></div>
 </div>
-<div class="section-title"><div><h3>الفعاليات المقبولة والمتاحة</h3><p>تختفي الفعالية من القائمة بعد الضغط على قدم الآن.</p></div></div>
+<div class="section-title"><div><h3>الفعاليات المتاحة</h3><p>تختفي الفعالية من القائمة بعد الضغط على قدم الآن.</p></div></div>
 <div class="grid cols-3" id="studentApprovedOpportunityCards"></div>
 <div class="card table-card"><div class="table-wrap"><table>
 <thead><tr><th>الفعالية</th><th>النوع</th><th>تاريخ التقديم</th><th>الحالة</th><th>التقييم</th></tr></thead>
@@ -1206,7 +1201,7 @@
 </div>
 </div>
 </section>
-<section class="page" id="page-sports-request">
+<section class="page" id="page-sports-request"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
 <div class="section-title"><div><h3>تقديم طلب تنفيذ بطولة/حدث</h3><p>يشترط ثلاثة أيام على الأقل بين التقديم والحدث.</p></div></div>
 <div class="card"><form class="workflow-form">
 <label><span>اسم الحدث/البطولة</span><input id="sportsReqName" required=""/></label><label class="event-description-field">
@@ -1246,7 +1241,7 @@
 <div class="table-wrap"><table><thead><tr><th>الحدث</th><th>التاريخ</th><th>اللعبة</th><th>السعة</th><th>الميزانية</th><th>الحالة</th><th>سبب الرفض</th><th>حالة التنفيذ</th></tr></thead><tbody id="sportsRequestRows"></tbody></table></div>
 </div>
 <div class="card table-card records-table-card">
-<h4>طلبات الطلبة</h4>
+<h4>طلبات المشاركين</h4>
 <div class="records-toolbar">
 <div class="records-search">
 <span aria-hidden="true" data-icon="search"></span>
@@ -1258,7 +1253,7 @@
 </div>
 <div class="table-wrap"><table><thead><tr><th>الحدث</th><th>الاسم</th><th>الرقم الجامعي</th><th>الإيميل</th><th>العمر</th><th>الجنس</th><th>الجوال</th><th>القرار</th></tr></thead><tbody id="sportsApplicantRows"></tbody></table></div>
 </div>
-</section><section class="page" id="page-clubs">
+</section><section class="page" id="page-clubs"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
 <div class="section-title"><div><h3>الأندية الطلابية</h3><p>تأسيس نادٍ جديد أو تقديم مبادرة/فعالية تابعة لنادٍ.</p></div></div>
 <a class="clubs-regulations-card" href="https://drive.google.com/file/d/17ExalYDUN_PfDILv_21xZVAnQFEoVGgr/view?usp=sharing" rel="noopener noreferrer" target="_blank">
 <span aria-hidden="true" class="clubs-regulations-icon">📘</span>
@@ -1327,7 +1322,7 @@
 <div class="table-wrap"><table><thead><tr><th>الحدث</th><th>النادي</th><th>التاريخ</th><th>المكان</th><th>السعة</th><th>الميزانية</th><th>الحالة</th><th>سبب الرفض</th><th>حالة التنفيذ</th></tr></thead><tbody id="clubEventRequestRows"></tbody></table></div>
 </div>
 <div class="card table-card records-table-card">
-<h4>طلبات الطلبة</h4>
+<h4>طلبات المشاركين</h4>
 <div class="records-toolbar">
 <div class="records-search">
 <span aria-hidden="true" data-icon="search"></span>
@@ -1340,7 +1335,7 @@
 <div class="table-wrap"><table><thead><tr><th>الحدث</th><th>الاسم</th><th>الرقم الجامعي</th><th>الإيميل</th><th>العمر</th><th>الجنس</th><th>الجوال</th><th>القرار</th></tr></thead><tbody id="clubApplicantRows"></tbody></table></div>
 </div>
 </section>
-<section class="page" id="page-student-council">
+<section class="page" id="page-student-council"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
 <div class="section-title council-page-heading">
 <div>
 <h3>المجلس الطلابي</h3>
@@ -1427,6 +1422,14 @@
 </table>
 </div>
 </div>
+<div class="section-title council-participants-title"><div><h3>طلبات المشاركين</h3><p>طلبات الطلبة المتقدمين لأنشطة المجلس الطلابي. يمكن للرئيس ونائب الرئيس قبول أو رفض الطلب مع ذكر سبب الرفض.</p></div></div>
+<div class="card table-card council-participant-requests-card">
+<div class="records-toolbar">
+<div class="records-search"><span aria-hidden="true" data-icon="search"></span><input autocomplete="off" id="councilApplicantSearch" placeholder="ابحث باسم الحدث أو المشارك أو الرقم الجامعي أو الإيميل" type="search"/></div>
+<select class="records-filter" id="councilApplicantStatus"><option value="all">كل الحالات</option><option value="مقبول">المقبولة</option><option value="مرفوض">المرفوضة</option><option value="تحت المراجعة">قيد المراجعة</option></select>
+</div>
+<div class="table-wrap"><table><thead><tr><th>الحدث</th><th>الاسم</th><th>الرقم الجامعي</th><th>الإيميل</th><th>الجوال</th><th>الحالة</th><th>القرار</th></tr></thead><tbody id="councilApplicantRows"></tbody></table></div>
+</div>
 </div>
 <div class="grid cols-2 council-secondary-grid">
 <div class="card council-meetings-card">
@@ -1464,7 +1467,7 @@
 </div>
 </div>
 </section>
-<section class="page" id="page-approvals">
+<section class="page" id="page-approvals"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
 <div class="section-title approvals-page-heading">
 <div>
 <h3>صلاحيات عمادة شؤون الطلاب</h3>
@@ -1514,13 +1517,6 @@
 </button>
 </div>
 </div>
-
-
-
-
-
-
-
 <div class="approval-secondary-summary-grid"><div class="card approval-stat-card beneficiaries male">
 <span>مستفيدو الطلاب</span>
 <strong id="approvalMaleBeneficiaries">0</strong>
@@ -1676,7 +1672,7 @@
 <option value="فرصة تطوعية">فرصة تطوعية</option>
 </select>
 </div>
-<div class="table-wrap"><table><thead><tr><th>نوع الطلب</th><th>العنوان</th><th>مقدم الطلب</th><th>التاريخ</th><th>الفئة/السعة</th><th>الحالة</th><th>الإجراء</th></tr></thead><tbody id="approvalRequestRows"></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>نوع الطلب</th><th>العنوان</th><th>مقدم الطلب</th><th>التاريخ</th><th>الفئة/السعة</th><th>الميزانية المطلوبة</th><th>الحالة</th><th>الإجراء</th></tr></thead><tbody id="approvalRequestRows"></tbody></table></div>
 </div>
 <div class="scholarship-approval-dashboard">
 <div class="section-title">
@@ -1720,16 +1716,16 @@
 </table>
 </div>
 </div>
-</section><section class="page" id="page-calendar">
+</section><section class="page" id="page-calendar"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
 <div class="section-title"><div><h3>التقويم الموحد</h3><p>تقويم واحد مع فلاتر: أكاديمي، مناسبات رسمية، إسلامية، أنشطة، رياضة، تطوع.</p></div><label class="btn outline filebtn">استيراد Calendar<input accept=".xlsx,.xls,.pdf,.ics" hidden="" id="importCalendar" type="file"/></label></div>
 <div class="filterbar large" id="calFilters"><button class="active" data-filter="all">الكل</button><button data-filter="academic">أكاديمي</button><button data-filter="national">مناسبات رسمية</button><button data-filter="islamic">إسلامية</button><button data-filter="activities">أنشطة طلابية</button><button data-filter="sports">رياضية</button><button data-filter="volunteer">تطوع</button></div>
 <div class="card"><div class="event-list" id="eventList"></div></div>
 </section>
-<section class="page" id="page-requests">
+<section class="page" id="page-requests"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
 <div class="section-title"><div><h3>طلبات التسجيل</h3><p>الطلبات مفصولة حسب الجهة: الرياضة للإدارة الرياضية، والأنشطة للأنشطة الطلابية.</p></div><div class="filterbar" id="requestFilters"><button class="active" data-filter="all">الكل</button><button data-filter="sports">الإدارة الرياضية</button><button data-filter="activities">الأنشطة الطلابية</button></div></div>
 <div class="card table-card"><div class="table-toolbar"><input id="requestSearch" placeholder="بحث بالطالب أو الرقم الجامعي أو الفرصة أو الحالة"/></div><div class="table-wrap"><table><thead><tr><th>الطالب</th><th>الرقم الجامعي</th><th>الفرصة</th><th>الجهة المستقبلة</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody id="requestRows"></tbody></table></div></div>
 </section>
-<section class="page" id="page-reports">
+<section class="page" id="page-reports"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
 <div class="reports-documentation-dashboard">
 <div class="reports-gender-documentation-grid">
 <article class="card reports-gender-card male">
@@ -1922,7 +1918,7 @@
 </div>
 </div>
 </section>
-<section class="page" id="page-admin">
+<section class="page" id="page-admin"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
 <div class="section-title"><div><h3>إدارة البيانات والتعديل اليدوي</h3><p>إضافة وتعديل وحذف بيانات المنصة من الواجهة دون فتح الكود، مع حفظ التعديلات محليًا في هذه النسخة.</p></div><div class="btns"><button class="btn primary" id="adminAddRecord">إضافة سجل</button><button class="btn outline" id="adminExportData">تصدير نسخة احتياطية</button><label class="btn outline filebtn">استيراد نسخة احتياطية<input accept="application/json,.json" hidden="" id="adminImportData" type="file"/></label><button class="btn danger" id="adminResetData">إلغاء التعديلات المحلية</button></div></div>
 <div class="grid cols-4 admin-summary">
 <div class="card stat"><div class="label">صلاحية المستخدم</div><div class="value small-value">كاملة</div><div class="sub">إضافة، تعديل، حذف، اعتماد</div></div>
@@ -2067,7 +2063,7 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=30.8"></script>
+<script src="js/app.js?v=30.9"></script>
 <div aria-modal="true" class="modal hidden" id="finishEventModal" role="dialog">
 <div class="modal-backdrop" data-close-finish-event=""></div>
 <div class="modal-card university-confirm-modal finish-event-modern-modal"><div class="finish-event-confirm-shell">
@@ -2110,5 +2106,13 @@
 </div>
 </div>
 </div>
-</body>
+<div aria-modal="true" class="modal hidden" id="annualBudgetModal" role="dialog">
+<div class="modal-backdrop" data-close-annual-budget=""></div>
+<div class="modal-card annual-budget-modal-card">
+<div class="annual-budget-modal-head"><div><span>إدارة الميزانية</span><h3>تحديد الميزانية السنوية</h3><p>متاحة لعميد شؤون الطلاب فقط. يتم خصم الميزانية المصروفة للأنشطة المعتمدة تلقائيًا.</p></div><button class="modal-x" data-close-annual-budget="" type="button">×</button></div>
+<div class="annual-budget-figure"><span>الميزانية السنوية الحالية</span><strong id="annualBudgetCurrentValue">0 ر.س</strong><small id="annualBudgetSpentSummary">المصروف: 0 ر.س</small></div>
+<label class="annual-budget-field"><span>الميزانية السنوية الكاملة (ر.س)</span><input id="annualBudgetInput" min="0" placeholder="مثال: 500000" step="1000" type="number"/></label>
+<div class="annual-budget-modal-actions"><button class="btn outline" data-close-annual-budget="" type="button">إلغاء</button><button class="btn primary" id="saveAnnualBudget" type="button">حفظ وتحديث الميزانية</button></div>
+</div>
+</div></body>
 </html>
