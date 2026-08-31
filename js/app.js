@@ -7762,3 +7762,16 @@ window.addEventListener('DOMContentLoaded',()=>{
 
 window.v309Refresh=function(){v309ApplyHardPermissions();v309RenderAnnualBudget();v309RenderCouncilApplicants();v309PatchBudgetButtons();};
 })();
+
+/* SAH V31.0 — annual budget card keyboard access */
+window.addEventListener('DOMContentLoaded',()=>{
+  const card=document.getElementById('generalAnnualBudgetCard');
+  card?.addEventListener('keydown',event=>{
+    if(event.key==='Enter'||event.key===' '){
+      event.preventDefault();
+      if(!event.target.closest('#openAnnualBudgetEditor'))v309OpenAnnualBudget?.();
+    }
+  });
+  document.documentElement.dataset.sahBuild='31.0';
+  console.info('SAH build 31.0 loaded');
+});

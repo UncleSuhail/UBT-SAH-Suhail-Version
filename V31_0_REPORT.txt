@@ -1,0 +1,11 @@
+SAH V31.0
+=========
+- Fixed invalid nested-button markup in the annual budget KPI.
+- Edit Budget is now physically inside the annual-budget donut.
+- Budget edit button uses a compact branded pill inside the circle.
+- Spent Budget, Requested Budget, Remaining Annual Budget, and Satisfaction Rate are all kept side-by-side in one desktop row.
+- All four circles have matching dimensions and alignment.
+- Medium desktop keeps all four on one row with smaller circles.
+- Tablets/mobile wrap only when necessary for readability.
+- Added guaranteed spacing before the charts/sections below.
+- JavaScript syntax and KPI HTML structure validation passed.
