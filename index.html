@@ -6,7 +6,7 @@
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
 <meta content="#082b63" name="theme-color"/>
 <title>Student Activities Platform | UBT</title>
-<link href="css/style.css?v=31.0" rel="stylesheet"/>
+<link href="css/style.css?v=31.1" rel="stylesheet"/>
 <style id="sah-mobile-critical-v201">
 @media (max-width:1100px){
   html,body{width:100%;max-width:100%;overflow-x:hidden}
@@ -70,7 +70,7 @@
 }
 </style>
 </head>
-<body class="login-mode" data-sah-version="31.0">
+<body class="login-mode" data-sah-version="31.1">
 <section class="login-page" id="login">
 <div class="login-bg"></div>
 <div class="login-card">
@@ -1150,7 +1150,32 @@
 </div>
 </section>
 <section class="page" id="page-student"><div class="page-back-bar"><button class="page-back-btn" data-role-home-back="1" type="button"><span aria-hidden="true">←</span><strong>الرجوع</strong></button><small>العودة إلى الصفحة الرئيسية المخصصة لحسابك</small></div>
-<div class="section-title"><div><h3>بوابة الطالب</h3><p>الفعاليات المعتمدة المتاحة للتقديم ومتابعة حالة الطلبات.</p></div></div>
+<div class="section-title"><div><h3>بوابة الطالب</h3><p>الفعاليات المعتمدة المتاحة للتقديم ومتابعة حالة الطلبات.</p></div></div><div class="student-quick-links-section" id="studentQuickLinks">
+<div class="section-title compact-title">
+<div>
+<h3>روابط سريعة</h3>
+<p>روابط رسمية مهمة لطلبة الجامعة.</p>
+</div>
+</div>
+<div class="student-quick-links-grid">
+<a class="student-quick-link-card academic-calendar-link" href="https://www.ubt.edu.sa/academic-calendar" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="student-quick-link-icon">▣</span>
+<div>
+<strong>التقويم الأكاديمي</strong>
+<small>Academic Calendar</small>
+</div>
+<span aria-hidden="true" class="student-quick-link-arrow">↗</span>
+</a>
+<a class="student-quick-link-card main-website-link" href="https://www.ubt.edu.sa/" rel="noopener noreferrer" target="_blank">
+<span aria-hidden="true" class="student-quick-link-icon">⌂</span>
+<div>
+<strong>الموقع الرئيسي</strong>
+<small>Main Website</small>
+</div>
+<span aria-hidden="true" class="student-quick-link-arrow">↗</span>
+</a>
+</div>
+</div>
 <div class="grid cols-2">
 <div class="card stat"><div class="label">عدد الفعاليات التي شاركت فيها</div><div class="value" id="studentJoinedCount">0</div></div>
 <div class="card stat burg"><div class="label">عدد الفعاليات التي قدمت إليها</div><div class="value" id="studentAppliedCount">0</div></div>
@@ -2063,7 +2088,7 @@
 </div>
 <script src="js/data.js?v=22.0"></script>
 <script src="js/admin.js?v=22.0"></script>
-<script src="js/app.js?v=31.0"></script>
+<script src="js/app.js?v=31.1"></script>
 <div aria-modal="true" class="modal hidden" id="finishEventModal" role="dialog">
 <div class="modal-backdrop" data-close-finish-event=""></div>
 <div class="modal-card university-confirm-modal finish-event-modern-modal"><div class="finish-event-confirm-shell">

@@ -361,6 +361,7 @@ Object.assign(SAH_TEXT_EN,{"يلزم استكمال التقييمات قبل ا
 Object.assign(SAH_TEXT_EN,{"انتهى الحدث":"Event Ended"});
 Object.assign(SAH_TEXT_EN,{"تم اختيارك للمشاركة":"You Were Selected to Participate","لم يتم اختيارك قبل انتهاء الحدث":"You Were Not Selected Before the Event Ended","انتهى الحدث":"Event Ended"});
 Object.assign(SAH_TEXT_EN,{"الفعاليات المتاحة":"Available Events","طلبات المشاركين":"Participant Applications","الرجوع":"Back","العودة إلى الصفحة الرئيسية المخصصة لحسابك":"Return to your account home page","الميزانية السنوية المتبقية":"Remaining Annual Budget","إضافة / تعديل الميزانية":"Add / Edit Budget","تحديد الميزانية السنوية":"Set Annual Budget","الميزانية المطلوبة":"Requested Budget","حالة الحدث":"Event Status"});
+Object.assign(SAH_TEXT_EN,{"روابط سريعة":"Quick Links","روابط رسمية مهمة لطلبة الجامعة.":"Important official links for university students.","التقويم الأكاديمي":"Academic Calendar","الموقع الرئيسي":"Main Website","حالة جميع الطلبات":"All Request Statuses","ملخص القرارات":"Decision Summary","اضغط على أي حالة لعرض الطلبات المرتبطة بها مباشرة في الجدول.":"Click any status to view the related requests directly in the table.","إجمالي الطلبات":"Total Requests","الموافقات":"Approved","الرفض":"Rejected","قيد المراجعة":"Under Review","جميع الطلبات":"All Requests","طلبات تمت الموافقة عليها":"Approved requests","طلبات تم رفضها":"Rejected requests","بانتظار اتخاذ القرار":"Awaiting decision"});
 const SAH_TEXT_AR = Object.fromEntries(Object.entries(SAH_TEXT_EN).map(([ar,en])=>[en,ar]));
 const SAH_PHRASES = Object.entries(SAH_TEXT_EN).sort((a,b)=>b[0].length-a[0].length);
 function translateLoose(text,lang){
@@ -7774,4 +7775,11 @@ window.addEventListener('DOMContentLoaded',()=>{
   });
   document.documentElement.dataset.sahBuild='31.0';
   console.info('SAH build 31.0 loaded');
+});
+
+
+/* SAH V31.1 */
+window.addEventListener('DOMContentLoaded',()=>{
+  document.documentElement.dataset.sahBuild='31.1';
+  console.info('SAH build 31.1 loaded');
 });

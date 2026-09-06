@@ -13426,3 +13426,107 @@ html[lang="en"] .topbar #activeRole{
     grid-template-columns:1fr!important;
   }
 }
+
+
+/* ==========================================================
+   SAH V31.1 — Student Portal official quick links
+   ========================================================== */
+
+.student-quick-links-section{
+  margin:16px 0 20px!important;
+}
+
+.student-quick-links-grid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:14px!important;
+}
+
+.student-quick-link-card{
+  position:relative!important;
+  display:grid!important;
+  grid-template-columns:56px minmax(0,1fr) 34px!important;
+  align-items:center!important;
+  gap:14px!important;
+  min-height:112px!important;
+  padding:18px!important;
+  border:1px solid #cfdaea!important;
+  border-radius:20px!important;
+  background:linear-gradient(145deg,#fff 0%,#f8fbff 100%)!important;
+  color:#072c64!important;
+  text-decoration:none!important;
+  box-shadow:0 10px 26px rgba(7,44,100,.07)!important;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease!important;
+}
+
+.student-quick-link-card:hover{
+  transform:translateY(-3px)!important;
+  box-shadow:0 16px 34px rgba(7,44,100,.12)!important;
+  border-color:#9bb9e5!important;
+}
+
+.student-quick-link-icon{
+  display:grid!important;
+  place-items:center!important;
+  width:54px!important;
+  height:54px!important;
+  border-radius:16px!important;
+  background:#072c64!important;
+  color:#fff!important;
+  font-size:24px!important;
+  font-weight:900!important;
+}
+
+.academic-calendar-link .student-quick-link-icon{
+  background:linear-gradient(135deg,#072c64,#0b55d9)!important;
+}
+
+.main-website-link .student-quick-link-icon{
+  background:linear-gradient(135deg,#ad2348,#7f1733)!important;
+}
+
+.student-quick-link-card>div{
+  display:grid!important;
+  gap:5px!important;
+  min-width:0!important;
+}
+
+.student-quick-link-card strong{
+  color:#072c64!important;
+  font-size:15px!important;
+  font-weight:950!important;
+}
+
+.student-quick-link-card small{
+  color:#6d788b!important;
+  font-size:9px!important;
+  font-weight:700!important;
+}
+
+.student-quick-link-arrow{
+  display:grid!important;
+  place-items:center!important;
+  width:32px!important;
+  height:32px!important;
+  border-radius:50%!important;
+  background:#eef4ff!important;
+  color:#0b55d9!important;
+  font-size:16px!important;
+  font-weight:900!important;
+}
+
+html[lang="en"] .student-quick-link-card{
+  direction:ltr!important;
+  text-align:left!important;
+}
+
+html[lang="ar"] .student-quick-link-card{
+  direction:rtl!important;
+  text-align:right!important;
+}
+
+@media(max-width:700px){
+  .student-quick-links-grid{
+    grid-template-columns:1fr!important;
+  }
+}

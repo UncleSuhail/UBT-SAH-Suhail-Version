@@ -1,0 +1,8 @@
+SAH V31.1
+=========
+- Added Student Portal quick-link cards for Academic Calendar and Main Website.
+- Added Arabic/English labels.
+- Added professional branded quick-link cards.
+- Fixed English translation for "حالة جميع الطلبات" -> "All Request Statuses".
+- Added matching English strings for the Student Affairs Approval Center status overview.
+- JavaScript syntax validation passed.
