@@ -1,0 +1,10 @@
+SAH V31.2
+=========
+- Removed emoji/symbol decorations from all main navigation group headings.
+- Replaced the Student Portal "Main Website" card with:
+  Final Exams Schedule / جدول الاختبارات النهائية
+- New URL:
+  https://www.ubt.edu.sa/admissions/advising-administration?type=undergrad
+- Academic Calendar remains unchanged.
+- Arabic/English labels included.
+- JavaScript syntax validation passed.

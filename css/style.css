@@ -13530,3 +13530,29 @@ html[lang="ar"] .student-quick-link-card{
     grid-template-columns:1fr!important;
   }
 }
+
+
+/* ==========================================================
+   SAH V31.2 — clean main navigation + Final Exams quick link
+   ========================================================== */
+
+.nav-group-title .nav-group-symbol{
+  display:none!important;
+}
+
+.nav-group-title .group-left{
+  gap:0!important;
+}
+
+.nav-group-title .nav-group-name{
+  margin:0!important;
+}
+
+.final-exams-link .student-quick-link-icon{
+  background:linear-gradient(135deg,#0b55d9,#072c64)!important;
+}
+
+.final-exams-link:hover{
+  border-color:#86aee8!important;
+  box-shadow:0 16px 34px rgba(11,85,217,.13)!important;
+}
